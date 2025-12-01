@@ -1,0 +1,31 @@
+{
+  "name": "ella-rises-app",
+  "version": "1.0.0",
+  "description": "Full-stack web application for Ella Rises organization",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [
+    "ella-rises",
+    "express",
+    "ejs",
+    "knex",
+    "postgresql"
+  ],
+  "author": "Your Team",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ejs": "^3.1.9",
+    "knex": "^3.0.1",
+    "pg": "^8.11.3",
+    "express-session": "^1.17.3",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
