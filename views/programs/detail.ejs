@@ -1,0 +1,110 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <div style="margin-bottom: 2rem;">
+    <a href="/programs" class="btn btn-outline">← Back to All Programs</a>
+  </div>
+
+  <div class="card">
+    <h1 style="font-size: 2.5rem; margin-bottom: 2rem;"><%= program.title %></h1>
+
+    <!-- Program Details -->
+    <div class="grid grid-2" style="margin-bottom: 2rem;">
+      <% if (program.age_range) { %>
+        <div>
+          <h3 style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;">Age Range</h3>
+          <p style="font-size: 1.1rem;"><%= program.age_range %></p>
+        </div>
+      <% } %>
+
+      <% if (program.schedule) { %>
+        <div>
+          <h3 style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;">Schedule</h3>
+          <p style="font-size: 1.1rem;"><%= program.schedule %></p>
+        </div>
+      <% } %>
+
+      <% if (program.fee) { %>
+        <div>
+          <h3 style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;">Program Fee</h3>
+          <p style="font-size: 1.1rem;">$<%= program.fee %></p>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Description -->
+    <% if (program.description) { %>
+      <div style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem;">About This Program</h3>
+        <p style="line-height: 1.8; white-space: pre-wrap;"><%= program.description %></p>
+      </div>
+    <% } %>
+
+    <!-- Additional Info -->
+    <% if (program.additional_info) { %>
+      <div style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: var(--border-radius); margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 1rem;">Important Information</h3>
+        <p style="white-space: pre-wrap;"><%= program.additional_info %></p>
+      </div>
+    <% } %>
+
+    <!-- Enrollment Section -->
+    <div style="border-top: 2px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
+      <% if (isLoggedIn) { %>
+        <% if (isEnrolled) { %>
+          <div style="background-color: #d4edda; color: #155724; padding: 1.5rem; border-radius: var(--border-radius); margin-bottom: 2rem; border: 1px solid #c3e6cb;">
+            <strong>✓ You're enrolled in this program!</strong>
+            <p style="margin-top: 0.5rem;">We're excited to have you join us.</p>
+          </div>
+        <% } else { %>
+          <h3 style="margin-bottom: 1rem;">Ready to Join?</h3>
+          <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+            Enroll in this program to begin your journey with Ella Rises.
+          </p>
+          <form action="/programs/<%= program.id %>/enroll" method="POST">
+            <button type="submit" class="btn btn-primary btn-lg">Enroll in This Program</button>
+          </form>
+        <% } %>
+      <% } else { %>
+        <div style="background-color: var(--bg-secondary); padding: 2rem; border-radius: var(--border-radius); text-align: center;">
+          <h3 style="margin-bottom: 1rem;">Interested in This Program?</h3>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+            Please log in or create an account to enroll.
+          </p>
+          <div style="display: flex; gap: 1rem; justify-content: center;">
+            <a href="/login?redirect=/programs/<%= program.id %>" class="btn btn-primary">Login</a>
+            <a href="/signup?redirect=/programs/<%= program.id %>" class="btn btn-secondary">Sign Up</a>
+          </div>
+        </div>
+      <% } %>
+    </div>
+
+    <!-- Support Section -->
+    <div style="border-top: 2px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
+      <h3 style="margin-bottom: 1rem;">Support This Program</h3>
+      <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+        Your donation helps us provide quality programs and expand opportunities for young women in our community.
+      </p>
+      <a href="/donate" class="btn btn-secondary">Make a Donation</a>
+    </div>
+  </div>
+
+  <!-- Messages -->
+  <% if (typeof query !== 'undefined' && query.message) { %>
+    <% if (query.message === 'enrollment_success') { %>
+      <div style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: var(--border-radius); margin-top: 2rem; border: 1px solid #c3e6cb;">
+        ✓ Successfully enrolled in <%= program.title %>!
+      </div>
+    <% } else if (query.message === 'already_enrolled') { %>
+      <div style="background-color: #fff3cd; color: #856404; padding: 1rem; border-radius: var(--border-radius); margin-top: 2rem; border: 1px solid #ffeaa7;">
+        You're already enrolled in this program.
+      </div>
+    <% } else if (query.message === 'error') { %>
+      <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: var(--border-radius); margin-top: 2rem; border: 1px solid #f5c6cb;">
+        There was an error processing your enrollment. Please try again.
+      </div>
+    <% } %>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

@@ -8,6 +8,8 @@
 DROP TABLE IF EXISTS donations CASCADE;
 DROP TABLE IF EXISTS participant_milestones CASCADE;
 DROP TABLE IF EXISTS milestones CASCADE;
+DROP TABLE IF EXISTS program_enrollments CASCADE;
+DROP TABLE IF EXISTS programs CASCADE;
 DROP TABLE IF EXISTS surveys CASCADE;
 DROP TABLE IF EXISTS event_registrations CASCADE;
 DROP TABLE IF EXISTS events CASCADE;
@@ -85,6 +87,28 @@ CREATE TABLE donations (
   user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
   amount DECIMAL(10, 2) NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Programs table
+CREATE TABLE programs (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  age_range VARCHAR(100),
+  schedule VARCHAR(255),
+  fee DECIMAL(10, 2),
+  additional_info TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Program enrollments table (junction table)
+CREATE TABLE program_enrollments (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  program_id INTEGER REFERENCES programs(id) ON DELETE CASCADE,
+  enrolled_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  status VARCHAR(50) DEFAULT 'active',
+  UNIQUE(user_id, program_id)
 );
 
 -- ============================================
@@ -186,6 +210,37 @@ INSERT INTO donations (user_id, amount, created_at) VALUES
 (NULL, 75.00, CURRENT_TIMESTAMP - INTERVAL '3 days'),  -- Anonymous donation
 (4, 30.00, CURRENT_TIMESTAMP - INTERVAL '2 days');
 
+-- Add sample programs
+INSERT INTO programs (title, description, age_range, schedule, fee, additional_info) VALUES
+('Ballet Folklorico',
+ 'Experience the vibrant culture and traditions of Mexican folk dance. Learn authentic choreography, develop performance skills, and connect with your heritage through movement and music.',
+ 'Girls ages 11-18 years old',
+ 'Mondays at 7:00 PM',
+ NULL,
+ 'Auditions for 2026 begin in May. No prior dance experience required - just bring your enthusiasm and willingness to learn!'),
+
+('Summit + Educational Pathways',
+ 'Day camp packed with activities to give a glimpse of the Ella Rises Experience: art, STEM, and a focus on education! Conclude the day camp with a tour of a local university or technical college.',
+ 'Girls ages 11-18 years old',
+ 'Summer day camp - dates announced in spring',
+ NULL,
+ 'This immersive day experience combines hands-on learning with college exploration. Limited spots available - register early!'),
+
+('Mariachi',
+ 'Music class for violin, trumpet, guitarrón, vihuela, and guitar. Learn traditional Mexican music in a supportive, culturally-rich environment.',
+ 'Girls ages 11-18',
+ 'Mondays from 5:30 PM - 6:45 PM',
+ 45.00,
+ 'Annual program fee: $45 (Venmo or cash). Instruments provided for use during class. No prior musical experience necessary.');
+
+-- Enroll some users in programs
+INSERT INTO program_enrollments (user_id, program_id, enrolled_at, status) VALUES
+(2, 1, CURRENT_TIMESTAMP - INTERVAL '15 days', 'active'),
+(3, 1, CURRENT_TIMESTAMP - INTERVAL '12 days', 'active'),
+(3, 3, CURRENT_TIMESTAMP - INTERVAL '10 days', 'active'),
+(4, 2, CURRENT_TIMESTAMP - INTERVAL '8 days', 'active'),
+(5, 3, CURRENT_TIMESTAMP - INTERVAL '5 days', 'active');
+
 -- ============================================
 -- VERIFICATION QUERIES
 -- ============================================
@@ -196,6 +251,10 @@ UNION ALL
 SELECT 'events', COUNT(*) FROM events
 UNION ALL
 SELECT 'event_registrations', COUNT(*) FROM event_registrations
+UNION ALL
+SELECT 'programs', COUNT(*) FROM programs
+UNION ALL
+SELECT 'program_enrollments', COUNT(*) FROM program_enrollments
 UNION ALL
 SELECT 'surveys', COUNT(*) FROM surveys
 UNION ALL

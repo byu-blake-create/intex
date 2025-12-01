@@ -390,6 +390,108 @@ app.post('/events/:eventId/signup', requireLogin, async (req, res) => {
 });
 
 // ============================================
+// PROGRAMS ROUTES (Public + User)
+// ============================================
+
+// Programs list page - view all programs
+app.get('/programs', async (req, res) => {
+  try {
+    const programs = await knex('programs')
+      .select('*')
+      .orderBy('title', 'asc');
+
+    let isEnrolled = {};
+    if (req.session && req.session.user) {
+      const enrollments = await knex('program_enrollments')
+        .where('user_id', req.session.user.id)
+        .select('program_id');
+
+      enrollments.forEach(e => {
+        isEnrolled[e.program_id] = true;
+      });
+    }
+
+    res.render('programs/list', {
+      title: 'Programs - Ella Rises',
+      programs,
+      isEnrolled,
+    });
+  } catch (error) {
+    console.error('Error loading programs:', error);
+    res.status(500).send('Error loading programs');
+  }
+});
+
+// Program detail page
+app.get('/programs/:programId', async (req, res) => {
+  const { programId } = req.params;
+
+  try {
+    const program = await knex('programs')
+      .where('id', programId)
+      .first();
+
+    if (!program) {
+      return res.status(404).send('Program not found');
+    }
+
+    let isEnrolled = false;
+    if (req.session && req.session.user) {
+      const enrollment = await knex('program_enrollments')
+        .where({
+          user_id: req.session.user.id,
+          program_id: programId,
+        })
+        .first();
+
+      isEnrolled = !!enrollment;
+    }
+
+    res.render('programs/detail', {
+      title: `${program.title} - Ella Rises`,
+      program,
+      isEnrolled,
+    });
+  } catch (error) {
+    console.error('Error fetching program:', error);
+    res.status(500).send('Error loading program');
+  }
+});
+
+// Program enrollment - user enrolls in a program
+app.post('/programs/:programId/enroll', requireLogin, async (req, res) => {
+  const { programId } = req.params;
+  const userId = req.session.user.id;
+
+  try {
+    // Check if already enrolled
+    const existing = await knex('program_enrollments')
+      .where({
+        user_id: userId,
+        program_id: programId,
+      })
+      .first();
+
+    if (existing) {
+      return res.redirect(`/programs/${programId}?message=already_enrolled`);
+    }
+
+    // Insert enrollment
+    await knex('program_enrollments').insert({
+      user_id: userId,
+      program_id: programId,
+      enrolled_at: new Date(),
+      status: 'active',
+    });
+
+    res.redirect(`/programs/${programId}?message=enrollment_success`);
+  } catch (error) {
+    console.error('Error enrolling in program:', error);
+    res.redirect(`/programs/${programId}?message=error`);
+  }
+});
+
+// ============================================
 // USER ROUTES (Normal Users)
 // ============================================
 
