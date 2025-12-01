@@ -411,7 +411,7 @@ app.get('/user/dashboard', requireLogin, async (req, res) => {
       .orderBy('participant_milestones.achieved_at', 'desc');
 
     res.render('user/dashboard', {
-      title: 'Dashboard - Ella Rises',
+      title: 'My Rise - Ella Rises',
       registeredEvents,
       userMilestones,
     });
@@ -482,14 +482,17 @@ app.get('/user/survey', requireLogin, async (req, res) => {
 
 // Handle survey submission
 app.post('/user/survey', requireLogin, async (req, res) => {
-  const { event_id, rating, feedback } = req.body;
+  const { event_id, satisfaction_rating, usefulness_rating, instructor_rating, recommendation_rating, additional_feedback } = req.body;
 
   try {
     await knex('surveys').insert({
       user_id: req.session.user.id,
       event_id: parseInt(event_id),
-      rating: parseInt(rating),
-      feedback,
+      satisfaction_rating: parseInt(satisfaction_rating),
+      usefulness_rating: parseInt(usefulness_rating),
+      instructor_rating: parseInt(instructor_rating),
+      recommendation_rating: parseInt(recommendation_rating),
+      additional_feedback,
       created_at: new Date(),
     });
 

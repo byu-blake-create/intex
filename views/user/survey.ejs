@@ -33,9 +33,36 @@
           </select>
         </div>
 
+        <!-- Question 1: Satisfaction -->
         <div class="form-group">
-          <label for="rating" class="form-label">Rating (1-5 stars)</label>
-          <select id="rating" name="rating" class="form-select" required>
+          <label for="satisfaction_rating" class="form-label">How satisfied were you with this event?</label>
+          <select id="satisfaction_rating" name="satisfaction_rating" class="form-select" required>
+            <option value="">-- Select rating --</option>
+            <option value="5">⭐⭐⭐⭐⭐ Very Satisfied</option>
+            <option value="4">⭐⭐⭐⭐ Satisfied</option>
+            <option value="3">⭐⭐⭐ Neutral</option>
+            <option value="2">⭐⭐ Dissatisfied</option>
+            <option value="1">⭐ Very Dissatisfied</option>
+          </select>
+        </div>
+
+        <!-- Question 2: Usefulness -->
+        <div class="form-group">
+          <label for="usefulness_rating" class="form-label">How useful was this event?</label>
+          <select id="usefulness_rating" name="usefulness_rating" class="form-select" required>
+            <option value="">-- Select rating --</option>
+            <option value="5">⭐⭐⭐⭐⭐ Extremely Useful</option>
+            <option value="4">⭐⭐⭐⭐ Very Useful</option>
+            <option value="3">⭐⭐⭐ Moderately Useful</option>
+            <option value="2">⭐⭐ Slightly Useful</option>
+            <option value="1">⭐ Not Useful</option>
+          </select>
+        </div>
+
+        <!-- Question 3: Instructor -->
+        <div class="form-group">
+          <label for="instructor_rating" class="form-label">How would you rate the instructor of this event?</label>
+          <select id="instructor_rating" name="instructor_rating" class="form-select" required>
             <option value="">-- Select rating --</option>
             <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
             <option value="4">⭐⭐⭐⭐ Good</option>
@@ -45,15 +72,28 @@
           </select>
         </div>
 
+        <!-- Question 4: Recommendation -->
         <div class="form-group">
-          <label for="feedback" class="form-label">Your Feedback</label>
+          <label for="recommendation_rating" class="form-label">How likely are you to recommend this event to a friend?</label>
+          <select id="recommendation_rating" name="recommendation_rating" class="form-select" required>
+            <option value="">-- Select rating --</option>
+            <option value="5">⭐⭐⭐⭐⭐ Very Likely</option>
+            <option value="4">⭐⭐⭐⭐ Likely</option>
+            <option value="3">⭐⭐⭐ Neutral</option>
+            <option value="2">⭐⭐ Unlikely</option>
+            <option value="1">⭐ Very Unlikely</option>
+          </select>
+        </div>
+
+        <!-- Additional Feedback -->
+        <div class="form-group">
+          <label for="additional_feedback" class="form-label">Additional Feedback (Optional)</label>
           <textarea
-            id="feedback"
-            name="feedback"
+            id="additional_feedback"
+            name="additional_feedback"
             class="form-textarea"
-            placeholder="Share your thoughts about the event..."
+            placeholder="Share any additional thoughts or suggestions..."
             rows="6"
-            required
           ></textarea>
         </div>
 
