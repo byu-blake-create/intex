@@ -1,0 +1,35 @@
+<%- include('../partials/header') %>
+
+<div class="container container-lg" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Milestones Management</h1>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+    View and manage all milestones in the system.
+  </p>
+
+  <% if (milestones && milestones.length > 0) { %>
+    <div class="grid grid-3">
+      <% milestones.forEach(milestone => { %>
+        <div class="card">
+          <div style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">🏆</div>
+          <h3 class="card-title text-center"><%= milestone.title %></h3>
+          <% if (milestone.description) { %>
+            <p class="card-text text-center">
+              <%= milestone.description %>
+            </p>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
+      Total: <%= milestones.length %> milestone<%= milestones.length !== 1 ? 's' : '' %>
+    </div>
+  <% } else { %>
+    <div class="card text-center" style="padding: 4rem 2rem;">
+      <h3 style="color: var(--text-secondary);">No milestones configured</h3>
+      <p style="color: var(--text-light); margin-top: 1rem;">Add milestones to track participant achievements.</p>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

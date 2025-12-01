@@ -1,0 +1,41 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">My Milestones</h1>
+  <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 3rem;">
+    Track your achievements and celebrate your progress!
+  </p>
+
+  <% if (milestones && milestones.length > 0) { %>
+    <div class="grid grid-3">
+      <% milestones.forEach(milestone => { %>
+        <div class="card">
+          <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">🏆</div>
+          <h3 class="card-title text-center"><%= milestone.title %></h3>
+          <% if (milestone.description) { %>
+            <p class="card-text text-center" style="margin-bottom: 1rem;">
+              <%= milestone.description %>
+            </p>
+          <% } %>
+          <div class="text-center" style="padding-top: 1rem; border-top: 1px solid var(--border-color);">
+            <span class="badge badge-success">Achieved</span>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.5rem;">
+              <%= new Date(milestone.achieved_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+            </p>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="card text-center" style="padding: 4rem 2rem;">
+      <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
+      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;">No Milestones Yet</h3>
+      <p style="color: var(--text-light); margin-bottom: 2rem;">
+        Keep participating in events and engaging with the community to earn milestones!
+      </p>
+      <a href="/events" class="btn btn-primary">Browse Events</a>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

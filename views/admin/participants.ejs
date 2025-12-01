@@ -1,0 +1,83 @@
+<%- include('../partials/header') %>
+
+<div class="container container-lg" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Participants Management</h1>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+    View and manage all user accounts. Click on a user to view details and manage their account.
+  </p>
+
+  <!-- Search Bar -->
+  <form action="/admin/participants" method="GET" class="search-bar">
+    <input
+      type="text"
+      name="search"
+      class="search-input"
+      placeholder="Search by name or email..."
+      value="<%= search %>"
+    />
+    <button type="submit" class="btn btn-primary">Search</button>
+    <% if (search) { %>
+      <a href="/admin/participants" class="btn btn-outline">Clear</a>
+    <% } %>
+  </form>
+
+  <!-- Users Table -->
+  <% if (users && users.length > 0) { %>
+    <div style="overflow-x: auto;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Login Count</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+            <tr>
+              <td><strong><%= user.name %></strong></td>
+              <td><%= user.email %></td>
+              <td>
+                <% if (user.role === 'admin') { %>
+                  <span class="badge badge-danger">Admin</span>
+                <% } else { %>
+                  <span class="badge badge-primary">User</span>
+                <% } %>
+              </td>
+              <td><%= user.login_count || 0 %> logins</td>
+              <td>
+                <a href="/admin/participants/<%= user.id %>" class="btn btn-sm btn-secondary">
+                  View Details
+                </a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
+      Showing <%= users.length %> participant<%= users.length !== 1 ? 's' : '' %>
+      <% if (search) { %>
+        matching "<%= search %>"
+      <% } %>
+    </div>
+  <% } else { %>
+    <div class="card text-center" style="padding: 4rem 2rem;">
+      <h3 style="color: var(--text-secondary);">
+        <% if (search) { %>
+          No participants found matching "<%= search %>"
+        <% } else { %>
+          No participants found
+        <% } %>
+      </h3>
+      <% if (search) { %>
+        <a href="/admin/participants" class="btn btn-primary" style="margin-top: 1rem;">View All Participants</a>
+      <% } %>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

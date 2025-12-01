@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <!-- Main Navigation -->
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/">Ella Rises</a>
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">About</a>
+          <ul class="dropdown-menu">
+            <li><a href="/about/mission">Our Mission</a></li>
+            <li><a href="/about/team">Meet the Team</a></li>
+            <li><a href="/about/board">Board of Directors</a></li>
+          </ul>
+        </li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/programs">Programs</a></li>
+        <li><a href="/donate">Donate</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <% if (isLoggedIn) { %>
+          <div class="user-menu">
+            <span class="user-name">Hello, <%= user.name %></span>
+            <% if (isAdmin) { %>
+              <a href="/admin/dashboard" class="btn btn-secondary">Admin</a>
+            <% } else { %>
+              <a href="/user/dashboard" class="btn btn-secondary">Dashboard</a>
+            <% } %>
+            <a href="/logout" class="btn btn-outline">Logout</a>
+          </div>
+        <% } else { %>
+          <a href="/login" class="btn btn-primary">Login</a>
+          <a href="/signup" class="btn btn-outline">Sign Up</a>
+        <% } %>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content Area -->
+  <main class="main-content">

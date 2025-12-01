@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Upcoming Events</h1>
+  <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 3rem;">
+    Join us for workshops, support groups, and community gatherings designed to empower and connect women in our community.
+  </p>
+
+  <% if (events && events.length > 0) { %>
+    <div class="grid grid-2">
+      <% events.forEach(event => { %>
+        <div class="card">
+          <div class="card-title"><%= event.title %></div>
+          <div style="margin-bottom: 1rem;">
+            <span class="badge badge-primary">
+              <%= new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+            </span>
+          </div>
+          <p class="card-text">
+            <%= event.description ? event.description.substring(0, 150) + '...' : 'Join us for this exciting event!' %>
+          </p>
+          <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+            <span>📍 <%= event.location || 'Location TBD' %></span>
+            <% if (event.capacity) { %>
+              <span>👥 Capacity: <%= event.capacity %></span>
+            <% } %>
+          </div>
+          <div class="card-footer">
+            <a href="/events/<%= event.id %>" class="btn btn-primary btn-block">
+              View Details & Sign Up
+            </a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="card text-center" style="padding: 4rem 2rem;">
+      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;">No Upcoming Events</h3>
+      <p style="color: var(--text-light);">Check back soon for new events!</p>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

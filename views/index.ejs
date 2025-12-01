@@ -1,0 +1,80 @@
+<%- include('partials/header') %>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <h1>Welcome to Ella Rises</h1>
+    <p>Empowering women, building community, creating lasting change</p>
+    <div>
+      <a href="/events" class="btn btn-lg btn-primary">View Upcoming Events</a>
+      <a href="/donate" class="btn btn-lg btn-outline">Make a Donation</a>
+    </div>
+  </div>
+</section>
+
+<!-- Mission Section -->
+<section class="container mt-4">
+  <div class="text-center mb-4">
+    <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Our Mission</h2>
+    <p style="font-size: 1.2rem; color: var(--text-secondary); max-width: 800px; margin: 0 auto;">
+      Ella Rises is dedicated to empowering women through education, community support, and meaningful programs
+      that create lasting positive change in our community.
+    </p>
+  </div>
+
+  <!-- Feature Cards -->
+  <div class="grid grid-3 mt-4">
+    <div class="card">
+      <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">📚</div>
+      <h3 class="card-title text-center">Education</h3>
+      <p class="card-text text-center">
+        Providing educational opportunities and resources to help women grow personally and professionally.
+      </p>
+    </div>
+
+    <div class="card">
+      <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">🤝</div>
+      <h3 class="card-title text-center">Community</h3>
+      <p class="card-text text-center">
+        Building a supportive network where women can connect, share experiences, and lift each other up.
+      </p>
+    </div>
+
+    <div class="card">
+      <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">✨</div>
+      <h3 class="card-title text-center">Empowerment</h3>
+      <p class="card-text text-center">
+        Creating opportunities for women to develop skills, confidence, and leadership abilities.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Events Preview -->
+<section class="container mt-4">
+  <h2 style="font-size: 2rem; margin-bottom: 2rem; text-align: center;">Upcoming Events</h2>
+  <p class="text-center mb-4">
+    Join us for workshops, support groups, and community events. <a href="/events" style="color: var(--primary-color); font-weight: 600;">View all events →</a>
+  </p>
+</section>
+
+<!-- Call to Action -->
+<section style="background-color: var(--bg-accent); padding: 4rem 2rem; margin-top: 4rem;">
+  <div class="container text-center">
+    <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Ready to Get Involved?</h2>
+    <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 2rem;">
+      Whether you want to attend an event, volunteer, or support our mission, we'd love to have you join us.
+    </p>
+    <div>
+      <% if (!isLoggedIn) { %>
+        <a href="/signup" class="btn btn-lg btn-primary">Create an Account</a>
+        <a href="/login" class="btn btn-lg btn-outline">Login</a>
+      <% } else { %>
+        <a href="/events" class="btn btn-lg btn-primary">Browse Events</a>
+        <a href="/user/dashboard" class="btn btn-lg btn-secondary">Go to Dashboard</a>
+      <% } %>
+    </div>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

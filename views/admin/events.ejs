@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+
+<div class="container container-lg" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Events Management</h1>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+    View and manage all events in the system.
+  </p>
+
+  <% if (events && events.length > 0) { %>
+    <div style="overflow-x: auto;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Capacity</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% events.forEach(event => { %>
+            <tr>
+              <td><strong><%= event.title %></strong></td>
+              <td>
+                <%= new Date(event.date).toLocaleDateString('en-US', {
+                  weekday: 'short',
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                }) %>
+              </td>
+              <td><%= event.location || 'TBD' %></td>
+              <td><%= event.capacity || 'Unlimited' %></td>
+              <td>
+                <a href="/events/<%= event.id %>" class="btn btn-sm btn-secondary">View</a>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
+      Total: <%= events.length %> event<%= events.length !== 1 ? 's' : '' %>
+    </div>
+  <% } else { %>
+    <div class="card text-center" style="padding: 4rem 2rem;">
+      <h3 style="color: var(--text-secondary);">No events found</h3>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,0 +1,76 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <div style="max-width: 900px; margin: 0 auto;">
+    <!-- Back Button -->
+    <a href="/events" style="color: var(--primary-color); margin-bottom: 2rem; display: inline-block;">
+      ← Back to Events
+    </a>
+
+    <!-- Event Card -->
+    <div class="card">
+      <h1 class="card-title" style="font-size: 2.5rem;"><%= event.title %></h1>
+
+      <!-- Event Meta Info -->
+      <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0; padding: 1.5rem; background-color: var(--bg-secondary); border-radius: var(--border-radius);">
+        <div style="flex: 1; min-width: 200px;">
+          <div style="font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem;">📅 Date & Time</div>
+          <div><%= new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+          <div style="color: var(--text-secondary);"><%= new Date(event.date).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' }) %></div>
+        </div>
+
+        <div style="flex: 1; min-width: 200px;">
+          <div style="font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem;">📍 Location</div>
+          <div><%= event.location || 'Location to be announced' %></div>
+        </div>
+
+        <% if (event.capacity) { %>
+          <div style="flex: 1; min-width: 200px;">
+            <div style="font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem;">👥 Capacity</div>
+            <div><%= event.capacity %> participants</div>
+          </div>
+        <% } %>
+      </div>
+
+      <!-- Event Description -->
+      <div style="margin: 2rem 0;">
+        <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">About This Event</h2>
+        <p style="line-height: 1.8; color: var(--text-secondary);">
+          <%= event.description || 'Join us for this exciting event! More details coming soon.' %>
+        </p>
+      </div>
+
+      <!-- Sign Up Section -->
+      <div style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
+        <% if (!isLoggedIn) { %>
+          <div class="alert alert-info">
+            <strong>Please log in to register for this event.</strong>
+            <p style="margin-top: 0.5rem;">You need to be logged in to sign up for events.</p>
+          </div>
+          <div style="display: flex; gap: 1rem;">
+            <a href="/login" class="btn btn-primary btn-lg">Login</a>
+            <a href="/signup" class="btn btn-outline btn-lg">Create Account</a>
+          </div>
+        <% } else if (isRegistered) { %>
+          <div class="alert alert-success">
+            <strong>✓ You're registered for this event!</strong>
+            <p style="margin-top: 0.5rem;">We look forward to seeing you there.</p>
+          </div>
+          <a href="/user/events" class="btn btn-secondary">View My Events</a>
+        <% } else { %>
+          <h3 style="margin-bottom: 1rem;">Register for This Event</h3>
+          <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
+            Secure your spot by registering now. You'll receive confirmation and reminders via email.
+          </p>
+          <form action="/events/<%= event.id %>/signup" method="POST">
+            <button type="submit" class="btn btn-primary btn-lg">
+              Register for Event
+            </button>
+          </form>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

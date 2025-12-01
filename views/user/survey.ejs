@@ -1,0 +1,75 @@
+<%- include('../partials/header') %>
+
+<div class="container container-sm" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <div class="card">
+    <h1 class="card-title" style="font-size: 2rem;">Submit Event Feedback</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+      We value your feedback! Please share your thoughts about an event you attended.
+    </p>
+
+    <% if (success) { %>
+      <div class="alert alert-success">
+        <%= success %>
+      </div>
+    <% } %>
+
+    <% if (error) { %>
+      <div class="alert alert-error">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <% if (events && events.length > 0) { %>
+      <form action="/user/survey" method="POST">
+        <div class="form-group">
+          <label for="event_id" class="form-label">Select Event</label>
+          <select id="event_id" name="event_id" class="form-select" required>
+            <option value="">-- Choose an event --</option>
+            <% events.forEach(event => { %>
+              <option value="<%= event.id %>">
+                <%= event.title %> - <%= new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="rating" class="form-label">Rating (1-5 stars)</label>
+          <select id="rating" name="rating" class="form-select" required>
+            <option value="">-- Select rating --</option>
+            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+            <option value="4">⭐⭐⭐⭐ Good</option>
+            <option value="3">⭐⭐⭐ Average</option>
+            <option value="2">⭐⭐ Below Average</option>
+            <option value="1">⭐ Poor</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="feedback" class="form-label">Your Feedback</label>
+          <textarea
+            id="feedback"
+            name="feedback"
+            class="form-textarea"
+            placeholder="Share your thoughts about the event..."
+            rows="6"
+            required
+          ></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg">
+          Submit Survey
+        </button>
+      </form>
+    <% } else { %>
+      <div class="alert alert-info">
+        <p>You don't have any attended events to provide feedback for yet.</p>
+        <p style="margin-top: 1rem;">
+          <a href="/events" style="color: var(--primary-color); font-weight: 600;">Browse upcoming events →</a>
+        </p>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

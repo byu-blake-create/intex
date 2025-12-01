@@ -1,0 +1,57 @@
+<%- include('../partials/header') %>
+
+<div class="container container-lg" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Survey Responses</h1>
+  <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+    View all survey feedback submitted by participants.
+  </p>
+
+  <% if (surveys && surveys.length > 0) { %>
+    <div style="overflow-x: auto;">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Participant</th>
+            <th>Event</th>
+            <th>Rating</th>
+            <th>Feedback</th>
+            <th>Date Submitted</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% surveys.forEach(survey => { %>
+            <tr>
+              <td><strong><%= survey.user_name %></strong></td>
+              <td><%= survey.event_title %></td>
+              <td>
+                <% const stars = '⭐'.repeat(survey.rating); %>
+                <%= stars %>
+              </td>
+              <td style="max-width: 300px;">
+                <%= survey.feedback.substring(0, 100) %><%= survey.feedback.length > 100 ? '...' : '' %>
+              </td>
+              <td>
+                <%= new Date(survey.created_at).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'short',
+                  day: 'numeric'
+                }) %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
+      Total: <%= surveys.length %> survey response<%= surveys.length !== 1 ? 's' : '' %>
+    </div>
+  <% } else { %>
+    <div class="card text-center" style="padding: 4rem 2rem;">
+      <h3 style="color: var(--text-secondary);">No survey responses yet</h3>
+      <p style="color: var(--text-light); margin-top: 1rem;">Survey responses will appear here once participants submit feedback.</p>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>
