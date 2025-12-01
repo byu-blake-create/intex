@@ -467,14 +467,14 @@ app.get('/user/milestones', requireLogin, async (req, res) => {
 
 // Add milestone - POST route
 app.post('/user/milestones', requireLogin, async (req, res) => {
-  const { milestone_id, custom_title } = req.body;
+  const { milestone_id, custom_title, achieved_date } = req.body;
 
   try {
     await knex('participant_milestones').insert({
       user_id: req.session.user.id,
       milestone_id: parseInt(milestone_id),
       custom_title: custom_title,
-      achieved_at: new Date(),
+      achieved_at: achieved_date ? new Date(achieved_date) : new Date(),
     });
 
     res.redirect('/user/milestones?success=true');
