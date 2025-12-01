@@ -2,7 +2,7 @@
 
 <div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
   <!-- Back Button -->
-  <a href="/admin/participants" style="color: var(--primary-color); margin-bottom: 2rem; display: inline-block;">
+  <a href="/admin/participants" style="color: #CE325B; margin-bottom: 2rem; display: inline-block;">
     ← Back to Participants
   </a>
 
@@ -10,7 +10,7 @@
   <div class="card" style="margin-bottom: 2rem;">
     <h1 class="card-title" style="font-size: 2rem;"><%= participant.name %></h1>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; padding: 1.5rem; background-color: var(--bg-secondary); border-radius: var(--border-radius);">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; padding: 1.5rem; background-color: var(--bg-secondary); border-radius: var(--border-radius); color: var(--text-color);">
       <div>
         <div style="font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem;">Email</div>
         <div><%= participant.email %></div>
@@ -133,7 +133,7 @@
         Total: <%= userEvents.length %> event<%= userEvents.length !== 1 ? 's' : '' %>
       </div>
     <% } else { %>
-      <div style="text-align: center; padding: 3rem 2rem; background-color: var(--bg-secondary); border-radius: var(--border-radius);">
+      <div style="text-align: center; padding: 3rem 2rem; background-color: var(--bg-secondary); border-radius: var(--border-radius); color: var(--text-color);">
         <p style="color: var(--text-secondary);">This user has not registered for any events yet.</p>
       </div>
     <% } %>
