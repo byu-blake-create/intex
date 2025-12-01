@@ -446,16 +446,41 @@ app.get('/user/milestones', requireLogin, async (req, res) => {
     const userMilestones = await knex('participant_milestones')
       .join('milestones', 'participant_milestones.milestone_id', 'milestones.id')
       .where('participant_milestones.user_id', req.session.user.id)
-      .select('milestones.*', 'participant_milestones.achieved_at')
+      .select('milestones.*', 'participant_milestones.custom_title', 'participant_milestones.achieved_at', 'participant_milestones.id as user_milestone_id')
       .orderBy('participant_milestones.achieved_at', 'desc');
+
+    // Get all milestone categories for the add form
+    const milestoneCategories = await knex('milestones')
+      .select('*')
+      .orderBy('id', 'asc');
 
     res.render('user/milestones', {
       title: 'My Milestones - Ella Rises',
       milestones: userMilestones,
+      categories: milestoneCategories,
     });
   } catch (error) {
     console.error('Error loading milestones:', error);
     res.status(500).send('Error loading milestones');
+  }
+});
+
+// Add milestone - POST route
+app.post('/user/milestones', requireLogin, async (req, res) => {
+  const { milestone_id, custom_title } = req.body;
+
+  try {
+    await knex('participant_milestones').insert({
+      user_id: req.session.user.id,
+      milestone_id: parseInt(milestone_id),
+      custom_title: custom_title,
+      achieved_at: new Date(),
+    });
+
+    res.redirect('/user/milestones?success=true');
+  } catch (error) {
+    console.error('Error adding milestone:', error);
+    res.redirect('/user/milestones?error=true');
   }
 });
 

@@ -75,8 +75,8 @@ CREATE TABLE participant_milestones (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   milestone_id INTEGER REFERENCES milestones(id) ON DELETE CASCADE,
-  achieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  UNIQUE(user_id, milestone_id)
+  custom_title VARCHAR(255),
+  achieved_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Donations table
@@ -143,12 +143,20 @@ INSERT INTO events (title, description, date, location, capacity) VALUES
 
 -- Add some milestones
 INSERT INTO milestones (title, description) VALUES
-('First Event Attended', 'Attended your first Ella Rises event'),
-('Active Participant', 'Attended 5 or more events'),
-('Community Leader', 'Helped organize or lead an event'),
-('Survey Champion', 'Submitted feedback for 10 events'),
-('Network Builder', 'Connected with 20+ participants'),
-('Milestone Master', 'Achieved all available milestones');
+('Apply to College', 'Applied to one or more colleges'),
+('Graduate High School', 'Received high school diploma or equivalent'),
+('Accepted to College', 'Accepted admission to a college or university'),
+('Get an Internship', 'Secured an internship position'),
+('Get a Part-Time Job', 'Started a part-time job'),
+('Associate''s Degree', 'Earned an Associate''s degree'),
+('Bachelor''s Degree', 'Earned a Bachelor''s degree'),
+('Get into Grad School', 'Accepted to graduate school'),
+('Graduate Grad School', 'Completed graduate degree program'),
+('Apply to a Job', 'Applied for a full-time job'),
+('Accept a Job', 'Accepted a full-time job offer'),
+('Certificate', 'Earned a professional certificate'),
+('Award', 'Received an award or recognition'),
+('Other', 'Custom milestone achievement');
 
 -- Register some users for events
 INSERT INTO event_registrations (user_id, event_id, created_at) VALUES
