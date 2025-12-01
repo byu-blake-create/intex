@@ -1,35 +1,127 @@
 <%- include('../partials/header') %>
 
 <div class="container container-lg" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Milestones Management</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Participant Milestones</h1>
   <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-    View and manage all milestones in the system.
+    Track participant achievements across their educational and career journey.
   </p>
 
-  <% if (milestones && milestones.length > 0) { %>
-    <div class="grid grid-3">
-      <% milestones.forEach(milestone => { %>
-        <div class="card">
-          <div style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">🏆</div>
-          <h3 class="card-title text-center"><%= milestone.title %></h3>
-          <% if (milestone.description) { %>
-            <p class="card-text text-center">
-              <%= milestone.description %>
-            </p>
-          <% } %>
+  <!-- Search and Filter Form -->
+  <div class="card" style="margin-bottom: 2rem;">
+    <form method="GET" action="/admin/milestones">
+      <div class="grid grid-2">
+        <div class="form-group">
+          <label for="search" class="form-label">Search by Name</label>
+          <input
+            type="text"
+            id="search"
+            name="search"
+            class="form-input"
+            placeholder="Search participants..."
+            value="<%= search %>"
+          />
         </div>
-      <% }) %>
+
+        <div class="form-group">
+          <label for="filter_milestone" class="form-label">Filter by Milestone</label>
+          <select id="filter_milestone" name="filter_milestone" class="form-select">
+            <option value="">All Participants</option>
+            <% milestoneCategories.forEach(cat => { %>
+              <option value="<%= cat.id %>" <%= filter_milestone == cat.id ? 'selected' : '' %>>
+                Has <%= cat.title %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+        <a href="/admin/milestones" class="btn btn-outline">Clear Filters</a>
+      </div>
+    </form>
+  </div>
+
+  <% if (users && users.length > 0) { %>
+    <!-- Milestone Progress Table -->
+    <div style="overflow-x: auto;">
+      <table class="table" style="min-width: 1200px;">
+        <thead>
+          <tr>
+            <th style="position: sticky; left: 0; background-color: var(--bg-primary); z-index: 10;">Participant</th>
+            <% milestoneCategories.forEach(category => { %>
+              <th style="text-align: center; min-width: 100px; font-size: 0.85rem;">
+                <%= category.title %>
+              </th>
+            <% }) %>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(user => { %>
+            <tr style="cursor: pointer;" onclick="window.location='/admin/milestones/user/<%= user.id %>';">
+              <td style="position: sticky; left: 0; background-color: var(--bg-primary); z-index: 5;">
+                <strong><%= user.name %></strong>
+                <div style="font-size: 0.9rem; color: var(--text-secondary);"><%= user.email %></div>
+              </td>
+              <% milestoneCategories.forEach(category => { %>
+                <td style="text-align: center;">
+                  <% if (userAchievements[user.id] && userAchievements[user.id][category.id]) { %>
+                    <span style="color: #10b981; font-size: 1.5rem;" title="Completed">✓</span>
+                    <% if (userAchievements[user.id][category.id].length > 1) { %>
+                      <div style="font-size: 0.75rem; color: var(--text-secondary);">
+                        (<%= userAchievements[user.id][category.id].length %>)
+                      </div>
+                    <% } %>
+                  <% } else { %>
+                    <span style="color: var(--text-light); font-size: 1.5rem;">○</span>
+                  <% } %>
+                </td>
+              <% }) %>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
     </div>
 
     <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
-      Total: <%= milestones.length %> milestone<%= milestones.length !== 1 ? 's' : '' %>
+      Showing <%= users.length %> participant<%= users.length !== 1 ? 's' : '' %>
+      <% if (search || filter_milestone) { %>
+        (filtered)
+      <% } %>
     </div>
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
-      <h3 style="color: var(--text-secondary);">No milestones configured</h3>
-      <p style="color: var(--text-light); margin-top: 1rem;">Add milestones to track participant achievements.</p>
+      <h3 style="color: var(--text-secondary);">No participants found</h3>
+      <% if (search || filter_milestone) { %>
+        <p style="color: var(--text-light); margin-top: 1rem;">Try adjusting your filters.</p>
+        <a href="/admin/milestones" class="btn btn-outline" style="margin-top: 1rem;">Clear Filters</a>
+      <% } else { %>
+        <p style="color: var(--text-light); margin-top: 1rem;">Participants will appear here once they register.</p>
+      <% } %>
     </div>
   <% } %>
+
+  <!-- Legend -->
+  <div class="card" style="margin-top: 2rem; background-color: var(--bg-secondary);">
+    <h3 style="margin-bottom: 1rem;">Legend</h3>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="color: #10b981; font-size: 1.5rem;">✓</span>
+        <span>Milestone achieved</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="color: var(--text-light); font-size: 1.5rem;">○</span>
+        <span>Not yet achieved</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-size: 0.75rem; color: var(--text-secondary);">(2)</span>
+        <span>Number indicates multiple achievements in this category</span>
+      </div>
+    </div>
+    <p style="margin-top: 1rem; color: var(--text-secondary); font-style: italic;">
+      Click on any participant row to view detailed milestone information.
+    </p>
+  </div>
 </div>
 
 <%- include('../partials/footer') %>

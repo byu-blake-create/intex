@@ -1,0 +1,116 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <!-- Back button -->
+  <div style="margin-bottom: 2rem;">
+    <a href="/admin/milestones" class="btn btn-outline">← Back to All Participants</a>
+  </div>
+
+  <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= user.name %>'s Milestones</h1>
+  <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 3rem;"><%= user.email %></p>
+
+  <% if (milestones && milestones.length > 0) { %>
+    <!-- Summary Card -->
+    <div class="card" style="margin-bottom: 3rem; background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white;">
+      <div style="text-align: center;">
+        <div style="font-size: 4rem; margin-bottom: 1rem;">🏆</div>
+        <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem; color: white;"><%= milestones.length %></h2>
+        <p style="font-size: 1.2rem; opacity: 0.9;">
+          Total Milestone<%= milestones.length !== 1 ? 's' : '' %> Achieved
+        </p>
+      </div>
+    </div>
+
+    <!-- Milestones Timeline -->
+    <h2 style="font-size: 1.8rem; margin-bottom: 2rem;">Achievement Timeline</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      <% milestones.forEach((milestone, index) => { %>
+        <div class="card" style="border-left: 4px solid var(--primary-color);">
+          <div style="display: flex; justify-content: space-between; align-items: start; gap: 2rem; flex-wrap: wrap;">
+            <div style="flex: 1; min-width: 250px;">
+              <!-- Category Badge -->
+              <span class="badge badge-primary" style="margin-bottom: 1rem;">
+                <%= milestone.milestone_title %>
+              </span>
+
+              <!-- Custom Title -->
+              <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">
+                <%= milestone.custom_title || milestone.milestone_description %>
+              </h3>
+
+              <!-- Date -->
+              <p style="color: var(--text-secondary); font-size: 0.95rem;">
+                <strong>Achieved:</strong> <%= new Date(milestone.achieved_at).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                }) %>
+              </p>
+            </div>
+
+            <!-- Icon -->
+            <div style="font-size: 3rem; opacity: 0.3;">
+              <% if (milestone.milestone_title.includes('College') || milestone.milestone_title.includes('Grad School')) { %>
+                🎓
+              <% } else if (milestone.milestone_title.includes('High School')) { %>
+                📚
+              <% } else if (milestone.milestone_title.includes('Job') || milestone.milestone_title.includes('Internship')) { %>
+                💼
+              <% } else if (milestone.milestone_title.includes('Degree')) { %>
+                🏅
+              <% } else if (milestone.milestone_title.includes('Certificate')) { %>
+                📜
+              <% } else if (milestone.milestone_title.includes('Award')) { %>
+                🏆
+              <% } else { %>
+                ⭐
+              <% } %>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+
+    <!-- Breakdown by Category -->
+    <div class="card" style="margin-top: 3rem; background-color: var(--bg-secondary);">
+      <h3 style="margin-bottom: 1.5rem;">Milestones by Category</h3>
+      <%
+        // Group milestones by category
+        const byCategory = {};
+        milestones.forEach(m => {
+          if (!byCategory[m.milestone_title]) {
+            byCategory[m.milestone_title] = [];
+          }
+          byCategory[m.milestone_title].push(m);
+        });
+      %>
+      <div class="grid grid-2">
+        <% Object.keys(byCategory).forEach(category => { %>
+          <div style="padding: 1rem; background-color: var(--bg-primary); border-radius: var(--border-radius);">
+            <strong style="color: var(--primary-color);"><%= category %></strong>
+            <p style="color: var(--text-secondary); margin-top: 0.25rem;">
+              <%= byCategory[category].length %> achievement<%= byCategory[category].length !== 1 ? 's' : '' %>
+            </p>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+  <% } else { %>
+    <div class="card text-center" style="padding: 4rem 2rem;">
+      <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
+      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;">No Milestones Yet</h3>
+      <p style="color: var(--text-light);">
+        <%= user.name %> hasn't added any milestones yet.
+      </p>
+    </div>
+  <% } %>
+
+  <!-- Action buttons -->
+  <div style="margin-top: 3rem; text-align: center;">
+    <a href="/admin/milestones" class="btn btn-primary">Back to All Participants</a>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

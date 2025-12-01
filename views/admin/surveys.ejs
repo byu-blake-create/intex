@@ -6,6 +6,68 @@
     View all survey feedback submitted by participants.
   </p>
 
+  <!-- Search and Filter Form -->
+  <div class="card" style="margin-bottom: 2rem;">
+    <form method="GET" action="/admin/surveys">
+      <div class="grid grid-3">
+        <div class="form-group">
+          <label for="search_event" class="form-label">Search by Event</label>
+          <input
+            type="text"
+            id="search_event"
+            name="search_event"
+            class="form-input"
+            placeholder="Event name..."
+            value="<%= search_event %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="search_participant" class="form-label">Search by Participant</label>
+          <input
+            type="text"
+            id="search_participant"
+            name="search_participant"
+            class="form-input"
+            placeholder="Participant name..."
+            value="<%= search_participant %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="filter_nps" class="form-label">Filter by NPS</label>
+          <select id="filter_nps" name="filter_nps" class="form-select">
+            <option value="">All Responses</option>
+            <option value="Promoter" <%= filter_nps === 'Promoter' ? 'selected' : '' %>>Promoters Only</option>
+            <option value="Passive" <%= filter_nps === 'Passive' ? 'selected' : '' %>>Passives Only</option>
+            <option value="Detractor" <%= filter_nps === 'Detractor' ? 'selected' : '' %>>Detractors Only</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; align-items: end; margin-top: 1rem; flex-wrap: wrap;">
+        <div class="form-group" style="flex: 1; min-width: 200px;">
+          <label for="sort_by" class="form-label">Sort By</label>
+          <select id="sort_by" name="sort_by" class="form-select">
+            <option value="date" <%= sort_by === 'date' ? 'selected' : '' %>>Date</option>
+            <option value="overall_score" <%= sort_by === 'overall_score' ? 'selected' : '' %>>Overall Score</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="flex: 1; min-width: 200px;">
+          <label for="sort_order" class="form-label">Order</label>
+          <select id="sort_order" name="sort_order" class="form-select">
+            <option value="desc" <%= sort_order === 'desc' ? 'selected' : '' %>>Descending</option>
+            <option value="asc" <%= sort_order === 'asc' ? 'selected' : '' %>>Ascending</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+        <a href="/admin/surveys" class="btn btn-outline">Clear</a>
+      </div>
+    </form>
+  </div>
+
   <% if (surveys && surveys.length > 0) { %>
     <div style="overflow-x: auto;">
       <table class="table">

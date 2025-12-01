@@ -683,11 +683,57 @@ app.get('/admin/events', requireAdmin, async (req, res) => {
 // Admin surveys page - view all surveys
 app.get('/admin/surveys', requireAdmin, async (req, res) => {
   try {
-    const surveys = await knex('surveys')
+    const { search_event, search_participant, sort_by, sort_order, filter_nps } = req.query;
+
+    let query = knex('surveys')
       .join('users', 'surveys.user_id', 'users.id')
       .join('events', 'surveys.event_id', 'events.id')
-      .select('surveys.*', 'users.name as user_name', 'events.title as event_title')
-      .orderBy('surveys.created_at', 'desc');
+      .select('surveys.*', 'users.name as user_name', 'events.title as event_title');
+
+    // Apply event search filter
+    if (search_event) {
+      query = query.where('events.title', 'ilike', `%${search_event}%`);
+    }
+
+    // Apply participant search filter
+    if (search_participant) {
+      query = query.where('users.name', 'ilike', `%${search_participant}%`);
+    }
+
+    // Apply NPS filter
+    if (filter_nps) {
+      if (filter_nps === 'Promoter') {
+        query = query.where('surveys.recommendation_rating', '=', 5);
+      } else if (filter_nps === 'Passive') {
+        query = query.where('surveys.recommendation_rating', '=', 4);
+      } else if (filter_nps === 'Detractor') {
+        query = query.where('surveys.recommendation_rating', '<=', 3);
+      }
+    }
+
+    // Apply sorting
+    const sortField = sort_by || 'created_at';
+    const order = sort_order || 'desc';
+
+    if (sortField === 'overall_score') {
+      query = query.orderBy('surveys.overall_score', order);
+    } else if (sortField === 'date') {
+      query = query.orderBy('surveys.created_at', order);
+    } else {
+      query = query.orderBy('surveys.created_at', order);
+    }
+
+    const surveys = await query;
+
+    // Get all events and users for dropdowns
+    const events = await knex('events')
+      .distinct('title')
+      .orderBy('title', 'asc');
+
+    const users = await knex('users')
+      .where('is_admin', false)
+      .select('id', 'name')
+      .orderBy('name', 'asc');
 
     // Add net_promoter_score to each survey
     surveys.forEach(survey => {
@@ -703,6 +749,13 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
     res.render('admin/surveys', {
       title: 'Surveys - Admin - Ella Rises',
       surveys,
+      events,
+      users,
+      search_event: search_event || '',
+      search_participant: search_participant || '',
+      sort_by: sortField,
+      sort_order: order,
+      filter_nps: filter_nps || '',
     });
   } catch (error) {
     console.error('Error loading surveys:', error);
@@ -752,15 +805,101 @@ app.get('/admin/surveys/:surveyId', requireAdmin, async (req, res) => {
 // Admin milestones page - view all milestones
 app.get('/admin/milestones', requireAdmin, async (req, res) => {
   try {
-    const milestones = await knex('milestones').select('*').orderBy('title', 'asc');
+    const { search, filter_milestone } = req.query;
+
+    // Get all milestone categories
+    const milestoneCategories = await knex('milestones')
+      .select('*')
+      .orderBy('id', 'asc');
+
+    // Get all users (non-admin participants)
+    let usersQuery = knex('users')
+      .where('is_admin', false)
+      .orderBy('name', 'asc');
+
+    // Apply search filter
+    if (search) {
+      usersQuery = usersQuery.where('name', 'ilike', `%${search}%`);
+    }
+
+    const users = await usersQuery;
+
+    // Get all user milestones
+    const userMilestones = await knex('participant_milestones')
+      .join('milestones', 'participant_milestones.milestone_id', 'milestones.id')
+      .select(
+        'participant_milestones.user_id',
+        'participant_milestones.milestone_id',
+        'participant_milestones.custom_title',
+        'participant_milestones.achieved_at',
+        'milestones.title as milestone_title'
+      );
+
+    // Build a map of user achievements: user_id -> milestone_id -> [milestones]
+    const userAchievements = {};
+    userMilestones.forEach(um => {
+      if (!userAchievements[um.user_id]) {
+        userAchievements[um.user_id] = {};
+      }
+      if (!userAchievements[um.user_id][um.milestone_id]) {
+        userAchievements[um.user_id][um.milestone_id] = [];
+      }
+      userAchievements[um.user_id][um.milestone_id].push(um);
+    });
+
+    // Filter by milestone if specified
+    let filteredUsers = users;
+    if (filter_milestone) {
+      filteredUsers = users.filter(user => {
+        return userAchievements[user.id] && userAchievements[user.id][filter_milestone];
+      });
+    }
 
     res.render('admin/milestones', {
       title: 'Milestones - Admin - Ella Rises',
-      milestones,
+      users: filteredUsers,
+      milestoneCategories,
+      userAchievements,
+      search: search || '',
+      filter_milestone: filter_milestone || '',
     });
   } catch (error) {
     console.error('Error loading milestones:', error);
     res.status(500).send('Error loading milestones');
+  }
+});
+
+// Admin view user milestone details
+app.get('/admin/milestones/user/:userId', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await knex('users')
+      .where('id', userId)
+      .first();
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    const userMilestones = await knex('participant_milestones')
+      .join('milestones', 'participant_milestones.milestone_id', 'milestones.id')
+      .where('participant_milestones.user_id', userId)
+      .select(
+        'participant_milestones.*',
+        'milestones.title as milestone_title',
+        'milestones.description as milestone_description'
+      )
+      .orderBy('participant_milestones.achieved_at', 'desc');
+
+    res.render('admin/user-milestones', {
+      title: `${user.name}'s Milestones - Admin - Ella Rises`,
+      user,
+      milestones: userMilestones,
+    });
+  } catch (error) {
+    console.error('Error loading user milestones:', error);
+    res.status(500).send('Error loading user milestones');
   }
 });
 
