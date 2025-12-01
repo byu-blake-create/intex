@@ -731,7 +731,7 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
       .orderBy('title', 'asc');
 
     const users = await knex('users')
-      .where('is_admin', false)
+      .where('role', 'user')
       .select('id', 'name')
       .orderBy('name', 'asc');
 
@@ -814,7 +814,7 @@ app.get('/admin/milestones', requireAdmin, async (req, res) => {
 
     // Get all users (non-admin participants)
     let usersQuery = knex('users')
-      .where('is_admin', false)
+      .where('role', 'user')
       .orderBy('name', 'asc');
 
     // Apply search filter
