@@ -42,7 +42,7 @@
 
     <!-- Additional Info -->
     <% if (program.additional_info) { %>
-      <div style="background-color: var(--bg-secondary); padding: 1.5rem; border-radius: var(--border-radius); margin-bottom: 2rem;">
+      <div style="background-color: var(--sage-soft); padding: 1.5rem; border-radius: var(--border-radius); margin-bottom: 2rem; color: var(--text-color);">
         <h3 style="margin-bottom: 1rem;">Important Information</h3>
         <p style="white-space: pre-wrap;"><%= program.additional_info %></p>
       </div>
@@ -66,7 +66,7 @@
           </form>
         <% } %>
       <% } else { %>
-        <div style="background-color: var(--bg-secondary); padding: 2rem; border-radius: var(--border-radius); text-align: center;">
+        <div style="background-color: var(--sage-soft); padding: 2rem; border-radius: var(--border-radius); text-align: center; color: var(--text-color);">
           <h3 style="margin-bottom: 1rem;">Interested in This Program?</h3>
           <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
             Please log in or create an account to enroll.

@@ -16,6 +16,7 @@
   --hover-berry: #ce325b;
   --hover-sage: #9ab59d;
   --white: #ffffff;
+  --sage-soft: color-mix(in srgb, var(--hover-sage) 50%, #ffffff 50%);
 
   /* Buttons */
   --button-color: #1b1b1b; /* Chosen black */
@@ -543,7 +544,7 @@ img {
 }
 
 .table tbody tr:hover {
-  background-color: var(--bg-secondary);
+  background-color: color-mix(in srgb, var(--bg-secondary) 50%, #ffffff 50%);
 }
 
 .table tbody tr:last-child td {
@@ -672,6 +673,11 @@ img {
 }
 .p-4 {
   padding: 2rem;
+}
+
+.bg-sage-soft {
+  background-color: var(--sage-soft);
+  color: var(--text-primary);
 }
 
 .badge {
