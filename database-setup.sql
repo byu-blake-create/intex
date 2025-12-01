@@ -143,20 +143,16 @@ INSERT INTO events (title, description, date, location, capacity) VALUES
 
 -- Add some milestones
 INSERT INTO milestones (title, description) VALUES
-('Apply to College', 'Applied to one or more colleges'),
+('Finish Middle School', 'Completed middle school education'),
+('Apply To College', 'Applied to one or more colleges'),
 ('Graduate High School', 'Received high school diploma or equivalent'),
-('Accepted to College', 'Accepted admission to a college or university'),
-('Get an Internship', 'Secured an internship position'),
-('Get a Part-Time Job', 'Started a part-time job'),
-('Associate''s Degree', 'Earned an Associate''s degree'),
-('Bachelor''s Degree', 'Earned a Bachelor''s degree'),
-('Get into Grad School', 'Accepted to graduate school'),
-('Graduate Grad School', 'Completed graduate degree program'),
-('Apply to a Job', 'Applied for a full-time job'),
-('Accept a Job', 'Accepted a full-time job offer'),
-('Certificate', 'Earned a professional certificate'),
-('Award', 'Received an award or recognition'),
-('Other', 'Custom milestone achievement');
+('Internship', 'Secured an internship position'),
+('Part-time Job', 'Started a part-time job'),
+('Accepted into College', 'Accepted admission to a college or university'),
+('Associates Degree', 'Earned an Associate''s degree'),
+('Bachelors Degree', 'Earned a Bachelor''s degree'),
+('Full time job', 'Accepted a full-time job'),
+('Graduate Degree', 'Earned a graduate degree (Masters, PhD, etc.)');
 
 -- Register some users for events
 INSERT INTO event_registrations (user_id, event_id, created_at) VALUES
