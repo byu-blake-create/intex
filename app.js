@@ -485,13 +485,21 @@ app.post('/user/survey', requireLogin, async (req, res) => {
   const { event_id, satisfaction_rating, usefulness_rating, instructor_rating, recommendation_rating, additional_feedback } = req.body;
 
   try {
+    // Calculate overall score as average of all 4 ratings
+    const sat = parseInt(satisfaction_rating);
+    const use = parseInt(usefulness_rating);
+    const inst = parseInt(instructor_rating);
+    const rec = parseInt(recommendation_rating);
+    const overall_score = (sat + use + inst + rec) / 4;
+
     await knex('surveys').insert({
       user_id: req.session.user.id,
       event_id: parseInt(event_id),
-      satisfaction_rating: parseInt(satisfaction_rating),
-      usefulness_rating: parseInt(usefulness_rating),
-      instructor_rating: parseInt(instructor_rating),
-      recommendation_rating: parseInt(recommendation_rating),
+      satisfaction_rating: sat,
+      usefulness_rating: use,
+      instructor_rating: inst,
+      recommendation_rating: rec,
+      overall_score: overall_score,
       additional_feedback,
       created_at: new Date(),
     });
@@ -656,6 +664,17 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
       .select('surveys.*', 'users.name as user_name', 'events.title as event_title')
       .orderBy('surveys.created_at', 'desc');
 
+    // Add net_promoter_score to each survey
+    surveys.forEach(survey => {
+      if (survey.recommendation_rating <= 3) {
+        survey.net_promoter_score = 'Detractor';
+      } else if (survey.recommendation_rating === 4) {
+        survey.net_promoter_score = 'Passive';
+      } else {
+        survey.net_promoter_score = 'Promoter';
+      }
+    });
+
     res.render('admin/surveys', {
       title: 'Surveys - Admin - Ella Rises',
       surveys,
@@ -663,6 +682,41 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
   } catch (error) {
     console.error('Error loading surveys:', error);
     res.status(500).send('Error loading surveys');
+  }
+});
+
+// Admin view individual survey detail
+app.get('/admin/surveys/:surveyId', requireAdmin, async (req, res) => {
+  const { surveyId } = req.params;
+
+  try {
+    const survey = await knex('surveys')
+      .join('users', 'surveys.user_id', 'users.id')
+      .join('events', 'surveys.event_id', 'events.id')
+      .select('surveys.*', 'users.name as user_name', 'users.email as user_email', 'events.title as event_title')
+      .where('surveys.id', surveyId)
+      .first();
+
+    if (!survey) {
+      return res.status(404).send('Survey not found');
+    }
+
+    // Calculate net_promoter_score
+    if (survey.recommendation_rating <= 3) {
+      survey.net_promoter_score = 'Detractor';
+    } else if (survey.recommendation_rating === 4) {
+      survey.net_promoter_score = 'Passive';
+    } else {
+      survey.net_promoter_score = 'Promoter';
+    }
+
+    res.render('admin/survey-detail', {
+      title: 'Survey Detail - Admin - Ella Rises',
+      survey,
+    });
+  } catch (error) {
+    console.error('Error loading survey:', error);
+    res.status(500).send('Error loading survey');
   }
 });
 

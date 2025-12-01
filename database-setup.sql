@@ -53,8 +53,12 @@ CREATE TABLE surveys (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
   event_id INTEGER REFERENCES events(id) ON DELETE CASCADE,
-  rating INTEGER CHECK (rating >= 1 AND rating <= 5),
-  feedback TEXT,
+  satisfaction_rating INTEGER CHECK (satisfaction_rating >= 1 AND satisfaction_rating <= 5),
+  usefulness_rating INTEGER CHECK (usefulness_rating >= 1 AND usefulness_rating <= 5),
+  instructor_rating INTEGER CHECK (instructor_rating >= 1 AND instructor_rating <= 5),
+  recommendation_rating INTEGER CHECK (recommendation_rating >= 1 AND recommendation_rating <= 5),
+  overall_score NUMERIC(3,2),
+  additional_feedback TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

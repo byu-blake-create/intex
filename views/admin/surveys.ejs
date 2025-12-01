@@ -13,26 +13,35 @@
           <tr>
             <th>Participant</th>
             <th>Event</th>
-            <th>Satisfaction</th>
-            <th>Usefulness</th>
-            <th>Instructor</th>
-            <th>Recommend</th>
+            <th>Overall Score</th>
+            <th>Net Promoter Score</th>
             <th>Feedback</th>
             <th>Date</th>
           </tr>
         </thead>
         <tbody>
           <% surveys.forEach(survey => { %>
-            <tr>
+            <tr style="cursor: pointer;" onclick="window.location='/admin/surveys/<%= survey.id %>';">
               <td><strong><%= survey.user_name %></strong></td>
               <td><%= survey.event_title %></td>
-              <td><%= '⭐'.repeat(survey.satisfaction_rating || 0) %></td>
-              <td><%= '⭐'.repeat(survey.usefulness_rating || 0) %></td>
-              <td><%= '⭐'.repeat(survey.instructor_rating || 0) %></td>
-              <td><%= '⭐'.repeat(survey.recommendation_rating || 0) %></td>
-              <td style="max-width: 200px;">
+              <td>
+                <strong><%= survey.overall_score ? parseFloat(survey.overall_score).toFixed(2) : 'N/A' %></strong>
+                <span style="color: var(--text-secondary); margin-left: 0.5rem;">
+                  <%= survey.overall_score ? '⭐'.repeat(Math.round(parseFloat(survey.overall_score))) : '' %>
+                </span>
+              </td>
+              <td>
+                <% if (survey.net_promoter_score === 'Promoter') { %>
+                  <span class="badge badge-success">Promoter</span>
+                <% } else if (survey.net_promoter_score === 'Passive') { %>
+                  <span class="badge" style="background-color: #fbbf24; color: #1a1a1a;">Passive</span>
+                <% } else { %>
+                  <span class="badge badge-danger">Detractor</span>
+                <% } %>
+              </td>
+              <td style="max-width: 300px;">
                 <% if (survey.additional_feedback) { %>
-                  <%= survey.additional_feedback.substring(0, 80) %><%= survey.additional_feedback.length > 80 ? '...' : '' %>
+                  <%= survey.additional_feedback.substring(0, 100) %><%= survey.additional_feedback.length > 100 ? '...' : '' %>
                 <% } else { %>
                   <em style="color: var(--text-light);">No feedback</em>
                 <% } %>
