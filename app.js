@@ -1944,24 +1944,27 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
       });
     }
 
-    // Apply date filters
+    // Apply date filters (use donation_date if present, fallback to created_at)
     if (start_date) {
-      query = query.where('donations.created_at', '>=', start_date);
-      countQuery = countQuery.where('donations.created_at', '>=', start_date);
-      totalQuery = totalQuery.where('donations.created_at', '>=', start_date);
+      query = query.where('donations.donation_date', '>=', start_date);
+      countQuery = countQuery.where('donations.donation_date', '>=', start_date);
+      totalQuery = totalQuery.where('donations.donation_date', '>=', start_date);
     }
     if (end_date) {
       const endDateTime = new Date(end_date);
       endDateTime.setHours(23, 59, 59, 999);
-      query = query.where('donations.created_at', '<=', endDateTime);
-      countQuery = countQuery.where('donations.created_at', '<=', endDateTime);
-      totalQuery = totalQuery.where('donations.created_at', '<=', endDateTime);
+      query = query.where('donations.donation_date', '<=', endDateTime);
+      countQuery = countQuery.where('donations.donation_date', '<=', endDateTime);
+      totalQuery = totalQuery.where('donations.donation_date', '<=', endDateTime);
     }
 
     const [{ count }] = await countQuery;
     const totalRecords = parseInt(count);
     const totalPages = Math.ceil(totalRecords / limit);
-    const donations = await query.orderBy('donations.created_at', 'desc').limit(limit).offset(offset);
+    const donations = await query
+      .orderBy([{ column: 'donations.donation_date', order: 'desc' }, { column: 'donations.id', order: 'desc' }])
+      .limit(limit)
+      .offset(offset);
 
     // Calculate total from ALL filtered results
     const [{ total }] = await totalQuery;
@@ -1987,7 +1990,7 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
 
 // Admin - Create donation manually
 app.post('/admin/donations/create', requireAdmin, async (req, res) => {
-  const { user_id, amount, donor_name, donor_email, message, created_at } = req.body;
+  const { user_id, amount, donor_name, donor_email, message, donation_date } = req.body;
 
   try {
     await knex('donations').insert({
@@ -1996,7 +1999,7 @@ app.post('/admin/donations/create', requireAdmin, async (req, res) => {
       donor_name: donor_name || 'Anonymous',
       donor_email: donor_email || null,
       message: message || null,
-      created_at: created_at ? new Date(created_at) : new Date(),
+      donation_date: donation_date ? new Date(donation_date) : new Date(),
     });
 
     res.redirect('/admin/donations?success=created');
@@ -2008,7 +2011,7 @@ app.post('/admin/donations/create', requireAdmin, async (req, res) => {
 
 // Admin - Update donation
 app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
-  const { user_id, amount, donor_name, donor_email, message, created_at } = req.body;
+  const { user_id, amount, donor_name, donor_email, message, donation_date } = req.body;
 
   try {
     await knex('donations')
@@ -2019,7 +2022,7 @@ app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
         donor_name: donor_name || 'Anonymous',
         donor_email,
         message,
-        created_at: created_at ? new Date(created_at) : knex.raw('created_at'),
+        donation_date: donation_date ? new Date(donation_date) : knex.raw('donation_date'),
       });
 
     res.redirect('/admin/donations?success=updated');
