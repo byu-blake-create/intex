@@ -874,6 +874,20 @@ img {
   overflow: hidden;
 }
 
+.about-hero--with-bg {
+  background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.35),
+      rgba(0, 0, 0, 0.55)
+    ),
+    url('/images/photos/landscape group.avif') center/cover no-repeat;
+  color: var(--white);
+}
+
+.about-hero--with-bg .lead {
+  color: #f7f7f7;
+}
+
 .about-hero__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
