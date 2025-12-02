@@ -619,7 +619,11 @@ img {
 .main-footer {
   background-color: var(--text-primary);
   color: white;
+<<<<<<< HEAD
   padding: 1.5rem 2rem 1rem;
+=======
+  padding: 1rem 1.5rem 0.75rem;
+>>>>>>> 6d01d43f906c0fa11cdd3e43af0cc99c8c7ddf8a
   margin-top: auto;
 }
 
@@ -627,15 +631,26 @@ img {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
+<<<<<<< HEAD
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
   margin-bottom: 1rem;
+=======
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 0.75rem;
+>>>>>>> 6d01d43f906c0fa11cdd3e43af0cc99c8c7ddf8a
 }
 
 .footer-section h3,
 .footer-section h4 {
+<<<<<<< HEAD
   margin-bottom: 0.75rem;
   font-size: 1.1rem;
+=======
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+>>>>>>> 6d01d43f906c0fa11cdd3e43af0cc99c8c7ddf8a
 }
 
 .footer-section ul {
@@ -643,12 +658,13 @@ img {
 }
 
 .footer-section ul li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .footer-section a {
   color: rgba(255, 255, 255, 0.8);
   transition: var(--transition);
+  font-size: 0.9rem;
 }
 
 .footer-section a:hover {
@@ -658,9 +674,14 @@ img {
 
 .footer-bottom {
   text-align: center;
+<<<<<<< HEAD
   padding-top: 1rem;
+=======
+  padding-top: 0.75rem;
+>>>>>>> 6d01d43f906c0fa11cdd3e43af0cc99c8c7ddf8a
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
 }
 
 /* ============================================
@@ -1035,10 +1056,16 @@ img {
 
 .about-grid {
   display: grid;
+<<<<<<< HEAD
   grid-template-columns: repeat(auto-fit, minmax(240px, 360px));
   gap: 1.5rem;
   align-items: start;
   justify-content: center;
+=======
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+>>>>>>> 6d01d43f906c0fa11cdd3e43af0cc99c8c7ddf8a
 }
 
 .profile-card {
@@ -1050,13 +1077,20 @@ img {
   display: flex;
   flex-direction: column;
   height: 100%;
+<<<<<<< HEAD
   width: clamp(240px, 30vw, 360px);
   margin: 0 auto;
+=======
+>>>>>>> 6d01d43f906c0fa11cdd3e43af0cc99c8c7ddf8a
 }
 
 .profile-card__image img {
   width: 100%;
+<<<<<<< HEAD
   height: clamp(260px, 36vw, 340px);
+=======
+  height: 340px;
+>>>>>>> 6d01d43f906c0fa11cdd3e43af0cc99c8c7ddf8a
   object-fit: cover;
   display: block;
 }
@@ -1080,7 +1114,11 @@ img {
 }
 
 .profile-card--board .profile-card__image img {
+<<<<<<< HEAD
   height: clamp(260px, 36vw, 340px);
+=======
+  height: 340px;
+>>>>>>> 6d01d43f906c0fa11cdd3e43af0cc99c8c7ddf8a
 }
 
 @media (max-width: 768px) {
