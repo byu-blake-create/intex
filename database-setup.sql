@@ -87,6 +87,9 @@ CREATE TABLE donations (
   id SERIAL PRIMARY KEY,
   user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
   amount DECIMAL(10, 2) NOT NULL,
+  donor_name VARCHAR(255),
+  donor_email VARCHAR(255),
+  message TEXT,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

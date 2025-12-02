@@ -6,6 +6,21 @@
     <%= t('admin.donations.copy') %>
   </p>
 
+  <!-- Search Bar -->
+  <form action="/admin/donations" method="GET" class="search-bar" style="margin-bottom: 2rem;">
+    <input
+      type="text"
+      name="search"
+      class="search-input"
+      placeholder="<%= t('admin.donations.search.placeholder') || 'Search donations by donor or amount...' %>"
+      value="<%= search %>"
+    />
+    <button type="submit" class="btn btn-primary"><%= t('admin.participants.search') || 'Search' %></button>
+    <% if (search) { %>
+      <a href="/admin/donations" class="btn btn-outline"><%= t('admin.participants.clear') || 'Clear' %></a>
+    <% } %>
+  </form>
+
   <% if (donations && donations.length > 0) { %>
     <div style="overflow-x: auto;">
       <table class="table">

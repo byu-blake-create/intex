@@ -1,0 +1,127 @@
+<%- include('partials/header') %>
+
+<section class="hero watercolor-blush">
+  <div class="container">
+    <h1><%= t('donate.title') || 'Support Our Mission' %></h1>
+    <p><%= t('donate.subtitle') || 'Your donation empowers women to rise and creates lasting change in our community.' %></p>
+  </div>
+</section>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <div style="max-width: 700px; margin: 0 auto;">
+
+    <% if (success) { %>
+      <div class="alert alert-success" style="margin-bottom: 2rem;">
+        <h3 style="margin-bottom: 0.5rem;">🎉 <%= t('donate.success.title') || 'Thank You for Your Generosity!' %></h3>
+        <p style="margin: 0;">
+          <%= t('donate.success.message') || 'Your donation has been received and will make a real difference in the lives of women in our community.' %>
+        </p>
+        <div style="margin-top: 1.5rem;">
+          <a href="/" class="btn btn-primary">← <%= t('donate.success.home') || 'Return to Home' %></a>
+        </div>
+      </div>
+    <% } else { %>
+
+      <div class="card">
+        <h2 class="card-title"><%= t('donate.form.title') || 'Make a Donation' %></h2>
+
+        <% if (error) { %>
+          <div class="alert alert-error" style="margin-bottom: 1.5rem;">
+            <%= error %>
+          </div>
+        <% } %>
+
+        <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+          <%= t('donate.form.copy') || 'Every contribution, large or small, helps us provide essential programs and services to women in need.' %>
+        </p>
+
+        <form action="/donate" method="POST">
+          <div class="form-group">
+            <label for="donor_name" class="form-label">
+              <%= t('donate.form.name') || 'Your Name' %> <span style="color: var(--text-light); font-weight: normal;">(Optional)</span>
+            </label>
+            <input
+              type="text"
+              id="donor_name"
+              name="donor_name"
+              class="form-input"
+              placeholder="<%= t('donate.form.name.placeholder') || 'Enter your name or leave blank for anonymous' %>"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="donor_email" class="form-label">
+              <%= t('donate.form.email') || 'Email Address' %> <span style="color: var(--text-light); font-weight: normal;">(Optional)</span>
+            </label>
+            <input
+              type="email"
+              id="donor_email"
+              name="donor_email"
+              class="form-input"
+              placeholder="<%= t('donate.form.email.placeholder') || 'yourname@example.com' %>"
+            />
+            <p class="form-helper">
+              <%= t('donate.form.email.helper') || 'Provide your email if you would like a receipt or updates on how your donation is used.' %>
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="amount" class="form-label">
+              <%= t('donate.form.amount') || 'Donation Amount' %> *
+            </label>
+            <div style="position: relative;">
+              <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-weight: 600;">$</span>
+              <input
+                type="number"
+                id="amount"
+                name="amount"
+                class="form-input"
+                style="padding-left: 2rem;"
+                placeholder="25.00"
+                step="0.01"
+                min="1"
+                required
+              />
+            </div>
+            <p class="form-helper">
+              <%= t('donate.form.amount.helper') || 'Enter the amount you would like to donate. Minimum $1.00.' %>
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label for="message" class="form-label">
+              <%= t('donate.form.message') || 'Message' %> <span style="color: var(--text-light); font-weight: normal;">(Optional)</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              class="form-textarea"
+              rows="4"
+              placeholder="<%= t('donate.form.message.placeholder') || 'Share why you\'re supporting Ella Rises (optional)' %>"
+            ></textarea>
+          </div>
+
+          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <%= t('donate.form.submit') || 'Complete Donation' %>
+            </button>
+            <a href="/" class="btn btn-outline btn-lg"><%= t('donate.form.cancel') || 'Cancel' %></a>
+          </div>
+        </form>
+
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--border-color);">
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+            <strong><%= t('donate.form.note.title') || 'Note:' %></strong>
+            <%= t('donate.form.note.text') || 'This is a demonstration form for project purposes. For real donations, please visit our' %>
+            <a href="https://givebutter.com/EllaRises" target="_blank" style="color: var(--primary-color);">
+              <%= t('donate.form.note.link') || 'official donation page' %>
+            </a>.
+          </p>
+        </div>
+      </div>
+
+    <% } %>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
