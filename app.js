@@ -1708,6 +1708,7 @@ app.get('/admin/milestones', requireAdmin, async (req, res) => {
       userAchievements,
       search: search || '',
       filter_milestone: filter_milestone || '',
+      req,
     });
   } catch (error) {
     console.error('Error loading milestones:', error);
