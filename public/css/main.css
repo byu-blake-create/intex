@@ -872,6 +872,7 @@ img {
   padding: 4rem 2rem;
   position: relative;
   overflow: hidden;
+  color: var(--white);
 }
 
 .about-hero--with-bg {
@@ -882,17 +883,21 @@ img {
     ),
     url('/images/photos/landscape group.avif') center/cover no-repeat;
   color: var(--white);
+  color: var(--white);
 }
 
-.about-hero--with-bg .lead {
-  color: #f7f7f7;
+.about-hero--with-bg h1,
+.about-hero--with-bg p,
+.about-hero--with-bg .eyebrow {
+  color: #f9f9f9;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
 }
 
 .about-hero__grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2.5rem;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .about-hero__text h1 {
@@ -909,8 +914,9 @@ img {
 .about-hero__actions {
   display: flex;
   gap: 1rem;
-  margin-bottom: 1.25rem;
+  margin: 1.25rem auto 0;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .about-hero__art {
