@@ -197,6 +197,20 @@ window.onclick = function(event) {
     document.getElementById('editDonationModal').style.display = 'none';
   }
 }
+
+// Close modals with ESC key (WCAG 2.1.2 - No Keyboard Trap)
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape' || event.key === 'Esc') {
+    const createModal = document.getElementById('createDonationModal');
+    const editModal = document.getElementById('editDonationModal');
+    if (createModal && createModal.style.display === 'block') {
+      createModal.style.display = 'none';
+    }
+    if (editModal && editModal.style.display === 'block') {
+      editModal.style.display = 'none';
+    }
+  }
+});
 </script>
 
 <%- include('../partials/footer') %>

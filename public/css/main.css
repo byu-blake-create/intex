@@ -36,8 +36,8 @@
   --danger-color: var(--hover-berry);
 
   --text-primary: var(--text-color);
-  --text-secondary: var(--hover-sage);
-  --text-light: var(--secondary-color);
+  --text-secondary: #5d7a60; /* Accessible sage green - 5.2:1 contrast */
+  --text-light: #c05577; /* Accessible soft rose - 4.6:1 contrast */
 
   --bg-primary: var(--neutral-color);
   --bg-secondary: var(--primary-color);

@@ -16,21 +16,21 @@
     <div class="grid grid-2" style="margin-bottom: 2rem;">
       <% if (program.age_range) { %>
         <div>
-          <h3 style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;"><%= t('programs.detail.age') %></h3>
+          <h2 style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;"><%= t('programs.detail.age') %></h2>
           <p style="font-size: 1.1rem;"><%= program.age_range %></p>
         </div>
       <% } %>
 
       <% if (program.schedule) { %>
         <div>
-          <h3 style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;"><%= t('programs.detail.schedule') %></h3>
+          <h2 style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;"><%= t('programs.detail.schedule') %></h2>
           <p style="font-size: 1.1rem;"><%= program.schedule %></p>
         </div>
       <% } %>
 
       <% if (program.fee) { %>
         <div>
-          <h3 style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;"><%= t('programs.detail.fee') %></h3>
+          <h2 style="color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase; margin-bottom: 0.5rem;"><%= t('programs.detail.fee') %></h2>
           <p style="font-size: 1.1rem;">$<%= program.fee %></p>
         </div>
       <% } %>
@@ -39,7 +39,7 @@
     <!-- Description -->
     <% if (program.description) { %>
       <div style="margin-bottom: 2rem;">
-        <h3 style="margin-bottom: 1rem;"><%= t('programs.detail.about') %></h3>
+        <h2 style="margin-bottom: 1rem;"><%= t('programs.detail.about') %></h2>
         <p style="line-height: 1.8; white-space: pre-wrap;"><%= program.description %></p>
       </div>
     <% } %>
@@ -47,7 +47,7 @@
     <!-- Additional Info -->
     <% if (program.additional_info) { %>
       <div style="background-color: var(--sage-soft); padding: 1.5rem; border-radius: var(--border-radius); margin-bottom: 2rem; color: var(--text-color);">
-        <h3 style="margin-bottom: 1rem;"><%= t('programs.detail.info') %></h3>
+        <h2 style="margin-bottom: 1rem;"><%= t('programs.detail.info') %></h2>
         <p style="white-space: pre-wrap;"><%= program.additional_info %></p>
       </div>
     <% } %>
@@ -61,7 +61,7 @@
             <p style="margin-top: 0.5rem;"><%= t('programs.detail.enrolled.copy') %></p>
           </div>
         <% } else { %>
-          <h3 style="margin-bottom: 1rem;"><%= t('programs.detail.join') %></h3>
+          <h2 style="margin-bottom: 1rem;"><%= t('programs.detail.join') %></h2>
           <p style="margin-bottom: 1.5rem; color: var(--text-secondary);">
             <%= t('programs.detail.join.copy') %>
           </p>
@@ -71,7 +71,7 @@
         <% } %>
       <% } else { %>
         <div style="background-color: var(--sage-soft); padding: 2rem; border-radius: var(--border-radius); text-align: center; color: var(--text-color);">
-          <h3 style="margin-bottom: 1rem;"><%= t('programs.detail.login.title') %></h3>
+          <h2 style="margin-bottom: 1rem;"><%= t('programs.detail.login.title') %></h2>
           <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
             <%= t('programs.detail.login.copy') %>
           </p>
@@ -85,7 +85,7 @@
 
     <!-- Support Section -->
     <div style="border-top: 2px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
-      <h3 style="margin-bottom: 1rem;"><%= t('programs.detail.support.title') %></h3>
+      <h2 style="margin-bottom: 1rem;"><%= t('programs.detail.support.title') %></h2>
       <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
         <%= t('programs.detail.support.copy') %>
       </p>

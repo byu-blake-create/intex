@@ -235,6 +235,20 @@ window.onclick = function(event) {
     document.getElementById('editMilestoneModal').style.display = 'none';
   }
 }
+
+// Close modals with ESC key (WCAG 2.1.2 - No Keyboard Trap)
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Escape' || event.key === 'Esc') {
+    const createModal = document.getElementById('createMilestoneModal');
+    const editModal = document.getElementById('editMilestoneModal');
+    if (createModal && createModal.style.display === 'block') {
+      createModal.style.display = 'none';
+    }
+    if (editModal && editModal.style.display === 'block') {
+      editModal.style.display = 'none';
+    }
+  }
+});
 </script>
 
 <%- include('../partials/footer') %>
