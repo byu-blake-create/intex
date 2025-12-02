@@ -536,10 +536,10 @@ app.get('/logout', (req, res) => {
 // This page is publicly accessible (no login required to view)
 app.get('/events', async (req, res) => {
   try {
-    // Get all events from database, ordered by date
+    // Get all events from database, ordered by start time
     const events = await knex('events')
       .select('*')
-      .orderBy('date', 'asc');
+      .orderBy('start_time', 'asc');
 
     res.render('events/index', {
       title: 'Events - Ella Rises',
@@ -786,13 +786,13 @@ app.get('/user/dashboard', requireLogin, async (req, res) => {
       .join('events', 'event_registrations.event_id', 'events.id')
       .where('event_registrations.user_id', req.session.user.id)
       .select('events.*', 'event_registrations.created_at as registered_at')
-      .orderBy('events.date', 'asc');
+      .orderBy('events.start_time', 'asc');
 
     // Get user's milestones
     const userMilestones = await knex('participant_milestones')
-      .join('milestones', 'participant_milestones.milestone_id', 'milestones.id')
+      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
       .where('participant_milestones.user_id', req.session.user.id)
-      .select('milestones.*', 'participant_milestones.achieved_at')
+      .select('milestones.*', 'participant_milestones.custom_title', 'participant_milestones.achieved_at')
       .orderBy('participant_milestones.achieved_at', 'desc');
 
     res.render('user/dashboard', {
@@ -813,7 +813,7 @@ app.get('/user/events', requireLogin, async (req, res) => {
       .join('events', 'event_registrations.event_id', 'events.id')
       .where('event_registrations.user_id', req.session.user.id)
       .select('events.*', 'event_registrations.created_at as registered_at')
-      .orderBy('events.date', 'asc');
+      .orderBy('events.start_time', 'asc');
 
     res.render('user/events', {
       title: 'My Events - Ella Rises',
@@ -829,7 +829,7 @@ app.get('/user/events', requireLogin, async (req, res) => {
 app.get('/user/milestones', requireLogin, async (req, res) => {
   try {
     const userMilestones = await knex('participant_milestones')
-      .join('milestones', 'participant_milestones.milestone_id', 'milestones.id')
+      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
       .where('participant_milestones.user_id', req.session.user.id)
       .select('milestones.*', 'participant_milestones.custom_title', 'participant_milestones.achieved_at', 'participant_milestones.id as user_milestone_id')
       .orderBy('participant_milestones.achieved_at', 'desc');
@@ -962,7 +962,7 @@ app.get('/admin/dashboard', requireAdmin, (req, res) => {
 app.get('/admin/participants', requireAdmin, async (req, res) => {
   try {
     const { search, page = 1 } = req.query;
-    const limit = 50;
+    const limit = 25;
     const offset = (parseInt(page) - 1) * limit;
 
     let query = knex('users').select('*');
@@ -1046,7 +1046,7 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
   }
 });
 
-// Admin participant detail - shows individual user details, their events, and password change form
+// Admin participant detail - shows comprehensive user information
 app.get('/admin/participants/:userId', requireAdmin, async (req, res) => {
   const { userId } = req.params;
 
@@ -1058,17 +1058,56 @@ app.get('/admin/participants/:userId', requireAdmin, async (req, res) => {
       return res.status(404).send('User not found');
     }
 
-    // Get events this user has signed up for
+    // Get events this user has registered for (with attendance status)
     const userEvents = await knex('event_registrations')
       .join('events', 'event_registrations.event_id', 'events.id')
       .where('event_registrations.user_id', userId)
-      .select('events.*', 'event_registrations.created_at as registered_at')
-      .orderBy('events.date', 'asc');
+      .select(
+        'events.*',
+        'event_registrations.created_at as registered_at',
+        'event_registrations.attendance_status',
+        'event_registrations.check_in_time'
+      )
+      .orderBy('events.start_time', 'desc');
+
+    // Get enrolled programs
+    const enrolledPrograms = await knex('program_enrollments')
+      .join('programs', 'program_enrollments.program_id', 'programs.id')
+      .where('program_enrollments.user_id', userId)
+      .select('programs.*', 'program_enrollments.enrolled_at', 'program_enrollments.status')
+      .orderBy('program_enrollments.enrolled_at', 'desc');
+
+    // Get all donations by this user
+    const userDonations = await knex('donations')
+      .where('user_id', userId)
+      .orderBy('created_at', 'desc');
+
+    // Get all milestones achieved
+    const userMilestones = await knex('participant_milestones')
+      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
+      .where('participant_milestones.user_id', userId)
+      .select(
+        'participant_milestones.*',
+        'milestones.title as milestone_title',
+        'milestones.description as milestone_description'
+      )
+      .orderBy('participant_milestones.achieved_at', 'desc');
+
+    // Get all surveys filled out
+    const userSurveys = await knex('surveys')
+      .join('events', 'surveys.event_id', 'events.id')
+      .where('surveys.user_id', userId)
+      .select('surveys.*', 'events.title as event_title')
+      .orderBy('surveys.created_at', 'desc');
 
     res.render('admin/participantDetail', {
       title: `${user.name} - Participants - Admin - Ella Rises`,
       participant: user,
       userEvents,
+      enrolledPrograms,
+      userDonations,
+      userMilestones,
+      userSurveys,
       success: req.query.success || null,
       error: req.query.error || null,
     });
@@ -1169,7 +1208,7 @@ app.post('/admin/participants/:userId/delete', requireAdmin, async (req, res) =>
 app.get('/admin/events', requireAdmin, async (req, res) => {
   try {
     const { search = '', page = 1 } = req.query;
-    const limit = 50;
+    const limit = 25;
     const offset = (parseInt(page) - 1) * limit;
 
     let query = knex('events').select('*');
@@ -1216,13 +1255,14 @@ app.get('/admin/events/new', requireAdmin, (req, res) => {
 
 // Admin - Create new event
 app.post('/admin/events/new', requireAdmin, upload.single('event_image'), async (req, res) => {
-  const { title, description, date, location, capacity } = req.body;
+  const { title, description, date, start_time, end_time, location, capacity } = req.body;
 
   try {
     const eventData = {
       title,
       description,
-      date: new Date(date),
+      start_time: new Date(start_time || date), // Support both old 'date' and new 'start_time'
+      end_time: end_time ? new Date(end_time) : null,
       location,
       capacity: capacity ? parseInt(capacity) : null,
       image_url: req.file ? `/images/events/${req.file.filename}` : null,
@@ -1261,13 +1301,14 @@ app.get('/admin/events/:id/edit', requireAdmin, async (req, res) => {
 
 // Admin - Update event
 app.post('/admin/events/:id/edit', requireAdmin, upload.single('event_image'), async (req, res) => {
-  const { title, description, date, location, capacity } = req.body;
+  const { title, description, date, start_time, end_time, location, capacity } = req.body;
 
   try {
     const eventData = {
       title,
       description,
-      date: new Date(date),
+      start_time: new Date(start_time || date), // Support both old 'date' and new 'start_time'
+      end_time: end_time ? new Date(end_time) : null,
       location,
       capacity: capacity ? parseInt(capacity) : null,
     };
@@ -1308,11 +1349,22 @@ app.post('/admin/events/:id/delete', requireAdmin, async (req, res) => {
 // Admin programs page - view/manage all programs
 app.get('/admin/programs', requireAdmin, async (req, res) => {
   try {
-    const programs = await knex('programs').select('*').orderBy('title', 'asc');
+    const { page = 1 } = req.query;
+    const limit = 25;
+    const offset = (parseInt(page) - 1) * limit;
+
+    const [{ count }] = await knex('programs').count('* as count');
+    const totalRecords = parseInt(count);
+    const totalPages = Math.ceil(totalRecords / limit);
+    const programs = await knex('programs').select('*').orderBy('title', 'asc').limit(limit).offset(offset);
 
     res.render('admin/programs', {
       title: 'Programs - Admin - Ella Rises',
       programs,
+      currentPage: parseInt(page),
+      totalPages,
+      totalRecords,
+      req,
     });
   } catch (error) {
     console.error('Error loading programs:', error);
@@ -1425,31 +1477,45 @@ app.post('/admin/programs/:id/delete', requireAdmin, async (req, res) => {
 // Admin surveys page - view all surveys
 app.get('/admin/surveys', requireAdmin, async (req, res) => {
   try {
-    const { search_event, search_participant, sort_by, sort_order, filter_nps } = req.query;
+    const { search_event, search_participant, sort_by, sort_order, filter_nps, page = 1 } = req.query;
+    const limit = 25;
+    const offset = (parseInt(page) - 1) * limit;
 
     let query = knex('surveys')
       .join('users', 'surveys.user_id', 'users.id')
       .join('events', 'surveys.event_id', 'events.id')
       .select('surveys.*', 'users.name as user_name', 'events.title as event_title');
 
+    let countQuery = knex('surveys')
+      .join('users', 'surveys.user_id', 'users.id')
+      .join('events', 'surveys.event_id', 'events.id')
+      .count('surveys.id as count');
+
     // Apply event search filter
     if (search_event) {
-      query = query.where('events.title', 'ilike', `%${search_event}%`);
+      const filter = builder => builder.where('events.title', 'ilike', `%${search_event}%`);
+      query = query.where(filter);
+      countQuery = countQuery.where(filter);
     }
 
     // Apply participant search filter
     if (search_participant) {
-      query = query.where('users.name', 'ilike', `%${search_participant}%`);
+      const filter = builder => builder.where('users.name', 'ilike', `%${search_participant}%`);
+      query = query.where(filter);
+      countQuery = countQuery.where(filter);
     }
 
     // Apply NPS filter
     if (filter_nps) {
       if (filter_nps === 'Promoter') {
         query = query.where('surveys.recommendation_rating', '=', 5);
+        countQuery = countQuery.where('surveys.recommendation_rating', '=', 5);
       } else if (filter_nps === 'Passive') {
         query = query.where('surveys.recommendation_rating', '=', 4);
+        countQuery = countQuery.where('surveys.recommendation_rating', '=', 4);
       } else if (filter_nps === 'Detractor') {
         query = query.where('surveys.recommendation_rating', '<=', 3);
+        countQuery = countQuery.where('surveys.recommendation_rating', '<=', 3);
       }
     }
 
@@ -1465,7 +1531,10 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
       query = query.orderBy('surveys.created_at', order);
     }
 
-    const surveys = await query;
+    const [{ count }] = await countQuery;
+    const totalRecords = parseInt(count);
+    const totalPages = Math.ceil(totalRecords / limit);
+    const surveys = await query.limit(limit).offset(offset);
 
     // Get all events and users for dropdowns
     const events = await knex('events')
@@ -1498,6 +1567,9 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
       sort_by: sortField,
       sort_order: order,
       filter_nps: filter_nps || '',
+      currentPage: parseInt(page),
+      totalPages,
+      totalRecords,
       req,
     });
   } catch (error) {
@@ -1673,28 +1745,36 @@ app.post('/admin/surveys/:id/delete', requireAdmin, async (req, res) => {
 // Admin milestones page - view all milestones
 app.get('/admin/milestones', requireAdmin, async (req, res) => {
   try {
-    const { search, filter_milestone } = req.query;
+    const { search, filter_milestone, page = 1 } = req.query;
+    const limit = 25;
+    const offset = (parseInt(page) - 1) * limit;
 
     // Get all milestone categories
     const milestoneCategories = await knex('milestones')
       .select('*')
       .orderBy('id', 'asc');
 
-    // Get all users (non-admin participants)
+    // Build query for users (non-admin participants)
     let usersQuery = knex('users')
       .where('role', 'user')
       .orderBy('name', 'asc');
 
+    let countQuery = knex('users')
+      .where('role', 'user')
+      .count('* as count');
+
     // Apply search filter
     if (search) {
-      usersQuery = usersQuery.where('name', 'ilike', `%${search}%`);
+      const filter = builder => builder.where('name', 'ilike', `%${search}%`);
+      usersQuery = usersQuery.where(filter);
+      countQuery = countQuery.where(filter);
     }
 
     const users = await usersQuery;
 
     // Get all user milestones
     const userMilestones = await knex('participant_milestones')
-      .join('milestones', 'participant_milestones.milestone_id', 'milestones.id')
+      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
       .select(
         'participant_milestones.user_id',
         'participant_milestones.milestone_id',
@@ -1723,13 +1803,21 @@ app.get('/admin/milestones', requireAdmin, async (req, res) => {
       });
     }
 
+    // Paginate filtered users
+    const totalRecords = filteredUsers.length;
+    const totalPages = Math.ceil(totalRecords / limit);
+    const paginatedUsers = filteredUsers.slice(offset, offset + limit);
+
     res.render('admin/milestones', {
       title: 'Milestones - Admin - Ella Rises',
-      users: filteredUsers,
+      users: paginatedUsers,
       milestoneCategories,
       userAchievements,
       search: search || '',
       filter_milestone: filter_milestone || '',
+      currentPage: parseInt(page),
+      totalPages,
+      totalRecords,
       req,
     });
   } catch (error) {
@@ -1752,7 +1840,7 @@ app.get('/admin/milestones/user/:userId', requireAdmin, async (req, res) => {
     }
 
     const userMilestones = await knex('participant_milestones')
-      .join('milestones', 'participant_milestones.milestone_id', 'milestones.id')
+      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
       .where('participant_milestones.user_id', userId)
       .select(
         'participant_milestones.*',
@@ -1824,8 +1912,8 @@ app.post('/admin/milestones/:id/delete', requireAdmin, async (req, res) => {
 // Admin donations page - view all donations
 app.get('/admin/donations', requireAdmin, async (req, res) => {
   try {
-    const { search = '', page = 1 } = req.query;
-    const limit = 50;
+    const { search = '', page = 1, start_date = '', end_date = '' } = req.query;
+    const limit = 25;
     const offset = (parseInt(page) - 1) * limit;
 
     let query = knex('donations')
@@ -1836,14 +1924,34 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
       .leftJoin('users', 'donations.user_id', 'users.id')
       .count('donations.id as count');
 
+    let totalQuery = knex('donations')
+      .leftJoin('users', 'donations.user_id', 'users.id')
+      .sum('donations.amount as total');
+
+    // Apply search filter
     if (search) {
       const searchFilter = function() {
         this.where('users.name', 'ilike', `%${search}%`)
             .orWhere('donations.donor_name', 'ilike', `%${search}%`)
-            .orWhere('donations.amount', 'ilike', `%${search}%`);
+            .orWhereRaw('CAST(donations.amount AS TEXT) ILIKE ?', [`%${search}%`]);
       };
       query = query.where(searchFilter);
       countQuery = countQuery.where(searchFilter);
+      totalQuery = totalQuery.where(searchFilter);
+    }
+
+    // Apply date filters
+    if (start_date) {
+      query = query.where('donations.created_at', '>=', start_date);
+      countQuery = countQuery.where('donations.created_at', '>=', start_date);
+      totalQuery = totalQuery.where('donations.created_at', '>=', start_date);
+    }
+    if (end_date) {
+      const endDateTime = new Date(end_date);
+      endDateTime.setHours(23, 59, 59, 999);
+      query = query.where('donations.created_at', '<=', endDateTime);
+      countQuery = countQuery.where('donations.created_at', '<=', endDateTime);
+      totalQuery = totalQuery.where('donations.created_at', '<=', endDateTime);
     }
 
     const [{ count }] = await countQuery;
@@ -1851,13 +1959,20 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
     const totalPages = Math.ceil(totalRecords / limit);
     const donations = await query.orderBy('donations.created_at', 'desc').limit(limit).offset(offset);
 
+    // Calculate total from ALL filtered results
+    const [{ total }] = await totalQuery;
+    const totalAmount = parseFloat(total || 0);
+
     res.render('admin/donations', {
       title: 'Donations - Admin - Ella Rises',
       donations,
       search,
+      start_date,
+      end_date,
       currentPage: parseInt(page),
       totalPages,
       totalRecords,
+      totalAmount,
       req,
     });
   } catch (error) {
@@ -1868,7 +1983,7 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
 
 // Admin - Create donation manually
 app.post('/admin/donations/create', requireAdmin, async (req, res) => {
-  const { user_id, amount, donor_name, donor_email, message } = req.body;
+  const { user_id, amount, donor_name, donor_email, message, created_at } = req.body;
 
   try {
     await knex('donations').insert({
@@ -1877,7 +1992,7 @@ app.post('/admin/donations/create', requireAdmin, async (req, res) => {
       donor_name: donor_name || 'Anonymous',
       donor_email: donor_email || null,
       message: message || null,
-      created_at: new Date(),
+      created_at: created_at ? new Date(created_at) : new Date(),
     });
 
     res.redirect('/admin/donations?success=created');
@@ -1889,7 +2004,7 @@ app.post('/admin/donations/create', requireAdmin, async (req, res) => {
 
 // Admin - Update donation
 app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
-  const { user_id, amount, donor_name, donor_email, message } = req.body;
+  const { user_id, amount, donor_name, donor_email, message, created_at } = req.body;
 
   try {
     await knex('donations')
@@ -1900,6 +2015,7 @@ app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
         donor_name: donor_name || 'Anonymous',
         donor_email,
         message,
+        created_at: created_at ? new Date(created_at) : knex.raw('created_at'),
       });
 
     res.redirect('/admin/donations?success=updated');
