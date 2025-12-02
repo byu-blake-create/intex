@@ -1048,18 +1048,13 @@ img {
   font-size: 0.95rem;
 }
 
-.profile-card--board .profile-card__image img {
-  height: 320px;
-}
-
 .portrait-tall {
   object-fit: cover;
   object-position: center top;
 }
 
-/* Slightly smaller lead portraits */
-.profile-card--lead .profile-card__image img {
-  height: 260px;
+.profile-card--board .profile-card__image img {
+  height: 320px;
 }
 
 @media (max-width: 768px) {
