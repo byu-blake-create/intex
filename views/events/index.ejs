@@ -1,9 +1,9 @@
 <%- include('../partials/header') %>
 
 <div class="container watercolor-green" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Upcoming Events</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><%= t('events.list.title') %></h1>
   <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 3rem;">
-    Join us for workshops, support groups, and community gatherings designed to empower and connect women in our community.
+    <%= t('events.list.copy') %>
   </p>
 
   <% if (events && events.length > 0) { %>
@@ -20,14 +20,14 @@
             <%= event.description ? event.description.substring(0, 150) + '...' : 'Join us for this exciting event!' %>
           </p>
           <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-            <span>📍 <%= event.location || 'Location TBD' %></span>
+            <span>📍 <%= event.location || t('events.list.location') %></span>
             <% if (event.capacity) { %>
-              <span>👥 Capacity: <%= event.capacity %></span>
+              <span>👥 <%= t('events.list.capacity') %>: <%= event.capacity %></span>
             <% } %>
           </div>
           <div class="card-footer">
             <a href="/events/<%= event.id %>" class="btn btn-primary btn-block">
-              View Details & Sign Up
+              <%= t('events.list.cta') %>
             </a>
           </div>
         </div>
@@ -35,8 +35,8 @@
     </div>
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
-      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;">No Upcoming Events</h3>
-      <p style="color: var(--text-light);">Check back soon for new events!</p>
+      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;"><%= t('events.list.empty.title') %></h3>
+      <p style="color: var(--text-light);"><%= t('events.list.empty.copy') %></p>
     </div>
   <% } %>
 </div>
