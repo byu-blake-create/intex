@@ -1,0 +1,12 @@
+{
+  "nav.home": "Home",
+  "nav.about": "About",
+  "nav.events": "Events",
+  "nav.programs": "Programs",
+  "nav.donate": "Donate",
+  "nav.contact": "Contact",
+
+  "about.hero.title": "Rooted in heritage, rising together.",
+  "about.hero.btn.programs": "Explore Programs",
+  "about.hero.btn.donate": "Donate"
+}
