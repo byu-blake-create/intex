@@ -1,9 +1,9 @@
 <%- include('../partials/header') %>
 
 <div class="container watercolor-rose" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">My Events</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><%= t('user.events.title') %></h1>
   <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 3rem;">
-    Events you've registered for.
+    <%= t('user.events.copy') %>
   </p>
 
   <% if (events && events.length > 0) { %>
@@ -12,28 +12,28 @@
         <div class="card">
           <div class="card-title"><%= event.title %></div>
           <div style="margin-bottom: 1rem;">
-            <span class="badge badge-success">Registered</span>
+            <span class="badge badge-success"><%= t('user.events.registered') %></span>
             <span class="badge badge-primary" style="margin-left: 0.5rem;">
               <%= new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
             </span>
           </div>
           <div style="margin-bottom: 1rem; color: var(--text-secondary);">
-            <div style="margin-bottom: 0.5rem;">📍 <%= event.location || 'Location TBD' %></div>
+            <div style="margin-bottom: 0.5rem;">📍 <%= event.location || t('user.events.location') %></div>
             <div style="font-size: 0.9rem;">
-              Registered on: <%= new Date(event.registered_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
+              <%= t('user.events.registeredOn') %> <%= new Date(event.registered_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }) %>
             </div>
           </div>
           <div class="card-footer">
-            <a href="/events/<%= event.id %>" class="btn btn-primary btn-sm">View Event Details</a>
+            <a href="/events/<%= event.id %>" class="btn btn-primary btn-sm"><%= t('user.events.details') %></a>
           </div>
         </div>
       <% }) %>
     </div>
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
-      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;">No Registered Events</h3>
-      <p style="color: var(--text-light); margin-bottom: 2rem;">You haven't registered for any events yet.</p>
-      <a href="/events" class="btn btn-primary btn-lg">Browse Available Events</a>
+      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;"><%= t('user.events.empty.title') %></h3>
+      <p style="color: var(--text-light); margin-bottom: 2rem;"><%= t('user.events.empty.copy') %></p>
+      <a href="/events" class="btn btn-primary btn-lg"><%= t('user.events.empty.cta') %></a>
     </div>
   <% } %>
 </div>

@@ -1,30 +1,30 @@
 <%- include('../partials/header') %>
 
 <div class="container watercolor-left" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">My Rise</h1>
-  <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Welcome, <%= user.name %>!</p>
-  <p style="color: var(--text-secondary); margin-bottom: 3rem;">Here's an overview of your activity with Ella Rises.</p>
+  <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('user.dashboard.title') %></h1>
+  <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 0.5rem;"><%= t('user.dashboard.welcome') %> <%= user.name %>!</p>
+  <p style="color: var(--text-secondary); margin-bottom: 3rem;"><%= t('user.dashboard.overview') %></p>
 
   <!-- Dashboard Grid -->
   <div class="grid grid-2" style="margin-bottom: 3rem;">
     <!-- Registered Events Card -->
     <div class="card">
-      <h2 class="card-title">My Registered Events</h2>
-      <p class="card-text">You're registered for <%= registeredEvents.length %> event<%= registeredEvents.length !== 1 ? 's' : '' %>.</p>
-      <a href="/user/events" class="btn btn-primary">View All Events</a>
+      <h2 class="card-title"><%= t('user.dashboard.registeredEvents') %></h2>
+      <p class="card-text"><%= t('user.dashboard.registeredCount') %> <%= registeredEvents.length %> event<%= registeredEvents.length !== 1 ? 's' : '' %>.</p>
+      <a href="/user/events" class="btn btn-primary"><%= t('user.dashboard.viewEvents') %></a>
     </div>
 
     <!-- Milestones Card -->
     <div class="card">
-      <h2 class="card-title">My Milestones</h2>
-      <p class="card-text">You've achieved <%= userMilestones.length %> milestone<%= userMilestones.length !== 1 ? 's' : '' %>!</p>
-      <a href="/user/milestones" class="btn btn-primary">View Milestones</a>
+      <h2 class="card-title"><%= t('user.dashboard.milestones') %></h2>
+      <p class="card-text"><%= t('user.dashboard.milestonesCount') %> <%= userMilestones.length %> milestone<%= userMilestones.length !== 1 ? 's' : '' %>!</p>
+      <a href="/user/milestones" class="btn btn-primary"><%= t('user.dashboard.viewMilestones') %></a>
     </div>
   </div>
 
   <!-- Upcoming Events Section -->
   <div style="margin-bottom: 3rem;">
-    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">My Upcoming Events</h2>
+    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;"><%= t('user.dashboard.upcoming') %></h2>
 
     <% if (registeredEvents && registeredEvents.length > 0) { %>
       <div class="grid grid-2">
@@ -32,16 +32,16 @@
           <div class="card">
             <div class="card-title"><%= event.title %></div>
             <div style="margin-bottom: 1rem;">
-              <span class="badge badge-success">Registered</span>
+              <span class="badge badge-success"><%= t('user.dashboard.registeredBadge') %></span>
               <span class="badge badge-primary" style="margin-left: 0.5rem;">
                 <%= new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
               </span>
             </div>
             <p class="card-text" style="color: var(--text-secondary);">
-              <%= event.location || 'Location TBD' %>
+              <%= event.location || t('user.dashboard.location') %>
             </p>
             <div class="card-footer">
-              <a href="/events/<%= event.id %>" class="btn btn-secondary btn-sm">View Details</a>
+              <a href="/events/<%= event.id %>" class="btn btn-secondary btn-sm"><%= t('user.dashboard.details') %></a>
             </div>
           </div>
         <% }) %>
@@ -49,20 +49,20 @@
 
       <% if (registeredEvents.length > 4) { %>
         <div style="text-align: center; margin-top: 2rem;">
-          <a href="/user/events" class="btn btn-outline">View All My Events</a>
+          <a href="/user/events" class="btn btn-outline"><%= t('user.dashboard.viewAllMyEvents') %></a>
         </div>
       <% } %>
     <% } else { %>
       <div class="card text-center" style="padding: 3rem 2rem;">
-        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">You haven't registered for any events yet.</p>
-        <a href="/events" class="btn btn-primary">Browse Available Events</a>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;"><%= t('user.dashboard.emptyEvents') %></p>
+        <a href="/events" class="btn btn-primary"><%= t('user.dashboard.browseEvents') %></a>
       </div>
     <% } %>
   </div>
 
   <!-- Recent Milestones Section -->
   <div>
-    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Recent Milestones</h2>
+    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;"><%= t('user.dashboard.recentMilestones') %></h2>
 
     <% if (userMilestones && userMilestones.length > 0) { %>
       <div class="grid grid-3">
@@ -71,25 +71,25 @@
             <div style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">🏆</div>
             <h3 class="card-title text-center"><%= milestone.title %></h3>
             <p class="text-center" style="color: var(--text-secondary); font-size: 0.9rem;">
-              Achieved on <%= new Date(milestone.achieved_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+              <%= t('user.dashboard.achievedOn') %> <%= new Date(milestone.achieved_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
             </p>
           </div>
         <% }) %>
       </div>
     <% } else { %>
       <div class="card text-center" style="padding: 3rem 2rem;">
-        <p style="color: var(--text-secondary);">No milestones yet. Keep participating to earn achievements!</p>
+        <p style="color: var(--text-secondary);"><%= t('user.dashboard.emptyMilestones') %></p>
       </div>
     <% } %>
   </div>
 
   <!-- Quick Actions -->
   <div style="margin-top: 3rem; padding: 2rem; background-color: var(--sage-soft); border-radius: var(--border-radius); text-align: center; color: var(--text-color);">
-    <h3 style="margin-bottom: 1.5rem;">Quick Actions</h3>
+    <h3 style="margin-bottom: 1.5rem;"><%= t('user.dashboard.quickActions') %></h3>
     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-      <a href="/events" class="btn btn-primary">Browse Events</a>
-      <a href="/user/survey" class="btn btn-secondary">Submit Survey</a>
-      <a href="/user/milestones" class="btn btn-outline">View All Milestones</a>
+      <a href="/events" class="btn btn-primary"><%= t('user.dashboard.browseEvents') %></a>
+      <a href="/user/survey" class="btn btn-secondary"><%= t('user.dashboard.submitSurvey') %></a>
+      <a href="/user/milestones" class="btn btn-outline"><%= t('user.dashboard.viewAllMilestones') %></a>
     </div>
   </div>
 </div>

@@ -3,24 +3,24 @@
 <div class="container watercolor-right" style="margin-top: 3rem; margin-bottom: 4rem;">
   <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
     <div>
-      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">My Milestones</h1>
+      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('user.milestones.title') %></h1>
       <p style="font-size: 1.1rem; color: var(--text-secondary);">
-        Track your achievements and celebrate your progress!
+        <%= t('user.milestones.copy') %>
       </p>
     </div>
     <button onclick="document.getElementById('add-milestone-form').style.display='block'" class="btn btn-primary">
-      + Add Milestone
+      <%= t('user.milestones.add') %>
     </button>
   </div>
 
   <!-- Add Milestone Form (hidden by default) -->
   <div id="add-milestone-form" class="card" style="display: none; margin-bottom: 3rem;">
-    <h3 style="margin-bottom: 1.5rem;">Add New Milestone</h3>
+    <h3 style="margin-bottom: 1.5rem;"><%= t('user.milestones.addTitle') %></h3>
     <form action="/user/milestones" method="POST">
       <div class="form-group">
-        <label for="milestone_id" class="form-label">Milestone Category *</label>
+        <label for="milestone_id" class="form-label"><%= t('user.milestones.category') %></label>
         <select id="milestone_id" name="milestone_id" class="form-select" required onchange="toggleCustomTitle()">
-          <option value="">Select a category...</option>
+          <option value=""><%= t('user.milestones.categoryPlaceholder') %></option>
           <% categories.forEach(category => { %>
             <option value="<%= category.id %>"><%= category.title %></option>
           <% }) %>
@@ -29,9 +29,9 @@
 
       <div class="form-group">
         <label for="custom_title" class="form-label">
-          <span id="title-label">Title *</span>
+          <span id="title-label"><%= t('user.milestones.titleLabel') %></span>
           <span style="color: var(--text-secondary); font-size: 0.9rem; font-weight: normal;">
-            (e.g., "BS in Computer Science from BYU", "Summer 2024 Software Engineer Intern at Google")
+            <%= t('user.milestones.titleHint') %>
           </span>
         </label>
         <input
@@ -39,7 +39,7 @@
           id="custom_title"
           name="custom_title"
           class="form-input"
-          placeholder="Describe your specific achievement"
+          placeholder="<%= t('user.milestones.placeholder') %>"
           required
           maxlength="255"
         />
@@ -47,9 +47,9 @@
 
       <div class="form-group">
         <label for="achieved_date" class="form-label">
-          Date Achieved
+          <%= t('user.milestones.date') %>
           <span style="color: var(--text-secondary); font-size: 0.9rem; font-weight: normal;">
-            (Optional - defaults to today)
+            <%= t('user.milestones.dateHint') %>
           </span>
         </label>
         <input
@@ -62,8 +62,8 @@
       </div>
 
       <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-        <button type="submit" class="btn btn-primary">Add Milestone</button>
-        <button type="button" onclick="document.getElementById('add-milestone-form').style.display='none'" class="btn btn-outline">Cancel</button>
+        <button type="submit" class="btn btn-primary"><%= t('user.milestones.submit') %></button>
+        <button type="button" onclick="document.getElementById('add-milestone-form').style.display='none'" class="btn btn-outline"><%= t('user.milestones.cancel') %></button>
       </div>
     </form>
   </div>
@@ -71,12 +71,12 @@
   <!-- Success/Error Messages -->
   <% if (typeof query !== 'undefined' && query.success) { %>
     <div style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 2rem; border: 1px solid #c3e6cb;">
-      ✓ Milestone added successfully!
+      <%= t('user.milestones.success') %>
     </div>
   <% } %>
   <% if (typeof query !== 'undefined' && query.error) { %>
     <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 2rem; border: 1px solid #f5c6cb;">
-      ✗ Error adding milestone. Please try again.
+      <%= t('user.milestones.error') %>
     </div>
   <% } %>
 
@@ -117,7 +117,7 @@
           <!-- Date Achieved -->
           <div style="padding-top: 1rem; border-top: 1px solid var(--border-color);">
             <p style="color: var(--text-secondary); font-size: 0.9rem;">
-              Achieved on<br>
+              <%= t('user.milestones.achievedOn') %><br>
               <strong><%= new Date(milestone.achieved_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></strong>
             </p>
           </div>
@@ -127,9 +127,9 @@
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
       <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
-      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;">No Milestones Yet</h3>
+      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;"><%= t('user.milestones.empty.title') %></h3>
       <p style="color: var(--text-light); margin-bottom: 2rem;">
-        Start adding your achievements! Click the "Add Milestone" button above to get started.
+        <%= t('user.milestones.empty.copy') %>
       </p>
     </div>
   <% } %>
@@ -142,9 +142,9 @@ function toggleCustomTitle() {
   const selectedOption = select.options[select.selectedIndex];
 
   if (selectedOption.text === 'Other') {
-    label.textContent = 'Custom Milestone Title *';
+    label.textContent = '<%= t('user.milestones.titleCustom') %>';
   } else {
-    label.textContent = 'Title *';
+    label.textContent = '<%= t('user.milestones.titleLabel') %>';
   }
 }
 </script>
