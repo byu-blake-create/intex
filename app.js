@@ -978,6 +978,7 @@ app.get('/admin/participants', requireAdmin, async (req, res) => {
       title: 'Participants - Admin - Ella Rises',
       users,
       search: search || '',
+      req,
     });
   } catch (error) {
     console.error('Error loading participants:', error);
@@ -985,64 +986,7 @@ app.get('/admin/participants', requireAdmin, async (req, res) => {
   }
 });
 
-// Admin participant detail - shows individual user details, their events, and password change form
-app.get('/admin/participants/:userId', requireAdmin, async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    // Get user details
-    const user = await knex('users').where({ id: userId }).first();
-
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
-
-    // Get events this user has signed up for
-    const userEvents = await knex('event_registrations')
-      .join('events', 'event_registrations.event_id', 'events.id')
-      .where('event_registrations.user_id', userId)
-      .select('events.*', 'event_registrations.created_at as registered_at')
-      .orderBy('events.date', 'asc');
-
-    res.render('admin/participantDetail', {
-      title: `${user.name} - Participants - Admin - Ella Rises`,
-      participant: user,
-      userEvents,
-      success: req.query.success || null,
-      error: req.query.error || null,
-    });
-  } catch (error) {
-    console.error('Error loading participant details:', error);
-    res.status(500).send('Error loading participant details');
-  }
-});
-
-// Admin change user password
-app.post('/admin/participants/:userId/change-password', requireAdmin, async (req, res) => {
-  const { userId } = req.params;
-  const { newPassword, confirmPassword } = req.body;
-
-  try {
-    // Validate passwords match
-    if (newPassword !== confirmPassword) {
-      return res.redirect(`/admin/participants/${userId}?error=Passwords do not match`);
-    }
-
-    // Hash new password
-    const saltRounds = 10;
-    const password_hash = await bcrypt.hash(newPassword, saltRounds);
-
-    // Update user's password
-    await knex('users').where({ id: userId }).update({ password_hash });
-
-    res.redirect(`/admin/participants/${userId}?success=Password updated successfully`);
-  } catch (error) {
-    console.error('Error changing password:', error);
-    res.redirect(`/admin/participants/${userId}?error=Error updating password`);
-  }
-});
-
-// Admin - Create new user form
+// Admin - Create new user form (MUST come before /:userId routes)
 app.get('/admin/participants/new/user', requireAdmin, (req, res) => {
   res.render('admin/user-form', {
     title: 'Create New User - Admin - Ella Rises',
@@ -1075,7 +1019,7 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
     await knex('users').insert({
       name,
       email,
-      password: hashedPassword,
+      password_hash: hashedPassword,
       role: role || 'user',
       created_at: new Date(),
     });
@@ -1088,6 +1032,38 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
       user: null,
       error: 'Error creating user. Please try again.',
     });
+  }
+});
+
+// Admin participant detail - shows individual user details, their events, and password change form
+app.get('/admin/participants/:userId', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Get user details
+    const user = await knex('users').where({ id: userId }).first();
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    // Get events this user has signed up for
+    const userEvents = await knex('event_registrations')
+      .join('events', 'event_registrations.event_id', 'events.id')
+      .where('event_registrations.user_id', userId)
+      .select('events.*', 'event_registrations.created_at as registered_at')
+      .orderBy('events.date', 'asc');
+
+    res.render('admin/participantDetail', {
+      title: `${user.name} - Participants - Admin - Ella Rises`,
+      participant: user,
+      userEvents,
+      success: req.query.success || null,
+      error: req.query.error || null,
+    });
+  } catch (error) {
+    console.error('Error loading participant details:', error);
+    res.status(500).send('Error loading participant details');
   }
 });
 
@@ -1500,6 +1476,7 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
       sort_by: sortField,
       sort_order: order,
       filter_nps: filter_nps || '',
+      req,
     });
   } catch (error) {
     console.error('Error loading surveys:', error);
@@ -1507,42 +1484,7 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
   }
 });
 
-// Admin view individual survey detail
-app.get('/admin/surveys/:surveyId', requireAdmin, async (req, res) => {
-  const { surveyId } = req.params;
-
-  try {
-    const survey = await knex('surveys')
-      .join('users', 'surveys.user_id', 'users.id')
-      .join('events', 'surveys.event_id', 'events.id')
-      .select('surveys.*', 'users.name as user_name', 'users.email as user_email', 'events.title as event_title')
-      .where('surveys.id', surveyId)
-      .first();
-
-    if (!survey) {
-      return res.status(404).send('Survey not found');
-    }
-
-    // Calculate net_promoter_score
-    if (survey.recommendation_rating <= 3) {
-      survey.net_promoter_score = 'Detractor';
-    } else if (survey.recommendation_rating === 4) {
-      survey.net_promoter_score = 'Passive';
-    } else {
-      survey.net_promoter_score = 'Promoter';
-    }
-
-    res.render('admin/survey-detail', {
-      title: 'Survey Detail - Admin - Ella Rises',
-      survey,
-    });
-  } catch (error) {
-    console.error('Error loading survey:', error);
-    res.status(500).send('Error loading survey');
-  }
-});
-
-// Admin - Create new survey form
+// Admin - Create new survey form (MUST come before /:surveyId routes)
 app.get('/admin/surveys/new/survey', requireAdmin, async (req, res) => {
   try {
     const users = await knex('users').select('id', 'name').orderBy('name');
@@ -1592,6 +1534,42 @@ app.post('/admin/surveys/new/survey', requireAdmin, async (req, res) => {
       events,
       error: 'Error creating survey. Please try again.',
     });
+  }
+});
+
+// Admin view individual survey detail
+app.get('/admin/surveys/:surveyId', requireAdmin, async (req, res) => {
+  const { surveyId } = req.params;
+
+  try {
+    const survey = await knex('surveys')
+      .join('users', 'surveys.user_id', 'users.id')
+      .join('events', 'surveys.event_id', 'events.id')
+      .select('surveys.*', 'users.name as user_name', 'users.email as user_email', 'events.title as event_title')
+      .where('surveys.id', surveyId)
+      .first();
+
+    if (!survey) {
+      return res.status(404).send('Survey not found');
+    }
+
+    // Calculate net_promoter_score
+    if (survey.recommendation_rating <= 3) {
+      survey.net_promoter_score = 'Detractor';
+    } else if (survey.recommendation_rating === 4) {
+      survey.net_promoter_score = 'Passive';
+    } else {
+      survey.net_promoter_score = 'Promoter';
+    }
+
+    res.render('admin/survey-detail', {
+      title: 'Survey Detail - Admin - Ella Rises',
+      survey,
+      req,
+    });
+  } catch (error) {
+    console.error('Error loading survey:', error);
+    res.status(500).send('Error loading survey');
   }
 });
 
