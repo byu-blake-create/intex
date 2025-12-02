@@ -2,9 +2,9 @@
 
 <div class="container container-sm watercolor-green" style="margin-top: 3rem; margin-bottom: 4rem;">
   <div class="card">
-    <h1 class="card-title" style="font-size: 2rem;">Submit Event Feedback</h1>
+    <h1 class="card-title" style="font-size: 2rem;"><%= t('user.survey.title') %></h1>
     <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-      We value your feedback! Please share your thoughts about an event you attended.
+      <%= t('user.survey.copy') %>
     </p>
 
     <% if (success) { %>
@@ -22,9 +22,9 @@
     <% if (events && events.length > 0) { %>
       <form action="/user/survey" method="POST">
         <div class="form-group">
-          <label for="event_id" class="form-label">Select Event</label>
+          <label for="event_id" class="form-label"><%= t('user.survey.selectEvent') %></label>
           <select id="event_id" name="event_id" class="form-select" required>
-            <option value="">-- Choose an event --</option>
+            <option value=""><%= t('user.survey.selectPlaceholder') %></option>
             <% events.forEach(event => { %>
               <option value="<%= event.id %>">
                 <%= event.title %> - <%= new Date(event.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
@@ -35,59 +35,59 @@
 
         <!-- Question 1: Satisfaction -->
         <div class="form-group">
-          <label for="satisfaction_rating" class="form-label">How satisfied were you with this event?</label>
+          <label for="satisfaction_rating" class="form-label"><%= t('user.survey.q1') %></label>
           <select id="satisfaction_rating" name="satisfaction_rating" class="form-select" required>
-            <option value="">-- Select rating --</option>
-            <option value="5">⭐⭐⭐⭐⭐ Very Satisfied</option>
-            <option value="4">⭐⭐⭐⭐ Satisfied</option>
-            <option value="3">⭐⭐⭐ Neutral</option>
-            <option value="2">⭐⭐ Dissatisfied</option>
-            <option value="1">⭐ Very Dissatisfied</option>
+            <option value=""><%= t('user.survey.ratingPlaceholder') %></option>
+            <option value="5"><%= t('user.survey.opt.5') %></option>
+            <option value="4"><%= t('user.survey.opt.4') %></option>
+            <option value="3"><%= t('user.survey.opt.3') %></option>
+            <option value="2"><%= t('user.survey.opt.2') %></option>
+            <option value="1"><%= t('user.survey.opt.1') %></option>
           </select>
         </div>
 
         <!-- Question 2: Usefulness -->
         <div class="form-group">
-          <label for="usefulness_rating" class="form-label">How useful was this event?</label>
+          <label for="usefulness_rating" class="form-label"><%= t('user.survey.q2') %></label>
           <select id="usefulness_rating" name="usefulness_rating" class="form-select" required>
-            <option value="">-- Select rating --</option>
-            <option value="5">⭐⭐⭐⭐⭐ Extremely Useful</option>
-            <option value="4">⭐⭐⭐⭐ Very Useful</option>
-            <option value="3">⭐⭐⭐ Moderately Useful</option>
-            <option value="2">⭐⭐ Slightly Useful</option>
-            <option value="1">⭐ Not Useful</option>
+            <option value=""><%= t('user.survey.ratingPlaceholder') %></option>
+            <option value="5"><%= t('user.survey.opt.5') %></option>
+            <option value="4"><%= t('user.survey.opt.4') %></option>
+            <option value="3"><%= t('user.survey.opt.3') %></option>
+            <option value="2"><%= t('user.survey.opt.2') %></option>
+            <option value="1"><%= t('user.survey.opt.1') %></option>
           </select>
         </div>
 
         <!-- Question 3: Instructor -->
         <div class="form-group">
-          <label for="instructor_rating" class="form-label">How would you rate the instructor of this event?</label>
+          <label for="instructor_rating" class="form-label"><%= t('user.survey.q3') %></label>
           <select id="instructor_rating" name="instructor_rating" class="form-select" required>
-            <option value="">-- Select rating --</option>
-            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-            <option value="4">⭐⭐⭐⭐ Good</option>
-            <option value="3">⭐⭐⭐ Average</option>
-            <option value="2">⭐⭐ Below Average</option>
-            <option value="1">⭐ Poor</option>
+            <option value=""><%= t('user.survey.ratingPlaceholder') %></option>
+            <option value="5"><%= t('user.survey.opt.5') %></option>
+            <option value="4"><%= t('user.survey.opt.4') %></option>
+            <option value="3"><%= t('user.survey.opt.3') %></option>
+            <option value="2"><%= t('user.survey.opt.2') %></option>
+            <option value="1"><%= t('user.survey.opt.1') %></option>
           </select>
         </div>
 
         <!-- Question 4: Recommendation -->
         <div class="form-group">
-          <label for="recommendation_rating" class="form-label">How likely are you to recommend this event to a friend?</label>
+          <label for="recommendation_rating" class="form-label"><%= t('user.survey.q4') %></label>
           <select id="recommendation_rating" name="recommendation_rating" class="form-select" required>
-            <option value="">-- Select rating --</option>
-            <option value="5">⭐⭐⭐⭐⭐ Very Likely</option>
-            <option value="4">⭐⭐⭐⭐ Likely</option>
-            <option value="3">⭐⭐⭐ Neutral</option>
-            <option value="2">⭐⭐ Unlikely</option>
-            <option value="1">⭐ Very Unlikely</option>
+            <option value=""><%= t('user.survey.ratingPlaceholder') %></option>
+            <option value="5"><%= t('user.survey.opt.5') %></option>
+            <option value="4"><%= t('user.survey.opt.4') %></option>
+            <option value="3"><%= t('user.survey.opt.3') %></option>
+            <option value="2"><%= t('user.survey.opt.2') %></option>
+            <option value="1"><%= t('user.survey.opt.1') %></option>
           </select>
         </div>
 
         <!-- Additional Feedback -->
         <div class="form-group">
-          <label for="additional_feedback" class="form-label">Additional Feedback (Optional)</label>
+          <label for="additional_feedback" class="form-label"><%= t('user.survey.additional') %></label>
           <textarea
             id="additional_feedback"
             name="additional_feedback"
@@ -98,14 +98,14 @@
         </div>
 
         <button type="submit" class="btn btn-primary btn-block btn-lg">
-          Submit Survey
+          <%= t('user.survey.submit') %>
         </button>
       </form>
     <% } else { %>
       <div class="alert alert-info">
-        <p>You don't have any attended events to provide feedback for yet.</p>
+        <p><%= t('user.survey.empty') %></p>
         <p style="margin-top: 1rem;">
-          <a href="/events" style="color: #CE325B; font-weight: 600;">Browse upcoming events →</a>
+          <a href="/events" style="color: #CE325B; font-weight: 600;"><%= t('user.survey.empty.link') %></a>
         </p>
       </div>
     <% } %>
