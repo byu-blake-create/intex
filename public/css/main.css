@@ -17,6 +17,10 @@
   --hover-sage: #9ab59d;
   --white: #ffffff;
   --sage-soft: color-mix(in srgb, var(--hover-sage) 50%, #ffffff 50%);
+  --watercolor-left: url("/images/watercolor/e5f869_e9d0c19dd2cb42219ba47acae2a07baf~mv2.png");
+  --watercolor-right: url("/images/watercolor/e5f869_eeeb2f99d0e942ae80c6203f293a818c~mv2.png");
+  --watercolor-blush: url("/images/watercolor/e5f869_4dfa4f8a5d624486a1783b5f02586511~mv2.png");
+  --watercolor-green: url("/images/watercolor/e5f869_98ece9ab4dea4963b281797d0619b417~mv2.png");
 
   /* Buttons */
   --button-color: #1b1b1b; /* Chosen black */
@@ -701,6 +705,85 @@ img {
 .badge-danger {
   background-color: var(--danger-color);
   color: var(--white);
+}
+
+/* ============================================
+   WATER-COLOR OVERLAYS
+   ============================================ */
+.watercolor-left,
+.watercolor-right,
+.watercolor-duo,
+.watercolor-blush,
+.watercolor-green {
+  position: relative;
+  overflow: hidden;
+}
+
+.watercolor-left::after,
+.watercolor-right::after,
+.watercolor-duo::before,
+.watercolor-duo::after,
+.watercolor-blush::after,
+.watercolor-green::after {
+  content: "";
+  position: absolute;
+  display: block;
+  object-fit: contain;
+  opacity: 0.28;
+  pointer-events: none;
+  filter: saturate(0.9);
+  z-index: 0;
+}
+
+.watercolor-left::after,
+.watercolor-duo::before {
+  content: var(--watercolor-left);
+  width: clamp(280px, 45vw, 520px);
+  height: auto;
+  top: -140px;
+  left: -110px;
+}
+
+.watercolor-right::after,
+.watercolor-duo::after {
+  content: var(--watercolor-right);
+  width: clamp(300px, 48vw, 540px);
+  height: auto;
+  bottom: -160px;
+  right: -120px;
+  opacity: 0.26;
+}
+
+.watercolor-blush::after {
+  content: var(--watercolor-blush);
+  position: absolute;
+  opacity: 0.24;
+  pointer-events: none;
+  filter: saturate(0.95);
+  width: clamp(320px, 50vw, 560px);
+  height: auto;
+  top: -120px;
+  right: -100px;
+}
+
+.watercolor-green::after {
+  content: var(--watercolor-green);
+  opacity: 0.22;
+  pointer-events: none;
+  filter: saturate(0.9);
+  width: clamp(300px, 48vw, 540px);
+  height: auto;
+  bottom: -130px;
+  left: -90px;
+}
+
+.watercolor-left > *,
+.watercolor-right > *,
+.watercolor-duo > *,
+.watercolor-blush > *,
+.watercolor-green > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* ============================================
