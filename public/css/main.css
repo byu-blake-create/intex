@@ -374,6 +374,42 @@ img {
   margin: 0 0.5rem;
 }
 
+.hero--contact {
+  position: relative;
+  overflow: hidden;
+  padding: 2.5rem 2rem 2rem;
+  background: url("/images/photos/118ed8_6f37f2d9484b41f0a91b61e44b10d262~mv2.jpg") center/cover no-repeat;
+  color: var(--white);
+  text-align: center;
+}
+
+.hero--contact::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.55));
+  z-index: 0;
+}
+
+.hero--contact .container {
+  position: relative;
+  z-index: 1;
+}
+
+.hero--contact h1 {
+  font-size: 2.4rem;
+  margin-bottom: 0.6rem;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.hero--contact p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.35);
+  color: #fff;
+}
+
 /* ============================================
    CARDS
    ============================================ */
