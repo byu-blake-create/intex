@@ -1,9 +1,9 @@
 <%- include('../partials/header') %>
 
 <div class="container container-lg watercolor-butterfly" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Survey Responses</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><%= t('admin.surveys.manage') %></h1>
   <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-    View all survey feedback submitted by participants.
+    <%= t('admin.surveys.manage.copy') %>
   </p>
 
   <!-- Search and Filter Form -->
@@ -11,59 +11,59 @@
     <form method="GET" action="/admin/surveys">
       <div class="grid grid-3">
         <div class="form-group">
-          <label for="search_event" class="form-label">Search by Event</label>
+          <label for="search_event" class="form-label"><%= t('admin.surveys.filter.event') %></label>
           <input
             type="text"
             id="search_event"
             name="search_event"
             class="form-input"
-            placeholder="Event name..."
+            placeholder="<%= t('admin.surveys.filter.event') %>..."
             value="<%= search_event %>"
           />
         </div>
 
         <div class="form-group">
-          <label for="search_participant" class="form-label">Search by Participant</label>
+          <label for="search_participant" class="form-label"><%= t('admin.surveys.filter.participant') %></label>
           <input
             type="text"
             id="search_participant"
             name="search_participant"
             class="form-input"
-            placeholder="Participant name..."
+            placeholder="<%= t('admin.surveys.filter.participant') %>..."
             value="<%= search_participant %>"
           />
         </div>
 
         <div class="form-group">
-          <label for="filter_nps" class="form-label">Filter by NPS</label>
+          <label for="filter_nps" class="form-label"><%= t('admin.surveys.filter.nps') %></label>
           <select id="filter_nps" name="filter_nps" class="form-select">
-            <option value="">All Responses</option>
-            <option value="Promoter" <%= filter_nps === 'Promoter' ? 'selected' : '' %>>Promoters Only</option>
-            <option value="Passive" <%= filter_nps === 'Passive' ? 'selected' : '' %>>Passives Only</option>
-            <option value="Detractor" <%= filter_nps === 'Detractor' ? 'selected' : '' %>>Detractors Only</option>
+            <option value=""><%= t('admin.surveys.filter.nps.all') %></option>
+            <option value="Promoter" <%= filter_nps === 'Promoter' ? 'selected' : '' %>><%= t('admin.surveys.filter.nps.promoter') %></option>
+            <option value="Passive" <%= filter_nps === 'Passive' ? 'selected' : '' %>><%= t('admin.surveys.filter.nps.passive') %></option>
+            <option value="Detractor" <%= filter_nps === 'Detractor' ? 'selected' : '' %>><%= t('admin.surveys.filter.nps.detractor') %></option>
           </select>
         </div>
       </div>
 
       <div style="display: flex; gap: 1rem; align-items: end; margin-top: 1rem; flex-wrap: wrap;">
         <div class="form-group" style="flex: 1; min-width: 200px;">
-          <label for="sort_by" class="form-label">Sort By</label>
+          <label for="sort_by" class="form-label"><%= t('admin.surveys.sort.by') %></label>
           <select id="sort_by" name="sort_by" class="form-select">
-            <option value="date" <%= sort_by === 'date' ? 'selected' : '' %>>Date</option>
-            <option value="overall_score" <%= sort_by === 'overall_score' ? 'selected' : '' %>>Overall Score</option>
+            <option value="date" <%= sort_by === 'date' ? 'selected' : '' %>><%= t('admin.surveys.sort.by.date') %></option>
+            <option value="overall_score" <%= sort_by === 'overall_score' ? 'selected' : '' %>><%= t('admin.surveys.sort.by.score') %></option>
           </select>
         </div>
 
         <div class="form-group" style="flex: 1; min-width: 200px;">
-          <label for="sort_order" class="form-label">Order</label>
+          <label for="sort_order" class="form-label"><%= t('admin.surveys.sort.order') %></label>
           <select id="sort_order" name="sort_order" class="form-select">
-            <option value="desc" <%= sort_order === 'desc' ? 'selected' : '' %>>Descending</option>
-            <option value="asc" <%= sort_order === 'asc' ? 'selected' : '' %>>Ascending</option>
+            <option value="desc" <%= sort_order === 'desc' ? 'selected' : '' %>><%= t('admin.surveys.sort.order.desc') %></option>
+            <option value="asc" <%= sort_order === 'asc' ? 'selected' : '' %>><%= t('admin.surveys.sort.order.asc') %></option>
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Apply Filters</button>
-        <a href="/admin/surveys" class="btn btn-outline">Clear</a>
+        <button type="submit" class="btn btn-primary"><%= t('admin.surveys.apply') %></button>
+        <a href="/admin/surveys" class="btn btn-outline"><%= t('admin.surveys.clear') %></a>
       </div>
     </form>
   </div>
@@ -73,12 +73,12 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Participant</th>
-            <th>Event</th>
-            <th>Overall Score</th>
-            <th>Net Promoter Score</th>
-            <th>Feedback</th>
-            <th>Date</th>
+            <th><%= t('admin.surveys.table.participant') %></th>
+            <th><%= t('admin.surveys.table.event') %></th>
+            <th><%= t('admin.surveys.table.overall') %></th>
+            <th><%= t('admin.surveys.table.nps') %></th>
+            <th><%= t('admin.surveys.table.feedback') %></th>
+            <th><%= t('admin.surveys.table.date') %></th>
           </tr>
         </thead>
         <tbody>
@@ -94,18 +94,18 @@
               </td>
               <td>
                 <% if (survey.net_promoter_score === 'Promoter') { %>
-                  <span class="badge badge-success">Promoter</span>
+                  <span class="badge badge-success"><%= t('admin.surveys.nps.promoter') %></span>
                 <% } else if (survey.net_promoter_score === 'Passive') { %>
-                  <span class="badge" style="background-color: #fbbf24; color: #1a1a1a;">Passive</span>
+                  <span class="badge" style="background-color: #fbbf24; color: #1a1a1a;"><%= t('admin.surveys.nps.passive') %></span>
                 <% } else { %>
-                  <span class="badge badge-danger">Detractor</span>
+                  <span class="badge badge-danger"><%= t('admin.surveys.nps.detractor') %></span>
                 <% } %>
               </td>
               <td style="max-width: 300px;">
                 <% if (survey.additional_feedback) { %>
                   <%= survey.additional_feedback.substring(0, 100) %><%= survey.additional_feedback.length > 100 ? '...' : '' %>
                 <% } else { %>
-                  <em style="color: var(--text-light);">No feedback</em>
+                  <em style="color: var(--text-light);"><%= t('admin.surveys.feedback.none') %></em>
                 <% } %>
               </td>
               <td style="white-space: nowrap;">
@@ -122,12 +122,12 @@
     </div>
 
     <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
-      Total: <%= surveys.length %> survey response<%= surveys.length !== 1 ? 's' : '' %>
+      <%= t('admin.surveys.total') %>: <%= surveys.length %> survey response<%= surveys.length !== 1 ? 's' : '' %>
     </div>
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
-      <h3 style="color: var(--text-secondary);">No survey responses yet</h3>
-      <p style="color: var(--text-light); margin-top: 1rem;">Survey responses will appear here once participants submit feedback.</p>
+      <h3 style="color: var(--text-secondary);"><%= t('admin.surveys.empty') %></h3>
+      <p style="color: var(--text-light); margin-top: 1rem;"><%= t('admin.surveys.empty.copy') %></p>
     </div>
   <% } %>
 </div>

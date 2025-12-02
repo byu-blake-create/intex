@@ -3,21 +3,21 @@
 <div class="container watercolor-blush" style="margin-top: 3rem; margin-bottom: 4rem;">
   <!-- Back button -->
   <div style="margin-bottom: 2rem;">
-    <a href="/admin/surveys" class="btn btn-outline">← Back to All Surveys</a>
+    <a href="/admin/surveys" class="btn btn-outline"><%= t('admin.surveyDetail.back') %></a>
   </div>
 
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Survey Response Details</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><%= t('admin.surveyDetail.title') %></h1>
 
   <!-- Survey Overview Card -->
   <div class="card" style="margin-bottom: 2rem;">
     <div class="grid grid-2">
       <div>
-        <h3 style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;">Participant</h3>
+        <h3 style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;"><%= t('admin.surveyDetail.participant') %></h3>
         <p style="font-size: 1.2rem; font-weight: 600;"><%= survey.user_name %></p>
         <p style="color: var(--text-secondary); font-size: 0.9rem;"><%= survey.user_email %></p>
       </div>
       <div>
-        <h3 style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;">Event</h3>
+        <h3 style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;"><%= t('admin.surveyDetail.event') %></h3>
         <p style="font-size: 1.2rem; font-weight: 600;"><%= survey.event_title %></p>
       </div>
     </div>
@@ -25,7 +25,7 @@
     <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
       <div class="grid grid-3">
         <div>
-          <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;">Overall Score</h3>
+          <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;"><%= t('admin.surveyDetail.overall') %></h3>
           <p style="font-size: 2rem; font-weight: 700; color: var(--primary-color);">
             <%= survey.overall_score ? parseFloat(survey.overall_score).toFixed(2) : 'N/A' %>
           </p>
@@ -34,7 +34,7 @@
           </p>
         </div>
         <div>
-          <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;">Net Promoter Score</h3>
+          <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;"><%= t('admin.surveyDetail.nps') %></h3>
           <div style="margin-top: 1rem;">
             <% if (survey.net_promoter_score === 'Promoter') { %>
               <span class="badge badge-success" style="font-size: 1.1rem; padding: 0.75rem 1.5rem;">Promoter</span>
@@ -46,7 +46,7 @@
           </div>
         </div>
         <div>
-          <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;">Submitted</h3>
+          <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;"><%= t('admin.surveyDetail.submitted') %></h3>
           <p style="font-size: 1.1rem; font-weight: 600; margin-top: 1rem;">
             <%= new Date(survey.created_at).toLocaleDateString('en-US', {
               year: 'numeric',
@@ -61,13 +61,13 @@
 
   <!-- Detailed Ratings -->
   <div class="card" style="margin-bottom: 2rem;">
-    <h2 style="font-size: 1.5rem; margin-bottom: 2rem;">Individual Ratings</h2>
+    <h2 style="font-size: 1.5rem; margin-bottom: 2rem;"><%= t('admin.surveyDetail.responses') %></h2>
 
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       <!-- Satisfaction Rating -->
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h3 style="color: var(--text-secondary); font-size: 1rem;">How satisfied were you with this event?</h3>
+          <h3 style="color: var(--text-secondary); font-size: 1rem;"><%= t('admin.surveyDetail.responses.q1') %></h3>
           <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.satisfaction_rating %>/5</span>
         </div>
         <div style="font-size: 1.5rem;">
@@ -78,7 +78,7 @@
       <!-- Usefulness Rating -->
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h3 style="color: var(--text-secondary); font-size: 1rem;">How useful was this event?</h3>
+          <h3 style="color: var(--text-secondary); font-size: 1rem;"><%= t('admin.surveyDetail.responses.q2') %></h3>
           <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.usefulness_rating %>/5</span>
         </div>
         <div style="font-size: 1.5rem;">
@@ -89,7 +89,7 @@
       <!-- Instructor Rating -->
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h3 style="color: var(--text-secondary); font-size: 1rem;">How would you rate the instructor of this event?</h3>
+          <h3 style="color: var(--text-secondary); font-size: 1rem;"><%= t('admin.surveyDetail.responses.q3') %></h3>
           <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.instructor_rating %>/5</span>
         </div>
         <div style="font-size: 1.5rem;">
@@ -100,7 +100,7 @@
       <!-- Recommendation Rating -->
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-          <h3 style="color: var(--text-secondary); font-size: 1rem;">How likely are you to recommend this event to a friend?</h3>
+          <h3 style="color: var(--text-secondary); font-size: 1rem;"><%= t('admin.surveyDetail.responses.q4') %></h3>
           <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.recommendation_rating %>/5</span>
         </div>
         <div style="font-size: 1.5rem;">
@@ -112,19 +112,19 @@
 
   <!-- Additional Feedback -->
   <div class="card">
-    <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Additional Feedback</h2>
+    <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;"><%= t('admin.surveyDetail.feedback') %></h2>
     <% if (survey.additional_feedback && survey.additional_feedback.trim()) { %>
       <div style="background-color: var(--sage-soft); padding: 1.5rem; border-radius: var(--border-radius); line-height: 1.6; color: var(--text-color);">
         <p style="white-space: pre-wrap; margin: 0;"><%= survey.additional_feedback %></p>
       </div>
     <% } else { %>
-      <p style="color: var(--text-secondary); font-style: italic;">No additional feedback provided.</p>
+      <p style="color: var(--text-secondary); font-style: italic;"><%= t('admin.surveys.feedback.none') %></p>
     <% } %>
   </div>
 
   <!-- Action buttons -->
   <div style="margin-top: 3rem; text-align: center;">
-    <a href="/admin/surveys" class="btn btn-primary">Back to All Surveys</a>
+    <a href="/admin/surveys" class="btn btn-primary"><%= t('admin.surveyDetail.back') %></a>
   </div>
 </div>
 

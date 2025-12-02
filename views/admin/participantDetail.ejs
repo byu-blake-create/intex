@@ -3,7 +3,7 @@
 <div class="container watercolor-rose" style="margin-top: 3rem; margin-bottom: 4rem;">
   <!-- Back Button -->
   <a href="/admin/participants" style="color: #CE325B; margin-bottom: 2rem; display: inline-block;">
-    ← Back to Participants
+    <%= t('admin.participantDetail.back') %>
   </a>
 
   <!-- User Info Card -->
@@ -12,22 +12,22 @@
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; padding: 1.5rem; background-color: var(--sage-soft); border-radius: var(--border-radius); color: var(--text-color);">
       <div>
-        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Email</div>
+        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;"><%= t('admin.participantDetail.email') %></div>
         <div><%= participant.email %></div>
       </div>
       <div>
-        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Role</div>
+        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;"><%= t('admin.participantDetail.role') %></div>
         <div>
           <% if (participant.role === 'admin') { %>
-            <span class="badge badge-danger">Admin</span>
+            <span class="badge badge-danger"><%= t('admin.participantDetail.role.admin') %></span>
           <% } else { %>
-            <span class="badge badge-primary">User</span>
+            <span class="badge badge-primary"><%= t('admin.participantDetail.role.user') %></span>
           <% } %>
         </div>
       </div>
       <div>
-        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Login Count</div>
-        <div><%= participant.login_count || 0 %> times</div>
+        <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;"><%= t('admin.participantDetail.logins') %></div>
+        <div><%= participant.login_count || 0 %> <%= t('admin.participantDetail.logins.times') %></div>
       </div>
     </div>
 
@@ -46,14 +46,14 @@
 
     <!-- Change Password Section -->
     <div style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
-      <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Change User Password</h2>
+      <h2 style="font-size: 1.5rem; margin-bottom: 1rem;"><%= t('admin.participantDetail.password.title') %></h2>
       <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-        Use this form to set a new password for this user. The password will be securely hashed.
+        <%= t('admin.participantDetail.password.copy') %>
       </p>
 
       <form action="/admin/participants/<%= participant.id %>/change-password" method="POST" style="max-width: 500px;">
         <div class="form-group">
-          <label for="newPassword" class="form-label">New Password</label>
+          <label for="newPassword" class="form-label"><%= t('admin.participantDetail.password.new') %></label>
           <input
             type="password"
             id="newPassword"
@@ -66,7 +66,7 @@
         </div>
 
         <div class="form-group">
-          <label for="confirmPassword" class="form-label">Confirm New Password</label>
+          <label for="confirmPassword" class="form-label"><%= t('admin.participantDetail.password.confirm') %></label>
           <input
             type="password"
             id="confirmPassword"
@@ -79,7 +79,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">
-          Update Password
+          <%= t('admin.participantDetail.password.submit') %>
         </button>
       </form>
     </div>
@@ -87,9 +87,9 @@
 
   <!-- Registered Events Section -->
   <div class="card">
-    <h2 class="card-title" style="font-size: 1.75rem;">Registered Events</h2>
+    <h2 class="card-title" style="font-size: 1.75rem;"><%= t('admin.participantDetail.events.title') %></h2>
     <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-      Events this user has signed up for.
+      <%= t('admin.participantDetail.events.copy') %>
     </p>
 
     <% if (userEvents && userEvents.length > 0) { %>
@@ -97,10 +97,10 @@
         <table class="table">
           <thead>
             <tr>
-              <th>Event Name</th>
-              <th>Date</th>
-              <th>Location</th>
-              <th>Registered On</th>
+              <th><%= t('admin.participantDetail.events.name') %></th>
+              <th><%= t('admin.participantDetail.events.date') %></th>
+              <th><%= t('admin.participantDetail.events.location') %></th>
+              <th><%= t('admin.participantDetail.events.registered') %></th>
             </tr>
           </thead>
           <tbody>
@@ -115,7 +115,7 @@
                     day: 'numeric'
                   }) %>
                 </td>
-                <td><%= event.location || 'TBD' %></td>
+                <td><%= event.location || t('admin.events.location.tbd') %></td>
                 <td>
                   <%= new Date(event.registered_at).toLocaleDateString('en-US', {
                     year: 'numeric',
@@ -130,11 +130,11 @@
       </div>
 
       <div style="margin-top: 1rem; text-align: center; color: var(--text-secondary);">
-        Total: <%= userEvents.length %> event<%= userEvents.length !== 1 ? 's' : '' %>
+        <%= t('admin.participantDetail.events.total') %>: <%= userEvents.length %> event<%= userEvents.length !== 1 ? 's' : '' %>
       </div>
     <% } else { %>
       <div style="text-align: center; padding: 3rem 2rem; background-color: var(--sage-soft); border-radius: var(--border-radius); color: var(--text-color);">
-        <p style="color: var(--text-secondary);">This user has not registered for any events yet.</p>
+        <p style="color: var(--text-secondary);"><%= t('admin.participantDetail.events.empty') %></p>
       </div>
     <% } %>
   </div>
