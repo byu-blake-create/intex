@@ -2,8 +2,8 @@
 
 <section class="hero watercolor-right">
   <div class="container">
-    <h1>Our Programs</h1>
-    <p>Ongoing programs designed to empower and inspire young women</p>
+    <h1><%= t('programs.list.title') %></h1>
+    <p><%= t('programs.list.copy') %></p>
   </div>
 </section>
 
@@ -17,21 +17,21 @@
           <div style="margin-bottom: 1.5rem;">
             <% if (program.age_range) { %>
               <div style="margin-bottom: 0.75rem;">
-                <strong style="color: var(--primary-color);">👥 Age Range:</strong>
+                <strong style="color: var(--primary-color);">👥 <%= t('programs.list.age') %>:</strong>
                 <span><%= program.age_range %></span>
               </div>
             <% } %>
 
             <% if (program.schedule) { %>
               <div style="margin-bottom: 0.75rem;">
-                <strong style="color: var(--primary-color);">📅 Schedule:</strong>
+                <strong style="color: var(--primary-color);">📅 <%= t('programs.list.schedule') %>:</strong>
                 <span><%= program.schedule %></span>
               </div>
             <% } %>
 
             <% if (program.fee) { %>
               <div style="margin-bottom: 0.75rem;">
-                <strong style="color: var(--primary-color);">💵 Fee:</strong>
+                <strong style="color: var(--primary-color);">💵 <%= t('programs.list.fee') %>:</strong>
                 <span>$<%= program.fee %></span>
               </div>
             <% } %>
@@ -46,13 +46,13 @@
           <div class="card-footer">
             <a href="/programs/<%= program.id %>" class="btn btn-primary">
               <% if (isEnrolled[program.id]) { %>
-                View Program Details
+                <%= t('programs.list.detail') %>
               <% } else { %>
-                Learn More & Enroll
+                <%= t('programs.list.enroll') %>
               <% } %>
             </a>
             <% if (isEnrolled[program.id]) { %>
-              <span class="badge badge-success" style="margin-left: 1rem;">Enrolled</span>
+              <span class="badge badge-success" style="margin-left: 1rem;"><%= t('programs.list.enrolled') %></span>
             <% } %>
           </div>
         </div>
@@ -60,8 +60,8 @@
     </div>
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
-      <h3 style="color: var(--text-secondary);">No Programs Available</h3>
-      <p style="color: var(--text-light); margin-top: 1rem;">Check back soon for new programs!</p>
+      <h3 style="color: var(--text-secondary);"><%= t('programs.list.empty.title') %></h3>
+      <p style="color: var(--text-light); margin-top: 1rem;"><%= t('programs.list.empty.copy') %></p>
     </div>
   <% } %>
 </div>
