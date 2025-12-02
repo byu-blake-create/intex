@@ -1,0 +1,112 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 3rem;">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <a href="/admin/surveys" style="color: #CE325B; margin-bottom: 2rem; display: inline-block;">
+      ← Back to Surveys
+    </a>
+
+    <div class="card">
+      <h1 class="card-title"><%= survey ? 'Edit Survey' : 'Create New Survey' %></h1>
+
+      <% if (error) { %>
+        <div class="alert alert-error" style="margin-bottom: 1.5rem;">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form action="<%= survey ? `/admin/surveys/${survey.id}/edit` : '/admin/surveys/new/survey' %>" method="POST">
+        <div class="grid grid-2">
+          <div class="form-group">
+            <label for="user_id" class="form-label">Participant *</label>
+            <select id="user_id" name="user_id" class="form-select" required>
+              <option value="">Select Participant</option>
+              <% users.forEach(user => { %>
+                <option value="<%= user.id %>" <%= survey && survey.user_id === user.id ? 'selected' : '' %>>
+                  <%= user.name %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="event_id" class="form-label">Event *</label>
+            <select id="event_id" name="event_id" class="form-select" required>
+              <option value="">Select Event</option>
+              <% events.forEach(event => { %>
+                <option value="<%= event.id %>" <%= survey && survey.event_id === event.id ? 'selected' : '' %>>
+                  <%= event.title %>
+                </option>
+              <% }) %>
+            </select>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--primary-color);">Ratings (1-5 scale)</h3>
+
+        <div class="grid grid-2">
+          <div class="form-group">
+            <label for="satisfaction_rating" class="form-label">Satisfaction Rating *</label>
+            <select id="satisfaction_rating" name="satisfaction_rating" class="form-select" required>
+              <option value="">Select Rating</option>
+              <% for(let i = 1; i <= 5; i++) { %>
+                <option value="<%= i %>" <%= survey && survey.satisfaction_rating === i ? 'selected' : '' %>><%= i %></option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="usefulness_rating" class="form-label">Usefulness Rating *</label>
+            <select id="usefulness_rating" name="usefulness_rating" class="form-select" required>
+              <option value="">Select Rating</option>
+              <% for(let i = 1; i <= 5; i++) { %>
+                <option value="<%= i %>" <%= survey && survey.usefulness_rating === i ? 'selected' : '' %>><%= i %></option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="instructor_rating" class="form-label">Instructor Rating *</label>
+            <select id="instructor_rating" name="instructor_rating" class="form-select" required>
+              <option value="">Select Rating</option>
+              <% for(let i = 1; i <= 5; i++) { %>
+                <option value="<%= i %>" <%= survey && survey.instructor_rating === i ? 'selected' : '' %>><%= i %></option>
+              <% } %>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="recommendation_rating" class="form-label">Recommendation Rating (NPS) *</label>
+            <select id="recommendation_rating" name="recommendation_rating" class="form-select" required>
+              <option value="">Select Rating</option>
+              <% for(let i = 1; i <= 5; i++) { %>
+                <option value="<%= i %>" <%= survey && survey.recommendation_rating === i ? 'selected' : '' %>><%= i %></option>
+              <% } %>
+            </select>
+            <p class="form-helper">1-3 = Detractor, 4 = Passive, 5 = Promoter</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="additional_feedback" class="form-label">Additional Feedback</label>
+          <textarea
+            id="additional_feedback"
+            name="additional_feedback"
+            class="form-textarea"
+            rows="5"
+            placeholder="Optional feedback from participant..."
+          ><%= survey ? (survey.additional_feedback || '') : '' %></textarea>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <%= survey ? 'Update Survey' : 'Create Survey' %>
+          </button>
+          <a href="/admin/surveys" class="btn btn-outline btn-lg">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

@@ -1,10 +1,20 @@
 <%- include('../partials/header') %>
 
 <div class="container watercolor-blush" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <!-- Back button -->
-  <div style="margin-bottom: 2rem;">
+  <!-- Back button and actions -->
+  <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center;">
     <a href="/admin/surveys" class="btn btn-outline"><%= t('admin.surveyDetail.back') %></a>
+    <a href="/admin/surveys/<%= survey.id %>/edit" class="btn btn-primary">Edit Survey</a>
+    <form action="/admin/surveys/<%= survey.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this survey?');">
+      <button type="submit" class="btn btn-danger">Delete Survey</button>
+    </form>
   </div>
+
+  <% if (req.query.success === 'updated') { %>
+    <div class="alert alert-success" style="margin-bottom: 2rem;">
+      Survey updated successfully!
+    </div>
+  <% } %>
 
   <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><%= t('admin.surveyDetail.title') %></h1>
 

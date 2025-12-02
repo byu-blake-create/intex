@@ -1,10 +1,27 @@
 <%- include('../partials/header') %>
 
 <div class="container container-lg watercolor-butterfly" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><%= t('admin.surveys.manage') %></h1>
-  <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-    <%= t('admin.surveys.manage.copy') %>
-  </p>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+    <div>
+      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('admin.surveys.manage') %></h1>
+      <p style="color: var(--text-secondary); margin: 0;">
+        <%= t('admin.surveys.manage.copy') %>
+      </p>
+    </div>
+    <a href="/admin/surveys/new/survey" class="btn btn-primary">+ Create New Survey</a>
+  </div>
+
+  <% if (req.query.success) { %>
+    <div class="alert alert-success" style="margin-bottom: 2rem; margin-top: 1rem;">
+      <% if (req.query.success === 'created') { %>
+        Survey created successfully!
+      <% } else if (req.query.success === 'updated') { %>
+        Survey updated successfully!
+      <% } else if (req.query.success === 'deleted') { %>
+        Survey deleted successfully!
+      <% } %>
+    </div>
+  <% } %>
 
   <!-- Search and Filter Form -->
   <div class="card" style="margin-bottom: 2rem;">

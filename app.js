@@ -726,6 +726,55 @@ app.post('/programs/:programId/enroll', requireLogin, async (req, res) => {
 });
 
 // ============================================
+// VISITOR DONATIONS (PUBLIC)
+// ============================================
+
+// Public donation form page
+app.get('/donate', (req, res) => {
+  res.render('donate', {
+    title: 'Make a Donation - Ella Rises',
+    success: req.query.success,
+    error: null,
+  });
+});
+
+// Handle donation submission (public - no login required)
+app.post('/donate', async (req, res) => {
+  const { donor_name, donor_email, amount, message } = req.body;
+
+  try {
+    // Validate amount
+    const donationAmount = parseFloat(amount);
+    if (isNaN(donationAmount) || donationAmount <= 0) {
+      return res.render('donate', {
+        title: 'Make a Donation - Ella Rises',
+        error: 'Please enter a valid donation amount',
+        success: null,
+      });
+    }
+
+    // Insert donation (user_id is null for visitor donations)
+    await knex('donations').insert({
+      user_id: null,
+      amount: donationAmount,
+      donor_name: donor_name || 'Anonymous',
+      donor_email: donor_email || null,
+      message: message || null,
+      created_at: new Date(),
+    });
+
+    res.redirect('/donate?success=true');
+  } catch (error) {
+    console.error('Error processing donation:', error);
+    res.render('donate', {
+      title: 'Make a Donation - Ella Rises',
+      error: 'An error occurred while processing your donation. Please try again.',
+      success: null,
+    });
+  }
+});
+
+// ============================================
 // USER ROUTES (Normal Users)
 // ============================================
 
@@ -993,6 +1042,138 @@ app.post('/admin/participants/:userId/change-password', requireAdmin, async (req
   }
 });
 
+// Admin - Create new user form
+app.get('/admin/participants/new/user', requireAdmin, (req, res) => {
+  res.render('admin/user-form', {
+    title: 'Create New User - Admin - Ella Rises',
+    user: null,
+    error: null,
+  });
+});
+
+// Admin - Create new user
+app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
+  const { name, email, password, role } = req.body;
+
+  try {
+    // Check if user already exists
+    const existingUser = await knex('users').where({ email }).first();
+
+    if (existingUser) {
+      return res.render('admin/user-form', {
+        title: 'Create New User - Admin - Ella Rises',
+        user: null,
+        error: 'A user with this email already exists',
+      });
+    }
+
+    // Hash password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Insert new user
+    await knex('users').insert({
+      name,
+      email,
+      password: hashedPassword,
+      role: role || 'user',
+      created_at: new Date(),
+    });
+
+    res.redirect('/admin/participants?success=created');
+  } catch (error) {
+    console.error('Error creating user:', error);
+    res.render('admin/user-form', {
+      title: 'Create New User - Admin - Ella Rises',
+      user: null,
+      error: 'Error creating user. Please try again.',
+    });
+  }
+});
+
+// Admin - Edit user form
+app.get('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await knex('users').where({ id: userId }).first();
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    res.render('admin/user-form', {
+      title: 'Edit User - Admin - Ella Rises',
+      user,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading user:', error);
+    res.status(500).send('Error loading user');
+  }
+});
+
+// Admin - Update user
+app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+  const { name, email, role } = req.body;
+
+  try {
+    // Check if email is taken by another user
+    const existingUser = await knex('users')
+      .where({ email })
+      .whereNot({ id: userId })
+      .first();
+
+    if (existingUser) {
+      const user = await knex('users').where({ id: userId }).first();
+      return res.render('admin/user-form', {
+        title: 'Edit User - Admin - Ella Rises',
+        user,
+        error: 'This email is already in use by another user',
+      });
+    }
+
+    // Update user
+    await knex('users')
+      .where({ id: userId })
+      .update({
+        name,
+        email,
+        role,
+      });
+
+    res.redirect(`/admin/participants/${userId}?success=updated`);
+  } catch (error) {
+    console.error('Error updating user:', error);
+    const user = await knex('users').where({ id: userId }).first();
+    res.render('admin/user-form', {
+      title: 'Edit User - Admin - Ella Rises',
+      user,
+      error: 'Error updating user. Please try again.',
+    });
+  }
+});
+
+// Admin - Delete user
+app.post('/admin/participants/:userId/delete', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    // Check if user is trying to delete themselves
+    if (parseInt(userId) === req.session.user.id) {
+      return res.redirect('/admin/participants?error=cannot_delete_self');
+    }
+
+    await knex('users').where({ id: userId }).del();
+
+    res.redirect('/admin/participants?success=deleted');
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.redirect('/admin/participants?error=delete_failed');
+  }
+});
+
 // ============================================
 // ADMIN - EVENTS MANAGEMENT
 // ============================================
@@ -1000,11 +1181,25 @@ app.post('/admin/participants/:userId/change-password', requireAdmin, async (req
 // Admin events page - view/manage all events
 app.get('/admin/events', requireAdmin, async (req, res) => {
   try {
-    const events = await knex('events').select('*').orderBy('date', 'asc');
+    const search = req.query.search || '';
+
+    let query = knex('events').select('*');
+
+    if (search) {
+      query = query.where(function() {
+        this.where('title', 'ilike', `%${search}%`)
+            .orWhere('description', 'ilike', `%${search}%`)
+            .orWhere('location', 'ilike', `%${search}%`);
+      });
+    }
+
+    const events = await query.orderBy('date', 'asc');
 
     res.render('admin/events', {
       title: 'Events - Admin - Ella Rises',
       events,
+      search,
+      req,
     });
   } catch (error) {
     console.error('Error loading events:', error);
@@ -1347,6 +1542,130 @@ app.get('/admin/surveys/:surveyId', requireAdmin, async (req, res) => {
   }
 });
 
+// Admin - Create new survey form
+app.get('/admin/surveys/new/survey', requireAdmin, async (req, res) => {
+  try {
+    const users = await knex('users').select('id', 'name').orderBy('name');
+    const events = await knex('events').select('id', 'title').orderBy('title');
+
+    res.render('admin/survey-form', {
+      title: 'Create New Survey - Admin - Ella Rises',
+      survey: null,
+      users,
+      events,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading survey form:', error);
+    res.status(500).send('Error loading form');
+  }
+});
+
+// Admin - Create new survey
+app.post('/admin/surveys/new/survey', requireAdmin, async (req, res) => {
+  const { user_id, event_id, satisfaction_rating, usefulness_rating, instructor_rating, recommendation_rating, additional_feedback } = req.body;
+
+  try {
+    const overall_score = ((parseInt(satisfaction_rating) + parseInt(usefulness_rating) + parseInt(instructor_rating) + parseInt(recommendation_rating)) / 4).toFixed(2);
+
+    await knex('surveys').insert({
+      user_id,
+      event_id,
+      satisfaction_rating,
+      usefulness_rating,
+      instructor_rating,
+      recommendation_rating,
+      overall_score,
+      additional_feedback,
+      created_at: new Date(),
+    });
+
+    res.redirect('/admin/surveys?success=created');
+  } catch (error) {
+    console.error('Error creating survey:', error);
+    const users = await knex('users').select('id', 'name').orderBy('name');
+    const events = await knex('events').select('id', 'title').orderBy('title');
+    res.render('admin/survey-form', {
+      title: 'Create New Survey - Admin - Ella Rises',
+      survey: null,
+      users,
+      events,
+      error: 'Error creating survey. Please try again.',
+    });
+  }
+});
+
+// Admin - Edit survey form
+app.get('/admin/surveys/:id/edit', requireAdmin, async (req, res) => {
+  try {
+    const survey = await knex('surveys').where('id', req.params.id).first();
+    if (!survey) {
+      return res.status(404).send('Survey not found');
+    }
+
+    const users = await knex('users').select('id', 'name').orderBy('name');
+    const events = await knex('events').select('id', 'title').orderBy('title');
+
+    res.render('admin/survey-form', {
+      title: 'Edit Survey - Admin - Ella Rises',
+      survey,
+      users,
+      events,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading survey:', error);
+    res.status(500).send('Error loading survey');
+  }
+});
+
+// Admin - Update survey
+app.post('/admin/surveys/:id/edit', requireAdmin, async (req, res) => {
+  const { user_id, event_id, satisfaction_rating, usefulness_rating, instructor_rating, recommendation_rating, additional_feedback } = req.body;
+
+  try {
+    const overall_score = ((parseInt(satisfaction_rating) + parseInt(usefulness_rating) + parseInt(instructor_rating) + parseInt(recommendation_rating)) / 4).toFixed(2);
+
+    await knex('surveys')
+      .where('id', req.params.id)
+      .update({
+        user_id,
+        event_id,
+        satisfaction_rating,
+        usefulness_rating,
+        instructor_rating,
+        recommendation_rating,
+        overall_score,
+        additional_feedback,
+      });
+
+    res.redirect(`/admin/surveys/${req.params.id}?success=updated`);
+  } catch (error) {
+    console.error('Error updating survey:', error);
+    const survey = await knex('surveys').where('id', req.params.id).first();
+    const users = await knex('users').select('id', 'name').orderBy('name');
+    const events = await knex('events').select('id', 'title').orderBy('title');
+    res.render('admin/survey-form', {
+      title: 'Edit Survey - Admin - Ella Rises',
+      survey,
+      users,
+      events,
+      error: 'Error updating survey. Please try again.',
+    });
+  }
+});
+
+// Admin - Delete survey
+app.post('/admin/surveys/:id/delete', requireAdmin, async (req, res) => {
+  try {
+    await knex('surveys').where('id', req.params.id).del();
+    res.redirect('/admin/surveys?success=deleted');
+  } catch (error) {
+    console.error('Error deleting survey:', error);
+    res.redirect('/admin/surveys?error=delete_failed');
+  }
+});
+
 // ============================================
 // ADMIN - MILESTONES MANAGEMENT
 // ============================================
@@ -1452,6 +1771,51 @@ app.get('/admin/milestones/user/:userId', requireAdmin, async (req, res) => {
   }
 });
 
+// Admin - Create milestone category
+app.post('/admin/milestones/create', requireAdmin, async (req, res) => {
+  const { title, description } = req.body;
+
+  try {
+    await knex('milestones').insert({
+      title,
+      description,
+      created_at: new Date(),
+    });
+
+    res.redirect('/admin/milestones?success=created');
+  } catch (error) {
+    console.error('Error creating milestone:', error);
+    res.redirect('/admin/milestones?error=create_failed');
+  }
+});
+
+// Admin - Update milestone category
+app.post('/admin/milestones/:id/edit', requireAdmin, async (req, res) => {
+  const { title, description } = req.body;
+
+  try {
+    await knex('milestones')
+      .where('id', req.params.id)
+      .update({ title, description });
+
+    res.redirect('/admin/milestones?success=updated');
+  } catch (error) {
+    console.error('Error updating milestone:', error);
+    res.redirect('/admin/milestones?error=update_failed');
+  }
+});
+
+// Admin - Delete milestone category
+app.post('/admin/milestones/:id/delete', requireAdmin, async (req, res) => {
+  try {
+    await knex('milestones').where('id', req.params.id).del();
+    res.redirect('/admin/milestones?success=deleted');
+  } catch (error) {
+    console.error('Error deleting milestone:', error);
+    res.redirect('/admin/milestones?error=delete_failed');
+  }
+});
+
 // ============================================
 // ADMIN - DONATIONS MANAGEMENT
 // ============================================
@@ -1459,18 +1823,84 @@ app.get('/admin/milestones/user/:userId', requireAdmin, async (req, res) => {
 // Admin donations page - view all donations
 app.get('/admin/donations', requireAdmin, async (req, res) => {
   try {
-    const donations = await knex('donations')
+    const search = req.query.search || '';
+
+    let query = knex('donations')
       .leftJoin('users', 'donations.user_id', 'users.id')
-      .select('donations.*', 'users.name as user_name')
-      .orderBy('donations.created_at', 'desc');
+      .select('donations.*', 'users.name as user_name');
+
+    if (search) {
+      query = query.where(function() {
+        this.where('users.name', 'ilike', `%${search}%`)
+            .orWhere('donations.amount', 'ilike', `%${search}%`);
+      });
+    }
+
+    const donations = await query.orderBy('donations.created_at', 'desc');
 
     res.render('admin/donations', {
       title: 'Donations - Admin - Ella Rises',
       donations,
+      search,
+      req,
     });
   } catch (error) {
     console.error('Error loading donations:', error);
     res.status(500).send('Error loading donations');
+  }
+});
+
+// Admin - Create donation manually
+app.post('/admin/donations/create', requireAdmin, async (req, res) => {
+  const { user_id, amount, donor_name, donor_email, message } = req.body;
+
+  try {
+    await knex('donations').insert({
+      user_id: user_id || null,
+      amount: parseFloat(amount),
+      donor_name: donor_name || 'Anonymous',
+      donor_email: donor_email || null,
+      message: message || null,
+      created_at: new Date(),
+    });
+
+    res.redirect('/admin/donations?success=created');
+  } catch (error) {
+    console.error('Error creating donation:', error);
+    res.redirect('/admin/donations?error=create_failed');
+  }
+});
+
+// Admin - Update donation
+app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
+  const { user_id, amount, donor_name, donor_email, message } = req.body;
+
+  try {
+    await knex('donations')
+      .where('id', req.params.id)
+      .update({
+        user_id: user_id || null,
+        amount: parseFloat(amount),
+        donor_name: donor_name || 'Anonymous',
+        donor_email,
+        message,
+      });
+
+    res.redirect('/admin/donations?success=updated');
+  } catch (error) {
+    console.error('Error updating donation:', error);
+    res.redirect('/admin/donations?error=update_failed');
+  }
+});
+
+// Admin - Delete donation
+app.post('/admin/donations/:id/delete', requireAdmin, async (req, res) => {
+  try {
+    await knex('donations').where('id', req.params.id).del();
+    res.redirect('/admin/donations?success=deleted');
+  } catch (error) {
+    console.error('Error deleting donation:', error);
+    res.redirect('/admin/donations?error=delete_failed');
   }
 });
 
@@ -1488,6 +1918,13 @@ app.get('/admin/analytics', requireAdmin, (req, res) => {
 // ============================================
 // ERROR HANDLING
 // ============================================
+
+// 418 I'm a teapot - Easter egg route (required for IS 404 rubric)
+app.get('/teapot', (req, res) => {
+  res.status(418).render('teapot', {
+    title: "I'm a Teapot - Ella Rises",
+  });
+});
 
 // 404 handler
 app.use((req, res) => {
