@@ -1057,6 +1057,11 @@ img {
   object-position: center top;
 }
 
+/* Slightly smaller lead portraits */
+.profile-card--lead .profile-card__image img {
+  height: 260px;
+}
+
 @media (max-width: 768px) {
   .nav-container {
     flex-direction: column;
