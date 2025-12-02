@@ -9,7 +9,7 @@
 
 <section class="container container-sm" style="margin-top: 2rem; margin-bottom: 3rem;">
   <% if (status) { %>
-    <div class="alert <%= status.success ? 'alert-success' : 'alert-error' %>">
+    <div class="alert <%= status.success ? 'alert-success' : 'alert-error' %>" role="alert" aria-live="polite">
       <%= status.message %>
     </div>
   <% } %>
@@ -18,7 +18,7 @@
     <div class="card-title"><%= t('contact.title') %></div>
     <p class="card-text"><%= t('contact.lede') %></p>
 
-    <form action="/contact" method="POST" id="contactForm" novalidate>
+    <form action="/contact" method="POST" id="contactForm" novalidate aria-label="Contact form">
       <div class="form-group">
         <label for="topic" class="form-label"><%= t('contact.topic.label') %></label>
         <select id="topic" name="topic" class="form-select" required>

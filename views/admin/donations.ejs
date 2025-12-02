@@ -115,13 +115,13 @@
 </div>
 
 <!-- Create Donation Modal -->
-<div id="createDonationModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+<div id="createDonationModal" role="dialog" aria-modal="true" aria-labelledby="createDonationTitle" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
   <div style="background-color: var(--bg-primary); margin: 5% auto; padding: 2rem; border-radius: var(--border-radius); max-width: 600px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-      <h2>Add New Donation</h2>
-      <button onclick="document.getElementById('createDonationModal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <h2 id="createDonationTitle">Add New Donation</h2>
+      <button onclick="document.getElementById('createDonationModal').style.display='none'" aria-label="Close dialog" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
     </div>
-    <form action="/admin/donations/create" method="POST">
+    <form action="/admin/donations/create" method="POST" aria-label="Create donation form">
       <div class="form-group">
         <label class="form-label">Donor Name</label>
         <input type="text" name="donor_name" class="form-input" placeholder="Or leave blank for Anonymous">
@@ -147,13 +147,13 @@
 </div>
 
 <!-- Edit Donation Modal -->
-<div id="editDonationModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+<div id="editDonationModal" role="dialog" aria-modal="true" aria-labelledby="editDonationTitle" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
   <div style="background-color: var(--bg-primary); margin: 5% auto; padding: 2rem; border-radius: var(--border-radius); max-width: 600px;">
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-      <h2>Edit Donation</h2>
-      <button onclick="document.getElementById('editDonationModal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <h2 id="editDonationTitle">Edit Donation</h2>
+      <button onclick="document.getElementById('editDonationModal').style.display='none'" aria-label="Close dialog" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
     </div>
-    <form id="editDonationForm" method="POST">
+    <form id="editDonationForm" method="POST" aria-label="Edit donation form">
       <div class="form-group">
         <label class="form-label">Donor Name</label>
         <input type="text" name="donor_name" id="edit_donor_name" class="form-input">
