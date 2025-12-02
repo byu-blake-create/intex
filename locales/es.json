@@ -1,0 +1,12 @@
+{
+  "nav.home": "Inicio",
+  "nav.about": "Acerca de",
+  "nav.events": "Eventos",
+  "nav.programs": "Programas",
+  "nav.donate": "Donar",
+  "nav.contact": "Contacto",
+
+  "about.hero.title": "Arraigadas en la herencia, creciendo juntas.",
+  "about.hero.btn.programs": "Explorar programas",
+  "about.hero.btn.donate": "Donar"
+}

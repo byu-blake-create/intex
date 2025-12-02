@@ -15,6 +15,7 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const path = require('path');
+const fs = require('fs');
 
 // ============================================
 // KNEX DATABASE SETUP
@@ -110,6 +111,36 @@ const mailTransporter =
     : null;
 
 // ============================================
+// I18N SETUP (EN/ES)
+// ============================================
+const localesDir = path.join(__dirname, 'locales');
+const defaultLocale = 'en';
+
+function loadLocale(lang) {
+  const filePath = path.join(localesDir, `${lang}.json`);
+  if (fs.existsSync(filePath)) {
+    try {
+      return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    } catch (err) {
+      console.error(`Error parsing locale file for ${lang}:`, err);
+      return null;
+    }
+  }
+  return null;
+}
+
+const localeCache = {
+  en: loadLocale('en') || {},
+  es: loadLocale('es') || {},
+};
+
+function translate(lang, key) {
+  const locale = localeCache[lang] || localeCache[defaultLocale];
+  const fallback = localeCache[defaultLocale] || {};
+  return (locale && locale[key]) || fallback[key] || key;
+}
+
+// ============================================
 // MIDDLEWARE CONFIGURATION
 // ============================================
 
@@ -144,6 +175,29 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   res.locals.isLoggedIn = !!req.session.user;
   res.locals.isAdmin = req.session.user && req.session.user.role === 'admin';
+  next();
+});
+
+// Locale detection & translation helper
+app.use((req, res, next) => {
+  // Override via query ?lang=es|en
+  const qLang = req.query.lang && ['en', 'es'].includes(req.query.lang) ? req.query.lang : null;
+
+  if (qLang) {
+    req.session.locale = qLang;
+  }
+
+  // Session locale takes precedence, else detect from Accept-Language
+  let activeLocale = req.session.locale;
+  if (!activeLocale) {
+    const header = req.headers['accept-language'] || '';
+    const prefersSpanish = header.toLowerCase().startsWith('es');
+    activeLocale = prefersSpanish ? 'es' : defaultLocale;
+    req.session.locale = activeLocale;
+  }
+
+  res.locals.locale = activeLocale;
+  res.locals.t = (key) => translate(activeLocale, key);
   next();
 });
 
