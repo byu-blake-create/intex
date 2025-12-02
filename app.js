@@ -1012,6 +1012,219 @@ app.get('/admin/events', requireAdmin, async (req, res) => {
   }
 });
 
+// Admin - Create new event form
+app.get('/admin/events/new', requireAdmin, (req, res) => {
+  res.render('admin/event-form', {
+    title: 'Create New Event - Admin - Ella Rises',
+    event: null,
+    error: null,
+  });
+});
+
+// Admin - Create new event
+app.post('/admin/events/new', requireAdmin, upload.single('event_image'), async (req, res) => {
+  const { title, description, date, location, capacity } = req.body;
+
+  try {
+    const eventData = {
+      title,
+      description,
+      date: new Date(date),
+      location,
+      capacity: capacity ? parseInt(capacity) : null,
+      image_url: req.file ? `/images/events/${req.file.filename}` : null,
+    };
+
+    await knex('events').insert(eventData);
+    res.redirect('/admin/events?success=created');
+  } catch (error) {
+    console.error('Error creating event:', error);
+    res.render('admin/event-form', {
+      title: 'Create New Event - Admin - Ella Rises',
+      event: null,
+      error: 'Failed to create event. Please try again.',
+    });
+  }
+});
+
+// Admin - Edit event form
+app.get('/admin/events/:id/edit', requireAdmin, async (req, res) => {
+  try {
+    const event = await knex('events').where('id', req.params.id).first();
+    if (!event) {
+      return res.status(404).send('Event not found');
+    }
+
+    res.render('admin/event-form', {
+      title: 'Edit Event - Admin - Ella Rises',
+      event,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading event:', error);
+    res.status(500).send('Error loading event');
+  }
+});
+
+// Admin - Update event
+app.post('/admin/events/:id/edit', requireAdmin, upload.single('event_image'), async (req, res) => {
+  const { title, description, date, location, capacity } = req.body;
+
+  try {
+    const eventData = {
+      title,
+      description,
+      date: new Date(date),
+      location,
+      capacity: capacity ? parseInt(capacity) : null,
+    };
+
+    // Only update image if new one uploaded
+    if (req.file) {
+      eventData.image_url = `/images/events/${req.file.filename}`;
+    }
+
+    await knex('events').where('id', req.params.id).update(eventData);
+    res.redirect('/admin/events?success=updated');
+  } catch (error) {
+    console.error('Error updating event:', error);
+    const event = await knex('events').where('id', req.params.id).first();
+    res.render('admin/event-form', {
+      title: 'Edit Event - Admin - Ella Rises',
+      event,
+      error: 'Failed to update event. Please try again.',
+    });
+  }
+});
+
+// Admin - Delete event
+app.post('/admin/events/:id/delete', requireAdmin, async (req, res) => {
+  try {
+    await knex('events').where('id', req.params.id).delete();
+    res.redirect('/admin/events?success=deleted');
+  } catch (error) {
+    console.error('Error deleting event:', error);
+    res.redirect('/admin/events?error=delete_failed');
+  }
+});
+
+// ============================================
+// ADMIN - PROGRAMS MANAGEMENT
+// ============================================
+
+// Admin programs page - view/manage all programs
+app.get('/admin/programs', requireAdmin, async (req, res) => {
+  try {
+    const programs = await knex('programs').select('*').orderBy('title', 'asc');
+
+    res.render('admin/programs', {
+      title: 'Programs - Admin - Ella Rises',
+      programs,
+    });
+  } catch (error) {
+    console.error('Error loading programs:', error);
+    res.status(500).send('Error loading programs');
+  }
+});
+
+// Admin - Create new program form
+app.get('/admin/programs/new', requireAdmin, (req, res) => {
+  res.render('admin/program-form', {
+    title: 'Create New Program - Admin - Ella Rises',
+    program: null,
+    error: null,
+  });
+});
+
+// Admin - Create new program
+app.post('/admin/programs/new', requireAdmin, upload.single('program_image'), async (req, res) => {
+  const { title, description, age_range, schedule, fee, additional_info } = req.body;
+
+  try {
+    const programData = {
+      title,
+      description,
+      age_range,
+      schedule,
+      fee: fee ? parseFloat(fee) : null,
+      additional_info,
+      image_url: req.file ? `/images/events/${req.file.filename}` : null,
+    };
+
+    await knex('programs').insert(programData);
+    res.redirect('/admin/programs?success=created');
+  } catch (error) {
+    console.error('Error creating program:', error);
+    res.render('admin/program-form', {
+      title: 'Create New Program - Admin - Ella Rises',
+      program: null,
+      error: 'Failed to create program. Please try again.',
+    });
+  }
+});
+
+// Admin - Edit program form
+app.get('/admin/programs/:id/edit', requireAdmin, async (req, res) => {
+  try {
+    const program = await knex('programs').where('id', req.params.id).first();
+    if (!program) {
+      return res.status(404).send('Program not found');
+    }
+
+    res.render('admin/program-form', {
+      title: 'Edit Program - Admin - Ella Rises',
+      program,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading program:', error);
+    res.status(500).send('Error loading program');
+  }
+});
+
+// Admin - Update program
+app.post('/admin/programs/:id/edit', requireAdmin, upload.single('program_image'), async (req, res) => {
+  const { title, description, age_range, schedule, fee, additional_info } = req.body;
+
+  try {
+    const programData = {
+      title,
+      description,
+      age_range,
+      schedule,
+      fee: fee ? parseFloat(fee) : null,
+      additional_info,
+    };
+
+    // Only update image if new one uploaded
+    if (req.file) {
+      programData.image_url = `/images/events/${req.file.filename}`;
+    }
+
+    await knex('programs').where('id', req.params.id).update(programData);
+    res.redirect('/admin/programs?success=updated');
+  } catch (error) {
+    console.error('Error updating program:', error);
+    const program = await knex('programs').where('id', req.params.id).first();
+    res.render('admin/program-form', {
+      title: 'Edit Program - Admin - Ella Rises',
+      program,
+      error: 'Failed to update program. Please try again.',
+    });
+  }
+});
+
+// Admin - Delete program
+app.post('/admin/programs/:id/delete', requireAdmin, async (req, res) => {
+  try {
+    await knex('programs').where('id', req.params.id).delete();
+    res.redirect('/admin/programs?success=deleted');
+  } catch (error) {
+    console.error('Error deleting program:', error);
+    res.redirect('/admin/programs?error=delete_failed');
+  }
+});
+
 // ============================================
 // ADMIN - SURVEYS MANAGEMENT
 // ============================================

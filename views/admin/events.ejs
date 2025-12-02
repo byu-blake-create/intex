@@ -1,10 +1,27 @@
 <%- include('../partials/header') %>
 
 <div class="container container-lg watercolor-sand" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><%= t('admin.events.manage') %></h1>
-  <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-    <%= t('admin.events.manage.copy') %>
-  </p>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+    <div>
+      <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('admin.events.manage') %></h1>
+      <p style="color: var(--text-secondary); margin: 0;">
+        <%= t('admin.events.manage.copy') %>
+      </p>
+    </div>
+    <a href="/admin/events/new" class="btn btn-primary">+ Create New Event</a>
+  </div>
+
+  <% if (req.query.success) { %>
+    <div class="alert alert-success" style="margin-bottom: 2rem;">
+      <% if (req.query.success === 'created') { %>
+        Event created successfully!
+      <% } else if (req.query.success === 'updated') { %>
+        Event updated successfully!
+      <% } else if (req.query.success === 'deleted') { %>
+        Event deleted successfully!
+      <% } %>
+    </div>
+  <% } %>
 
   <% if (events && events.length > 0) { %>
     <div style="overflow-x: auto;">
@@ -33,7 +50,13 @@
               <td><%= event.location || t('admin.events.location.tbd') %></td>
               <td><%= event.capacity || t('admin.events.capacity.unlimited') %></td>
               <td>
-                <a href="/events/<%= event.id %>" class="btn btn-sm btn-secondary"><%= t('admin.events.table.view') %></a>
+                <div style="display: flex; gap: 0.5rem;">
+                  <a href="/events/<%= event.id %>" class="btn btn-sm btn-secondary"><%= t('admin.events.table.view') %></a>
+                  <a href="/admin/events/<%= event.id %>/edit" class="btn btn-sm btn-primary">Edit</a>
+                  <form action="/admin/events/<%= event.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                  </form>
+                </div>
               </td>
             </tr>
           <% }) %>
