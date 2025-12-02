@@ -1930,14 +1930,18 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
 
     // Apply search filter
     if (search) {
-      const searchFilter = function() {
-        this.where('users.name', 'ilike', `%${search}%`)
-            .orWhere('donations.donor_name', 'ilike', `%${search}%`)
-            .orWhereRaw('CAST(donations.amount AS TEXT) ILIKE ?', [`%${search}%`]);
-      };
-      query = query.where(searchFilter);
-      countQuery = countQuery.where(searchFilter);
-      totalQuery = totalQuery.where(searchFilter);
+      query = query.where(function () {
+        this.whereRaw("COALESCE(users.name, donations.donor_name, '') ILIKE ?", [`%${search}%`])
+          .orWhereRaw('donations.amount::text ILIKE ?', [`%${search}%`]);
+      });
+      countQuery = countQuery.where(function () {
+        this.whereRaw("COALESCE(users.name, donations.donor_name, '') ILIKE ?", [`%${search}%`])
+          .orWhereRaw('donations.amount::text ILIKE ?', [`%${search}%`]);
+      });
+      totalQuery = totalQuery.where(function () {
+        this.whereRaw("COALESCE(users.name, donations.donor_name, '') ILIKE ?", [`%${search}%`])
+          .orWhereRaw('donations.amount::text ILIKE ?', [`%${search}%`]);
+      });
     }
 
     // Apply date filters
