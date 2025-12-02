@@ -1,0 +1,120 @@
+<%- include('partials/header') %>
+
+<section class="about-hero">
+  <div class="container about-hero__grid">
+    <div class="about-hero__text">
+      <p class="eyebrow">Ella Rises</p>
+      <h1>Rooted in heritage, rising together.</h1>
+      <p class="lead">
+        Empowering young women to pursue higher education through high-impact multicultural
+        activities centered on mariachi, STEAM, and community.
+      </p>
+      <div class="about-hero__actions">
+        <a href="/programs" class="btn btn-primary">Explore Programs</a>
+        <a href="https://givebutter.com/EllaRises" target="_blank" class="btn btn-outline">Donate</a>
+      </div>
+      <div class="about-hero__tags">
+        <span>Mariachi &amp; STEAM mentorship</span>
+        <span>College pathways</span>
+        <span>Cultural pride</span>
+      </div>
+    </div>
+    <div class="about-hero__art">
+      <img src="/images/about/e5f869_70dcfe79590941c4bb874c618cbf6775~mv2.png" alt="" class="about-art about-art__float" />
+      <img src="/images/about/e5f869_6a96b309d86843de856385bebd525ddd~mv2.png" alt="" class="about-art about-art__flower" />
+      <img src="/images/about/e5f869_1bc51a43ccf947a39fa60a2530495ca6~mv2.png" alt="" class="about-art about-art__sun" />
+    </div>
+  </div>
+</section>
+
+<section class="container-lg about-mission">
+  <div class="about-card">
+    <div class="about-card__text">
+      <h2>Our Mission</h2>
+      <p>
+        We create spaces where young women celebrate their heritage, gain confidence on stage and in the
+        classroom, and access the mentors and resources that unlock college and career pathways.
+      </p>
+      <div class="about-pillars">
+        <div class="pillar">
+          <img src="/images/about/e5f869_06b9a90dfbb04ae2a355cef2f011397d~mv2.png" alt="" />
+          <div>
+            <h4>Arts &amp; Culture</h4>
+            <p>Mariachi and the arts as a catalyst for belonging and leadership.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <img src="/images/about/e5f869_70dcfe79590941c4bb874c618cbf6775~mv2.png" alt="" />
+          <div>
+            <h4>STEAM Confidence</h4>
+            <p>Hands-on learning, curiosity, and courage to take on new challenges.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <img src="/images/about/e5f869_1bc51a43ccf947a39fa60a2530495ca6~mv2.png" alt="" />
+          <div>
+            <h4>Mentorship</h4>
+            <p>Guides, role models, and a community that walks alongside every step.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-card__media">
+      <div class="about-video">
+        <video
+          src="https://video.wixstatic.com/video/e5f869_f075e19ca2744354bb20a65881dce28f/1080p/mp4/file.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          poster="/images/about/e5f869_1bc51a43ccf947a39fa60a2530495ca6~mv2.png"
+        ></video>
+      </div>
+      <p class="caption">
+        Empowering young women to pursue higher education through multicultural programming focused on mariachi and STEAM.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="container about-team">
+  <div class="section-heading">
+    <h2>Leadership</h2>
+    <p>Meet the women guiding Ella Rises with vision, care, and community.</p>
+  </div>
+  <div class="about-grid">
+    <% leadershipTeam.forEach(member => { %>
+      <article class="profile-card">
+        <div class="profile-card__image">
+          <img src="<%= member.image %>" alt="<%= member.name %>" />
+        </div>
+        <div class="profile-card__body">
+          <h3><%= member.name %></h3>
+          <p class="role"><%= member.role %></p>
+        </div>
+      </article>
+    <% }); %>
+  </div>
+</section>
+
+<section class="container about-board">
+  <div class="section-heading">
+    <h2>Board of Directors</h2>
+    <p>Stewards who ensure Ella Rises stays mission-driven, sustainable, and community-centered.</p>
+  </div>
+  <div class="about-grid board-grid">
+    <% boardMembers.forEach(member => { %>
+      <article class="profile-card profile-card--board">
+        <div class="profile-card__image">
+          <img src="<%= member.image %>" alt="<%= member.name %>" />
+        </div>
+        <div class="profile-card__body">
+          <h3><%= member.name %></h3>
+          <p class="role"><%= member.role %></p>
+        </div>
+      </article>
+    <% }); %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>
