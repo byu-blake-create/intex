@@ -1763,6 +1763,7 @@ app.post('/admin/surveys/:id/delete', requireAdmin, async (req, res) => {
 app.get('/admin/milestones', requireAdmin, async (req, res) => {
   try {
     const { search, filter_milestone, page = 1 } = req.query;
+    const filterMilestoneId = filter_milestone ? parseInt(filter_milestone, 10) : null;
     const limit = 25;
     const offset = (parseInt(page) - 1) * limit;
 
@@ -1814,9 +1815,9 @@ app.get('/admin/milestones', requireAdmin, async (req, res) => {
 
     // Filter by milestone if specified
     let filteredUsers = users;
-    if (filter_milestone) {
+    if (filterMilestoneId) {
       filteredUsers = users.filter(user => {
-        return userAchievements[user.id] && userAchievements[user.id][filter_milestone];
+        return userAchievements[user.id] && userAchievements[user.id][filterMilestoneId];
       });
     }
 
