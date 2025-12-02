@@ -13,11 +13,6 @@
         <a href="/programs" class="btn btn-primary">Explore Programs</a>
         <a href="https://givebutter.com/EllaRises" target="_blank" class="btn btn-outline">Donate</a>
       </div>
-      <div class="about-hero__tags">
-        <span>Mariachi &amp; STEAM mentorship</span>
-        <span>College pathways</span>
-        <span>Cultural pride</span>
-      </div>
     </div>
     <div class="about-hero__art">
       <img src="/images/about/e5f869_70dcfe79590941c4bb874c618cbf6775~mv2.png" alt="" class="about-art about-art__float" />
@@ -86,7 +81,7 @@
     <% leadershipTeam.forEach(member => { %>
       <article class="profile-card">
         <div class="profile-card__image">
-          <img src="<%= member.image %>" alt="<%= member.name %>" />
+          <img src="<%= member.image %>" alt="<%= member.name %>" class="portrait-tall" />
         </div>
         <div class="profile-card__body">
           <h3><%= member.name %></h3>
@@ -106,7 +101,7 @@
     <% boardMembers.forEach(member => { %>
       <article class="profile-card profile-card--board">
         <div class="profile-card__image">
-          <img src="<%= member.image %>" alt="<%= member.name %>" />
+          <img src="<%= member.image %>" alt="<%= member.name %>" class="portrait-tall" />
         </div>
         <div class="profile-card__body">
           <h3><%= member.name %></h3>
