@@ -38,6 +38,7 @@ CREATE TABLE events (
   date TIMESTAMP NOT NULL,
   location VARCHAR(255),
   capacity INTEGER,
+  image_url VARCHAR(500),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -98,6 +99,7 @@ CREATE TABLE programs (
   schedule VARCHAR(255),
   fee DECIMAL(10, 2),
   additional_info TEXT,
+  image_url VARCHAR(500),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
