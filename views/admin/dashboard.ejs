@@ -1,8 +1,8 @@
 <%- include('../partials/header') %>
 
 <div class="container watercolor-green-fixed" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;">Admin Dashboard</h1>
-  <p style="color: var(--text-secondary); margin-bottom: 3rem;">Welcome to the Ella Rises administration panel.</p>
+  <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('admin.dashboard.title') %></h1>
+  <p style="color: var(--text-secondary); margin-bottom: 3rem;"><%= t('admin.dashboard.welcome') %></p>
 
   <!-- Admin Navigation Cards -->
   <div class="grid grid-3">
@@ -10,10 +10,8 @@
     <a href="/admin/participants" style="text-decoration: none;">
       <div class="card" style="height: 100%;">
         <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">👥</div>
-        <h2 class="card-title text-center">Participants</h2>
-        <p class="card-text text-center">
-          Manage user accounts and view participant details
-        </p>
+        <h2 class="card-title text-center"><%= t('admin.dashboard.participants') %></h2>
+        <p class="card-text text-center"><%= t('admin.dashboard.participants.copy') %></p>
       </div>
     </a>
 
@@ -21,10 +19,8 @@
     <a href="/admin/events" style="text-decoration: none;">
       <div class="card" style="height: 100%;">
         <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">📅</div>
-        <h2 class="card-title text-center">Events</h2>
-        <p class="card-text text-center">
-          View and manage all events and registrations
-        </p>
+        <h2 class="card-title text-center"><%= t('admin.dashboard.events') %></h2>
+        <p class="card-text text-center"><%= t('admin.dashboard.events.copy') %></p>
       </div>
     </a>
 
@@ -32,10 +28,8 @@
     <a href="/admin/surveys" style="text-decoration: none;">
       <div class="card" style="height: 100%;">
         <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">📝</div>
-        <h2 class="card-title text-center">Surveys</h2>
-        <p class="card-text text-center">
-          Review feedback and survey responses
-        </p>
+        <h2 class="card-title text-center"><%= t('admin.dashboard.surveys') %></h2>
+        <p class="card-text text-center"><%= t('admin.dashboard.surveys.copy') %></p>
       </div>
     </a>
 
@@ -43,10 +37,8 @@
     <a href="/admin/milestones" style="text-decoration: none;">
       <div class="card" style="height: 100%;">
         <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">🏆</div>
-        <h2 class="card-title text-center">Milestones</h2>
-        <p class="card-text text-center">
-          Manage participant milestones and achievements
-        </p>
+        <h2 class="card-title text-center"><%= t('admin.dashboard.milestones') %></h2>
+        <p class="card-text text-center"><%= t('admin.dashboard.milestones.copy') %></p>
       </div>
     </a>
 
@@ -54,10 +46,8 @@
     <a href="/admin/donations" style="text-decoration: none;">
       <div class="card" style="height: 100%;">
         <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">💰</div>
-        <h2 class="card-title text-center">Donations</h2>
-        <p class="card-text text-center">
-          View and manage donation records
-        </p>
+        <h2 class="card-title text-center"><%= t('admin.dashboard.donations') %></h2>
+        <p class="card-text text-center"><%= t('admin.dashboard.donations.copy') %></p>
       </div>
     </a>
 
@@ -65,33 +55,31 @@
     <a href="/admin/analytics" style="text-decoration: none;">
       <div class="card" style="height: 100%;">
         <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">📊</div>
-        <h2 class="card-title text-center">Analytics</h2>
-        <p class="card-text text-center">
-          View insights and data visualizations
-        </p>
+        <h2 class="card-title text-center"><%= t('admin.dashboard.analytics') %></h2>
+        <p class="card-text text-center"><%= t('admin.dashboard.analytics.copy') %></p>
       </div>
     </a>
   </div>
 
   <!-- Quick Stats (Placeholder) -->
   <div style="margin-top: 3rem;">
-    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Quick Stats</h2>
+    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;"><%= t('admin.dashboard.quick') %></h2>
     <div class="grid grid-4">
       <div class="card text-center">
         <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem;">--</div>
-        <div style="color: var(--text-secondary);">Total Users</div>
+        <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalUsers') %></div>
       </div>
       <div class="card text-center">
         <div style="font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 0.5rem;">--</div>
-        <div style="color: var(--text-secondary);">Upcoming Events</div>
+        <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalEvents') %></div>
       </div>
       <div class="card text-center">
         <div style="font-size: 2.5rem; font-weight: 700; color: var(--success-color); margin-bottom: 0.5rem;">--</div>
-        <div style="color: var(--text-secondary);">Survey Responses</div>
+        <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalSurveys') %></div>
       </div>
       <div class="card text-center">
         <div style="font-size: 2.5rem; font-weight: 700; color: var(--accent-color); margin-bottom: 0.5rem;">--</div>
-        <div style="color: var(--text-secondary);">Total Donations</div>
+        <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalDonations') || 'Total Donations' %></div>
       </div>
     </div>
   </div>

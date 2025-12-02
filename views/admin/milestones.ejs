@@ -1,9 +1,9 @@
 <%- include('../partials/header') %>
 
 <div class="container container-lg watercolor-rose" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Participant Milestones</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><%= t('admin.milestones.manage') %></h1>
   <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-    Track participant achievements across their educational and career journey.
+    <%= t('admin.milestones.manage.copy') %>
   </p>
 
   <!-- Search and Filter Form -->
@@ -11,24 +11,24 @@
     <form method="GET" action="/admin/milestones">
       <div class="grid grid-2">
         <div class="form-group">
-          <label for="search" class="form-label">Search by Name</label>
+          <label for="search" class="form-label"><%= t('admin.participants.search.placeholder') %></label>
           <input
             type="text"
             id="search"
             name="search"
             class="form-input"
-            placeholder="Search participants..."
+            placeholder="<%= t('admin.participants.search.placeholder') %>"
             value="<%= search %>"
           />
         </div>
 
         <div class="form-group">
-          <label for="filter_milestone" class="form-label">Filter by Milestone</label>
+          <label for="filter_milestone" class="form-label"><%= t('admin.milestones.filter') || 'Filter by Milestone' %></label>
           <select id="filter_milestone" name="filter_milestone" class="form-select">
-            <option value="">All Participants</option>
+            <option value=""><%= t('admin.participants.filter.all') || 'All Participants' %></option>
             <% milestoneCategories.forEach(cat => { %>
               <option value="<%= cat.id %>" <%= filter_milestone == cat.id ? 'selected' : '' %>>
-                Has <%= cat.title %>
+                <%= t('admin.milestones.has') || 'Has' %> <%= cat.title %>
               </option>
             <% }) %>
           </select>
@@ -36,8 +36,8 @@
       </div>
 
       <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-        <button type="submit" class="btn btn-primary">Apply Filters</button>
-        <a href="/admin/milestones" class="btn btn-outline">Clear Filters</a>
+        <button type="submit" class="btn btn-primary"><%= t('admin.surveys.apply') %></button>
+        <a href="/admin/milestones" class="btn btn-outline"><%= t('admin.surveys.clear') %></a>
       </div>
     </form>
   </div>
@@ -48,7 +48,7 @@
       <table class="table" style="min-width: 1200px;">
         <thead>
           <tr>
-            <th style="position: sticky; left: 0; background-color: var(--bg-primary); z-index: 10;">Participant</th>
+            <th style="position: sticky; left: 0; background-color: var(--bg-primary); z-index: 10;"><%= t('admin.milestones.table.participant') %></th>
             <% milestoneCategories.forEach(category => { %>
               <th style="text-align: center; min-width: 100px; font-size: 0.85rem;">
                 <%= category.title %>
@@ -84,42 +84,42 @@
     </div>
 
     <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
-      Showing <%= users.length %> participant<%= users.length !== 1 ? 's' : '' %>
+      <%= t('admin.participants.total') || 'Showing' %> <%= users.length %> participant<%= users.length !== 1 ? 's' : '' %>
       <% if (search || filter_milestone) { %>
-        (filtered)
+        (<%= t('admin.milestones.filtered') || 'filtered' %>)
       <% } %>
     </div>
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
-      <h3 style="color: var(--text-secondary);">No participants found</h3>
+      <h3 style="color: var(--text-secondary);"><%= t('admin.participants.empty') %></h3>
       <% if (search || filter_milestone) { %>
-        <p style="color: var(--text-light); margin-top: 1rem;">Try adjusting your filters.</p>
-        <a href="/admin/milestones" class="btn btn-outline" style="margin-top: 1rem;">Clear Filters</a>
+        <p style="color: var(--text-light); margin-top: 1rem;"><%= t('admin.milestones.tryFilters') || 'Try adjusting your filters.' %></p>
+        <a href="/admin/milestones" class="btn btn-outline" style="margin-top: 1rem;"><%= t('admin.surveys.clear') %></a>
       <% } else { %>
-        <p style="color: var(--text-light); margin-top: 1rem;">Participants will appear here once they register.</p>
+        <p style="color: var(--text-light); margin-top: 1rem;"><%= t('admin.milestones.waiting') || 'Participants will appear here once they register.' %></p>
       <% } %>
     </div>
   <% } %>
 
   <!-- Legend -->
   <div class="card" style="margin-top: 2rem; background-color: var(--sage-soft); color: var(--text-color);">
-    <h3 style="margin-bottom: 1rem;">Legend</h3>
+    <h3 style="margin-bottom: 1rem;"><%= t('admin.milestones.legend.title') || 'Legend' %></h3>
     <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
       <div style="display: flex; align-items: center; gap: 0.5rem;">
         <span style="color: #10b981; font-size: 1.5rem;">✓</span>
-        <span>Milestone achieved</span>
+        <span><%= t('admin.milestones.legend.achieved') || 'Milestone achieved' %></span>
       </div>
       <div style="display: flex; align-items: center; gap: 0.5rem;">
         <span style="color: var(--text-light); font-size: 1.5rem;">○</span>
-        <span>Not yet achieved</span>
+        <span><%= t('admin.milestones.legend.notyet') || 'Not yet achieved' %></span>
       </div>
       <div style="display: flex; align-items: center; gap: 0.5rem;">
         <span style="font-size: 0.75rem; color: var(--text-secondary);">(2)</span>
-        <span>Number indicates multiple achievements in this category</span>
+        <span><%= t('admin.milestones.legend.multiple') || 'Number indicates multiple achievements in this category' %></span>
       </div>
     </div>
     <p style="margin-top: 1rem; color: var(--text-secondary); font-style: italic;">
-      Click on any participant row to view detailed milestone information.
+      <%= t('admin.milestones.legend.tip') || 'Click on any participant row to view detailed milestone information.' %>
     </p>
   </div>
 </div>

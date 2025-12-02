@@ -1,9 +1,9 @@
 <%- include('../partials/header') %>
 
 <div class="container container-lg watercolor-left" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Participants Management</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 1rem;"><%= t('admin.participants.manage') %></h1>
   <p style="color: var(--text-secondary); margin-bottom: 2rem;">
-    View and manage all user accounts. Click on a user to view details and manage their account.
+    <%= t('admin.participants.manage.copy') %>
   </p>
 
   <!-- Search Bar -->
@@ -12,12 +12,12 @@
       type="text"
       name="search"
       class="search-input"
-      placeholder="Search by name or email..."
+      placeholder="<%= t('admin.participants.search.placeholder') %>"
       value="<%= search %>"
     />
-    <button type="submit" class="btn btn-primary">Search</button>
+    <button type="submit" class="btn btn-primary"><%= t('admin.participants.search') %></button>
     <% if (search) { %>
-      <a href="/admin/participants" class="btn btn-outline">Clear</a>
+      <a href="/admin/participants" class="btn btn-outline"><%= t('admin.participants.clear') %></a>
     <% } %>
   </form>
 
@@ -27,11 +27,11 @@
       <table class="table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Login Count</th>
-            <th>Actions</th>
+            <th><%= t('admin.participants.table.name') %></th>
+            <th><%= t('admin.participants.table.email') %></th>
+            <th><%= t('admin.participants.table.role') %></th>
+            <th><%= t('admin.participants.table.logins') %></th>
+            <th><%= t('admin.participants.table.actions') %></th>
           </tr>
         </thead>
         <tbody>
@@ -49,7 +49,7 @@
               <td><%= user.login_count || 0 %> logins</td>
               <td>
                 <a href="/admin/participants/<%= user.id %>" class="btn btn-sm btn-secondary">
-                  View Details
+                  <%= t('admin.participants.table.view') %>
                 </a>
               </td>
             </tr>
@@ -59,22 +59,22 @@
     </div>
 
     <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
-      Showing <%= users.length %> participant<%= users.length !== 1 ? 's' : '' %>
+      <%= t('admin.participants.total') || 'Showing' %> <%= users.length %> participant<%= users.length !== 1 ? 's' : '' %>
       <% if (search) { %>
-        matching "<%= search %>"
+        <%= t('admin.participants.matching') || 'matching' %> "<%= search %>"
       <% } %>
     </div>
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
       <h3 style="color: var(--text-secondary);">
         <% if (search) { %>
-          No participants found matching "<%= search %>"
+          <%= t('admin.participants.empty.search') %> "<%= search %>"
         <% } else { %>
-          No participants found
+          <%= t('admin.participants.empty') %>
         <% } %>
       </h3>
       <% if (search) { %>
-        <a href="/admin/participants" class="btn btn-primary" style="margin-top: 1rem;">View All Participants</a>
+        <a href="/admin/participants" class="btn btn-primary" style="margin-top: 1rem;"><%= t('admin.participants.viewAll') %></a>
       <% } %>
     </div>
   <% } %>

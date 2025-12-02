@@ -3,10 +3,10 @@
 <div class="container watercolor-green" style="margin-top: 3rem; margin-bottom: 4rem;">
   <!-- Back button -->
   <div style="margin-bottom: 2rem;">
-    <a href="/admin/milestones" class="btn btn-outline">← Back to All Participants</a>
+    <a href="/admin/milestones" class="btn btn-outline"><%= t('admin.participantDetail.back') %></a>
   </div>
 
-  <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= user.name %>'s Milestones</h1>
+  <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('admin.userMilestones.title') %></h1>
   <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 3rem;"><%= user.email %></p>
 
   <% if (milestones && milestones.length > 0) { %>
@@ -16,13 +16,13 @@
         <div style="font-size: 4rem; margin-bottom: 1rem;">🏆</div>
         <h2 style="font-size: 2.5rem; margin-bottom: 0.5rem; color: white;"><%= milestones.length %></h2>
         <p style="font-size: 1.2rem; opacity: 0.9;">
-          Total Milestone<%= milestones.length !== 1 ? 's' : '' %> Achieved
+          <%= milestones.length %> <%= t('admin.milestones.legend.achieved') %>
         </p>
       </div>
     </div>
 
     <!-- Milestones Timeline -->
-    <h2 style="font-size: 1.8rem; margin-bottom: 2rem;">Achievement Timeline</h2>
+    <h2 style="font-size: 1.8rem; margin-bottom: 2rem;"><%= t('admin.userMilestones.timeline') || 'Achievement Timeline' %></h2>
 
     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
       <% milestones.forEach((milestone, index) => { %>
@@ -41,7 +41,7 @@
 
               <!-- Date -->
               <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                <strong>Achieved:</strong> <%= new Date(milestone.achieved_at).toLocaleDateString('en-US', {
+                <strong><%= t('user.milestones.achievedOn') %>:</strong> <%= new Date(milestone.achieved_at).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
@@ -74,7 +74,7 @@
 
     <!-- Breakdown by Category -->
     <div class="card" style="margin-top: 3rem; background-color: var(--sage-soft); color: var(--text-color);">
-      <h3 style="margin-bottom: 1.5rem;">Milestones by Category</h3>
+      <h3 style="margin-bottom: 1.5rem;"><%= t('admin.userMilestones.byCategory') || 'Milestones by Category' %></h3>
       <%
         // Group milestones by category
         const byCategory = {};
@@ -90,7 +90,7 @@
           <div style="padding: 1rem; background-color: var(--bg-primary); border-radius: var(--border-radius);">
             <strong style="color: var(--primary-color);"><%= category %></strong>
             <p style="color: var(--text-secondary); margin-top: 0.25rem;">
-              <%= byCategory[category].length %> achievement<%= byCategory[category].length !== 1 ? 's' : '' %>
+              <%= byCategory[category].length %> <%= t('admin.milestones.legend.achieved') %>
             </p>
           </div>
         <% }) %>
@@ -100,16 +100,16 @@
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
       <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
-      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;">No Milestones Yet</h3>
+      <h3 style="color: var(--text-secondary); margin-bottom: 1rem;"><%= t('user.milestones.empty.title') %></h3>
       <p style="color: var(--text-light);">
-        <%= user.name %> hasn't added any milestones yet.
+        <%= user.name %> <%= t('user.milestones.empty.copy') %>
       </p>
     </div>
   <% } %>
 
   <!-- Action buttons -->
   <div style="margin-top: 3rem; text-align: center;">
-    <a href="/admin/milestones" class="btn btn-primary">Back to All Participants</a>
+    <a href="/admin/milestones" class="btn btn-primary"><%= t('admin.participantDetail.back') %></a>
   </div>
 </div>
 
