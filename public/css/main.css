@@ -869,7 +869,7 @@ img {
 /* About page styles */
 .about-hero {
   background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  padding: 4rem 2rem;
+  padding: 2.75rem 2rem;
   position: relative;
   overflow: hidden;
   color: var(--white);
@@ -916,7 +916,7 @@ img {
 .about-hero__actions {
   display: flex;
   gap: 1rem;
-  margin: 2rem auto 0;
+  margin: 3rem auto 0;
   flex-wrap: wrap;
   justify-content: center;
 }
