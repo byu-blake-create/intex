@@ -13,6 +13,7 @@ require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 const path = require('path');
 
 // ============================================
@@ -87,6 +88,28 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ============================================
+// EMAIL (NODEMAILER) SETUP
+// ============================================
+// Configure a reusable transporter for contact form submissions.
+const mailTransporter =
+  process.env.MAIL_HOST && (process.env.MAIL_FROM || process.env.MAIL_USER)
+    ? nodemailer.createTransport({
+        host: process.env.MAIL_HOST,
+        port: parseInt(process.env.MAIL_PORT, 10) || 587,
+        secure:
+          process.env.MAIL_SECURE === 'true' ||
+          parseInt(process.env.MAIL_PORT, 10) === 465,
+        auth:
+          process.env.MAIL_USER && process.env.MAIL_PASS
+            ? {
+                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASS,
+              }
+            : undefined,
+      })
+    : null;
+
+// ============================================
 // MIDDLEWARE CONFIGURATION
 // ============================================
 
@@ -153,6 +176,85 @@ app.get('/', (req, res) => {
   res.render('index', {
     title: 'Home - Ella Rises',
   });
+});
+
+// Contact page - mirrors Ella Rises contact form
+app.get('/contact', (req, res) => {
+  res.render('contact', {
+    title: 'Contact Us - Ella Rises',
+    status: null,
+    formData: {},
+  });
+});
+
+// Handle contact form submission
+app.post('/contact', async (req, res) => {
+  const { topic, firstName, lastName, email, message, phone } = req.body;
+
+  const errors = [];
+  if (!topic) errors.push('Please select how you want to engage.');
+  if (!firstName) errors.push('First name is required.');
+  if (!lastName) errors.push('Last name is required.');
+  if (!email) errors.push('Email is required.');
+  if (!message) errors.push('Message is required.');
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (email && !emailPattern.test(email)) {
+    errors.push('Please enter a valid email address.');
+  }
+  if (!mailTransporter) {
+    errors.push('Email is not configured. Please try again later.');
+  }
+
+  if (errors.length > 0) {
+    return res.status(400).render('contact', {
+      title: 'Contact Us - Ella Rises',
+      status: { success: false, message: errors.join(' ') },
+      formData: { topic, firstName, lastName, email, message, phone },
+    });
+  }
+
+  try {
+    const sender =
+      process.env.MAIL_FROM || process.env.MAIL_USER || 'no-reply@localhost';
+    const recipient = process.env.MAIL_TO || sender;
+
+    await mailTransporter.sendMail({
+      from: sender,
+      to: recipient,
+      replyTo: email,
+      subject: `[Ella Rises] ${topic} - ${firstName} ${lastName}`,
+      text: `
+Topic: ${topic}
+Name: ${firstName} ${lastName}
+Email: ${email}
+Phone: ${phone || 'Not provided'}
+
+Message:
+${message}
+      `.trim(),
+      html: `
+        <p><strong>Topic:</strong> ${topic}</p>
+        <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message.replace(/\n/g, '<br>')}</p>
+      `,
+    });
+
+    res.render('contact', {
+      title: 'Contact Us - Ella Rises',
+      status: { success: true, message: 'Thanks for reaching out! We will be in touch soon.' },
+      formData: {},
+    });
+  } catch (error) {
+    console.error('Error sending contact email:', error);
+    res.status(500).render('contact', {
+      title: 'Contact Us - Ella Rises',
+      status: { success: false, message: 'There was a problem sending your message. Please try again.' },
+      formData: { topic, firstName, lastName, email, message, phone },
+    });
+  }
 });
 
 // ============================================
