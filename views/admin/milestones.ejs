@@ -6,6 +6,52 @@
     <%= t('admin.milestones.manage.copy') %>
   </p>
 
+  <!-- Success/Error Messages -->
+  <% if (req.query.success) { %>
+    <div class="alert alert-success" style="margin-bottom: 2rem;">
+      <% if (req.query.success === 'created') { %>
+        Milestone category created successfully!
+      <% } else if (req.query.success === 'updated') { %>
+        Milestone category updated successfully!
+      <% } else if (req.query.success === 'deleted') { %>
+        Milestone category deleted successfully!
+      <% } %>
+    </div>
+  <% } %>
+
+  <% if (req.query.error) { %>
+    <div class="alert alert-error" style="margin-bottom: 2rem;">
+      <%= req.query.error %>
+    </div>
+  <% } %>
+
+  <!-- Milestone Categories Management -->
+  <div class="card" style="margin-bottom: 2rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <h3 style="margin: 0;">Milestone Categories</h3>
+      <button type="button" class="btn btn-primary" onclick="document.getElementById('createMilestoneModal').style.display='block'">
+        + Add Category
+      </button>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1rem;">
+      <% milestoneCategories.forEach(cat => { %>
+        <div class="card" style="padding: 1rem; background-color: var(--sage-soft);">
+          <h4 style="margin-bottom: 0.5rem; color: var(--text-color);"><%= cat.title %></h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 1rem;"><%= cat.description || 'No description' %></p>
+          <div style="display: flex; gap: 0.5rem;">
+            <button type="button" class="btn btn-sm btn-primary"
+              onclick="openEditMilestoneModal('<%= cat.id %>', '<%= cat.title.replace(/'/g, "\\'") %>', '<%= (cat.description || '').replace(/'/g, "\\'").replace(/\n/g, "\\n") %>')">
+              Edit
+            </button>
+            <form action="/admin/milestones/<%= cat.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Delete this milestone category? This will remove it for all participants.');">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
   <!-- Search and Filter Form -->
   <div class="card" style="margin-bottom: 2rem;">
     <form method="GET" action="/admin/milestones">
@@ -123,5 +169,72 @@
     </p>
   </div>
 </div>
+
+<!-- Create Milestone Modal -->
+<div id="createMilestoneModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+  <div style="background-color: var(--bg-primary); margin: 5% auto; padding: 2rem; border-radius: var(--border-radius); max-width: 600px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+      <h2>Create Milestone Category</h2>
+      <button onclick="document.getElementById('createMilestoneModal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+    <form action="/admin/milestones/create" method="POST">
+      <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input type="text" name="title" class="form-input" placeholder="e.g., First Event Attended" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea name="description" class="form-textarea" rows="3" placeholder="Optional description of this milestone"></textarea>
+      </div>
+      <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+        <button type="submit" class="btn btn-primary">Create Category</button>
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('createMilestoneModal').style.display='none'">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Milestone Modal -->
+<div id="editMilestoneModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+  <div style="background-color: var(--bg-primary); margin: 5% auto; padding: 2rem; border-radius: var(--border-radius); max-width: 600px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+      <h2>Edit Milestone Category</h2>
+      <button onclick="document.getElementById('editMilestoneModal').style.display='none'" style="background: none; border: none; font-size: 1.5rem; cursor: pointer;">&times;</button>
+    </div>
+    <form id="editMilestoneForm" method="POST">
+      <div class="form-group">
+        <label class="form-label">Title *</label>
+        <input type="text" name="title" id="edit_milestone_title" class="form-input" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea name="description" id="edit_milestone_description" class="form-textarea" rows="3"></textarea>
+      </div>
+      <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+        <button type="submit" class="btn btn-primary">Update Category</button>
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('editMilestoneModal').style.display='none'">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+function openEditMilestoneModal(id, title, description) {
+  document.getElementById('editMilestoneForm').action = `/admin/milestones/${id}/edit`;
+  document.getElementById('edit_milestone_title').value = title || '';
+  document.getElementById('edit_milestone_description').value = description || '';
+  document.getElementById('editMilestoneModal').style.display = 'block';
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+  if (event.target.id === 'createMilestoneModal') {
+    document.getElementById('createMilestoneModal').style.display = 'none';
+  }
+  if (event.target.id === 'editMilestoneModal') {
+    document.getElementById('editMilestoneModal').style.display = 'none';
+  }
+}
+</script>
 
 <%- include('../partials/footer') %>
