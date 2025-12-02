@@ -2,8 +2,8 @@
 
 <div class="container container-sm watercolor-blush" style="margin-top: 4rem; margin-bottom: 4rem;">
   <div class="card" style="max-width: 500px; margin: 0 auto;">
-    <h1 class="card-title text-center" style="font-size: 2rem;">Join Ella Rises</h1>
-    <p class="text-center mb-4" style="color: var(--text-secondary);">Create an account to get started.</p>
+    <h1 class="card-title text-center" style="font-size: 2rem;"><%= t('auth.signup.title') %></h1>
+    <p class="text-center mb-4" style="color: var(--text-secondary);"><%= t('auth.signup.subtitle') %></p>
 
     <% if (error) { %>
       <div class="alert alert-error">
@@ -13,7 +13,7 @@
 
     <form action="/signup" method="POST">
       <div class="form-group">
-        <label for="name" class="form-label">Full Name</label>
+        <label for="name" class="form-label"><%= t('auth.signup.name') %></label>
         <input
           type="text"
           id="name"
@@ -25,7 +25,7 @@
       </div>
 
       <div class="form-group">
-        <label for="email" class="form-label">Email Address</label>
+        <label for="email" class="form-label"><%= t('auth.signup.email') %></label>
         <input
           type="email"
           id="email"
@@ -37,7 +37,7 @@
       </div>
 
       <div class="form-group">
-        <label for="password" class="form-label">Password</label>
+        <label for="password" class="form-label"><%= t('auth.signup.password') %></label>
         <input
           type="password"
           id="password"
@@ -50,7 +50,7 @@
       </div>
 
       <div class="form-group">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <label for="confirmPassword" class="form-label"><%= t('auth.signup.confirm') %></label>
         <input
           type="password"
           id="confirmPassword"
@@ -63,12 +63,12 @@
       </div>
 
       <button type="submit" class="btn btn-primary btn-block btn-lg">
-        Create Account
+        <%= t('auth.signup.button') %>
       </button>
     </form>
 
     <div class="card-footer text-center">
-      <p>Already have an account? <a href="/login" style="color: #CE325B; font-weight: 600;">Login here</a></p>
+      <p><%= t('auth.signup.loginPrompt') %> <a href="/login" style="color: #CE325B; font-weight: 600;"><%= t('auth.signup.loginLink') %></a></p>
     </div>
   </div>
 </div>
