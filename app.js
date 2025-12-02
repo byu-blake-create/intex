@@ -198,6 +198,9 @@ app.use((req, res, next) => {
 
   res.locals.locale = activeLocale;
   res.locals.t = (key) => translate(activeLocale, key);
+  const switchTo = activeLocale === 'es' ? 'en' : 'es';
+  res.locals.langSwitchHref = `${req.path}?lang=${switchTo}`;
+  res.locals.langSwitchLabel = switchTo === 'es' ? 'Español' : 'English';
   next();
 });
 
