@@ -403,6 +403,28 @@ img {
   margin-bottom: 1rem;
 }
 
+.card.image-card {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card.image-card .card-media {
+  width: 100%;
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card.image-card .card-content {
+  padding: 1.25rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .card-footer {
   margin-top: 1.5rem;
   padding-top: 1rem;
