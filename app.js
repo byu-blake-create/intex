@@ -961,23 +961,34 @@ app.get('/admin/dashboard', requireAdmin, (req, res) => {
 // Admin participants list - shows all users with search/filter
 app.get('/admin/participants', requireAdmin, async (req, res) => {
   try {
-    const { search } = req.query;
+    const { search, page = 1 } = req.query;
+    const limit = 50;
+    const offset = (parseInt(page) - 1) * limit;
 
     let query = knex('users').select('*');
+    let countQuery = knex('users').count('* as count');
 
     // Apply search filter if provided
     if (search) {
-      query = query.where(function () {
+      const searchFilter = function () {
         this.where('name', 'ilike', `%${search}%`).orWhere('email', 'ilike', `%${search}%`);
-      });
+      };
+      query = query.where(searchFilter);
+      countQuery = countQuery.where(searchFilter);
     }
 
-    const users = await query.orderBy('name', 'asc');
+    const [{ count }] = await countQuery;
+    const totalRecords = parseInt(count);
+    const totalPages = Math.ceil(totalRecords / limit);
+    const users = await query.orderBy('name', 'asc').limit(limit).offset(offset);
 
     res.render('admin/participants', {
       title: 'Participants - Admin - Ella Rises',
       users,
       search: search || '',
+      currentPage: parseInt(page),
+      totalPages,
+      totalRecords,
       req,
     });
   } catch (error) {
@@ -1157,24 +1168,35 @@ app.post('/admin/participants/:userId/delete', requireAdmin, async (req, res) =>
 // Admin events page - view/manage all events
 app.get('/admin/events', requireAdmin, async (req, res) => {
   try {
-    const search = req.query.search || '';
+    const { search = '', page = 1 } = req.query;
+    const limit = 50;
+    const offset = (parseInt(page) - 1) * limit;
 
     let query = knex('events').select('*');
+    let countQuery = knex('events').count('* as count');
 
     if (search) {
-      query = query.where(function() {
+      const searchFilter = function() {
         this.where('title', 'ilike', `%${search}%`)
             .orWhere('description', 'ilike', `%${search}%`)
             .orWhere('location', 'ilike', `%${search}%`);
-      });
+      };
+      query = query.where(searchFilter);
+      countQuery = countQuery.where(searchFilter);
     }
 
-    const events = await query.orderBy('date', 'asc');
+    const [{ count }] = await countQuery;
+    const totalRecords = parseInt(count);
+    const totalPages = Math.ceil(totalRecords / limit);
+    const events = await query.orderBy('date', 'asc').limit(limit).offset(offset);
 
     res.render('admin/events', {
       title: 'Events - Admin - Ella Rises',
       events,
       search,
+      currentPage: parseInt(page),
+      totalPages,
+      totalRecords,
       req,
     });
   } catch (error) {
@@ -1802,25 +1824,40 @@ app.post('/admin/milestones/:id/delete', requireAdmin, async (req, res) => {
 // Admin donations page - view all donations
 app.get('/admin/donations', requireAdmin, async (req, res) => {
   try {
-    const search = req.query.search || '';
+    const { search = '', page = 1 } = req.query;
+    const limit = 50;
+    const offset = (parseInt(page) - 1) * limit;
 
     let query = knex('donations')
       .leftJoin('users', 'donations.user_id', 'users.id')
       .select('donations.*', 'users.name as user_name');
 
+    let countQuery = knex('donations')
+      .leftJoin('users', 'donations.user_id', 'users.id')
+      .count('donations.id as count');
+
     if (search) {
-      query = query.where(function() {
+      const searchFilter = function() {
         this.where('users.name', 'ilike', `%${search}%`)
+            .orWhere('donations.donor_name', 'ilike', `%${search}%`)
             .orWhere('donations.amount', 'ilike', `%${search}%`);
-      });
+      };
+      query = query.where(searchFilter);
+      countQuery = countQuery.where(searchFilter);
     }
 
-    const donations = await query.orderBy('donations.created_at', 'desc');
+    const [{ count }] = await countQuery;
+    const totalRecords = parseInt(count);
+    const totalPages = Math.ceil(totalRecords / limit);
+    const donations = await query.orderBy('donations.created_at', 'desc').limit(limit).offset(offset);
 
     res.render('admin/donations', {
       title: 'Donations - Admin - Ella Rises',
       donations,
       search,
+      currentPage: parseInt(page),
+      totalPages,
+      totalRecords,
       req,
     });
   } catch (error) {
