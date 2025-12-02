@@ -1773,11 +1773,11 @@ app.get('/admin/milestones', requireAdmin, async (req, res) => {
 
     // Build query for users (non-admin participants)
     let usersQuery = knex('users')
-      .where('role', 'user')
+      .whereIn('role', ['user', 'participant'])
       .orderBy('name', 'asc');
 
     let countQuery = knex('users')
-      .where('role', 'user')
+      .whereIn('role', ['user', 'participant'])
       .count('* as count');
 
     // Apply search filter
