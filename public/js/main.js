@@ -63,9 +63,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add active class to current nav link
   const currentPath = window.location.pathname;
   document.querySelectorAll('.nav-links a').forEach(link => {
-    if (link.getAttribute('href') === currentPath) {
-      link.style.color = 'var(--primary-color)';
-      link.style.fontWeight = '600';
+    const href = link.getAttribute('href');
+    if (!href || href.startsWith('http') || href === '#') return;
+    if (
+      currentPath === href ||
+      (href !== '/' && currentPath.startsWith(href + '/'))
+    ) {
+      link.classList.add('active');
     }
   });
 });
