@@ -866,6 +866,207 @@ img {
 /* ============================================
    RESPONSIVE
    ============================================ */
+/* About page styles */
+.about-hero {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-hero__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.about-hero__text h1 {
+  font-size: 2.75rem;
+  margin-bottom: 1rem;
+}
+
+.about-hero__text .lead {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+.about-hero__actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.about-hero__tags {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.about-hero__tags span {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.about-hero__art {
+  position: relative;
+  min-height: 240px;
+}
+
+.about-art {
+  position: absolute;
+  filter: drop-shadow(0 10px 25px rgba(0, 0, 0, 0.12));
+}
+
+.about-art__float {
+  top: 10%;
+  left: 12%;
+  width: 120px;
+}
+
+.about-art__flower {
+  bottom: 10%;
+  right: 8%;
+  width: 140px;
+}
+
+.about-art__sun {
+  top: 45%;
+  right: 28%;
+  width: 110px;
+}
+
+.about-mission {
+  margin: 3rem auto;
+}
+
+.about-card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  align-items: center;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.about-card__text h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.about-pillars {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.pillar {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  background: color-mix(in srgb, var(--primary-color) 15%, #ffffff 85%);
+}
+
+.pillar img {
+  width: 48px;
+  height: 48px;
+}
+
+.about-card__media {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.about-video {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: #000;
+}
+
+.about-video video {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.caption {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-heading h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.about-team,
+.about-board {
+  margin: 3rem auto;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+}
+
+.profile-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.profile-card__image img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+.profile-card__body {
+  padding: 1rem;
+}
+
+.profile-card__body h3 {
+  margin-bottom: 0.35rem;
+}
+
+.profile-card .role {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.profile-card--board .profile-card__image img {
+  height: 230px;
+}
+
 @media (max-width: 768px) {
   .nav-container {
     flex-direction: column;
@@ -899,5 +1100,17 @@ img {
   .grid-3,
   .grid-4 {
     grid-template-columns: 1fr;
+  }
+
+  .about-hero {
+    padding: 3rem 1.25rem;
+  }
+
+  .about-hero__text h1 {
+    font-size: 2.1rem;
+  }
+
+  .about-card {
+    padding: 1.5rem;
   }
 }

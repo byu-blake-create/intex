@@ -178,6 +178,39 @@ app.get('/', (req, res) => {
   });
 });
 
+// About page
+const leadershipTeam = [
+  {
+    name: 'Nadia Cates',
+    role: 'Founder & Executive Director',
+    image: '/images/about/Nadia Cates.jpeg',
+  },
+  {
+    name: 'Claudia Barillas',
+    role: 'Program Director',
+    image: '/images/about/Claudia ER Portrait.jpg',
+  },
+];
+
+const boardMembers = [
+  { name: 'Emma Guapo', role: 'Chair of the Board', image: '/images/about/Emma 01_JPG.jpg' },
+  { name: 'Dennia Gayle', role: 'Vice Chair', image: '/images/about/WhatsApp Image 2025-09-17 at 09_24_16.jpeg' },
+  { name: 'Bert Barillas', role: 'Secretary', image: '/images/about/Bert portrait.jpg' },
+  { name: 'Rogelio Osuna', role: 'Treasurer', image: '/images/about/Rogelio 01.jpg' },
+  { name: 'Zachariah Parry', role: 'Board Member', image: '/images/about/Zach-Headshot.jpg' },
+  { name: 'Shawn Cates', role: 'Board Member', image: '/images/about/Shawn portrait_JPG.jpg' },
+  { name: 'Kathy Larrabee', role: 'Board Member', image: '/images/about/Kathy Larrabee.jpg' },
+  { name: 'Rick Heizer', role: 'Board Member', image: '/images/about/Rick Heizer.jpg' },
+];
+
+app.get('/about', (req, res) => {
+  res.render('about', {
+    title: 'About - Ella Rises',
+    leadershipTeam,
+    boardMembers,
+  });
+});
+
 // Contact page - mirrors Ella Rises contact form
 app.get('/contact', (req, res) => {
   res.render('contact', {
