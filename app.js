@@ -83,6 +83,23 @@ const knex = require('knex')({
 //   - amount (decimal)
 //   - created_at (timestamp)
 
+// Ensure donations table has donation_date column to support imported dates
+async function ensureDonationDateColumn() {
+  try {
+    const hasDonationDate = await knex.schema.hasColumn('donations', 'donation_date');
+    if (!hasDonationDate) {
+      await knex.schema.alterTable('donations', (table) => {
+        table.timestamp('donation_date').defaultTo(knex.fn.now());
+      });
+      await knex('donations').update({ donation_date: knex.raw('created_at') });
+      console.log('Added donation_date column and backfilled from created_at');
+    }
+  } catch (err) {
+    console.error('Error ensuring donation_date column:', err);
+  }
+}
+ensureDonationDateColumn();
+
 // ============================================
 // EXPRESS APP SETUP
 // ============================================
@@ -1946,23 +1963,23 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
 
     // Apply date filters (use donation_date if present, fallback to created_at)
     if (start_date) {
-      query = query.where('donations.donation_date', '>=', start_date);
-      countQuery = countQuery.where('donations.donation_date', '>=', start_date);
-      totalQuery = totalQuery.where('donations.donation_date', '>=', start_date);
+      query = query.whereRaw('COALESCE(donations.donation_date, donations.created_at) >= ?', [start_date]);
+      countQuery = countQuery.whereRaw('COALESCE(donations.donation_date, donations.created_at) >= ?', [start_date]);
+      totalQuery = totalQuery.whereRaw('COALESCE(donations.donation_date, donations.created_at) >= ?', [start_date]);
     }
     if (end_date) {
       const endDateTime = new Date(end_date);
       endDateTime.setHours(23, 59, 59, 999);
-      query = query.where('donations.donation_date', '<=', endDateTime);
-      countQuery = countQuery.where('donations.donation_date', '<=', endDateTime);
-      totalQuery = totalQuery.where('donations.donation_date', '<=', endDateTime);
+      query = query.whereRaw('COALESCE(donations.donation_date, donations.created_at) <= ?', [endDateTime]);
+      countQuery = countQuery.whereRaw('COALESCE(donations.donation_date, donations.created_at) <= ?', [endDateTime]);
+      totalQuery = totalQuery.whereRaw('COALESCE(donations.donation_date, donations.created_at) <= ?', [endDateTime]);
     }
 
     const [{ count }] = await countQuery;
     const totalRecords = parseInt(count);
     const totalPages = Math.ceil(totalRecords / limit);
     const donations = await query
-      .orderBy([{ column: 'donations.donation_date', order: 'desc' }, { column: 'donations.id', order: 'desc' }])
+      .orderByRaw('COALESCE(donations.donation_date, donations.created_at) DESC, donations.id DESC')
       .limit(limit)
       .offset(offset);
 
