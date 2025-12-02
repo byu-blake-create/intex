@@ -68,4 +68,16 @@ document.addEventListener('DOMContentLoaded', function() {
       link.style.fontWeight = '600';
     }
   });
+
+  // Contact form UX: disable submit while sending
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    const submitButton = document.getElementById('contactSubmit');
+    contactForm.addEventListener('submit', () => {
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.textContent = 'Sending...';
+      }
+    });
+  }
 });
