@@ -619,7 +619,7 @@ img {
 .main-footer {
   background-color: var(--text-primary);
   color: white;
-  padding: 3rem 2rem 1.5rem;
+  padding: 1.5rem 2rem 1rem;
   margin-top: auto;
 }
 
@@ -628,13 +628,13 @@ img {
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .footer-section h3,
 .footer-section h4 {
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   font-size: 1.1rem;
 }
 
@@ -658,7 +658,7 @@ img {
 
 .footer-bottom {
   text-align: center;
-  padding-top: 2rem;
+  padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.6);
 }
