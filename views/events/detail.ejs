@@ -19,8 +19,8 @@
       <div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0; padding: 1.5rem; background-color: var(--sage-soft); border-radius: var(--border-radius); color: var(--text-color);">
         <div style="flex: 1; min-width: 200px;">
           <div style="font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem;"><%= t('events.detail.dateTime') %></div>
-          <div><%= new Date(event.date).toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
-          <div style="color: var(--text-secondary);"><%= new Date(event.date).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }) %></div>
+          <div><%= new Date(event.start_time).toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+          <div style="color: var(--text-secondary);"><%= new Date(event.start_time).toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' }) %></div>
         </div>
 
         <div style="flex: 1; min-width: 200px;">

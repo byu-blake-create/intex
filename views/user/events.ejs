@@ -14,7 +14,7 @@
           <div style="margin-bottom: 1rem;">
             <span class="badge badge-success"><%= t('user.events.registered') %></span>
             <span class="badge badge-primary" style="margin-left: 0.5rem;">
-              <%= new Date(event.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+              <%= new Date(event.start_time).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
             </span>
           </div>
           <div style="margin-bottom: 1rem; color: var(--text-secondary);">

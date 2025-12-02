@@ -48,7 +48,7 @@
               id="date"
               name="date"
               class="form-input"
-              value="<%= event ? new Date(event.date).toISOString().slice(0, 16) : '' %>"
+              value="<%= event ? new Date(event.start_time).toISOString().slice(0, 16) : '' %>"
               required
             />
           </div>

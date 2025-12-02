@@ -16,7 +16,7 @@
           <div class="card-title"><%= event.title %></div>
           <div style="margin-bottom: 1rem;">
             <span class="badge badge-primary">
-              <%= new Date(event.date).toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+              <%= new Date(event.start_time).toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
             </span>
           </div>
           <p class="card-text">

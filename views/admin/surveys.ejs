@@ -138,8 +138,68 @@
       </table>
     </div>
 
-    <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
-      <%= t('admin.surveys.total') %>: <%= surveys.length %> survey response<%= surveys.length !== 1 ? 's' : '' %>
+    <!-- Pagination Controls -->
+    <% if (totalPages > 1) { %>
+      <%
+        const buildQueryString = (page) => {
+          const params = new URLSearchParams();
+          params.set('page', page);
+          if (search_event) params.set('search_event', search_event);
+          if (search_participant) params.set('search_participant', search_participant);
+          if (sort_by) params.set('sort_by', sort_by);
+          if (sort_order) params.set('sort_order', sort_order);
+          if (filter_nps) params.set('filter_nps', filter_nps);
+          return '?' + params.toString();
+        };
+      %>
+      <div style="margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+        <% if (currentPage > 1) { %>
+          <a href="/admin/surveys<%= buildQueryString(currentPage - 1) %>" class="btn btn-sm btn-outline">← Previous</a>
+        <% } %>
+
+        <%
+          const maxVisible = 7;
+          let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+          let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+          if (endPage - startPage < maxVisible - 1) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+          }
+        %>
+
+        <% if (startPage > 1) { %>
+          <a href="/admin/surveys<%= buildQueryString(1) %>" class="btn btn-sm btn-outline">1</a>
+          <% if (startPage > 2) { %>
+            <span style="padding: 0 0.5rem;">...</span>
+          <% } %>
+        <% } %>
+
+        <% for (let i = startPage; i <= endPage; i++) { %>
+          <% if (i === currentPage) { %>
+            <span class="btn btn-sm btn-primary" style="pointer-events: none;"><%= i %></span>
+          <% } else { %>
+            <a href="/admin/surveys<%= buildQueryString(i) %>" class="btn btn-sm btn-outline"><%= i %></a>
+          <% } %>
+        <% } %>
+
+        <% if (endPage < totalPages) { %>
+          <% if (endPage < totalPages - 1) { %>
+            <span style="padding: 0 0.5rem;">...</span>
+          <% } %>
+          <a href="/admin/surveys<%= buildQueryString(totalPages) %>" class="btn btn-sm btn-outline"><%= totalPages %></a>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+          <a href="/admin/surveys<%= buildQueryString(currentPage + 1) %>" class="btn btn-sm btn-outline">Next →</a>
+        <% } %>
+      </div>
+    <% } %>
+
+    <div style="margin-top: 1rem; text-align: center; color: var(--text-secondary);">
+      <% if (typeof totalRecords !== 'undefined' && totalPages > 1) { %>
+        Showing page <%= currentPage %> of <%= totalPages %> (<%= totalRecords %> total survey responses)
+      <% } else { %>
+        <%= t('admin.surveys.total') %>: <%= surveys.length %> survey response<%= surveys.length !== 1 ? 's' : '' %>
+      <% } %>
     </div>
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">

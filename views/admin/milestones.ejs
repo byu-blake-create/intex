@@ -129,8 +129,65 @@
       </table>
     </div>
 
-    <div style="margin-top: 2rem; text-align: center; color: var(--text-secondary);">
-      <%= t('admin.participants.total') || 'Showing' %> <%= users.length %> participant<%= users.length !== 1 ? 's' : '' %>
+    <!-- Pagination Controls -->
+    <% if (totalPages > 1) { %>
+      <%
+        const buildQueryString = (page) => {
+          const params = new URLSearchParams();
+          params.set('page', page);
+          if (search) params.set('search', search);
+          if (filter_milestone) params.set('filter_milestone', filter_milestone);
+          return '?' + params.toString();
+        };
+      %>
+      <div style="margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+        <% if (currentPage > 1) { %>
+          <a href="/admin/milestones<%= buildQueryString(currentPage - 1) %>" class="btn btn-sm btn-outline">← Previous</a>
+        <% } %>
+
+        <%
+          const maxVisible = 7;
+          let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+          let endPage = Math.min(totalPages, startPage + maxVisible - 1);
+          if (endPage - startPage < maxVisible - 1) {
+            startPage = Math.max(1, endPage - maxVisible + 1);
+          }
+        %>
+
+        <% if (startPage > 1) { %>
+          <a href="/admin/milestones<%= buildQueryString(1) %>" class="btn btn-sm btn-outline">1</a>
+          <% if (startPage > 2) { %>
+            <span style="padding: 0 0.5rem;">...</span>
+          <% } %>
+        <% } %>
+
+        <% for (let i = startPage; i <= endPage; i++) { %>
+          <% if (i === currentPage) { %>
+            <span class="btn btn-sm btn-primary" style="pointer-events: none;"><%= i %></span>
+          <% } else { %>
+            <a href="/admin/milestones<%= buildQueryString(i) %>" class="btn btn-sm btn-outline"><%= i %></a>
+          <% } %>
+        <% } %>
+
+        <% if (endPage < totalPages) { %>
+          <% if (endPage < totalPages - 1) { %>
+            <span style="padding: 0 0.5rem;">...</span>
+          <% } %>
+          <a href="/admin/milestones<%= buildQueryString(totalPages) %>" class="btn btn-sm btn-outline"><%= totalPages %></a>
+        <% } %>
+
+        <% if (currentPage < totalPages) { %>
+          <a href="/admin/milestones<%= buildQueryString(currentPage + 1) %>" class="btn btn-sm btn-outline">Next →</a>
+        <% } %>
+      </div>
+    <% } %>
+
+    <div style="margin-top: 1rem; text-align: center; color: var(--text-secondary);">
+      <% if (typeof totalRecords !== 'undefined' && totalPages > 1) { %>
+        Showing page <%= currentPage %> of <%= totalPages %> (<%= totalRecords %> total participants)
+      <% } else { %>
+        <%= t('admin.participants.total') || 'Showing' %> <%= users.length %> participant<%= users.length !== 1 ? 's' : '' %>
+      <% } %>
       <% if (search || filter_milestone) { %>
         (<%= t('admin.milestones.filtered') || 'filtered' %>)
       <% } %>
