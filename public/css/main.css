@@ -619,7 +619,7 @@ img {
 .main-footer {
   background-color: var(--text-primary);
   color: white;
-  padding: 1.5rem 2rem 1rem;
+  padding: 1rem 1.5rem 0.75rem;
   margin-top: auto;
 }
 
@@ -627,15 +627,15 @@ img {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 0.75rem;
 }
 
 .footer-section h3,
 .footer-section h4 {
-  margin-bottom: 0.75rem;
-  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
 }
 
 .footer-section ul {
@@ -643,12 +643,13 @@ img {
 }
 
 .footer-section ul li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
 }
 
 .footer-section a {
   color: rgba(255, 255, 255, 0.8);
   transition: var(--transition);
+  font-size: 0.9rem;
 }
 
 .footer-section a:hover {
@@ -658,9 +659,10 @@ img {
 
 .footer-bottom {
   text-align: center;
-  padding-top: 1rem;
+  padding-top: 0.75rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
 }
 
 /* ============================================
