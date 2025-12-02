@@ -898,6 +898,8 @@ img {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2.5rem;
   align-items: flex-start;
+  justify-items: center;
+  text-align: center;
 }
 
 .about-hero__text h1 {
@@ -914,7 +916,7 @@ img {
 .about-hero__actions {
   display: flex;
   gap: 1rem;
-  margin: 1.25rem auto 0;
+  margin: 2rem auto 0;
   flex-wrap: wrap;
   justify-content: center;
 }
