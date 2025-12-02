@@ -9,6 +9,10 @@
 
     <!-- Event Card -->
     <div class="card">
+      <% if (event.image_url) { %>
+        <img src="<%= event.image_url %>" alt="<%= event.title %>" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: var(--border-radius) var(--border-radius) 0 0; margin: -1.5rem -1.5rem 2rem -1.5rem;">
+      <% } %>
+
       <h1 class="card-title" style="font-size: 2.5rem;"><%= event.title %></h1>
 
       <!-- Event Meta Info -->

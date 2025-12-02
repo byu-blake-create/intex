@@ -1,0 +1,131 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 3rem;">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <!-- Back Button -->
+    <a href="/admin/programs" style="color: #CE325B; margin-bottom: 2rem; display: inline-block;">
+      ← Back to Programs Management
+    </a>
+
+    <div class="card">
+      <h1 class="card-title"><%= program ? 'Edit Program' : 'Create New Program' %></h1>
+
+      <% if (error) { %>
+        <div class="alert alert-error" style="margin-bottom: 1.5rem;">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form action="<%= program ? `/admin/programs/${program.id}/edit` : '/admin/programs/new' %>" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="title" class="form-label">Program Title *</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="form-input"
+            value="<%= program ? program.title : '' %>"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="description" class="form-label">Description *</label>
+          <textarea
+            id="description"
+            name="description"
+            class="form-textarea"
+            rows="6"
+            required
+          ><%= program ? program.description : '' %></textarea>
+        </div>
+
+        <div class="grid grid-2">
+          <div class="form-group">
+            <label for="age_range" class="form-label">Age Range</label>
+            <input
+              type="text"
+              id="age_range"
+              name="age_range"
+              class="form-input"
+              value="<%= program ? (program.age_range || '') : '' %>"
+              placeholder="e.g., Girls ages 11-18"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="schedule" class="form-label">Schedule</label>
+            <input
+              type="text"
+              id="schedule"
+              name="schedule"
+              class="form-input"
+              value="<%= program ? (program.schedule || '') : '' %>"
+              placeholder="e.g., Mondays at 7pm"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="fee" class="form-label">Fee (USD)</label>
+          <input
+            type="number"
+            id="fee"
+            name="fee"
+            class="form-input"
+            value="<%= program ? (program.fee || '') : '' %>"
+            placeholder="Leave blank for free"
+            min="0"
+            step="0.01"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="additional_info" class="form-label">Additional Information</label>
+          <textarea
+            id="additional_info"
+            name="additional_info"
+            class="form-textarea"
+            rows="4"
+          ><%= program ? (program.additional_info || '') : '' %></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="program_image" class="form-label">
+            Program Image
+            <span style="color: var(--text-secondary); font-size: 0.9rem; font-weight: normal;">
+              (Max 5MB, formats: jpg, png, gif, webp)
+            </span>
+          </label>
+
+          <% if (program && program.image_url) { %>
+            <div style="margin-bottom: 1rem;">
+              <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Current image:</p>
+              <img src="<%= program.image_url %>" alt="<%= program.title %>" style="max-width: 300px; border-radius: var(--border-radius); border: 1px solid var(--border-color);">
+            </div>
+          <% } %>
+
+          <input
+            type="file"
+            id="program_image"
+            name="program_image"
+            class="form-input"
+            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+          />
+          <p class="form-helper" style="margin-top: 0.5rem;">
+            <%= program ? 'Upload a new image to replace the current one (optional)' : 'Optional - you can add an image later' %>
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <%= program ? 'Update Program' : 'Create Program' %>
+          </button>
+          <a href="/admin/programs" class="btn btn-outline btn-lg">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
