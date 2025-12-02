@@ -2,8 +2,8 @@
 
 <section class="hero">
   <div class="container">
-    <h1>Contact Us</h1>
-    <p>Tell us how you want to engage with Ella Rises and we’ll get back to you.</p>
+    <h1><%= t('contact.title') %></h1>
+    <p><%= t('contact.lede') %></p>
   </div>
 </section>
 
@@ -15,23 +15,23 @@
   <% } %>
 
   <div class="card">
-    <div class="card-title">We would love to hear from you</div>
-    <p class="card-text">Share a little about how you’d like to connect and we’ll respond soon.</p>
+    <div class="card-title"><%= t('contact.title') %></div>
+    <p class="card-text"><%= t('contact.lede') %></p>
 
     <form action="/contact" method="POST" id="contactForm" novalidate>
       <div class="form-group">
-        <label for="topic" class="form-label">I’d like to...</label>
+        <label for="topic" class="form-label"><%= t('contact.topic.label') %></label>
         <select id="topic" name="topic" class="form-select" required>
           <option value="" disabled <%= !formData.topic ? 'selected' : '' %>>Select an option</option>
-          <option value="I’d like to participate with Ella Rises" <%= formData.topic === "I’d like to participate with Ella Rises" ? 'selected' : '' %>>I’d like to participate with Ella Rises</option>
-          <option value="I’d like to volunteer with Ella Rises" <%= formData.topic === "I’d like to volunteer with Ella Rises" ? 'selected' : '' %>>I’d like to volunteer with Ella Rises</option>
-          <option value="I’d like to support Ella Rises" <%= formData.topic === "I’d like to support Ella Rises" ? 'selected' : '' %>>I’d like to support Ella Rises</option>
+          <option value="I’d like to participate with Ella Rises" <%= formData.topic === "I’d like to participate with Ella Rises" ? 'selected' : '' %>><%= t('contact.topic.participate') %></option>
+          <option value="I’d like to volunteer with Ella Rises" <%= formData.topic === "I’d like to volunteer with Ella Rises" ? 'selected' : '' %>><%= t('contact.topic.volunteer') %></option>
+          <option value="I’d like to support Ella Rises" <%= formData.topic === "I’d like to support Ella Rises" ? 'selected' : '' %>><%= t('contact.topic.support') %></option>
         </select>
       </div>
 
       <div class="grid grid-2">
         <div class="form-group">
-          <label for="firstName" class="form-label">First Name</label>
+          <label for="firstName" class="form-label"><%= t('contact.first') %></label>
           <input
             type="text"
             id="firstName"
@@ -43,7 +43,7 @@
         </div>
 
         <div class="form-group">
-          <label for="lastName" class="form-label">Last Name</label>
+          <label for="lastName" class="form-label"><%= t('contact.last') %></label>
           <input
             type="text"
             id="lastName"
@@ -57,7 +57,7 @@
 
       <div class="grid grid-2">
         <div class="form-group">
-          <label for="email" class="form-label">Email</label>
+          <label for="email" class="form-label"><%= t('contact.email') %></label>
           <input
             type="email"
             id="email"
@@ -69,7 +69,7 @@
         </div>
 
         <div class="form-group">
-          <label for="phone" class="form-label">Phone (optional)</label>
+          <label for="phone" class="form-label"><%= t('contact.phone') %></label>
           <input
             type="tel"
             id="phone"
@@ -78,12 +78,12 @@
             value="<%= formData.phone || '' %>"
             placeholder="(123) 456-7890"
           />
-          <p class="form-success" style="margin-top: 0.35rem;">Enter your phone if you’d like text reminders.</p>
+          <p class="form-success" style="margin-top: 0.35rem;"><%= t('contact.phone.note') %></p>
         </div>
       </div>
 
       <div class="form-group">
-        <label for="message" class="form-label">How can we help?</label>
+        <label for="message" class="form-label"><%= t('contact.message') %></label>
         <textarea
           id="message"
           name="message"
@@ -93,7 +93,7 @@
       </div>
 
       <button type="submit" class="btn btn-primary btn-lg btn-block" id="contactSubmit">
-        Send Message
+        <%= t('contact.submit') %>
       </button>
     </form>
   </div>
