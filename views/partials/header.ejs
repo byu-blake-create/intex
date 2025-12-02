@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<%= locale || 'en' %>">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +7,14 @@
   <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
+  <!-- Skip Navigation Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- Main Navigation -->
-  <nav class="main-nav">
+  <nav class="main-nav" role="navigation" aria-label="Main navigation">
     <div class="nav-container">
       <div class="nav-brand">
-        <a href="/">Ella Rises</a>
+        <a href="/" aria-label="Ella Rises home">Ella Rises</a>
       </div>
 
       <ul class="nav-links">
@@ -19,14 +22,14 @@
         <li><a href="/about"><%= t('nav.about') %></a></li>
         <li><a href="/events"><%= t('nav.events') %></a></li>
         <li><a href="/programs"><%= t('nav.programs') %></a></li>
-        <li><a href="https://givebutter.com/EllaRises" target="_blank"><%= t('nav.donate') %></a></li>
+        <li><a href="https://givebutter.com/EllaRises" target="_blank" rel="noopener noreferrer" aria-label="<%= t('nav.donate') %> (opens in new window)"><%= t('nav.donate') %></a></li>
         <li><a href="/contact"><%= t('nav.contact') %></a></li>
       </ul>
 
       <div class="nav-actions">
         <% if (isLoggedIn) { %>
-          <div class="user-menu">
-            <span class="user-name">Hello, <%= user.name %></span>
+          <div class="user-menu" role="group" aria-label="User menu">
+            <span class="user-name" aria-label="Logged in as <%= user.name %>">Hello, <%= user.name %></span>
             <% if (isAdmin) { %>
               <a href="/admin/dashboard" class="btn btn-secondary">Admin</a>
             <% } else { %>
@@ -43,4 +46,4 @@
   </nav>
 
   <!-- Main Content Area -->
-  <main class="main-content">
+  <main class="main-content" id="main-content" role="main">

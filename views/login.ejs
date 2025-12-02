@@ -6,12 +6,12 @@
     <p class="text-center mb-4" style="color: var(--text-secondary);"><%= t('auth.login.subtitle') %></p>
 
     <% if (error) { %>
-      <div class="alert alert-error">
+      <div class="alert alert-error" role="alert" aria-live="polite">
         <%= error %>
       </div>
     <% } %>
 
-    <form action="/login" method="POST">
+    <form action="/login" method="POST" aria-label="Login form">
       <div class="form-group">
         <label for="email" class="form-label"><%= t('auth.login.email') %></label>
         <input
