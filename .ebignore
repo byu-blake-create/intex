@@ -1,5 +1,6 @@
 node_modules/
 .env
+.env.example
 .git/
 *.log
 .DS_Store
@@ -13,3 +14,5 @@ Database Information/
 .gitignore
 .ebextensions/
 .elasticbeanstalk/
+QA-TEST-PLAN.md
+QA-TEST-RESULTS.md

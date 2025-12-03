@@ -1,0 +1,1406 @@
+﻿event_occurrence_id,event_name,event_date_time_start,event_date_time_end,event_location,event_capacity,event_registration_deadline
+1,Mentor Office Hours,10/6/24 10:00,10/6/24 12:00,Ella Rises HQ,100,9/29/24 10:00
+2,Robotics Lab Saturday,4/2/22 10:00,4/2/22 12:00,Ella Rises HQ,100,3/26/22 10:00
+3,Mentor Office Hours,10/27/24 10:00,10/27/24 12:00,Virtual Zoom,100,10/20/24 10:00
+4,Mentor Office Hours,9/11/22 10:00,9/11/22 12:00,Art Studio 2,100,9/4/22 10:00
+5,Mentor Office Hours,8/27/23 10:00,8/27/23 12:00,Ella Rises HQ,100,8/20/23 10:00
+6,Girls in STEAM Mentoring,11/5/24 10:00,11/5/24 12:00,Community Center Room A,100,10/29/24 10:00
+7,Mentor Office Hours,1/2/22 10:00,1/2/22 12:00,Community Center Room A,100,12/26/21 10:00
+8,Mentor Office Hours,10/5/25 10:00,10/5/25 12:00,Local Library,100,9/28/25 10:00
+9,Robotics Lab Saturday,11/18/23 10:00,11/18/23 12:00,Community Center Room A,100,11/11/23 10:00
+10,Mentor Office Hours,6/23/24 10:00,6/23/24 12:00,Ella Rises HQ,100,6/16/24 10:00
+11,Girls in STEAM Mentoring,4/4/23 10:00,4/4/23 12:00,Community Center Room A,100,3/28/23 10:00
+12,Monthly Coding Club,6/15/24 10:00,6/15/24 12:00,Virtual Zoom,100,6/8/24 10:00
+13,Intro to Painting Class,9/18/25 10:00,9/18/25 12:00,Local Library,100,9/11/25 10:00
+14,Robotics Lab Saturday,2/3/24 10:00,2/3/24 12:00,Local Library,100,1/27/24 10:00
+15,Mentor Office Hours,6/16/24 10:00,6/16/24 12:00,Art Studio 2,100,6/9/24 10:00
+16,Intro to Painting Class,9/5/24 10:00,9/5/24 12:00,Community Center Room A,100,8/29/24 10:00
+17,Mentor Office Hours,8/24/25 10:00,8/24/25 12:00,Local Library,100,8/17/25 10:00
+18,Data Science Study Group,11/10/21 10:00,11/10/21 12:00,Community Center Room A,100,11/3/21 10:00
+19,Data Science Study Group,3/1/23 10:00,3/1/23 12:00,Community Center Room A,100,2/22/23 10:00
+20,Mentor Office Hours,7/2/23 10:00,7/2/23 12:00,Virtual Zoom,100,6/25/23 10:00
+21,Girls in STEAM Mentoring,9/5/23 10:00,9/5/23 12:00,Virtual Zoom,100,8/29/23 10:00
+22,Leadership Circle Meetup,5/15/23 10:00,5/15/23 12:00,Community Center Room A,100,5/8/23 10:00
+23,Girls in STEAM Mentoring,3/18/25 10:00,3/18/25 12:00,Local Library,100,3/11/25 10:00
+24,Intro to Painting Class,9/29/22 10:00,9/29/22 12:00,Local Library,100,9/22/22 10:00
+25,Intro to Painting Class,6/1/23 10:00,6/1/23 12:00,Local Library,100,5/25/23 10:00
+26,Web Dev Bootcamp Night,10/10/25 10:00,10/10/25 12:00,Community Center Room A,100,10/3/25 10:00
+27,Data Science Study Group,11/23/22 10:00,11/23/22 12:00,Local Library,100,11/16/22 10:00
+28,Data Science Study Group,4/26/23 10:00,4/26/23 12:00,Virtual Zoom,100,4/19/23 10:00
+29,Girls in STEAM Mentoring,9/12/23 10:00,9/12/23 12:00,Ella Rises HQ,100,9/5/23 10:00
+30,Robotics Lab Saturday,5/3/25 10:00,5/3/25 12:00,Local Library,100,4/26/25 10:00
+31,Girls in STEAM Mentoring,8/30/22 10:00,8/30/22 12:00,Local Library,100,8/23/22 10:00
+32,Ella Rises Annual Leadership Conference,6/15/22 10:00,6/15/22 12:00,Community Center Room A,100,6/8/22 10:00
+33,Web Dev Bootcamp Night,5/27/22 10:00,5/27/22 12:00,Ella Rises HQ,100,5/20/22 10:00
+34,Web Dev Bootcamp Night,6/24/22 10:00,6/24/22 12:00,Ella Rises HQ,100,6/17/22 10:00
+35,Mentor Office Hours,6/8/25 10:00,6/8/25 12:00,Community Center Room A,100,6/1/25 10:00
+36,Mentor Office Hours,4/21/24 10:00,4/21/24 12:00,Local Library,100,4/14/24 10:00
+37,Girls in STEAM Mentoring,6/11/24 10:00,6/11/24 12:00,Virtual Zoom,100,6/4/24 10:00
+38,Mentor Office Hours,1/14/24 10:00,1/14/24 12:00,Ella Rises HQ,100,1/7/24 10:00
+39,Intro to Painting Class,8/1/24 10:00,8/1/24 12:00,Virtual Zoom,100,7/25/24 10:00
+40,Robotics Lab Saturday,3/11/23 10:00,3/11/23 12:00,Virtual Zoom,100,3/4/23 10:00
+41,Girls in STEAM Mentoring,10/11/22 10:00,10/11/22 12:00,Community Center Room A,100,10/4/22 10:00
+42,Mentor Office Hours,6/18/23 10:00,6/18/23 12:00,Art Studio 2,100,6/11/23 10:00
+43,Mentor Office Hours,12/5/21 10:00,12/5/21 12:00,Community Center Room A,100,11/28/21 10:00
+44,Girls in STEAM Mentoring,10/22/24 10:00,10/22/24 12:00,Art Studio 2,100,10/15/24 10:00
+45,Girls in STEAM Mentoring,10/10/23 10:00,10/10/23 12:00,Ella Rises HQ,100,10/3/23 10:00
+46,Mentor Office Hours,9/4/22 10:00,9/4/22 12:00,Virtual Zoom,100,8/28/22 10:00
+47,Mentor Office Hours,3/9/25 10:00,3/9/25 12:00,Art Studio 2,100,3/2/25 10:00
+48,Robotics Lab Saturday,4/15/23 10:00,4/15/23 12:00,Ella Rises HQ,100,4/8/23 10:00
+49,Mentor Office Hours,10/22/23 10:00,10/22/23 12:00,Community Center Room A,100,10/15/23 10:00
+50,Mentor Office Hours,5/7/23 10:00,5/7/23 12:00,Ella Rises HQ,100,4/30/23 10:00
+51,Girls in STEAM Mentoring,5/16/23 10:00,5/16/23 12:00,Local Library,100,5/9/23 10:00
+52,Leadership Circle Meetup,3/15/23 10:00,3/15/23 12:00,Local Library,100,3/8/23 10:00
+53,Web Dev Bootcamp Night,12/27/24 10:00,12/27/24 12:00,Local Library,100,12/20/24 10:00
+54,Leadership Circle Meetup,12/15/22 10:00,12/15/22 12:00,Ella Rises HQ,100,12/8/22 10:00
+55,Web Dev Bootcamp Night,5/9/25 10:00,5/9/25 12:00,Virtual Zoom,100,5/2/25 10:00
+56,Girls in STEAM Mentoring,5/13/25 10:00,5/13/25 12:00,Local Library,100,5/6/25 10:00
+57,Mentor Office Hours,8/20/23 10:00,8/20/23 12:00,Art Studio 2,100,8/13/23 10:00
+58,Mentor Office Hours,10/1/23 10:00,10/1/23 12:00,Local Library,100,9/24/23 10:00
+59,Intro to Painting Class,9/4/25 10:00,9/4/25 12:00,Local Library,100,8/28/25 10:00
+60,Robotics Lab Saturday,4/27/24 10:00,4/27/24 12:00,Ella Rises HQ,100,4/20/24 10:00
+61,Robotics Lab Saturday,3/4/23 10:00,3/4/23 12:00,Local Library,100,2/25/23 10:00
+62,Girls in STEAM Mentoring,8/6/24 10:00,8/6/24 12:00,Local Library,100,7/30/24 10:00
+63,Web Dev Bootcamp Night,2/28/25 10:00,2/28/25 12:00,Community Center Room A,100,2/21/25 10:00
+64,Mentor Office Hours,5/12/24 10:00,5/12/24 12:00,Community Center Room A,100,5/5/24 10:00
+65,Mentor Office Hours,11/2/25 10:00,11/2/25 12:00,Community Center Room A,100,10/26/25 10:00
+66,Girls in STEAM Mentoring,9/27/22 10:00,9/27/22 12:00,Art Studio 2,100,9/20/22 10:00
+67,Data Science Study Group,9/24/25 10:00,9/24/25 12:00,Local Library,100,9/17/25 10:00
+68,Girls in STEAM Mentoring,10/15/24 10:00,10/15/24 12:00,Ella Rises HQ,100,10/8/24 10:00
+69,Robotics Lab Saturday,9/24/22 10:00,9/24/22 12:00,Local Library,100,9/17/22 10:00
+70,Mentor Office Hours,11/14/21 10:00,11/14/21 12:00,Art Studio 2,100,11/7/21 10:00
+71,Data Science Study Group,5/31/23 10:00,5/31/23 12:00,Ella Rises HQ,100,5/24/23 10:00
+72,Mentor Office Hours,7/20/25 10:00,7/20/25 12:00,Community Center Room A,100,7/13/25 10:00
+73,Mentor Office Hours,6/9/24 10:00,6/9/24 12:00,Local Library,100,6/2/24 10:00
+74,Robotics Lab Saturday,12/4/21 10:00,12/4/21 12:00,Local Library,100,11/27/21 10:00
+75,Data Science Study Group,8/13/25 10:00,8/13/25 12:00,Art Studio 2,100,8/6/25 10:00
+76,Web Dev Bootcamp Night,3/24/23 10:00,3/24/23 12:00,Virtual Zoom,100,3/17/23 10:00
+77,Web Dev Bootcamp Night,4/26/24 10:00,4/26/24 12:00,Community Center Room A,100,4/19/24 10:00
+78,Monthly Coding Club,2/15/24 10:00,2/15/24 12:00,Ella Rises HQ,100,2/8/24 10:00
+79,Data Science Study Group,8/30/23 10:00,8/30/23 12:00,Ella Rises HQ,100,8/23/23 10:00
+80,Mentor Office Hours,8/31/25 10:00,8/31/25 12:00,Community Center Room A,100,8/24/25 10:00
+81,Data Science Study Group,10/29/25 10:00,10/29/25 12:00,Local Library,100,10/22/25 10:00
+82,Web Dev Bootcamp Night,2/14/25 10:00,2/14/25 12:00,Community Center Room A,100,2/7/25 10:00
+83,Data Science Study Group,4/23/25 10:00,4/23/25 12:00,Virtual Zoom,100,4/16/25 10:00
+84,Data Science Study Group,2/9/22 10:00,2/9/22 12:00,Community Center Room A,100,2/2/22 10:00
+85,Intro to Painting Class,4/11/24 10:00,4/11/24 12:00,Community Center Room A,100,4/4/24 10:00
+86,Robotics Lab Saturday,8/19/23 10:00,8/19/23 12:00,Virtual Zoom,100,8/12/23 10:00
+87,Mentor Office Hours,9/29/24 10:00,9/29/24 12:00,Virtual Zoom,100,9/22/24 10:00
+88,Data Science Study Group,4/10/24 10:00,4/10/24 12:00,Ella Rises HQ,100,4/3/24 10:00
+89,Mentor Office Hours,3/12/23 10:00,3/12/23 12:00,Ella Rises HQ,100,3/5/23 10:00
+90,Girls in STEAM Mentoring,2/20/24 10:00,2/20/24 12:00,Art Studio 2,100,2/13/24 10:00
+91,Girls in STEAM Mentoring,2/18/25 10:00,2/18/25 12:00,Ella Rises HQ,100,2/11/25 10:00
+92,Mentor Office Hours,10/12/25 10:00,10/12/25 12:00,Local Library,100,10/5/25 10:00
+93,Mentor Office Hours,9/25/22 10:00,9/25/22 12:00,Local Library,100,9/18/22 10:00
+94,Mentor Office Hours,12/18/22 10:00,12/18/22 12:00,Community Center Room A,100,12/11/22 10:00
+95,Monthly Art Studio Workshop,7/15/22 10:00,7/15/22 12:00,Local Library,100,7/8/22 10:00
+96,Mentor Office Hours,11/13/22 10:00,11/13/22 12:00,Ella Rises HQ,100,11/6/22 10:00
+97,Monthly Art Studio Workshop,2/15/22 10:00,2/15/22 12:00,Virtual Zoom,100,2/8/22 10:00
+98,Intro to Painting Class,6/12/25 10:00,6/12/25 12:00,Art Studio 2,100,6/5/25 10:00
+99,Intro to Painting Class,6/29/23 10:00,6/29/23 12:00,Virtual Zoom,100,6/22/23 10:00
+100,Intro to Painting Class,3/28/24 10:00,3/28/24 12:00,Community Center Room A,100,3/21/24 10:00
+101,Mentor Office Hours,7/21/24 10:00,7/21/24 12:00,Community Center Room A,100,7/14/24 10:00
+102,Intro to Painting Class,2/13/25 10:00,2/13/25 12:00,Art Studio 2,100,2/6/25 10:00
+103,Intro to Painting Class,11/2/23 10:00,11/2/23 12:00,Community Center Room A,100,10/26/23 10:00
+104,Mentor Office Hours,1/26/25 10:00,1/26/25 12:00,Art Studio 2,100,1/19/25 10:00
+105,Mentor Office Hours,5/1/22 10:00,5/1/22 12:00,Community Center Room A,100,4/24/22 10:00
+106,Girls in STEAM Mentoring,2/4/25 10:00,2/4/25 12:00,Ella Rises HQ,100,1/28/25 10:00
+107,Intro to Painting Class,8/14/25 10:00,8/14/25 12:00,Community Center Room A,100,8/7/25 10:00
+108,Mentor Office Hours,3/10/24 10:00,3/10/24 12:00,Art Studio 2,100,3/3/24 10:00
+109,Mentor Office Hours,8/18/24 10:00,8/18/24 12:00,Art Studio 2,100,8/11/24 10:00
+110,Robotics Lab Saturday,8/13/22 10:00,8/13/22 12:00,Ella Rises HQ,100,8/6/22 10:00
+111,Robotics Lab Saturday,8/23/25 10:00,8/23/25 12:00,Local Library,100,8/16/25 10:00
+112,Girls in STEAM Mentoring,11/1/22 10:00,11/1/22 12:00,Local Library,100,10/25/22 10:00
+113,Data Science Study Group,10/12/22 10:00,10/12/22 12:00,Community Center Room A,100,10/5/22 10:00
+114,Girls in STEAM Mentoring,8/5/25 10:00,8/5/25 12:00,Local Library,100,7/29/25 10:00
+115,Data Science Study Group,3/16/22 10:00,3/16/22 12:00,Virtual Zoom,100,3/9/22 10:00
+116,Mentor Office Hours,9/21/25 10:00,9/21/25 12:00,Local Library,100,9/14/25 10:00
+117,Mentor Office Hours,2/27/22 10:00,2/27/22 12:00,Virtual Zoom,100,2/20/22 10:00
+118,Mentor Office Hours,7/27/25 10:00,7/27/25 12:00,Community Center Room A,100,7/20/25 10:00
+119,Girls in STEAM Mentoring,2/28/23 10:00,2/28/23 12:00,Local Library,100,2/21/23 10:00
+120,Intro to Painting Class,9/28/23 10:00,9/28/23 12:00,Virtual Zoom,100,9/21/23 10:00
+121,Mentor Office Hours,6/1/25 10:00,6/1/25 12:00,Art Studio 2,100,5/25/25 10:00
+122,Intro to Painting Class,2/8/24 10:00,2/8/24 12:00,Local Library,100,2/1/24 10:00
+123,Web Dev Bootcamp Night,12/3/21 10:00,12/3/21 12:00,Art Studio 2,100,11/26/21 10:00
+124,Data Science Study Group,11/20/24 10:00,11/20/24 12:00,Local Library,100,11/13/24 10:00
+125,Robotics Lab Saturday,4/19/25 10:00,4/19/25 12:00,Ella Rises HQ,100,4/12/25 10:00
+126,Data Science Study Group,1/29/25 10:00,1/29/25 12:00,Ella Rises HQ,100,1/22/25 10:00
+127,Mentor Office Hours,5/25/25 10:00,5/25/25 12:00,Art Studio 2,100,5/18/25 10:00
+128,Girls in STEAM Mentoring,4/2/24 10:00,4/2/24 12:00,Ella Rises HQ,100,3/26/24 10:00
+129,Girls in STEAM Mentoring,7/11/23 10:00,7/11/23 12:00,Local Library,100,7/4/23 10:00
+130,Mentor Office Hours,6/15/25 10:00,6/15/25 12:00,Virtual Zoom,100,6/8/25 10:00
+131,Girls in STEAM Mentoring,6/7/22 10:00,6/7/22 12:00,Art Studio 2,100,5/31/22 10:00
+132,Monthly Art Studio Workshop,9/15/25 10:00,9/15/25 12:00,Ella Rises HQ,100,9/8/25 10:00
+133,Mentor Office Hours,10/8/23 10:00,10/8/23 12:00,Community Center Room A,100,10/1/23 10:00
+134,Intro to Painting Class,7/6/23 10:00,7/6/23 12:00,Local Library,100,6/29/23 10:00
+135,Mentor Office Hours,8/21/22 10:00,8/21/22 12:00,Art Studio 2,100,8/14/22 10:00
+136,Mentor Office Hours,9/14/25 10:00,9/14/25 12:00,Virtual Zoom,100,9/7/25 10:00
+137,Mentor Office Hours,12/11/22 10:00,12/11/22 12:00,Ella Rises HQ,100,12/4/22 10:00
+138,Mentor Office Hours,11/6/22 10:00,11/6/22 12:00,Local Library,100,10/30/22 10:00
+139,Mentor Office Hours,10/15/23 10:00,10/15/23 12:00,Community Center Room A,100,10/8/23 10:00
+140,Robotics Lab Saturday,7/13/24 10:00,7/13/24 12:00,Community Center Room A,100,7/6/24 10:00
+141,Robotics Lab Saturday,10/28/23 10:00,10/28/23 12:00,Ella Rises HQ,100,10/21/23 10:00
+142,Girls in STEAM Mentoring,8/29/23 10:00,8/29/23 12:00,Art Studio 2,100,8/22/23 10:00
+143,Leadership Circle Meetup,12/15/21 10:00,12/15/21 12:00,Community Center Room A,100,12/8/21 10:00
+144,Data Science Study Group,1/25/23 10:00,1/25/23 12:00,Local Library,100,1/18/23 10:00
+145,Ella Rises Annual Leadership Conference,6/15/23 10:00,6/15/23 12:00,Community Center Room A,100,6/8/23 10:00
+146,Robotics Lab Saturday,4/22/23 10:00,4/22/23 12:00,Virtual Zoom,100,4/15/23 10:00
+147,Robotics Lab Saturday,1/4/25 10:00,1/4/25 12:00,Community Center Room A,100,12/28/24 10:00
+148,Web Dev Bootcamp Night,3/25/22 10:00,3/25/22 12:00,Community Center Room A,100,3/18/22 10:00
+149,Monthly Coding Club,4/15/24 10:00,4/15/24 12:00,Art Studio 2,100,4/8/24 10:00
+150,Girls in STEAM Mentoring,10/28/25 10:00,10/28/25 12:00,Ella Rises HQ,100,10/21/25 10:00
+151,Data Science Study Group,8/14/24 10:00,8/14/24 12:00,Virtual Zoom,100,8/7/24 10:00
+152,Web Dev Bootcamp Night,5/13/22 10:00,5/13/22 12:00,Local Library,100,5/6/22 10:00
+153,Robotics Lab Saturday,4/9/22 10:00,4/9/22 12:00,Community Center Room A,100,4/2/22 10:00
+154,Data Science Study Group,12/1/21 10:00,12/1/21 12:00,Virtual Zoom,100,11/24/21 10:00
+155,Data Science Study Group,2/5/25 10:00,2/5/25 12:00,Art Studio 2,100,1/29/25 10:00
+156,Mentor Office Hours,3/16/25 10:00,3/16/25 12:00,Local Library,100,3/9/25 10:00
+157,Web Dev Bootcamp Night,1/14/22 10:00,1/14/22 12:00,Virtual Zoom,100,1/7/22 10:00
+158,Data Science Study Group,5/22/24 10:00,5/22/24 12:00,Art Studio 2,100,5/15/24 10:00
+159,Girls in STEAM Mentoring,12/28/21 10:00,12/28/21 12:00,Art Studio 2,100,12/21/21 10:00
+160,Web Dev Bootcamp Night,1/20/23 10:00,1/20/23 12:00,Art Studio 2,100,1/13/23 10:00
+161,Mentor Office Hours,9/28/25 10:00,9/28/25 12:00,Ella Rises HQ,100,9/21/25 10:00
+162,Mentor Office Hours,10/20/24 10:00,10/20/24 12:00,Local Library,100,10/13/24 10:00
+163,Intro to Painting Class,8/21/25 10:00,8/21/25 12:00,Virtual Zoom,100,8/14/25 10:00
+164,Data Science Study Group,10/5/22 10:00,10/5/22 12:00,Art Studio 2,100,9/28/22 10:00
+165,Girls in STEAM Mentoring,5/24/22 10:00,5/24/22 12:00,Ella Rises HQ,100,5/17/22 10:00
+166,Girls in STEAM Mentoring,4/18/23 10:00,4/18/23 12:00,Local Library,100,4/11/23 10:00
+167,Girls in STEAM Mentoring,1/10/23 10:00,1/10/23 12:00,Ella Rises HQ,100,1/3/23 10:00
+168,Web Dev Bootcamp Night,9/8/23 10:00,9/8/23 12:00,Art Studio 2,100,9/1/23 10:00
+169,Robotics Lab Saturday,5/31/25 10:00,5/31/25 12:00,Art Studio 2,100,5/24/25 10:00
+170,Mentor Office Hours,2/5/23 10:00,2/5/23 12:00,Community Center Room A,100,1/29/23 10:00
+171,Intro to Painting Class,8/3/23 10:00,8/3/23 12:00,Art Studio 2,100,7/27/23 10:00
+172,Mentor Office Hours,1/1/23 10:00,1/1/23 12:00,Virtual Zoom,100,12/25/22 10:00
+173,Mentor Office Hours,10/30/22 10:00,10/30/22 12:00,Local Library,100,10/23/22 10:00
+174,Girls in STEAM Mentoring,3/21/23 10:00,3/21/23 12:00,Ella Rises HQ,100,3/14/23 10:00
+175,Robotics Lab Saturday,12/2/23 10:00,12/2/23 12:00,Art Studio 2,100,11/25/23 10:00
+176,Robotics Lab Saturday,3/2/24 10:00,3/2/24 12:00,Virtual Zoom,100,2/24/24 10:00
+177,Robotics Lab Saturday,9/27/25 10:00,9/27/25 12:00,Virtual Zoom,100,9/20/25 10:00
+178,Mentor Office Hours,3/17/24 10:00,3/17/24 12:00,Local Library,100,3/10/24 10:00
+179,Mentor Office Hours,6/30/24 10:00,6/30/24 12:00,Local Library,100,6/23/24 10:00
+180,Robotics Lab Saturday,8/3/24 10:00,8/3/24 12:00,Virtual Zoom,100,7/27/24 10:00
+181,Girls in STEAM Mentoring,11/15/22 10:00,11/15/22 12:00,Community Center Room A,100,11/8/22 10:00
+182,Web Dev Bootcamp Night,12/15/23 10:00,12/15/23 12:00,Art Studio 2,100,12/8/23 10:00
+183,Intro to Painting Class,10/12/23 10:00,10/12/23 12:00,Community Center Room A,100,10/5/23 10:00
+184,Data Science Study Group,7/9/25 10:00,7/9/25 12:00,Local Library,100,7/2/25 10:00
+185,Data Science Study Group,6/18/25 10:00,6/18/25 12:00,Virtual Zoom,100,6/11/25 10:00
+186,Mentor Office Hours,6/19/22 10:00,6/19/22 12:00,Virtual Zoom,100,6/12/22 10:00
+187,Data Science Study Group,10/4/23 10:00,10/4/23 12:00,Ella Rises HQ,100,9/27/23 10:00
+188,Intro to Painting Class,7/7/22 10:00,7/7/22 12:00,Virtual Zoom,100,6/30/22 10:00
+189,Web Dev Bootcamp Night,11/19/21 10:00,11/19/21 12:00,Community Center Room A,100,11/12/21 10:00
+190,Monthly Art Studio Workshop,9/15/23 10:00,9/15/23 12:00,Art Studio 2,100,9/8/23 10:00
+191,Mentor Office Hours,11/26/23 10:00,11/26/23 12:00,Art Studio 2,100,11/19/23 10:00
+192,Leadership Circle Meetup,10/15/24 10:00,10/15/24 12:00,Ella Rises HQ,100,10/8/24 10:00
+193,Intro to Painting Class,4/14/22 10:00,4/14/22 12:00,Art Studio 2,100,4/7/22 10:00
+194,Girls in STEAM Mentoring,6/14/22 10:00,6/14/22 12:00,Virtual Zoom,100,6/7/22 10:00
+195,Web Dev Bootcamp Night,4/28/23 10:00,4/28/23 12:00,Local Library,100,4/21/23 10:00
+196,Robotics Lab Saturday,5/21/22 10:00,5/21/22 12:00,Local Library,100,5/14/22 10:00
+197,Web Dev Bootcamp Night,7/4/25 10:00,7/4/25 12:00,Ella Rises HQ,100,6/27/25 10:00
+198,Girls in STEAM Mentoring,11/30/21 10:00,11/30/21 12:00,Virtual Zoom,100,11/23/21 10:00
+199,Robotics Lab Saturday,6/21/25 10:00,6/21/25 12:00,Art Studio 2,100,6/14/25 10:00
+200,Girls in STEAM Mentoring,3/25/25 10:00,3/25/25 12:00,Ella Rises HQ,100,3/18/25 10:00
+201,Girls in STEAM Mentoring,1/11/22 10:00,1/11/22 12:00,Art Studio 2,100,1/4/22 10:00
+202,Data Science Study Group,5/25/22 10:00,5/25/22 12:00,Ella Rises HQ,100,5/18/22 10:00
+203,Data Science Study Group,7/6/22 10:00,7/6/22 12:00,Local Library,100,6/29/22 10:00
+204,Robotics Lab Saturday,6/1/24 10:00,6/1/24 12:00,Community Center Room A,100,5/25/24 10:00
+205,Robotics Lab Saturday,5/11/24 10:00,5/11/24 12:00,Community Center Room A,100,5/4/24 10:00
+206,Intro to Painting Class,3/16/23 10:00,3/16/23 12:00,Local Library,100,3/9/23 10:00
+207,Web Dev Bootcamp Night,1/31/25 10:00,1/31/25 12:00,Ella Rises HQ,100,1/24/25 10:00
+208,Girls in STEAM Mentoring,2/15/22 10:00,2/15/22 12:00,Ella Rises HQ,100,2/8/22 10:00
+209,Mentor Office Hours,5/14/23 10:00,5/14/23 12:00,Ella Rises HQ,100,5/7/23 10:00
+210,Web Dev Bootcamp Night,8/15/25 10:00,8/15/25 12:00,Ella Rises HQ,100,8/8/25 10:00
+211,Monthly Art Studio Workshop,10/15/24 10:00,10/15/24 12:00,Art Studio 2,100,10/8/24 10:00
+212,Girls in STEAM Mentoring,7/15/25 10:00,7/15/25 12:00,Virtual Zoom,100,7/8/25 10:00
+213,Robotics Lab Saturday,1/25/25 10:00,1/25/25 12:00,Community Center Room A,100,1/18/25 10:00
+214,Data Science Study Group,4/16/25 10:00,4/16/25 12:00,Virtual Zoom,100,4/9/25 10:00
+215,Girls in STEAM Mentoring,12/12/23 10:00,12/12/23 12:00,Virtual Zoom,100,12/5/23 10:00
+216,Mentor Office Hours,10/2/22 10:00,10/2/22 12:00,Virtual Zoom,100,9/25/22 10:00
+217,Intro to Painting Class,8/29/24 10:00,8/29/24 12:00,Art Studio 2,100,8/22/24 10:00
+218,Mentor Office Hours,6/25/23 10:00,6/25/23 12:00,Ella Rises HQ,100,6/18/23 10:00
+219,Monthly Art Studio Workshop,12/15/22 10:00,12/15/22 12:00,Local Library,100,12/8/22 10:00
+220,Robotics Lab Saturday,7/15/23 10:00,7/15/23 12:00,Local Library,100,7/8/23 10:00
+221,Mentor Office Hours,9/1/24 10:00,9/1/24 12:00,Community Center Room A,100,8/25/24 10:00
+222,Robotics Lab Saturday,5/14/22 10:00,5/14/22 12:00,Local Library,100,5/7/22 10:00
+223,Girls in STEAM Mentoring,5/21/24 10:00,5/21/24 12:00,Local Library,100,5/14/24 10:00
+224,Intro to Painting Class,11/10/22 10:00,11/10/22 12:00,Community Center Room A,100,11/3/22 10:00
+225,Robotics Lab Saturday,3/5/22 10:00,3/5/22 12:00,Local Library,100,2/26/22 10:00
+226,Mentor Office Hours,3/6/22 10:00,3/6/22 12:00,Community Center Room A,100,2/27/22 10:00
+227,Data Science Study Group,10/11/23 10:00,10/11/23 12:00,Local Library,100,10/4/23 10:00
+228,Data Science Study Group,7/16/25 10:00,7/16/25 12:00,Community Center Room A,100,7/9/25 10:00
+229,Robotics Lab Saturday,9/3/22 10:00,9/3/22 12:00,Art Studio 2,100,8/27/22 10:00
+230,Monthly Art Studio Workshop,7/15/24 10:00,7/15/24 12:00,Community Center Room A,100,7/8/24 10:00
+231,Girls in STEAM Mentoring,9/24/24 10:00,9/24/24 12:00,Local Library,100,9/17/24 10:00
+232,Intro to Painting Class,9/19/24 10:00,9/19/24 12:00,Ella Rises HQ,100,9/12/24 10:00
+233,Web Dev Bootcamp Night,6/20/25 10:00,6/20/25 12:00,Art Studio 2,100,6/13/25 10:00
+234,Leadership Circle Meetup,11/15/24 10:00,11/15/24 12:00,Art Studio 2,100,11/8/24 10:00
+235,Mentor Office Hours,1/16/22 10:00,1/16/22 12:00,Local Library,100,1/9/22 10:00
+236,Girls in STEAM Mentoring,6/4/24 10:00,6/4/24 12:00,Community Center Room A,100,5/28/24 10:00
+237,Girls in STEAM Mentoring,1/24/23 10:00,1/24/23 12:00,Community Center Room A,100,1/17/23 10:00
+238,Web Dev Bootcamp Night,6/10/22 10:00,6/10/22 12:00,Ella Rises HQ,100,6/3/22 10:00
+239,Data Science Study Group,1/31/24 10:00,1/31/24 12:00,Art Studio 2,100,1/24/24 10:00
+240,STEAM Summit & Expo,6/15/25 10:00,6/15/25 12:00,Community Center Room A,100,6/8/25 10:00
+241,Intro to Painting Class,1/26/23 10:00,1/26/23 12:00,Ella Rises HQ,100,1/19/23 10:00
+242,Intro to Painting Class,1/9/25 10:00,1/9/25 12:00,Art Studio 2,100,1/2/25 10:00
+243,Monthly Art Studio Workshop,6/15/25 10:00,6/15/25 12:00,Virtual Zoom,100,6/8/25 10:00
+244,Monthly Coding Club,4/15/25 10:00,4/15/25 12:00,Ella Rises HQ,100,4/8/25 10:00
+245,Girls in STEAM Mentoring,8/12/25 10:00,8/12/25 12:00,Ella Rises HQ,100,8/5/25 10:00
+246,Leadership Circle Meetup,6/15/25 10:00,6/15/25 12:00,Art Studio 2,100,6/8/25 10:00
+247,Robotics Lab Saturday,8/31/24 10:00,8/31/24 12:00,Virtual Zoom,100,8/24/24 10:00
+248,Data Science Study Group,9/13/23 10:00,9/13/23 12:00,Virtual Zoom,100,9/6/23 10:00
+249,Intro to Painting Class,6/9/22 10:00,6/9/22 12:00,Ella Rises HQ,100,6/2/22 10:00
+250,Robotics Lab Saturday,12/30/23 10:00,12/30/23 12:00,Virtual Zoom,100,12/23/23 10:00
+251,Data Science Study Group,1/22/25 10:00,1/22/25 12:00,Local Library,100,1/15/25 10:00
+252,Leadership Circle Meetup,7/15/24 10:00,7/15/24 12:00,Virtual Zoom,100,7/8/24 10:00
+253,Robotics Lab Saturday,7/8/23 10:00,7/8/23 12:00,Ella Rises HQ,100,7/1/23 10:00
+254,Girls in STEAM Mentoring,3/19/24 10:00,3/19/24 12:00,Ella Rises HQ,100,3/12/24 10:00
+255,Web Dev Bootcamp Night,12/1/23 10:00,12/1/23 12:00,Local Library,100,11/24/23 10:00
+256,Mentor Office Hours,4/13/25 10:00,4/13/25 12:00,Local Library,100,4/6/25 10:00
+257,Robotics Lab Saturday,4/29/23 10:00,4/29/23 12:00,Local Library,100,4/22/23 10:00
+258,Girls in STEAM Mentoring,1/2/24 10:00,1/2/24 12:00,Virtual Zoom,100,12/26/23 10:00
+259,Intro to Painting Class,5/18/23 10:00,5/18/23 12:00,Art Studio 2,100,5/11/23 10:00
+260,Girls in STEAM Mentoring,11/9/21 10:00,11/9/21 12:00,Art Studio 2,100,11/2/21 10:00
+261,Monthly Art Studio Workshop,6/15/22 10:00,6/15/22 12:00,Virtual Zoom,100,6/8/22 10:00
+262,Robotics Lab Saturday,2/4/23 10:00,2/4/23 12:00,Community Center Room A,100,1/28/23 10:00
+263,Web Dev Bootcamp Night,1/24/25 10:00,1/24/25 12:00,Ella Rises HQ,100,1/17/25 10:00
+264,Intro to Painting Class,6/15/23 10:00,6/15/23 12:00,Ella Rises HQ,100,6/8/23 10:00
+265,Data Science Study Group,6/22/22 10:00,6/22/22 12:00,Local Library,100,6/15/22 10:00
+266,Data Science Study Group,8/16/23 10:00,8/16/23 12:00,Community Center Room A,100,8/9/23 10:00
+267,Data Science Study Group,8/23/23 10:00,8/23/23 12:00,Ella Rises HQ,100,8/16/23 10:00
+268,Girls in STEAM Mentoring,4/8/25 10:00,4/8/25 12:00,Local Library,100,4/1/25 10:00
+269,Mentor Office Hours,7/13/25 10:00,7/13/25 12:00,Ella Rises HQ,100,7/6/25 10:00
+270,Intro to Painting Class,6/6/24 10:00,6/6/24 12:00,Art Studio 2,100,5/30/24 10:00
+271,Intro to Painting Class,8/22/24 10:00,8/22/24 12:00,Virtual Zoom,100,8/15/24 10:00
+272,Mentor Office Hours,1/22/23 10:00,1/22/23 12:00,Art Studio 2,100,1/15/23 10:00
+273,Mentor Office Hours,8/3/25 10:00,8/3/25 12:00,Virtual Zoom,100,7/27/25 10:00
+274,Mentor Office Hours,2/16/25 10:00,2/16/25 12:00,Art Studio 2,100,2/9/25 10:00
+275,Intro to Painting Class,12/28/23 10:00,12/28/23 12:00,Ella Rises HQ,100,12/21/23 10:00
+276,Girls in STEAM Mentoring,11/29/22 10:00,11/29/22 12:00,Community Center Room A,100,11/22/22 10:00
+277,Mentor Office Hours,8/6/23 10:00,8/6/23 12:00,Ella Rises HQ,100,7/30/23 10:00
+278,Leadership Circle Meetup,8/15/22 10:00,8/15/22 12:00,Ella Rises HQ,100,8/8/22 10:00
+279,Robotics Lab Saturday,12/23/23 10:00,12/23/23 12:00,Virtual Zoom,100,12/16/23 10:00
+280,Mentor Office Hours,9/18/22 10:00,9/18/22 12:00,Virtual Zoom,100,9/11/22 10:00
+281,Mentor Office Hours,1/21/24 10:00,1/21/24 12:00,Art Studio 2,100,1/14/24 10:00
+282,Web Dev Bootcamp Night,2/24/23 10:00,2/24/23 12:00,Virtual Zoom,100,2/17/23 10:00
+283,Girls in STEAM Mentoring,3/28/23 10:00,3/28/23 12:00,Virtual Zoom,100,3/21/23 10:00
+284,Monthly Coding Club,12/15/22 10:00,12/15/22 12:00,Community Center Room A,100,12/8/22 10:00
+285,Girls in STEAM Mentoring,11/19/24 10:00,11/19/24 12:00,Ella Rises HQ,100,11/12/24 10:00
+286,Girls in STEAM Mentoring,4/5/22 10:00,4/5/22 12:00,Virtual Zoom,100,3/29/22 10:00
+287,Mentor Office Hours,3/2/25 10:00,3/2/25 12:00,Ella Rises HQ,100,2/23/25 10:00
+288,Web Dev Bootcamp Night,1/3/25 10:00,1/3/25 12:00,Art Studio 2,100,12/27/24 10:00
+289,Robotics Lab Saturday,9/16/23 10:00,9/16/23 12:00,Art Studio 2,100,9/9/23 10:00
+290,Robotics Lab Saturday,11/12/22 10:00,11/12/22 12:00,Local Library,100,11/5/22 10:00
+291,Web Dev Bootcamp Night,8/4/23 10:00,8/4/23 12:00,Community Center Room A,100,7/28/23 10:00
+292,Data Science Study Group,5/21/25 10:00,5/21/25 12:00,Local Library,100,5/14/25 10:00
+293,Robotics Lab Saturday,9/10/22 10:00,9/10/22 12:00,Local Library,100,9/3/22 10:00
+294,Robotics Lab Saturday,10/4/25 10:00,10/4/25 12:00,Local Library,100,9/27/25 10:00
+295,Mentor Office Hours,7/14/24 10:00,7/14/24 12:00,Ella Rises HQ,100,7/7/24 10:00
+296,Robotics Lab Saturday,9/20/25 10:00,9/20/25 12:00,Ella Rises HQ,100,9/13/25 10:00
+297,Web Dev Bootcamp Night,3/10/23 10:00,3/10/23 12:00,Community Center Room A,100,3/3/23 10:00
+298,Data Science Study Group,6/8/22 10:00,6/8/22 12:00,Local Library,100,6/1/22 10:00
+299,Monthly Art Studio Workshop,6/15/24 10:00,6/15/24 12:00,Community Center Room A,100,6/8/24 10:00
+300,Web Dev Bootcamp Night,5/2/25 10:00,5/2/25 12:00,Ella Rises HQ,100,4/25/25 10:00
+301,Monthly Coding Club,1/15/24 10:00,1/15/24 12:00,Ella Rises HQ,100,1/8/24 10:00
+302,Data Science Study Group,11/2/22 10:00,11/2/22 12:00,Ella Rises HQ,100,10/26/22 10:00
+303,Intro to Painting Class,9/11/25 10:00,9/11/25 12:00,Art Studio 2,100,9/4/25 10:00
+304,Web Dev Bootcamp Night,3/28/25 10:00,3/28/25 12:00,Art Studio 2,100,3/21/25 10:00
+305,Leadership Circle Meetup,3/15/25 10:00,3/15/25 12:00,Virtual Zoom,100,3/8/25 10:00
+306,Leadership Circle Meetup,6/15/24 10:00,6/15/24 12:00,Local Library,100,6/8/24 10:00
+307,Mentor Office Hours,4/30/23 10:00,4/30/23 12:00,Local Library,100,4/23/23 10:00
+308,Mentor Office Hours,1/29/23 10:00,1/29/23 12:00,Virtual Zoom,100,1/22/23 10:00
+309,Intro to Painting Class,8/24/23 10:00,8/24/23 12:00,Community Center Room A,100,8/17/23 10:00
+310,Monthly Coding Club,8/15/22 10:00,8/15/22 12:00,Community Center Room A,100,8/8/22 10:00
+311,Leadership Circle Meetup,4/15/23 10:00,4/15/23 12:00,Virtual Zoom,100,4/8/23 10:00
+312,Monthly Art Studio Workshop,11/15/22 10:00,11/15/22 12:00,Virtual Zoom,100,11/8/22 10:00
+313,Girls in STEAM Mentoring,10/21/25 10:00,10/21/25 12:00,Ella Rises HQ,100,10/14/25 10:00
+314,Data Science Study Group,6/29/22 10:00,6/29/22 12:00,Community Center Room A,100,6/22/22 10:00
+315,Intro to Painting Class,4/17/25 10:00,4/17/25 12:00,Community Center Room A,100,4/10/25 10:00
+316,Mentor Office Hours,11/3/24 10:00,11/3/24 12:00,Virtual Zoom,100,10/27/24 10:00
+317,Intro to Painting Class,4/24/25 10:00,4/24/25 12:00,Local Library,100,4/17/25 10:00
+318,Intro to Painting Class,5/11/23 10:00,5/11/23 12:00,Ella Rises HQ,100,5/4/23 10:00
+319,Mentor Office Hours,3/23/25 10:00,3/23/25 12:00,Ella Rises HQ,100,3/16/25 10:00
+320,Mentor Office Hours,4/27/25 10:00,4/27/25 12:00,Virtual Zoom,100,4/20/25 10:00
+321,Web Dev Bootcamp Night,5/30/25 10:00,5/30/25 12:00,Ella Rises HQ,100,5/23/25 10:00
+322,Web Dev Bootcamp Night,8/16/24 10:00,8/16/24 12:00,Local Library,100,8/9/24 10:00
+323,Robotics Lab Saturday,4/6/24 10:00,4/6/24 12:00,Local Library,100,3/30/24 10:00
+324,Data Science Study Group,1/26/22 10:00,1/26/22 12:00,Ella Rises HQ,100,1/19/22 10:00
+325,Robotics Lab Saturday,3/9/24 10:00,3/9/24 12:00,Art Studio 2,100,3/2/24 10:00
+326,Intro to Painting Class,6/26/25 10:00,6/26/25 12:00,Community Center Room A,100,6/19/25 10:00
+327,STEAM Summit & Expo,6/15/23 10:00,6/15/23 12:00,Community Center Room A,100,6/8/23 10:00
+328,Web Dev Bootcamp Night,10/14/22 10:00,10/14/22 12:00,Community Center Room A,100,10/7/22 10:00
+329,Robotics Lab Saturday,7/19/25 10:00,7/19/25 12:00,Local Library,100,7/12/25 10:00
+330,Monthly Art Studio Workshop,10/15/25 10:00,10/15/25 12:00,Local Library,100,10/8/25 10:00
+331,Mentor Office Hours,7/7/24 10:00,7/7/24 12:00,Community Center Room A,100,6/30/24 10:00
+332,Robotics Lab Saturday,11/27/21 10:00,11/27/21 12:00,Ella Rises HQ,100,11/20/21 10:00
+333,Mentor Office Hours,10/23/22 10:00,10/23/22 12:00,Local Library,100,10/16/22 10:00
+334,Web Dev Bootcamp Night,9/22/23 10:00,9/22/23 12:00,Community Center Room A,100,9/15/23 10:00
+335,Mentor Office Hours,3/20/22 10:00,3/20/22 12:00,Local Library,100,3/13/22 10:00
+336,Ella Rises Annual Leadership Conference,6/15/25 10:00,6/15/25 12:00,Art Studio 2,100,6/8/25 10:00
+337,Girls in STEAM Mentoring,4/15/25 10:00,4/15/25 12:00,Ella Rises HQ,100,4/8/25 10:00
+338,Data Science Study Group,5/3/23 10:00,5/3/23 12:00,Ella Rises HQ,100,4/26/23 10:00
+339,Intro to Painting Class,3/24/22 10:00,3/24/22 12:00,Ella Rises HQ,100,3/17/22 10:00
+340,Girls in STEAM Mentoring,1/23/24 10:00,1/23/24 12:00,Art Studio 2,100,1/16/24 10:00
+341,Intro to Painting Class,11/16/23 10:00,11/16/23 12:00,Art Studio 2,100,11/9/23 10:00
+342,Leadership Circle Meetup,6/15/23 10:00,6/15/23 12:00,Virtual Zoom,100,6/8/23 10:00
+343,Girls in STEAM Mentoring,6/28/22 10:00,6/28/22 12:00,Ella Rises HQ,100,6/21/22 10:00
+344,Girls in STEAM Mentoring,8/27/24 10:00,8/27/24 12:00,Art Studio 2,100,8/20/24 10:00
+345,Data Science Study Group,6/25/25 10:00,6/25/25 12:00,Virtual Zoom,100,6/18/25 10:00
+346,Robotics Lab Saturday,1/18/25 10:00,1/18/25 12:00,Art Studio 2,100,1/11/25 10:00
+347,Data Science Study Group,10/15/25 10:00,10/15/25 12:00,Community Center Room A,100,10/8/25 10:00
+348,Mentor Office Hours,5/22/22 10:00,5/22/22 12:00,Community Center Room A,100,5/15/22 10:00
+349,Mentor Office Hours,12/24/23 10:00,12/24/23 12:00,Ella Rises HQ,100,12/17/23 10:00
+350,Girls in STEAM Mentoring,2/27/24 10:00,2/27/24 12:00,Virtual Zoom,100,2/20/24 10:00
+351,Data Science Study Group,9/25/24 10:00,9/25/24 12:00,Virtual Zoom,100,9/18/24 10:00
+352,Girls in STEAM Mentoring,4/19/22 10:00,4/19/22 12:00,Community Center Room A,100,4/12/22 10:00
+353,Girls in STEAM Mentoring,4/12/22 10:00,4/12/22 12:00,Community Center Room A,100,4/5/22 10:00
+354,Data Science Study Group,12/6/23 10:00,12/6/23 12:00,Local Library,100,11/29/23 10:00
+355,Robotics Lab Saturday,11/2/24 10:00,11/2/24 12:00,Art Studio 2,100,10/26/24 10:00
+356,Robotics Lab Saturday,3/8/25 10:00,3/8/25 12:00,Virtual Zoom,100,3/1/25 10:00
+357,Data Science Study Group,12/22/21 10:00,12/22/21 12:00,Local Library,100,12/15/21 10:00
+358,Web Dev Bootcamp Night,5/17/24 10:00,5/17/24 12:00,Local Library,100,5/10/24 10:00
+359,Leadership Circle Meetup,4/15/25 10:00,4/15/25 12:00,Local Library,100,4/8/25 10:00
+360,Intro to Painting Class,8/8/24 10:00,8/8/24 12:00,Virtual Zoom,100,8/1/24 10:00
+361,Web Dev Bootcamp Night,7/22/22 10:00,7/22/22 12:00,Virtual Zoom,100,7/15/22 10:00
+362,Girls in STEAM Mentoring,9/17/24 10:00,9/17/24 12:00,Ella Rises HQ,100,9/10/24 10:00
+363,Web Dev Bootcamp Night,12/8/23 10:00,12/8/23 12:00,Virtual Zoom,100,12/1/23 10:00
+364,Mentor Office Hours,4/16/23 10:00,4/16/23 12:00,Local Library,100,4/9/23 10:00
+365,Mentor Office Hours,3/19/23 10:00,3/19/23 12:00,Local Library,100,3/12/23 10:00
+366,Data Science Study Group,9/14/22 10:00,9/14/22 12:00,Art Studio 2,100,9/7/22 10:00
+367,Girls in STEAM Mentoring,2/14/23 10:00,2/14/23 12:00,Ella Rises HQ,100,2/7/23 10:00
+368,Girls in STEAM Mentoring,3/29/22 10:00,3/29/22 12:00,Local Library,100,3/22/22 10:00
+369,Web Dev Bootcamp Night,3/4/22 10:00,3/4/22 12:00,Virtual Zoom,100,2/25/22 10:00
+370,Mentor Office Hours,1/30/22 10:00,1/30/22 12:00,Ella Rises HQ,100,1/23/22 10:00
+371,Girls in STEAM Mentoring,5/10/22 10:00,5/10/22 12:00,Local Library,100,5/3/22 10:00
+372,Girls in STEAM Mentoring,8/13/24 10:00,8/13/24 12:00,Ella Rises HQ,100,8/6/24 10:00
+373,Mentor Office Hours,4/28/24 10:00,4/28/24 12:00,Local Library,100,4/21/24 10:00
+374,Girls in STEAM Mentoring,5/2/23 10:00,5/2/23 12:00,Community Center Room A,100,4/25/23 10:00
+375,Web Dev Bootcamp Night,8/1/25 10:00,8/1/25 12:00,Local Library,100,7/25/25 10:00
+376,Web Dev Bootcamp Night,8/29/25 10:00,8/29/25 12:00,Virtual Zoom,100,8/22/25 10:00
+377,Data Science Study Group,10/2/24 10:00,10/2/24 12:00,Local Library,100,9/25/24 10:00
+378,Data Science Study Group,12/21/22 10:00,12/21/22 12:00,Ella Rises HQ,100,12/14/22 10:00
+379,Girls in STEAM Mentoring,12/5/23 10:00,12/5/23 12:00,Local Library,100,11/28/23 10:00
+380,Robotics Lab Saturday,6/28/25 10:00,6/28/25 12:00,Art Studio 2,100,6/21/25 10:00
+381,Web Dev Bootcamp Night,6/14/24 10:00,6/14/24 12:00,Local Library,100,6/7/24 10:00
+382,Web Dev Bootcamp Night,6/7/24 10:00,6/7/24 12:00,Art Studio 2,100,5/31/24 10:00
+383,STEAM Summit & Expo,6/15/22 10:00,6/15/22 12:00,Ella Rises HQ,100,6/8/22 10:00
+384,Mentor Office Hours,12/29/24 10:00,12/29/24 12:00,Ella Rises HQ,100,12/22/24 10:00
+385,Mentor Office Hours,7/28/24 10:00,7/28/24 12:00,Community Center Room A,100,7/21/24 10:00
+386,Robotics Lab Saturday,1/21/23 10:00,1/21/23 12:00,Local Library,100,1/14/23 10:00
+387,Robotics Lab Saturday,8/2/25 10:00,8/2/25 12:00,Community Center Room A,100,7/26/25 10:00
+388,Girls in STEAM Mentoring,1/18/22 10:00,1/18/22 12:00,Art Studio 2,100,1/11/22 10:00
+389,Girls in STEAM Mentoring,7/29/25 10:00,7/29/25 12:00,Virtual Zoom,100,7/22/25 10:00
+390,Intro to Painting Class,1/12/23 10:00,1/12/23 12:00,Community Center Room A,100,1/5/23 10:00
+391,Monthly Art Studio Workshop,5/15/24 10:00,5/15/24 12:00,Community Center Room A,100,5/8/24 10:00
+392,Mentor Office Hours,3/13/22 10:00,3/13/22 12:00,Art Studio 2,100,3/6/22 10:00
+393,Web Dev Bootcamp Night,8/12/22 10:00,8/12/22 12:00,Art Studio 2,100,8/5/22 10:00
+394,Data Science Study Group,4/6/22 10:00,4/6/22 12:00,Local Library,100,3/30/22 10:00
+395,Girls in STEAM Mentoring,8/15/23 10:00,8/15/23 12:00,Ella Rises HQ,100,8/8/23 10:00
+396,Girls in STEAM Mentoring,7/18/23 10:00,7/18/23 12:00,Local Library,100,7/11/23 10:00
+397,Robotics Lab Saturday,10/25/25 10:00,10/25/25 12:00,Ella Rises HQ,100,10/18/25 10:00
+398,Girls in STEAM Mentoring,3/4/25 10:00,3/4/25 12:00,Art Studio 2,100,2/25/25 10:00
+399,Monthly Art Studio Workshop,3/15/23 10:00,3/15/23 12:00,Art Studio 2,100,3/8/23 10:00
+400,Mentor Office Hours,5/29/22 10:00,5/29/22 12:00,Virtual Zoom,100,5/22/22 10:00
+401,Intro to Painting Class,5/15/25 10:00,5/15/25 12:00,Virtual Zoom,100,5/8/25 10:00
+402,Intro to Painting Class,8/10/23 10:00,8/10/23 12:00,Ella Rises HQ,100,8/3/23 10:00
+403,Girls in STEAM Mentoring,5/28/24 10:00,5/28/24 12:00,Virtual Zoom,100,5/21/24 10:00
+404,Girls in STEAM Mentoring,1/17/23 10:00,1/17/23 12:00,Ella Rises HQ,100,1/10/23 10:00
+405,Intro to Painting Class,3/13/25 10:00,3/13/25 12:00,Virtual Zoom,100,3/6/25 10:00
+406,Mentor Office Hours,5/11/25 10:00,5/11/25 12:00,Community Center Room A,100,5/4/25 10:00
+407,Girls in STEAM Mentoring,6/13/23 10:00,6/13/23 12:00,Art Studio 2,100,6/6/23 10:00
+408,Monthly Art Studio Workshop,8/15/22 10:00,8/15/22 12:00,Virtual Zoom,100,8/8/22 10:00
+409,Monthly Art Studio Workshop,9/15/24 10:00,9/15/24 12:00,Art Studio 2,100,9/8/24 10:00
+410,Robotics Lab Saturday,6/3/23 10:00,6/3/23 12:00,Art Studio 2,100,5/27/23 10:00
+411,Girls in STEAM Mentoring,12/6/22 10:00,12/6/22 12:00,Local Library,100,11/29/22 10:00
+412,Girls in STEAM Mentoring,7/12/22 10:00,7/12/22 12:00,Local Library,100,7/5/22 10:00
+413,Intro to Painting Class,5/1/25 10:00,5/1/25 12:00,Community Center Room A,100,4/24/25 10:00
+414,Intro to Painting Class,5/8/25 10:00,5/8/25 12:00,Ella Rises HQ,100,5/1/25 10:00
+415,Intro to Painting Class,5/12/22 10:00,5/12/22 12:00,Ella Rises HQ,100,5/5/22 10:00
+416,Mentor Office Hours,6/26/22 10:00,6/26/22 12:00,Art Studio 2,100,6/19/22 10:00
+417,Mentor Office Hours,1/12/25 10:00,1/12/25 12:00,Local Library,100,1/5/25 10:00
+418,Intro to Painting Class,6/23/22 10:00,6/23/22 12:00,Local Library,100,6/16/22 10:00
+419,Girls in STEAM Mentoring,11/26/24 10:00,11/26/24 12:00,Ella Rises HQ,100,11/19/24 10:00
+420,Monthly Coding Club,12/15/23 10:00,12/15/23 12:00,Art Studio 2,100,12/8/23 10:00
+421,Data Science Study Group,5/18/22 10:00,5/18/22 12:00,Local Library,100,5/11/22 10:00
+422,Robotics Lab Saturday,3/15/25 10:00,3/15/25 12:00,Art Studio 2,100,3/8/25 10:00
+423,Intro to Painting Class,4/25/24 10:00,4/25/24 12:00,Local Library,100,4/18/24 10:00
+424,Robotics Lab Saturday,7/20/24 10:00,7/20/24 12:00,Art Studio 2,100,7/13/24 10:00
+425,Intro to Painting Class,8/18/22 10:00,8/18/22 12:00,Local Library,100,8/11/22 10:00
+426,Girls in STEAM Mentoring,1/3/23 10:00,1/3/23 12:00,Art Studio 2,100,12/27/22 10:00
+427,Mentor Office Hours,7/31/22 10:00,7/31/22 12:00,Local Library,100,7/24/22 10:00
+428,Intro to Painting Class,11/11/21 10:00,11/11/21 12:00,Virtual Zoom,100,11/4/21 10:00
+429,Robotics Lab Saturday,11/16/24 10:00,11/16/24 12:00,Art Studio 2,100,11/9/24 10:00
+430,Girls in STEAM Mentoring,7/4/23 10:00,7/4/23 12:00,Ella Rises HQ,100,6/27/23 10:00
+431,Mentor Office Hours,3/30/25 10:00,3/30/25 12:00,Virtual Zoom,100,3/23/25 10:00
+432,Mentor Office Hours,2/26/23 10:00,2/26/23 12:00,Art Studio 2,100,2/19/23 10:00
+433,Mentor Office Hours,4/20/25 10:00,4/20/25 12:00,Local Library,100,4/13/25 10:00
+434,Mentor Office Hours,4/14/24 10:00,4/14/24 12:00,Virtual Zoom,100,4/7/24 10:00
+435,Girls in STEAM Mentoring,3/15/22 10:00,3/15/22 12:00,Ella Rises HQ,100,3/8/22 10:00
+436,Data Science Study Group,8/21/24 10:00,8/21/24 12:00,Community Center Room A,100,8/14/24 10:00
+437,Data Science Study Group,10/19/22 10:00,10/19/22 12:00,Virtual Zoom,100,10/12/22 10:00
+438,Data Science Study Group,9/18/24 10:00,9/18/24 12:00,Virtual Zoom,100,9/11/24 10:00
+439,Data Science Study Group,12/4/24 10:00,12/4/24 12:00,Art Studio 2,100,11/27/24 10:00
+440,Data Science Study Group,3/9/22 10:00,3/9/22 12:00,Virtual Zoom,100,3/2/22 10:00
+441,Mentor Office Hours,1/15/23 10:00,1/15/23 12:00,Art Studio 2,100,1/8/23 10:00
+442,Leadership Circle Meetup,7/15/22 10:00,7/15/22 12:00,Ella Rises HQ,100,7/8/22 10:00
+443,Mentor Office Hours,1/23/22 10:00,1/23/22 12:00,Local Library,100,1/16/22 10:00
+444,Data Science Study Group,4/17/24 10:00,4/17/24 12:00,Community Center Room A,100,4/10/24 10:00
+445,Intro to Painting Class,10/27/22 10:00,10/27/22 12:00,Art Studio 2,100,10/20/22 10:00
+446,Mentor Office Hours,2/6/22 10:00,2/6/22 12:00,Virtual Zoom,100,1/30/22 10:00
+447,Web Dev Bootcamp Night,12/29/23 10:00,12/29/23 12:00,Local Library,100,12/22/23 10:00
+448,Mentor Office Hours,5/18/25 10:00,5/18/25 12:00,Virtual Zoom,100,5/11/25 10:00
+449,Girls in STEAM Mentoring,12/13/22 10:00,12/13/22 12:00,Art Studio 2,100,12/6/22 10:00
+450,Monthly Coding Club,4/15/23 10:00,4/15/23 12:00,Ella Rises HQ,100,4/8/23 10:00
+451,Robotics Lab Saturday,2/25/23 10:00,2/25/23 12:00,Ella Rises HQ,100,2/18/23 10:00
+452,Mentor Office Hours,11/24/24 10:00,11/24/24 12:00,Ella Rises HQ,100,11/17/24 10:00
+453,Robotics Lab Saturday,4/20/24 10:00,4/20/24 12:00,Ella Rises HQ,100,4/13/24 10:00
+454,Robotics Lab Saturday,5/18/24 10:00,5/18/24 12:00,Local Library,100,5/11/24 10:00
+455,Leadership Circle Meetup,7/15/25 10:00,7/15/25 12:00,Community Center Room A,100,7/8/25 10:00
+456,Intro to Painting Class,11/9/23 10:00,11/9/23 12:00,Virtual Zoom,100,11/2/23 10:00
+457,Girls in STEAM Mentoring,7/5/22 10:00,7/5/22 12:00,Ella Rises HQ,100,6/28/22 10:00
+458,Robotics Lab Saturday,1/20/24 10:00,1/20/24 12:00,Local Library,100,1/13/24 10:00
+459,Web Dev Bootcamp Night,9/13/24 10:00,9/13/24 12:00,Virtual Zoom,100,9/6/24 10:00
+460,Robotics Lab Saturday,10/21/23 10:00,10/21/23 12:00,Local Library,100,10/14/23 10:00
+461,Intro to Painting Class,12/29/22 10:00,12/29/22 12:00,Local Library,100,12/22/22 10:00
+462,Monthly Coding Club,1/15/22 10:00,1/15/22 12:00,Art Studio 2,100,1/8/22 10:00
+463,Robotics Lab Saturday,1/15/22 10:00,1/15/22 12:00,Ella Rises HQ,100,1/8/22 10:00
+464,Leadership Circle Meetup,11/15/25 10:00,11/15/25 12:00,Art Studio 2,100,11/8/25 10:00
+465,Monthly Coding Club,2/15/25 10:00,2/15/25 12:00,Art Studio 2,100,2/8/25 10:00
+466,Intro to Painting Class,5/5/22 10:00,5/5/22 12:00,Community Center Room A,100,4/28/22 10:00
+467,Mentor Office Hours,9/17/23 10:00,9/17/23 12:00,Community Center Room A,100,9/10/23 10:00
+468,Web Dev Bootcamp Night,9/20/24 10:00,9/20/24 12:00,Virtual Zoom,100,9/13/24 10:00
+469,Girls in STEAM Mentoring,3/11/25 10:00,3/11/25 12:00,Art Studio 2,100,3/4/25 10:00
+470,Web Dev Bootcamp Night,6/27/25 10:00,6/27/25 12:00,Ella Rises HQ,100,6/20/25 10:00
+471,Girls in STEAM Mentoring,7/16/24 10:00,7/16/24 12:00,Virtual Zoom,100,7/9/24 10:00
+472,Girls in STEAM Mentoring,8/19/25 10:00,8/19/25 12:00,Community Center Room A,100,8/12/25 10:00
+473,Intro to Painting Class,1/2/25 10:00,1/2/25 12:00,Art Studio 2,100,12/26/24 10:00
+474,Mentor Office Hours,12/26/21 10:00,12/26/21 12:00,Virtual Zoom,100,12/19/21 10:00
+475,Web Dev Bootcamp Night,5/26/23 10:00,5/26/23 12:00,Virtual Zoom,100,5/19/23 10:00
+476,Robotics Lab Saturday,3/30/24 10:00,3/30/24 12:00,Community Center Room A,100,3/23/24 10:00
+477,Data Science Study Group,12/18/24 10:00,12/18/24 12:00,Community Center Room A,100,12/11/24 10:00
+478,Robotics Lab Saturday,4/30/22 10:00,4/30/22 12:00,Ella Rises HQ,100,4/23/22 10:00
+479,Intro to Painting Class,12/19/24 10:00,12/19/24 12:00,Community Center Room A,100,12/12/24 10:00
+480,Intro to Painting Class,12/8/22 10:00,12/8/22 12:00,Ella Rises HQ,100,12/1/22 10:00
+481,Robotics Lab Saturday,2/18/23 10:00,2/18/23 12:00,Community Center Room A,100,2/11/23 10:00
+482,Mentor Office Hours,2/20/22 10:00,2/20/22 12:00,Art Studio 2,100,2/13/22 10:00
+483,Mentor Office Hours,6/2/24 10:00,6/2/24 12:00,Art Studio 2,100,5/26/24 10:00
+484,Leadership Circle Meetup,2/15/24 10:00,2/15/24 12:00,Ella Rises HQ,100,2/8/24 10:00
+485,Web Dev Bootcamp Night,4/7/23 10:00,4/7/23 12:00,Community Center Room A,100,3/31/23 10:00
+486,Web Dev Bootcamp Night,10/7/22 10:00,10/7/22 12:00,Ella Rises HQ,100,9/30/22 10:00
+487,Intro to Painting Class,11/28/24 10:00,11/28/24 12:00,Local Library,100,11/21/24 10:00
+488,Leadership Circle Meetup,2/15/22 10:00,2/15/22 12:00,Art Studio 2,100,2/8/22 10:00
+489,Girls in STEAM Mentoring,10/14/25 10:00,10/14/25 12:00,Art Studio 2,100,10/7/25 10:00
+490,Girls in STEAM Mentoring,6/6/23 10:00,6/6/23 12:00,Virtual Zoom,100,5/30/23 10:00
+491,Robotics Lab Saturday,7/1/23 10:00,7/1/23 12:00,Ella Rises HQ,100,6/24/23 10:00
+492,Robotics Lab Saturday,6/15/24 10:00,6/15/24 12:00,Local Library,100,6/8/24 10:00
+493,Data Science Study Group,7/12/23 10:00,7/12/23 12:00,Ella Rises HQ,100,7/5/23 10:00
+494,Intro to Painting Class,3/30/23 10:00,3/30/23 12:00,Local Library,100,3/23/23 10:00
+495,Robotics Lab Saturday,6/18/22 10:00,6/18/22 12:00,Ella Rises HQ,100,6/11/22 10:00
+496,Robotics Lab Saturday,6/24/23 10:00,6/24/23 12:00,Community Center Room A,100,6/17/23 10:00
+497,Robotics Lab Saturday,1/1/22 10:00,1/1/22 12:00,Ella Rises HQ,100,12/25/21 10:00
+498,Web Dev Bootcamp Night,6/3/22 10:00,6/3/22 12:00,Community Center Room A,100,5/27/22 10:00
+499,Girls in STEAM Mentoring,12/7/21 10:00,12/7/21 12:00,Community Center Room A,100,11/30/21 10:00
+500,Leadership Circle Meetup,7/15/23 10:00,7/15/23 12:00,Community Center Room A,100,7/8/23 10:00
+501,Girls in STEAM Mentoring,4/11/23 10:00,4/11/23 12:00,Art Studio 2,100,4/4/23 10:00
+502,Mentor Office Hours,3/3/24 10:00,3/3/24 12:00,Ella Rises HQ,100,2/25/24 10:00
+503,Girls in STEAM Mentoring,12/24/24 10:00,12/24/24 12:00,Community Center Room A,100,12/17/24 10:00
+504,Girls in STEAM Mentoring,9/10/24 10:00,9/10/24 12:00,Virtual Zoom,100,9/3/24 10:00
+505,Monthly Art Studio Workshop,12/15/24 10:00,12/15/24 12:00,Art Studio 2,100,12/8/24 10:00
+506,Intro to Painting Class,1/16/25 10:00,1/16/25 12:00,Virtual Zoom,100,1/9/25 10:00
+507,Data Science Study Group,3/20/24 10:00,3/20/24 12:00,Art Studio 2,100,3/13/24 10:00
+508,Monthly Art Studio Workshop,7/15/25 10:00,7/15/25 12:00,Art Studio 2,100,7/8/25 10:00
+509,Mentor Office Hours,7/24/22 10:00,7/24/22 12:00,Local Library,100,7/17/22 10:00
+510,Robotics Lab Saturday,5/25/24 10:00,5/25/24 12:00,Art Studio 2,100,5/18/24 10:00
+511,Girls in STEAM Mentoring,1/16/24 10:00,1/16/24 12:00,Art Studio 2,100,1/9/24 10:00
+512,Data Science Study Group,7/10/24 10:00,7/10/24 12:00,Community Center Room A,100,7/3/24 10:00
+513,Girls in STEAM Mentoring,5/27/25 10:00,5/27/25 12:00,Art Studio 2,100,5/20/25 10:00
+514,Web Dev Bootcamp Night,6/16/23 10:00,6/16/23 12:00,Ella Rises HQ,100,6/9/23 10:00
+515,Intro to Painting Class,5/29/25 10:00,5/29/25 12:00,Community Center Room A,100,5/22/25 10:00
+516,Intro to Painting Class,10/31/24 10:00,10/31/24 12:00,Community Center Room A,100,10/24/24 10:00
+517,Intro to Painting Class,12/30/21 10:00,12/30/21 12:00,Virtual Zoom,100,12/23/21 10:00
+518,Girls in STEAM Mentoring,5/14/24 10:00,5/14/24 12:00,Virtual Zoom,100,5/7/24 10:00
+519,Intro to Painting Class,3/31/22 10:00,3/31/22 12:00,Local Library,100,3/24/22 10:00
+520,Data Science Study Group,6/4/25 10:00,6/4/25 12:00,Community Center Room A,100,5/28/25 10:00
+521,Data Science Study Group,5/1/24 10:00,5/1/24 12:00,Virtual Zoom,100,4/24/24 10:00
+522,Data Science Study Group,12/15/21 10:00,12/15/21 12:00,Virtual Zoom,100,12/8/21 10:00
+523,Girls in STEAM Mentoring,9/13/22 10:00,9/13/22 12:00,Community Center Room A,100,9/6/22 10:00
+524,Robotics Lab Saturday,12/17/22 10:00,12/17/22 12:00,Ella Rises HQ,100,12/10/22 10:00
+525,Data Science Study Group,9/20/23 10:00,9/20/23 12:00,Community Center Room A,100,9/13/23 10:00
+526,Robotics Lab Saturday,10/26/24 10:00,10/26/24 12:00,Virtual Zoom,100,10/19/24 10:00
+527,Web Dev Bootcamp Night,7/18/25 10:00,7/18/25 12:00,Virtual Zoom,100,7/11/25 10:00
+528,Robotics Lab Saturday,12/21/24 10:00,12/21/24 12:00,Local Library,100,12/14/24 10:00
+529,Web Dev Bootcamp Night,10/25/24 10:00,10/25/24 12:00,Virtual Zoom,100,10/18/24 10:00
+530,Data Science Study Group,12/27/23 10:00,12/27/23 12:00,Community Center Room A,100,12/20/23 10:00
+531,Intro to Painting Class,5/23/24 10:00,5/23/24 12:00,Art Studio 2,100,5/16/24 10:00
+532,Girls in STEAM Mentoring,7/19/22 10:00,7/19/22 12:00,Virtual Zoom,100,7/12/22 10:00
+533,Intro to Painting Class,2/1/24 10:00,2/1/24 12:00,Art Studio 2,100,1/25/24 10:00
+534,Intro to Painting Class,6/27/24 10:00,6/27/24 12:00,Virtual Zoom,100,6/20/24 10:00
+535,Girls in STEAM Mentoring,10/17/23 10:00,10/17/23 12:00,Art Studio 2,100,10/10/23 10:00
+536,Monthly Art Studio Workshop,8/15/23 10:00,8/15/23 12:00,Local Library,100,8/8/23 10:00
+537,Robotics Lab Saturday,4/23/22 10:00,4/23/22 12:00,Local Library,100,4/16/22 10:00
+538,Web Dev Bootcamp Night,6/13/25 10:00,6/13/25 12:00,Virtual Zoom,100,6/6/25 10:00
+539,Web Dev Bootcamp Night,4/21/23 10:00,4/21/23 12:00,Local Library,100,4/14/23 10:00
+540,Monthly Art Studio Workshop,3/15/22 10:00,3/15/22 12:00,Local Library,100,3/8/22 10:00
+541,Data Science Study Group,9/27/23 10:00,9/27/23 12:00,Local Library,100,9/20/23 10:00
+542,Mentor Office Hours,11/20/22 10:00,11/20/22 12:00,Art Studio 2,100,11/13/22 10:00
+543,Monthly Coding Club,7/15/23 10:00,7/15/23 12:00,Virtual Zoom,100,7/8/23 10:00
+544,Girls in STEAM Mentoring,1/14/25 10:00,1/14/25 12:00,Local Library,100,1/7/25 10:00
+545,Web Dev Bootcamp Night,9/19/25 10:00,9/19/25 12:00,Virtual Zoom,100,9/12/25 10:00
+546,Web Dev Bootcamp Night,5/20/22 10:00,5/20/22 12:00,Ella Rises HQ,100,5/13/22 10:00
+547,Web Dev Bootcamp Night,1/5/24 10:00,1/5/24 12:00,Virtual Zoom,100,12/29/23 10:00
+548,Girls in STEAM Mentoring,1/30/24 10:00,1/30/24 12:00,Community Center Room A,100,1/23/24 10:00
+549,Data Science Study Group,8/27/25 10:00,8/27/25 12:00,Virtual Zoom,100,8/20/25 10:00
+550,Leadership Circle Meetup,10/15/23 10:00,10/15/23 12:00,Art Studio 2,100,10/8/23 10:00
+551,Monthly Coding Club,2/15/23 10:00,2/15/23 12:00,Ella Rises HQ,100,2/8/23 10:00
+552,Web Dev Bootcamp Night,7/28/23 10:00,7/28/23 12:00,Local Library,100,7/21/23 10:00
+553,Intro to Painting Class,6/22/23 10:00,6/22/23 12:00,Local Library,100,6/15/23 10:00
+554,Robotics Lab Saturday,9/7/24 10:00,9/7/24 12:00,Art Studio 2,100,8/31/24 10:00
+555,Data Science Study Group,6/14/23 10:00,6/14/23 12:00,Ella Rises HQ,100,6/7/23 10:00
+556,Mentor Office Hours,5/4/25 10:00,5/4/25 12:00,Ella Rises HQ,100,4/27/25 10:00
+557,Data Science Study Group,2/14/24 10:00,2/14/24 12:00,Ella Rises HQ,100,2/7/24 10:00
+558,Mentor Office Hours,10/26/25 10:00,10/26/25 12:00,Art Studio 2,100,10/19/25 10:00
+559,Web Dev Bootcamp Night,8/19/22 10:00,8/19/22 12:00,Ella Rises HQ,100,8/12/22 10:00
+560,Data Science Study Group,4/13/22 10:00,4/13/22 12:00,Community Center Room A,100,4/6/22 10:00
+561,Intro to Painting Class,10/26/23 10:00,10/26/23 12:00,Ella Rises HQ,100,10/19/23 10:00
+562,Data Science Study Group,10/16/24 10:00,10/16/24 12:00,Ella Rises HQ,100,10/9/24 10:00
+563,Monthly Art Studio Workshop,4/15/23 10:00,4/15/23 12:00,Community Center Room A,100,4/8/23 10:00
+564,Web Dev Bootcamp Night,10/18/24 10:00,10/18/24 12:00,Virtual Zoom,100,10/11/24 10:00
+565,Robotics Lab Saturday,2/15/25 10:00,2/15/25 12:00,Local Library,100,2/8/25 10:00
+566,Girls in STEAM Mentoring,9/6/22 10:00,9/6/22 12:00,Local Library,100,8/30/22 10:00
+567,Mentor Office Hours,4/3/22 10:00,4/3/22 12:00,Art Studio 2,100,3/27/22 10:00
+568,Girls in STEAM Mentoring,10/4/22 10:00,10/4/22 12:00,Community Center Room A,100,9/27/22 10:00
+569,Girls in STEAM Mentoring,2/6/24 10:00,2/6/24 12:00,Art Studio 2,100,1/30/24 10:00
+570,Robotics Lab Saturday,8/30/25 10:00,8/30/25 12:00,Ella Rises HQ,100,8/23/25 10:00
+571,Monthly Coding Club,5/15/24 10:00,5/15/24 12:00,Ella Rises HQ,100,5/8/24 10:00
+572,Data Science Study Group,3/26/25 10:00,3/26/25 12:00,Local Library,100,3/19/25 10:00
+573,Monthly Coding Club,6/15/23 10:00,6/15/23 12:00,Art Studio 2,100,6/8/23 10:00
+574,Data Science Study Group,3/2/22 10:00,3/2/22 12:00,Art Studio 2,100,2/23/22 10:00
+575,Girls in STEAM Mentoring,11/28/23 10:00,11/28/23 12:00,Virtual Zoom,100,11/21/23 10:00
+576,Girls in STEAM Mentoring,1/31/23 10:00,1/31/23 12:00,Ella Rises HQ,100,1/24/23 10:00
+577,Web Dev Bootcamp Night,10/13/23 10:00,10/13/23 12:00,Community Center Room A,100,10/6/23 10:00
+578,Monthly Coding Club,10/15/25 10:00,10/15/25 12:00,Ella Rises HQ,100,10/8/25 10:00
+579,Leadership Circle Meetup,1/15/22 10:00,1/15/22 12:00,Art Studio 2,100,1/8/22 10:00
+580,Girls in STEAM Mentoring,4/29/25 10:00,4/29/25 12:00,Local Library,100,4/22/25 10:00
+581,Intro to Painting Class,9/12/24 10:00,9/12/24 12:00,Community Center Room A,100,9/5/24 10:00
+582,Intro to Painting Class,12/7/23 10:00,12/7/23 12:00,Virtual Zoom,100,11/30/23 10:00
+583,Data Science Study Group,8/20/25 10:00,8/20/25 12:00,Local Library,100,8/13/25 10:00
+584,Intro to Painting Class,11/24/22 10:00,11/24/22 12:00,Ella Rises HQ,100,11/17/22 10:00
+585,Data Science Study Group,9/3/25 10:00,9/3/25 12:00,Art Studio 2,100,8/27/25 10:00
+586,Web Dev Bootcamp Night,7/21/23 10:00,7/21/23 12:00,Ella Rises HQ,100,7/14/23 10:00
+587,Robotics Lab Saturday,3/18/23 10:00,3/18/23 12:00,Virtual Zoom,100,3/11/23 10:00
+588,Data Science Study Group,9/21/22 10:00,9/21/22 12:00,Local Library,100,9/14/22 10:00
+589,Web Dev Bootcamp Night,3/3/23 10:00,3/3/23 12:00,Ella Rises HQ,100,2/24/23 10:00
+590,Data Science Study Group,3/22/23 10:00,3/22/23 12:00,Virtual Zoom,100,3/15/23 10:00
+591,Intro to Painting Class,4/3/25 10:00,4/3/25 12:00,Art Studio 2,100,3/27/25 10:00
+592,Girls in STEAM Mentoring,3/12/24 10:00,3/12/24 12:00,Art Studio 2,100,3/5/24 10:00
+593,Leadership Circle Meetup,9/15/24 10:00,9/15/24 12:00,Community Center Room A,100,9/8/24 10:00
+594,Leadership Circle Meetup,5/15/24 10:00,5/15/24 12:00,Virtual Zoom,100,5/8/24 10:00
+595,Intro to Painting Class,6/16/22 10:00,6/16/22 12:00,Art Studio 2,100,6/9/22 10:00
+596,Web Dev Bootcamp Night,11/7/25 10:00,11/7/25 12:00,Community Center Room A,100,10/31/25 10:00
+597,Girls in STEAM Mentoring,10/25/22 10:00,10/25/22 12:00,Local Library,100,10/18/22 10:00
+598,Girls in STEAM Mentoring,7/23/24 10:00,7/23/24 12:00,Ella Rises HQ,100,7/16/24 10:00
+599,Web Dev Bootcamp Night,7/7/23 10:00,7/7/23 12:00,Local Library,100,6/30/23 10:00
+600,Data Science Study Group,11/17/21 10:00,11/17/21 12:00,Art Studio 2,100,11/10/21 10:00
+601,Robotics Lab Saturday,1/11/25 10:00,1/11/25 12:00,Art Studio 2,100,1/4/25 10:00
+602,Monthly Coding Club,6/15/25 10:00,6/15/25 12:00,Local Library,100,6/8/25 10:00
+603,Monthly Coding Club,11/15/25 10:00,11/15/25 12:00,Virtual Zoom,100,11/8/25 10:00
+604,Data Science Study Group,9/17/25 10:00,9/17/25 12:00,Virtual Zoom,100,9/10/25 10:00
+605,Web Dev Bootcamp Night,3/31/23 10:00,3/31/23 12:00,Local Library,100,3/24/23 10:00
+606,Monthly Coding Club,11/15/22 10:00,11/15/22 12:00,Local Library,100,11/8/22 10:00
+607,Intro to Painting Class,7/27/23 10:00,7/27/23 12:00,Virtual Zoom,100,7/20/23 10:00
+608,Girls in STEAM Mentoring,2/1/22 10:00,2/1/22 12:00,Ella Rises HQ,100,1/25/22 10:00
+609,Girls in STEAM Mentoring,5/9/23 10:00,5/9/23 12:00,Art Studio 2,100,5/2/23 10:00
+610,Robotics Lab Saturday,6/22/24 10:00,6/22/24 12:00,Community Center Room A,100,6/15/24 10:00
+611,Web Dev Bootcamp Night,12/17/21 10:00,12/17/21 12:00,Art Studio 2,100,12/10/21 10:00
+612,Data Science Study Group,10/30/24 10:00,10/30/24 12:00,Art Studio 2,100,10/23/24 10:00
+613,Intro to Painting Class,1/30/25 10:00,1/30/25 12:00,Local Library,100,1/23/25 10:00
+614,Girls in STEAM Mentoring,7/1/25 10:00,7/1/25 12:00,Art Studio 2,100,6/24/25 10:00
+615,Intro to Painting Class,2/24/22 10:00,2/24/22 12:00,Art Studio 2,100,2/17/22 10:00
+616,Girls in STEAM Mentoring,7/22/25 10:00,7/22/25 12:00,Community Center Room A,100,7/15/25 10:00
+617,Data Science Study Group,4/19/23 10:00,4/19/23 12:00,Local Library,100,4/12/23 10:00
+618,Data Science Study Group,6/21/23 10:00,6/21/23 12:00,Ella Rises HQ,100,6/14/23 10:00
+619,Robotics Lab Saturday,3/23/24 10:00,3/23/24 12:00,Local Library,100,3/16/24 10:00
+620,Girls in STEAM Mentoring,10/8/24 10:00,10/8/24 12:00,Art Studio 2,100,10/1/24 10:00
+621,Data Science Study Group,5/29/24 10:00,5/29/24 12:00,Ella Rises HQ,100,5/22/24 10:00
+622,Data Science Study Group,12/11/24 10:00,12/11/24 12:00,Local Library,100,12/4/24 10:00
+623,Data Science Study Group,6/19/24 10:00,6/19/24 12:00,Art Studio 2,100,6/12/24 10:00
+624,Robotics Lab Saturday,2/17/24 10:00,2/17/24 12:00,Ella Rises HQ,100,2/10/24 10:00
+625,Robotics Lab Saturday,2/1/25 10:00,2/1/25 12:00,Art Studio 2,100,1/25/25 10:00
+626,Monthly Coding Club,10/15/22 10:00,10/15/22 12:00,Virtual Zoom,100,10/8/22 10:00
+627,Robotics Lab Saturday,2/11/23 10:00,2/11/23 12:00,Ella Rises HQ,100,2/4/23 10:00
+628,Intro to Painting Class,10/10/24 10:00,10/10/24 12:00,Ella Rises HQ,100,10/3/24 10:00
+629,Robotics Lab Saturday,9/23/23 10:00,9/23/23 12:00,Community Center Room A,100,9/16/23 10:00
+630,Data Science Study Group,5/4/22 10:00,5/4/22 12:00,Community Center Room A,100,4/27/22 10:00
+631,Intro to Painting Class,11/6/25 10:00,11/6/25 12:00,Local Library,100,10/30/25 10:00
+632,Robotics Lab Saturday,6/29/24 10:00,6/29/24 12:00,Virtual Zoom,100,6/22/24 10:00
+633,Girls in STEAM Mentoring,10/29/24 10:00,10/29/24 12:00,Local Library,100,10/22/24 10:00
+634,Girls in STEAM Mentoring,10/18/22 10:00,10/18/22 12:00,Virtual Zoom,100,10/11/22 10:00
+635,Girls in STEAM Mentoring,3/5/24 10:00,3/5/24 12:00,Local Library,100,2/27/24 10:00
+636,Mentor Office Hours,6/4/23 10:00,6/4/23 12:00,Ella Rises HQ,100,5/28/23 10:00
+637,Mentor Office Hours,2/2/25 10:00,2/2/25 12:00,Local Library,100,1/26/25 10:00
+638,Web Dev Bootcamp Night,8/25/23 10:00,8/25/23 12:00,Ella Rises HQ,100,8/18/23 10:00
+639,Data Science Study Group,6/15/22 10:00,6/15/22 12:00,Community Center Room A,100,6/8/22 10:00
+640,Data Science Study Group,11/24/21 10:00,11/24/21 12:00,Virtual Zoom,100,11/17/21 10:00
+641,Data Science Study Group,1/3/24 10:00,1/3/24 12:00,Community Center Room A,100,12/27/23 10:00
+642,Mentor Office Hours,11/28/21 10:00,11/28/21 12:00,Virtual Zoom,100,11/21/21 10:00
+643,Intro to Painting Class,10/19/23 10:00,10/19/23 12:00,Community Center Room A,100,10/12/23 10:00
+644,Web Dev Bootcamp Night,11/3/23 10:00,11/3/23 12:00,Ella Rises HQ,100,10/27/23 10:00
+645,Girls in STEAM Mentoring,11/14/23 10:00,11/14/23 12:00,Community Center Room A,100,11/7/23 10:00
+646,Web Dev Bootcamp Night,6/6/25 10:00,6/6/25 12:00,Community Center Room A,100,5/30/25 10:00
+647,Girls in STEAM Mentoring,12/31/24 10:00,12/31/24 12:00,Virtual Zoom,100,12/24/24 10:00
+648,Mentor Office Hours,12/10/23 10:00,12/10/23 12:00,Ella Rises HQ,100,12/3/23 10:00
+649,Mentor Office Hours,10/9/22 10:00,10/9/22 12:00,Local Library,100,10/2/22 10:00
+650,Mentor Office Hours,12/17/23 10:00,12/17/23 12:00,Ella Rises HQ,100,12/10/23 10:00
+651,Robotics Lab Saturday,7/29/23 10:00,7/29/23 12:00,Virtual Zoom,100,7/22/23 10:00
+652,Web Dev Bootcamp Night,11/25/22 10:00,11/25/22 12:00,Virtual Zoom,100,11/18/22 10:00
+653,Intro to Painting Class,4/13/23 10:00,4/13/23 12:00,Virtual Zoom,100,4/6/23 10:00
+654,Girls in STEAM Mentoring,1/28/25 10:00,1/28/25 12:00,Community Center Room A,100,1/21/25 10:00
+655,Data Science Study Group,3/29/23 10:00,3/29/23 12:00,Community Center Room A,100,3/22/23 10:00
+656,Mentor Office Hours,4/9/23 10:00,4/9/23 12:00,Ella Rises HQ,100,4/2/23 10:00
+657,Mentor Office Hours,7/9/23 10:00,7/9/23 12:00,Art Studio 2,100,7/2/23 10:00
+658,Data Science Study Group,3/27/24 10:00,3/27/24 12:00,Art Studio 2,100,3/20/24 10:00
+659,Monthly Art Studio Workshop,2/15/25 10:00,2/15/25 12:00,Local Library,100,2/8/25 10:00
+660,Robotics Lab Saturday,11/25/23 10:00,11/25/23 12:00,Ella Rises HQ,100,11/18/23 10:00
+661,Robotics Lab Saturday,10/7/23 10:00,10/7/23 12:00,Virtual Zoom,100,9/30/23 10:00
+662,Girls in STEAM Mentoring,9/26/23 10:00,9/26/23 12:00,Local Library,100,9/19/23 10:00
+663,Mentor Office Hours,8/4/24 10:00,8/4/24 12:00,Community Center Room A,100,7/28/24 10:00
+664,Mentor Office Hours,2/18/24 10:00,2/18/24 12:00,Ella Rises HQ,100,2/11/24 10:00
+665,Mentor Office Hours,7/30/23 10:00,7/30/23 12:00,Ella Rises HQ,100,7/23/23 10:00
+666,Leadership Circle Meetup,1/15/23 10:00,1/15/23 12:00,Local Library,100,1/8/23 10:00
+667,Leadership Circle Meetup,1/15/25 10:00,1/15/25 12:00,Ella Rises HQ,100,1/8/25 10:00
+668,Data Science Study Group,3/6/24 10:00,3/6/24 12:00,Virtual Zoom,100,2/28/24 10:00
+669,Robotics Lab Saturday,7/16/22 10:00,7/16/22 12:00,Local Library,100,7/9/22 10:00
+670,Intro to Painting Class,3/9/23 10:00,3/9/23 12:00,Ella Rises HQ,100,3/2/23 10:00
+671,Mentor Office Hours,11/5/23 10:00,11/5/23 12:00,Virtual Zoom,100,10/29/23 10:00
+672,Web Dev Bootcamp Night,8/22/25 10:00,8/22/25 12:00,Ella Rises HQ,100,8/15/25 10:00
+673,Intro to Painting Class,7/24/25 10:00,7/24/25 12:00,Community Center Room A,100,7/17/25 10:00
+674,Monthly Coding Club,8/15/25 10:00,8/15/25 12:00,Ella Rises HQ,100,8/8/25 10:00
+675,Girls in STEAM Mentoring,2/21/23 10:00,2/21/23 12:00,Virtual Zoom,100,2/14/23 10:00
+676,Data Science Study Group,8/7/24 10:00,8/7/24 12:00,Ella Rises HQ,100,7/31/24 10:00
+677,Monthly Coding Club,7/15/25 10:00,7/15/25 12:00,Ella Rises HQ,100,7/8/25 10:00
+678,Girls in STEAM Mentoring,7/25/23 10:00,7/25/23 12:00,Local Library,100,7/18/23 10:00
+679,Mentor Office Hours,4/7/24 10:00,4/7/24 12:00,Ella Rises HQ,100,3/31/24 10:00
+680,Girls in STEAM Mentoring,1/9/24 10:00,1/9/24 12:00,Ella Rises HQ,100,1/2/24 10:00
+681,Girls in STEAM Mentoring,5/23/23 10:00,5/23/23 12:00,Art Studio 2,100,5/16/23 10:00
+682,Monthly Art Studio Workshop,5/15/23 10:00,5/15/23 12:00,Ella Rises HQ,100,5/8/23 10:00
+683,Intro to Painting Class,1/25/24 10:00,1/25/24 12:00,Virtual Zoom,100,1/18/24 10:00
+684,Girls in STEAM Mentoring,6/27/23 10:00,6/27/23 12:00,Community Center Room A,100,6/20/23 10:00
+685,Web Dev Bootcamp Night,1/10/25 10:00,1/10/25 12:00,Virtual Zoom,100,1/3/25 10:00
+686,Girls in STEAM Mentoring,5/17/22 10:00,5/17/22 12:00,Local Library,100,5/10/22 10:00
+687,Robotics Lab Saturday,4/12/25 10:00,4/12/25 12:00,Ella Rises HQ,100,4/5/25 10:00
+688,Girls in STEAM Mentoring,4/16/24 10:00,4/16/24 12:00,Local Library,100,4/9/24 10:00
+689,Girls in STEAM Mentoring,12/10/24 10:00,12/10/24 12:00,Local Library,100,12/3/24 10:00
+690,Intro to Painting Class,4/18/24 10:00,4/18/24 12:00,Art Studio 2,100,4/11/24 10:00
+691,Mentor Office Hours,4/2/23 10:00,4/2/23 12:00,Local Library,100,3/26/23 10:00
+692,Mentor Office Hours,1/9/22 10:00,1/9/22 12:00,Local Library,100,1/2/22 10:00
+693,Leadership Circle Meetup,2/15/25 10:00,2/15/25 12:00,Virtual Zoom,100,2/8/25 10:00
+694,Mentor Office Hours,8/13/23 10:00,8/13/23 12:00,Art Studio 2,100,8/6/23 10:00
+695,Girls in STEAM Mentoring,8/26/25 10:00,8/26/25 12:00,Community Center Room A,100,8/19/25 10:00
+696,Girls in STEAM Mentoring,5/31/22 10:00,5/31/22 12:00,Ella Rises HQ,100,5/24/22 10:00
+697,Web Dev Bootcamp Night,11/4/22 10:00,11/4/22 12:00,Community Center Room A,100,10/28/22 10:00
+698,Mentor Office Hours,9/24/23 10:00,9/24/23 12:00,Art Studio 2,100,9/17/23 10:00
+699,Web Dev Bootcamp Night,6/17/22 10:00,6/17/22 12:00,Community Center Room A,100,6/10/22 10:00
+700,Robotics Lab Saturday,3/26/22 10:00,3/26/22 12:00,Local Library,100,3/19/22 10:00
+701,Intro to Painting Class,10/30/25 10:00,10/30/25 12:00,Virtual Zoom,100,10/23/25 10:00
+702,Web Dev Bootcamp Night,12/24/21 10:00,12/24/21 12:00,Virtual Zoom,100,12/17/21 10:00
+703,Web Dev Bootcamp Night,5/23/25 10:00,5/23/25 12:00,Local Library,100,5/16/25 10:00
+704,Monthly Coding Club,10/15/24 10:00,10/15/24 12:00,Ella Rises HQ,100,10/8/24 10:00
+705,Girls in STEAM Mentoring,9/19/23 10:00,9/19/23 12:00,Ella Rises HQ,100,9/12/23 10:00
+706,Data Science Study Group,6/26/24 10:00,6/26/24 12:00,Art Studio 2,100,6/19/24 10:00
+707,Web Dev Bootcamp Night,12/20/24 10:00,12/20/24 12:00,Local Library,100,12/13/24 10:00
+708,Mentor Office Hours,10/19/25 10:00,10/19/25 12:00,Local Library,100,10/12/25 10:00
+709,Mentor Office Hours,11/17/24 10:00,11/17/24 12:00,Local Library,100,11/10/24 10:00
+710,Data Science Study Group,1/15/25 10:00,1/15/25 12:00,Virtual Zoom,100,1/8/25 10:00
+711,Robotics Lab Saturday,11/1/25 10:00,11/1/25 12:00,Virtual Zoom,100,10/25/25 10:00
+712,Web Dev Bootcamp Night,10/6/23 10:00,10/6/23 12:00,Art Studio 2,100,9/29/23 10:00
+713,Robotics Lab Saturday,9/30/23 10:00,9/30/23 12:00,Local Library,100,9/23/23 10:00
+714,Robotics Lab Saturday,11/26/22 10:00,11/26/22 12:00,Community Center Room A,100,11/19/22 10:00
+715,Web Dev Bootcamp Night,2/18/22 10:00,2/18/22 12:00,Local Library,100,2/11/22 10:00
+716,Data Science Study Group,11/13/24 10:00,11/13/24 12:00,Local Library,100,11/6/24 10:00
+717,Mentor Office Hours,1/8/23 10:00,1/8/23 12:00,Community Center Room A,100,1/1/23 10:00
+718,Monthly Art Studio Workshop,9/15/22 10:00,9/15/22 12:00,Community Center Room A,100,9/8/22 10:00
+719,Girls in STEAM Mentoring,11/16/21 10:00,11/16/21 12:00,Art Studio 2,100,11/9/21 10:00
+720,Web Dev Bootcamp Night,12/30/22 10:00,12/30/22 12:00,Ella Rises HQ,100,12/23/22 10:00
+721,Girls in STEAM Mentoring,11/12/24 10:00,11/12/24 12:00,Virtual Zoom,100,11/5/24 10:00
+722,Data Science Study Group,8/3/22 10:00,8/3/22 12:00,Local Library,100,7/27/22 10:00
+723,Robotics Lab Saturday,12/18/21 10:00,12/18/21 12:00,Local Library,100,12/11/21 10:00
+724,Girls in STEAM Mentoring,12/20/22 10:00,12/20/22 12:00,Community Center Room A,100,12/13/22 10:00
+725,Data Science Study Group,2/28/24 10:00,2/28/24 12:00,Virtual Zoom,100,2/21/24 10:00
+726,Mentor Office Hours,2/9/25 10:00,2/9/25 12:00,Ella Rises HQ,100,2/2/25 10:00
+727,Web Dev Bootcamp Night,6/30/23 10:00,6/30/23 12:00,Virtual Zoom,100,6/23/23 10:00
+728,Web Dev Bootcamp Night,3/15/24 10:00,3/15/24 12:00,Ella Rises HQ,100,3/8/24 10:00
+729,Data Science Study Group,2/12/25 10:00,2/12/25 12:00,Art Studio 2,100,2/5/25 10:00
+730,Robotics Lab Saturday,5/20/23 10:00,5/20/23 12:00,Local Library,100,5/13/23 10:00
+731,Web Dev Bootcamp Night,5/5/23 10:00,5/5/23 12:00,Virtual Zoom,100,4/28/23 10:00
+732,Monthly Coding Club,3/15/22 10:00,3/15/22 12:00,Local Library,100,3/8/22 10:00
+733,Robotics Lab Saturday,10/18/25 10:00,10/18/25 12:00,Local Library,100,10/11/25 10:00
+734,Intro to Painting Class,10/20/22 10:00,10/20/22 12:00,Virtual Zoom,100,10/13/22 10:00
+735,Mentor Office Hours,5/19/24 10:00,5/19/24 12:00,Art Studio 2,100,5/12/24 10:00
+736,Data Science Study Group,2/2/22 10:00,2/2/22 12:00,Ella Rises HQ,100,1/26/22 10:00
+737,Monthly Coding Club,12/15/24 10:00,12/15/24 12:00,Virtual Zoom,100,12/8/24 10:00
+738,Data Science Study Group,6/5/24 10:00,6/5/24 12:00,Art Studio 2,100,5/29/24 10:00
+739,Monthly Art Studio Workshop,12/15/21 10:00,12/15/21 12:00,Ella Rises HQ,100,12/8/21 10:00
+740,Monthly Coding Club,2/15/22 10:00,2/15/22 12:00,Ella Rises HQ,100,2/8/22 10:00
+741,Data Science Study Group,12/20/23 10:00,12/20/23 12:00,Local Library,100,12/13/23 10:00
+742,Robotics Lab Saturday,6/11/22 10:00,6/11/22 12:00,Ella Rises HQ,100,6/4/22 10:00
+743,Intro to Painting Class,6/30/22 10:00,6/30/22 12:00,Local Library,100,6/23/22 10:00
+744,Web Dev Bootcamp Night,9/6/24 10:00,9/6/24 12:00,Virtual Zoom,100,8/30/24 10:00
+745,Leadership Circle Meetup,8/15/23 10:00,8/15/23 12:00,Ella Rises HQ,100,8/8/23 10:00
+746,Intro to Painting Class,1/11/24 10:00,1/11/24 12:00,Ella Rises HQ,100,1/4/24 10:00
+747,Mentor Office Hours,5/28/23 10:00,5/28/23 12:00,Virtual Zoom,100,5/21/23 10:00
+748,Intro to Painting Class,12/16/21 10:00,12/16/21 12:00,Virtual Zoom,100,12/9/21 10:00
+749,Robotics Lab Saturday,5/10/25 10:00,5/10/25 12:00,Ella Rises HQ,100,5/3/25 10:00
+750,Intro to Painting Class,5/9/24 10:00,5/9/24 12:00,Ella Rises HQ,100,5/2/24 10:00
+751,Girls in STEAM Mentoring,4/22/25 10:00,4/22/25 12:00,Local Library,100,4/15/25 10:00
+752,Monthly Art Studio Workshop,5/15/22 10:00,5/15/22 12:00,Community Center Room A,100,5/8/22 10:00
+753,Mentor Office Hours,9/3/23 10:00,9/3/23 12:00,Community Center Room A,100,8/27/23 10:00
+754,Data Science Study Group,11/27/24 10:00,11/27/24 12:00,Local Library,100,11/20/24 10:00
+755,Intro to Painting Class,11/18/21 10:00,11/18/21 12:00,Community Center Room A,100,11/11/21 10:00
+756,Monthly Art Studio Workshop,1/15/24 10:00,1/15/24 12:00,Community Center Room A,100,1/8/24 10:00
+757,Web Dev Bootcamp Night,11/1/24 10:00,11/1/24 12:00,Community Center Room A,100,10/25/24 10:00
+758,Web Dev Bootcamp Night,8/5/22 10:00,8/5/22 12:00,Ella Rises HQ,100,7/29/22 10:00
+759,Girls in STEAM Mentoring,6/24/25 10:00,6/24/25 12:00,Ella Rises HQ,100,6/17/25 10:00
+760,Mentor Office Hours,2/11/24 10:00,2/11/24 12:00,Community Center Room A,100,2/4/24 10:00
+761,Intro to Painting Class,4/10/25 10:00,4/10/25 12:00,Art Studio 2,100,4/3/25 10:00
+762,Web Dev Bootcamp Night,2/17/23 10:00,2/17/23 12:00,Community Center Room A,100,2/10/23 10:00
+763,Leadership Circle Meetup,8/15/24 10:00,8/15/24 12:00,Local Library,100,8/8/24 10:00
+764,Girls in STEAM Mentoring,6/10/25 10:00,6/10/25 12:00,Ella Rises HQ,100,6/3/25 10:00
+765,Data Science Study Group,7/3/24 10:00,7/3/24 12:00,Community Center Room A,100,6/26/24 10:00
+766,Robotics Lab Saturday,11/20/21 10:00,11/20/21 12:00,Virtual Zoom,100,11/13/21 10:00
+767,Girls in STEAM Mentoring,7/2/24 10:00,7/2/24 12:00,Community Center Room A,100,6/25/24 10:00
+768,Web Dev Bootcamp Night,12/6/24 10:00,12/6/24 12:00,Art Studio 2,100,11/29/24 10:00
+769,Mentor Office Hours,11/7/21 10:00,11/7/21 12:00,Local Library,100,10/31/21 10:00
+770,Mentor Office Hours,2/25/24 10:00,2/25/24 12:00,Local Library,100,2/18/24 10:00
+771,Monthly Art Studio Workshop,2/15/24 10:00,2/15/24 12:00,Local Library,100,2/8/24 10:00
+772,Data Science Study Group,5/14/25 10:00,5/14/25 12:00,Art Studio 2,100,5/7/25 10:00
+773,Mentor Office Hours,12/25/22 10:00,12/25/22 12:00,Art Studio 2,100,12/18/22 10:00
+774,Girls in STEAM Mentoring,4/26/22 10:00,4/26/22 12:00,Ella Rises HQ,100,4/19/22 10:00
+775,Girls in STEAM Mentoring,8/22/23 10:00,8/22/23 12:00,Community Center Room A,100,8/15/23 10:00
+776,Robotics Lab Saturday,4/1/23 10:00,4/1/23 12:00,Ella Rises HQ,100,3/25/23 10:00
+777,Mentor Office Hours,1/19/25 10:00,1/19/25 12:00,Ella Rises HQ,100,1/12/25 10:00
+778,Data Science Study Group,11/6/24 10:00,11/6/24 12:00,Virtual Zoom,100,10/30/24 10:00
+779,Mentor Office Hours,11/19/23 10:00,11/19/23 12:00,Local Library,100,11/12/23 10:00
+780,Mentor Office Hours,7/6/25 10:00,7/6/25 12:00,Art Studio 2,100,6/29/25 10:00
+781,Mentor Office Hours,4/17/22 10:00,4/17/22 12:00,Community Center Room A,100,4/10/22 10:00
+782,Web Dev Bootcamp Night,9/9/22 10:00,9/9/22 12:00,Art Studio 2,100,9/2/22 10:00
+783,Girls in STEAM Mentoring,5/30/23 10:00,5/30/23 12:00,Virtual Zoom,100,5/23/23 10:00
+784,Robotics Lab Saturday,5/17/25 10:00,5/17/25 12:00,Local Library,100,5/10/25 10:00
+785,Web Dev Bootcamp Night,6/21/24 10:00,6/21/24 12:00,Virtual Zoom,100,6/14/24 10:00
+786,Data Science Study Group,11/9/22 10:00,11/9/22 12:00,Ella Rises HQ,100,11/2/22 10:00
+787,Robotics Lab Saturday,12/16/23 10:00,12/16/23 12:00,Community Center Room A,100,12/9/23 10:00
+788,Mentor Office Hours,9/10/23 10:00,9/10/23 12:00,Art Studio 2,100,9/3/23 10:00
+789,Web Dev Bootcamp Night,3/21/25 10:00,3/21/25 12:00,Art Studio 2,100,3/14/25 10:00
+790,Web Dev Bootcamp Night,1/28/22 10:00,1/28/22 12:00,Ella Rises HQ,100,1/21/22 10:00
+791,Mentor Office Hours,5/15/22 10:00,5/15/22 12:00,Art Studio 2,100,5/8/22 10:00
+792,Mentor Office Hours,2/12/23 10:00,2/12/23 12:00,Art Studio 2,100,2/5/23 10:00
+793,Web Dev Bootcamp Night,1/13/23 10:00,1/13/23 12:00,Art Studio 2,100,1/6/23 10:00
+794,Girls in STEAM Mentoring,5/7/24 10:00,5/7/24 12:00,Ella Rises HQ,100,4/30/24 10:00
+795,Web Dev Bootcamp Night,8/23/24 10:00,8/23/24 12:00,Art Studio 2,100,8/16/24 10:00
+796,Robotics Lab Saturday,11/19/22 10:00,11/19/22 12:00,Community Center Room A,100,11/12/22 10:00
+797,Robotics Lab Saturday,8/9/25 10:00,8/9/25 12:00,Local Library,100,8/2/25 10:00
+798,Robotics Lab Saturday,8/5/23 10:00,8/5/23 12:00,Community Center Room A,100,7/29/23 10:00
+799,Mentor Office Hours,11/27/22 10:00,11/27/22 12:00,Ella Rises HQ,100,11/20/22 10:00
+800,Intro to Painting Class,11/14/24 10:00,11/14/24 12:00,Local Library,100,11/7/24 10:00
+801,Robotics Lab Saturday,5/7/22 10:00,5/7/22 12:00,Virtual Zoom,100,4/30/22 10:00
+802,Intro to Painting Class,11/30/23 10:00,11/30/23 12:00,Ella Rises HQ,100,11/23/23 10:00
+803,Robotics Lab Saturday,10/8/22 10:00,10/8/22 12:00,Virtual Zoom,100,10/1/22 10:00
+804,Robotics Lab Saturday,11/4/23 10:00,11/4/23 12:00,Art Studio 2,100,10/28/23 10:00
+805,Girls in STEAM Mentoring,12/17/24 10:00,12/17/24 12:00,Art Studio 2,100,12/10/24 10:00
+806,Data Science Study Group,10/25/23 10:00,10/25/23 12:00,Local Library,100,10/18/23 10:00
+807,Girls in STEAM Mentoring,6/3/25 10:00,6/3/25 12:00,Community Center Room A,100,5/27/25 10:00
+808,Mentor Office Hours,6/5/22 10:00,6/5/22 12:00,Virtual Zoom,100,5/29/22 10:00
+809,Intro to Painting Class,7/20/23 10:00,7/20/23 12:00,Ella Rises HQ,100,7/13/23 10:00
+810,Intro to Painting Class,2/27/25 10:00,2/27/25 12:00,Community Center Room A,100,2/20/25 10:00
+811,Intro to Painting Class,2/17/22 10:00,2/17/22 12:00,Local Library,100,2/10/22 10:00
+812,Mentor Office Hours,3/31/24 10:00,3/31/24 12:00,Ella Rises HQ,100,3/24/24 10:00
+813,Robotics Lab Saturday,4/5/25 10:00,4/5/25 12:00,Ella Rises HQ,100,3/29/25 10:00
+814,Web Dev Bootcamp Night,10/21/22 10:00,10/21/22 12:00,Virtual Zoom,100,10/14/22 10:00
+815,Monthly Art Studio Workshop,11/15/23 10:00,11/15/23 12:00,Virtual Zoom,100,11/8/23 10:00
+816,Girls in STEAM Mentoring,4/9/24 10:00,4/9/24 12:00,Art Studio 2,100,4/2/24 10:00
+817,Girls in STEAM Mentoring,8/23/22 10:00,8/23/22 12:00,Ella Rises HQ,100,8/16/22 10:00
+818,Girls in STEAM Mentoring,10/7/25 10:00,10/7/25 12:00,Art Studio 2,100,9/30/25 10:00
+819,Mentor Office Hours,8/25/24 10:00,8/25/24 12:00,Art Studio 2,100,8/18/24 10:00
+820,Mentor Office Hours,2/4/24 10:00,2/4/24 12:00,Community Center Room A,100,1/28/24 10:00
+821,Mentor Office Hours,3/26/23 10:00,3/26/23 12:00,Community Center Room A,100,3/19/23 10:00
+822,Web Dev Bootcamp Night,7/5/24 10:00,7/5/24 12:00,Ella Rises HQ,100,6/28/24 10:00
+823,Mentor Office Hours,12/3/23 10:00,12/3/23 12:00,Community Center Room A,100,11/26/23 10:00
+824,Data Science Study Group,10/1/25 10:00,10/1/25 12:00,Ella Rises HQ,100,9/24/25 10:00
+825,Leadership Circle Meetup,8/15/25 10:00,8/15/25 12:00,Local Library,100,8/8/25 10:00
+826,Leadership Circle Meetup,5/15/25 10:00,5/15/25 12:00,Local Library,100,5/8/25 10:00
+827,Robotics Lab Saturday,1/8/22 10:00,1/8/22 12:00,Art Studio 2,100,1/1/22 10:00
+828,Mentor Office Hours,9/8/24 10:00,9/8/24 12:00,Local Library,100,9/1/24 10:00
+829,Intro to Painting Class,3/3/22 10:00,3/3/22 12:00,Virtual Zoom,100,2/24/22 10:00
+830,Robotics Lab Saturday,5/4/24 10:00,5/4/24 12:00,Community Center Room A,100,4/27/24 10:00
+831,Leadership Circle Meetup,5/15/22 10:00,5/15/22 12:00,Art Studio 2,100,5/8/22 10:00
+832,Girls in STEAM Mentoring,7/26/22 10:00,7/26/22 12:00,Art Studio 2,100,7/19/22 10:00
+833,Mentor Office Hours,4/23/23 10:00,4/23/23 12:00,Art Studio 2,100,4/16/23 10:00
+834,Monthly Art Studio Workshop,3/15/24 10:00,3/15/24 12:00,Ella Rises HQ,100,3/8/24 10:00
+835,Data Science Study Group,6/11/25 10:00,6/11/25 12:00,Art Studio 2,100,6/4/25 10:00
+836,Monthly Coding Club,3/15/23 10:00,3/15/23 12:00,Ella Rises HQ,100,3/8/23 10:00
+837,Data Science Study Group,5/7/25 10:00,5/7/25 12:00,Ella Rises HQ,100,4/30/25 10:00
+838,Intro to Painting Class,7/11/24 10:00,7/11/24 12:00,Local Library,100,7/4/24 10:00
+839,Girls in STEAM Mentoring,7/30/24 10:00,7/30/24 12:00,Community Center Room A,100,7/23/24 10:00
+840,Intro to Painting Class,2/23/23 10:00,2/23/23 12:00,Virtual Zoom,100,2/16/23 10:00
+841,Monthly Coding Club,1/15/25 10:00,1/15/25 12:00,Ella Rises HQ,100,1/8/25 10:00
+842,Mentor Office Hours,10/16/22 10:00,10/16/22 12:00,Local Library,100,10/9/22 10:00
+843,Intro to Painting Class,2/20/25 10:00,2/20/25 12:00,Ella Rises HQ,100,2/13/25 10:00
+844,Mentor Office Hours,9/22/24 10:00,9/22/24 12:00,Virtual Zoom,100,9/15/24 10:00
+845,Robotics Lab Saturday,2/26/22 10:00,2/26/22 12:00,Virtual Zoom,100,2/19/22 10:00
+846,Web Dev Bootcamp Night,8/30/24 10:00,8/30/24 12:00,Community Center Room A,100,8/23/24 10:00
+847,Girls in STEAM Mentoring,10/3/23 10:00,10/3/23 12:00,Community Center Room A,100,9/26/23 10:00
+848,Intro to Painting Class,5/2/24 10:00,5/2/24 12:00,Local Library,100,4/25/24 10:00
+849,Girls in STEAM Mentoring,8/9/22 10:00,8/9/22 12:00,Community Center Room A,100,8/2/22 10:00
+850,Robotics Lab Saturday,7/6/24 10:00,7/6/24 12:00,Community Center Room A,100,6/29/24 10:00
+851,Leadership Circle Meetup,10/15/22 10:00,10/15/22 12:00,Virtual Zoom,100,10/8/22 10:00
+852,Mentor Office Hours,2/23/25 10:00,2/23/25 12:00,Virtual Zoom,100,2/16/25 10:00
+853,Monthly Art Studio Workshop,10/15/22 10:00,10/15/22 12:00,Ella Rises HQ,100,10/8/22 10:00
+854,Intro to Painting Class,2/3/22 10:00,2/3/22 12:00,Virtual Zoom,100,1/27/22 10:00
+855,Intro to Painting Class,10/17/24 10:00,10/17/24 12:00,Community Center Room A,100,10/10/24 10:00
+856,Data Science Study Group,4/24/24 10:00,4/24/24 12:00,Art Studio 2,100,4/17/24 10:00
+857,Intro to Painting Class,9/1/22 10:00,9/1/22 12:00,Virtual Zoom,100,8/25/22 10:00
+858,Robotics Lab Saturday,4/8/23 10:00,4/8/23 12:00,Community Center Room A,100,4/1/23 10:00
+859,Intro to Painting Class,3/23/23 10:00,3/23/23 12:00,Ella Rises HQ,100,3/16/23 10:00
+860,Data Science Study Group,8/9/23 10:00,8/9/23 12:00,Virtual Zoom,100,8/2/23 10:00
+861,Intro to Painting Class,3/17/22 10:00,3/17/22 12:00,Art Studio 2,100,3/10/22 10:00
+862,Mentor Office Hours,12/4/22 10:00,12/4/22 12:00,Local Library,100,11/27/22 10:00
+863,Robotics Lab Saturday,8/16/25 10:00,8/16/25 12:00,Art Studio 2,100,8/9/25 10:00
+864,Girls in STEAM Mentoring,2/22/22 10:00,2/22/22 12:00,Community Center Room A,100,2/15/22 10:00
+865,Girls in STEAM Mentoring,6/21/22 10:00,6/21/22 12:00,Ella Rises HQ,100,6/14/22 10:00
+866,Robotics Lab Saturday,6/4/22 10:00,6/4/22 12:00,Local Library,100,5/28/22 10:00
+867,Girls in STEAM Mentoring,9/2/25 10:00,9/2/25 12:00,Ella Rises HQ,100,8/26/25 10:00
+868,Mentor Office Hours,7/16/23 10:00,7/16/23 12:00,Local Library,100,7/9/23 10:00
+869,Leadership Circle Meetup,11/15/23 10:00,11/15/23 12:00,Virtual Zoom,100,11/8/23 10:00
+870,Data Science Study Group,4/2/25 10:00,4/2/25 12:00,Local Library,100,3/26/25 10:00
+871,Intro to Painting Class,3/14/24 10:00,3/14/24 12:00,Local Library,100,3/7/24 10:00
+872,Robotics Lab Saturday,4/26/25 10:00,4/26/25 12:00,Art Studio 2,100,4/19/25 10:00
+873,Robotics Lab Saturday,7/12/25 10:00,7/12/25 12:00,Virtual Zoom,100,7/5/25 10:00
+874,Robotics Lab Saturday,10/15/22 10:00,10/15/22 12:00,Local Library,100,10/8/22 10:00
+875,Girls in STEAM Mentoring,9/16/25 10:00,9/16/25 12:00,Ella Rises HQ,100,9/9/25 10:00
+876,Robotics Lab Saturday,8/17/24 10:00,8/17/24 12:00,Ella Rises HQ,100,8/10/24 10:00
+877,Intro to Painting Class,2/6/25 10:00,2/6/25 12:00,Community Center Room A,100,1/30/25 10:00
+878,Web Dev Bootcamp Night,5/24/24 10:00,5/24/24 12:00,Ella Rises HQ,100,5/17/24 10:00
+879,Data Science Study Group,9/11/24 10:00,9/11/24 12:00,Community Center Room A,100,9/4/24 10:00
+880,Web Dev Bootcamp Night,1/6/23 10:00,1/6/23 12:00,Community Center Room A,100,12/30/22 10:00
+881,Robotics Lab Saturday,10/14/23 10:00,10/14/23 12:00,Art Studio 2,100,10/7/23 10:00
+882,Robotics Lab Saturday,6/17/23 10:00,6/17/23 12:00,Virtual Zoom,100,6/10/23 10:00
+883,Monthly Art Studio Workshop,1/15/22 10:00,1/15/22 12:00,Virtual Zoom,100,1/8/22 10:00
+884,Girls in STEAM Mentoring,10/31/23 10:00,10/31/23 12:00,Virtual Zoom,100,10/24/23 10:00
+885,Intro to Painting Class,3/2/23 10:00,3/2/23 12:00,Ella Rises HQ,100,2/23/23 10:00
+886,Mentor Office Hours,8/17/25 10:00,8/17/25 12:00,Virtual Zoom,100,8/10/25 10:00
+887,Leadership Circle Meetup,9/15/25 10:00,9/15/25 12:00,Virtual Zoom,100,9/8/25 10:00
+888,Girls in STEAM Mentoring,6/20/23 10:00,6/20/23 12:00,Art Studio 2,100,6/13/23 10:00
+889,Web Dev Bootcamp Night,9/15/23 10:00,9/15/23 12:00,Virtual Zoom,100,9/8/23 10:00
+890,Monthly Coding Club,12/15/21 10:00,12/15/21 12:00,Art Studio 2,100,12/8/21 10:00
+891,Web Dev Bootcamp Night,2/21/25 10:00,2/21/25 12:00,Local Library,100,2/14/25 10:00
+892,Data Science Study Group,8/17/22 10:00,8/17/22 12:00,Ella Rises HQ,100,8/10/22 10:00
+893,Girls in STEAM Mentoring,11/4/25 10:00,11/4/25 12:00,Community Center Room A,100,10/28/25 10:00
+894,Girls in STEAM Mentoring,11/7/23 10:00,11/7/23 12:00,Ella Rises HQ,100,10/31/23 10:00
+895,Monthly Coding Club,9/15/25 10:00,9/15/25 12:00,Virtual Zoom,100,9/8/25 10:00
+896,Intro to Painting Class,4/21/22 10:00,4/21/22 12:00,Community Center Room A,100,4/14/22 10:00
+897,Intro to Painting Class,12/5/24 10:00,12/5/24 12:00,Ella Rises HQ,100,11/28/24 10:00
+898,Web Dev Bootcamp Night,12/13/24 10:00,12/13/24 12:00,Ella Rises HQ,100,12/6/24 10:00
+899,Girls in STEAM Mentoring,12/3/24 10:00,12/3/24 12:00,Ella Rises HQ,100,11/26/24 10:00
+900,Intro to Painting Class,3/21/24 10:00,3/21/24 12:00,Ella Rises HQ,100,3/14/24 10:00
+901,Robotics Lab Saturday,8/12/23 10:00,8/12/23 12:00,Community Center Room A,100,8/5/23 10:00
+902,Mentor Office Hours,9/7/25 10:00,9/7/25 12:00,Virtual Zoom,100,8/31/25 10:00
+903,Girls in STEAM Mentoring,4/25/23 10:00,4/25/23 12:00,Community Center Room A,100,4/18/23 10:00
+904,Girls in STEAM Mentoring,1/25/22 10:00,1/25/22 12:00,Local Library,100,1/18/22 10:00
+905,Mentor Office Hours,3/24/24 10:00,3/24/24 12:00,Local Library,100,3/17/24 10:00
+906,Girls in STEAM Mentoring,8/1/23 10:00,8/1/23 12:00,Ella Rises HQ,100,7/25/23 10:00
+907,Web Dev Bootcamp Night,5/16/25 10:00,5/16/25 12:00,Ella Rises HQ,100,5/9/25 10:00
+908,Mentor Office Hours,12/15/24 10:00,12/15/24 12:00,Local Library,100,12/8/24 10:00
+909,Intro to Painting Class,10/2/25 10:00,10/2/25 12:00,Virtual Zoom,100,9/25/25 10:00
+910,Ella Rises Annual Leadership Conference,6/15/24 10:00,6/15/24 12:00,Local Library,100,6/8/24 10:00
+911,Girls in STEAM Mentoring,6/18/24 10:00,6/18/24 12:00,Ella Rises HQ,100,6/11/24 10:00
+912,Intro to Painting Class,9/25/25 10:00,9/25/25 12:00,Virtual Zoom,100,9/18/25 10:00
+913,Robotics Lab Saturday,8/24/24 10:00,8/24/24 12:00,Virtual Zoom,100,8/17/24 10:00
+914,Data Science Study Group,7/23/25 10:00,7/23/25 12:00,Ella Rises HQ,100,7/16/25 10:00
+915,Monthly Art Studio Workshop,10/15/23 10:00,10/15/23 12:00,Ella Rises HQ,100,10/8/23 10:00
+916,Data Science Study Group,5/8/24 10:00,5/8/24 12:00,Ella Rises HQ,100,5/1/24 10:00
+917,Data Science Study Group,11/22/23 10:00,11/22/23 12:00,Community Center Room A,100,11/15/23 10:00
+918,Intro to Painting Class,3/10/22 10:00,3/10/22 12:00,Community Center Room A,100,3/3/22 10:00
+919,Girls in STEAM Mentoring,2/8/22 10:00,2/8/22 12:00,Ella Rises HQ,100,2/1/22 10:00
+920,Web Dev Bootcamp Night,5/19/23 10:00,5/19/23 12:00,Community Center Room A,100,5/12/23 10:00
+921,Web Dev Bootcamp Night,1/7/22 10:00,1/7/22 12:00,Local Library,100,12/31/21 10:00
+922,Robotics Lab Saturday,7/30/22 10:00,7/30/22 12:00,Local Library,100,7/23/22 10:00
+923,Intro to Painting Class,8/4/22 10:00,8/4/22 12:00,Ella Rises HQ,100,7/28/22 10:00
+924,Data Science Study Group,12/14/22 10:00,12/14/22 12:00,Community Center Room A,100,12/7/22 10:00
+925,Data Science Study Group,1/17/24 10:00,1/17/24 12:00,Ella Rises HQ,100,1/10/24 10:00
+926,Intro to Painting Class,12/14/23 10:00,12/14/23 12:00,Ella Rises HQ,100,12/7/23 10:00
+927,Intro to Painting Class,12/2/21 10:00,12/2/21 12:00,Community Center Room A,100,11/25/21 10:00
+928,Robotics Lab Saturday,10/19/24 10:00,10/19/24 12:00,Virtual Zoom,100,10/12/24 10:00
+929,Data Science Study Group,7/24/24 10:00,7/24/24 12:00,Ella Rises HQ,100,7/17/24 10:00
+930,Intro to Painting Class,10/13/22 10:00,10/13/22 12:00,Art Studio 2,100,10/6/22 10:00
+931,Girls in STEAM Mentoring,5/3/22 10:00,5/3/22 12:00,Community Center Room A,100,4/26/22 10:00
+932,Girls in STEAM Mentoring,6/17/25 10:00,6/17/25 12:00,Local Library,100,6/10/25 10:00
+933,Girls in STEAM Mentoring,11/21/23 10:00,11/21/23 12:00,Virtual Zoom,100,11/14/23 10:00
+934,Data Science Study Group,3/5/25 10:00,3/5/25 12:00,Community Center Room A,100,2/26/25 10:00
+935,Monthly Coding Club,8/15/24 10:00,8/15/24 12:00,Art Studio 2,100,8/8/24 10:00
+936,Girls in STEAM Mentoring,2/25/25 10:00,2/25/25 12:00,Community Center Room A,100,2/18/25 10:00
+937,Girls in STEAM Mentoring,4/30/24 10:00,4/30/24 12:00,Ella Rises HQ,100,4/23/24 10:00
+938,Girls in STEAM Mentoring,3/22/22 10:00,3/22/22 12:00,Local Library,100,3/15/22 10:00
+939,Mentor Office Hours,4/10/22 10:00,4/10/22 12:00,Community Center Room A,100,4/3/22 10:00
+940,Data Science Study Group,1/10/24 10:00,1/10/24 12:00,Virtual Zoom,100,1/3/24 10:00
+941,Monthly Art Studio Workshop,2/15/23 10:00,2/15/23 12:00,Ella Rises HQ,100,2/8/23 10:00
+942,Web Dev Bootcamp Night,7/14/23 10:00,7/14/23 12:00,Art Studio 2,100,7/7/23 10:00
+943,Leadership Circle Meetup,4/15/22 10:00,4/15/22 12:00,Community Center Room A,100,4/8/22 10:00
+944,Web Dev Bootcamp Night,4/12/24 10:00,4/12/24 12:00,Community Center Room A,100,4/5/24 10:00
+945,Girls in STEAM Mentoring,10/1/24 10:00,10/1/24 12:00,Art Studio 2,100,9/24/24 10:00
+946,Mentor Office Hours,1/7/24 10:00,1/7/24 12:00,Art Studio 2,100,12/31/23 10:00
+947,Robotics Lab Saturday,1/28/23 10:00,1/28/23 12:00,Local Library,100,1/21/23 10:00
+948,Data Science Study Group,9/4/24 10:00,9/4/24 12:00,Ella Rises HQ,100,8/28/24 10:00
+949,Intro to Painting Class,10/16/25 10:00,10/16/25 12:00,Art Studio 2,100,10/9/25 10:00
+950,Web Dev Bootcamp Night,4/14/23 10:00,4/14/23 12:00,Ella Rises HQ,100,4/7/23 10:00
+951,Data Science Study Group,6/28/23 10:00,6/28/23 12:00,Local Library,100,6/21/23 10:00
+952,Robotics Lab Saturday,7/22/23 10:00,7/22/23 12:00,Virtual Zoom,100,7/15/23 10:00
+953,Web Dev Bootcamp Night,8/8/25 10:00,8/8/25 12:00,Virtual Zoom,100,8/1/25 10:00
+954,Web Dev Bootcamp Night,11/10/23 10:00,11/10/23 12:00,Virtual Zoom,100,11/3/23 10:00
+955,Robotics Lab Saturday,1/14/23 10:00,1/14/23 12:00,Virtual Zoom,100,1/7/23 10:00
+956,Robotics Lab Saturday,9/9/23 10:00,9/9/23 12:00,Local Library,100,9/2/23 10:00
+957,Robotics Lab Saturday,5/24/25 10:00,5/24/25 12:00,Art Studio 2,100,5/17/25 10:00
+958,Web Dev Bootcamp Night,5/10/24 10:00,5/10/24 12:00,Virtual Zoom,100,5/3/24 10:00
+959,Web Dev Bootcamp Night,7/1/22 10:00,7/1/22 12:00,Ella Rises HQ,100,6/24/22 10:00
+960,Monthly Coding Club,11/15/23 10:00,11/15/23 12:00,Community Center Room A,100,11/8/23 10:00
+961,Robotics Lab Saturday,8/10/24 10:00,8/10/24 12:00,Virtual Zoom,100,8/3/24 10:00
+962,Leadership Circle Meetup,11/15/22 10:00,11/15/22 12:00,Art Studio 2,100,11/8/22 10:00
+963,Robotics Lab Saturday,11/13/21 10:00,11/13/21 12:00,Virtual Zoom,100,11/6/21 10:00
+964,Monthly Art Studio Workshop,1/15/23 10:00,1/15/23 12:00,Art Studio 2,100,1/8/23 10:00
+965,Monthly Art Studio Workshop,5/15/25 10:00,5/15/25 12:00,Virtual Zoom,100,5/8/25 10:00
+966,Leadership Circle Meetup,1/15/24 10:00,1/15/24 12:00,Ella Rises HQ,100,1/8/24 10:00
+967,Mentor Office Hours,7/23/23 10:00,7/23/23 12:00,Virtual Zoom,100,7/16/23 10:00
+968,Data Science Study Group,4/5/23 10:00,4/5/23 12:00,Art Studio 2,100,3/29/23 10:00
+969,Girls in STEAM Mentoring,8/8/23 10:00,8/8/23 12:00,Art Studio 2,100,8/1/23 10:00
+970,Data Science Study Group,3/30/22 10:00,3/30/22 12:00,Art Studio 2,100,3/23/22 10:00
+971,Girls in STEAM Mentoring,12/14/21 10:00,12/14/21 12:00,Virtual Zoom,100,12/7/21 10:00
+972,Web Dev Bootcamp Night,11/22/24 10:00,11/22/24 12:00,Art Studio 2,100,11/15/24 10:00
+973,Monthly Coding Club,9/15/22 10:00,9/15/22 12:00,Ella Rises HQ,100,9/8/22 10:00
+974,Web Dev Bootcamp Night,12/2/22 10:00,12/2/22 12:00,Virtual Zoom,100,11/25/22 10:00
+975,Mentor Office Hours,2/19/23 10:00,2/19/23 12:00,Art Studio 2,100,2/12/23 10:00
+976,Monthly Coding Club,6/15/22 10:00,6/15/22 12:00,Local Library,100,6/8/22 10:00
+977,Data Science Study Group,2/26/25 10:00,2/26/25 12:00,Community Center Room A,100,2/19/25 10:00
+978,Robotics Lab Saturday,3/1/25 10:00,3/1/25 12:00,Local Library,100,2/22/25 10:00
+979,Girls in STEAM Mentoring,6/25/24 10:00,6/25/24 12:00,Community Center Room A,100,6/18/24 10:00
+980,Data Science Study Group,1/12/22 10:00,1/12/22 12:00,Local Library,100,1/5/22 10:00
+981,Intro to Painting Class,3/6/25 10:00,3/6/25 12:00,Community Center Room A,100,2/27/25 10:00
+982,Intro to Painting Class,6/5/25 10:00,6/5/25 12:00,Virtual Zoom,100,5/29/25 10:00
+983,Web Dev Bootcamp Night,5/12/23 10:00,5/12/23 12:00,Ella Rises HQ,100,5/5/23 10:00
+984,Intro to Painting Class,8/28/25 10:00,8/28/25 12:00,Ella Rises HQ,100,8/21/25 10:00
+985,Intro to Painting Class,7/17/25 10:00,7/17/25 12:00,Ella Rises HQ,100,7/10/25 10:00
+986,Intro to Painting Class,9/7/23 10:00,9/7/23 12:00,Ella Rises HQ,100,8/31/23 10:00
+987,Mentor Office Hours,8/11/24 10:00,8/11/24 12:00,Community Center Room A,100,8/4/24 10:00
+988,Intro to Painting Class,3/20/25 10:00,3/20/25 12:00,Local Library,100,3/13/25 10:00
+989,Girls in STEAM Mentoring,4/23/24 10:00,4/23/24 12:00,Virtual Zoom,100,4/16/24 10:00
+990,Monthly Art Studio Workshop,4/15/25 10:00,4/15/25 12:00,Virtual Zoom,100,4/8/25 10:00
+991,Robotics Lab Saturday,11/11/23 10:00,11/11/23 12:00,Art Studio 2,100,11/4/23 10:00
+992,Intro to Painting Class,8/25/22 10:00,8/25/22 12:00,Ella Rises HQ,100,8/18/22 10:00
+993,Web Dev Bootcamp Night,2/4/22 10:00,2/4/22 12:00,Ella Rises HQ,100,1/28/22 10:00
+994,Data Science Study Group,2/16/22 10:00,2/16/22 12:00,Virtual Zoom,100,2/9/22 10:00
+995,Intro to Painting Class,7/4/24 10:00,7/4/24 12:00,Virtual Zoom,100,6/27/24 10:00
+996,Web Dev Bootcamp Night,3/7/25 10:00,3/7/25 12:00,Art Studio 2,100,2/28/25 10:00
+997,Data Science Study Group,10/18/23 10:00,10/18/23 12:00,Ella Rises HQ,100,10/11/23 10:00
+998,Mentor Office Hours,9/15/24 10:00,9/15/24 12:00,Local Library,100,9/8/24 10:00
+999,Mentor Office Hours,6/12/22 10:00,6/12/22 12:00,Ella Rises HQ,100,6/5/22 10:00
+1000,Web Dev Bootcamp Night,8/18/23 10:00,8/18/23 12:00,Ella Rises HQ,100,8/11/23 10:00
+1001,Intro to Painting Class,1/19/23 10:00,1/19/23 12:00,Local Library,100,1/12/23 10:00
+1002,Robotics Lab Saturday,10/22/22 10:00,10/22/22 12:00,Ella Rises HQ,100,10/15/22 10:00
+1003,Data Science Study Group,2/1/23 10:00,2/1/23 12:00,Ella Rises HQ,100,1/25/23 10:00
+1004,Mentor Office Hours,5/8/22 10:00,5/8/22 12:00,Local Library,100,5/1/22 10:00
+1005,Intro to Painting Class,1/27/22 10:00,1/27/22 12:00,Ella Rises HQ,100,1/20/22 10:00
+1006,Intro to Painting Class,5/25/23 10:00,5/25/23 12:00,Virtual Zoom,100,5/18/23 10:00
+1007,Monthly Coding Club,3/15/25 10:00,3/15/25 12:00,Art Studio 2,100,3/8/25 10:00
+1008,Monthly Art Studio Workshop,11/15/24 10:00,11/15/24 12:00,Art Studio 2,100,11/8/24 10:00
+1009,Monthly Coding Club,7/15/22 10:00,7/15/22 12:00,Local Library,100,7/8/22 10:00
+1010,Robotics Lab Saturday,10/12/24 10:00,10/12/24 12:00,Local Library,100,10/5/24 10:00
+1011,Robotics Lab Saturday,10/11/25 10:00,10/11/25 12:00,Local Library,100,10/4/25 10:00
+1012,Intro to Painting Class,9/14/23 10:00,9/14/23 12:00,Community Center Room A,100,9/7/23 10:00
+1013,Data Science Study Group,2/15/23 10:00,2/15/23 12:00,Local Library,100,2/8/23 10:00
+1014,Monthly Art Studio Workshop,6/15/23 10:00,6/15/23 12:00,Art Studio 2,100,6/8/23 10:00
+1015,Girls in STEAM Mentoring,8/2/22 10:00,8/2/22 12:00,Ella Rises HQ,100,7/26/22 10:00
+1016,Data Science Study Group,8/24/22 10:00,8/24/22 12:00,Community Center Room A,100,8/17/22 10:00
+1017,Web Dev Bootcamp Night,3/11/22 10:00,3/11/22 12:00,Community Center Room A,100,3/4/22 10:00
+1018,Leadership Circle Meetup,6/15/22 10:00,6/15/22 12:00,Local Library,100,6/8/22 10:00
+1019,STEAM Summit & Expo,6/15/24 10:00,6/15/24 12:00,Local Library,100,6/8/24 10:00
+1020,Monthly Coding Club,4/15/22 10:00,4/15/22 12:00,Local Library,100,4/8/22 10:00
+1021,Monthly Coding Club,5/15/22 10:00,5/15/22 12:00,Virtual Zoom,100,5/8/22 10:00
+1022,Monthly Coding Club,1/15/23 10:00,1/15/23 12:00,Virtual Zoom,100,1/8/23 10:00
+1023,Monthly Coding Club,5/15/23 10:00,5/15/23 12:00,Virtual Zoom,100,5/8/23 10:00
+1024,Monthly Coding Club,8/15/23 10:00,8/15/23 12:00,Ella Rises HQ,100,8/8/23 10:00
+1025,Monthly Coding Club,9/15/23 10:00,9/15/23 12:00,Community Center Room A,100,9/8/23 10:00
+1026,Monthly Coding Club,10/15/23 10:00,10/15/23 12:00,Virtual Zoom,100,10/8/23 10:00
+1027,Monthly Coding Club,3/15/24 10:00,3/15/24 12:00,Community Center Room A,100,3/8/24 10:00
+1028,Monthly Coding Club,7/15/24 10:00,7/15/24 12:00,Community Center Room A,100,7/8/24 10:00
+1029,Monthly Coding Club,9/15/24 10:00,9/15/24 12:00,Community Center Room A,100,9/8/24 10:00
+1030,Monthly Coding Club,11/15/24 10:00,11/15/24 12:00,Community Center Room A,100,11/8/24 10:00
+1031,Monthly Coding Club,5/15/25 10:00,5/15/25 12:00,Art Studio 2,100,5/8/25 10:00
+1032,Monthly Art Studio Workshop,4/15/22 10:00,4/15/22 12:00,Art Studio 2,100,4/8/22 10:00
+1033,Monthly Art Studio Workshop,7/15/23 10:00,7/15/23 12:00,Local Library,100,7/8/23 10:00
+1034,Monthly Art Studio Workshop,12/15/23 10:00,12/15/23 12:00,Community Center Room A,100,12/8/23 10:00
+1035,Monthly Art Studio Workshop,4/15/24 10:00,4/15/24 12:00,Ella Rises HQ,100,4/8/24 10:00
+1036,Monthly Art Studio Workshop,8/15/24 10:00,8/15/24 12:00,Community Center Room A,100,8/8/24 10:00
+1037,Monthly Art Studio Workshop,1/15/25 10:00,1/15/25 12:00,Virtual Zoom,100,1/8/25 10:00
+1038,Monthly Art Studio Workshop,3/15/25 10:00,3/15/25 12:00,Community Center Room A,100,3/8/25 10:00
+1039,Monthly Art Studio Workshop,8/15/25 10:00,8/15/25 12:00,Local Library,100,8/8/25 10:00
+1040,Monthly Art Studio Workshop,11/15/25 10:00,11/15/25 12:00,Community Center Room A,100,11/8/25 10:00
+1041,Leadership Circle Meetup,3/15/22 10:00,3/15/22 12:00,Ella Rises HQ,100,3/8/22 10:00
+1042,Leadership Circle Meetup,9/15/22 10:00,9/15/22 12:00,Community Center Room A,100,9/8/22 10:00
+1043,Leadership Circle Meetup,2/15/23 10:00,2/15/23 12:00,Ella Rises HQ,100,2/8/23 10:00
+1044,Leadership Circle Meetup,9/15/23 10:00,9/15/23 12:00,Virtual Zoom,100,9/8/23 10:00
+1045,Leadership Circle Meetup,12/15/23 10:00,12/15/23 12:00,Virtual Zoom,100,12/8/23 10:00
+1046,Leadership Circle Meetup,3/15/24 10:00,3/15/24 12:00,Community Center Room A,100,3/8/24 10:00
+1047,Leadership Circle Meetup,4/15/24 10:00,4/15/24 12:00,Local Library,100,4/8/24 10:00
+1048,Leadership Circle Meetup,12/15/24 10:00,12/15/24 12:00,Local Library,100,12/8/24 10:00
+1049,Leadership Circle Meetup,10/15/25 10:00,10/15/25 12:00,Art Studio 2,100,10/8/25 10:00
+1050,Robotics Lab Saturday,12/11/21 10:00,12/11/21 12:00,Art Studio 2,100,12/4/21 10:00
+1051,Robotics Lab Saturday,12/25/21 10:00,12/25/21 12:00,Virtual Zoom,100,12/18/21 10:00
+1052,Robotics Lab Saturday,1/22/22 10:00,1/22/22 12:00,Community Center Room A,100,1/15/22 10:00
+1053,Robotics Lab Saturday,1/29/22 10:00,1/29/22 12:00,Art Studio 2,100,1/22/22 10:00
+1054,Robotics Lab Saturday,2/5/22 10:00,2/5/22 12:00,Ella Rises HQ,100,1/29/22 10:00
+1055,Robotics Lab Saturday,2/12/22 10:00,2/12/22 12:00,Community Center Room A,100,2/5/22 10:00
+1056,Robotics Lab Saturday,2/19/22 10:00,2/19/22 12:00,Ella Rises HQ,100,2/12/22 10:00
+1057,Robotics Lab Saturday,3/12/22 10:00,3/12/22 12:00,Community Center Room A,100,3/5/22 10:00
+1058,Robotics Lab Saturday,3/19/22 10:00,3/19/22 12:00,Art Studio 2,100,3/12/22 10:00
+1059,Robotics Lab Saturday,4/16/22 10:00,4/16/22 12:00,Local Library,100,4/9/22 10:00
+1060,Robotics Lab Saturday,5/28/22 10:00,5/28/22 12:00,Art Studio 2,100,5/21/22 10:00
+1061,Robotics Lab Saturday,6/25/22 10:00,6/25/22 12:00,Community Center Room A,100,6/18/22 10:00
+1062,Robotics Lab Saturday,7/2/22 10:00,7/2/22 12:00,Ella Rises HQ,100,6/25/22 10:00
+1063,Robotics Lab Saturday,7/9/22 10:00,7/9/22 12:00,Local Library,100,7/2/22 10:00
+1064,Robotics Lab Saturday,7/23/22 10:00,7/23/22 12:00,Community Center Room A,100,7/16/22 10:00
+1065,Robotics Lab Saturday,8/6/22 10:00,8/6/22 12:00,Virtual Zoom,100,7/30/22 10:00
+1066,Robotics Lab Saturday,8/20/22 10:00,8/20/22 12:00,Virtual Zoom,100,8/13/22 10:00
+1067,Robotics Lab Saturday,8/27/22 10:00,8/27/22 12:00,Virtual Zoom,100,8/20/22 10:00
+1068,Robotics Lab Saturday,9/17/22 10:00,9/17/22 12:00,Community Center Room A,100,9/10/22 10:00
+1069,Robotics Lab Saturday,10/1/22 10:00,10/1/22 12:00,Ella Rises HQ,100,9/24/22 10:00
+1070,Robotics Lab Saturday,10/29/22 10:00,10/29/22 12:00,Art Studio 2,100,10/22/22 10:00
+1071,Robotics Lab Saturday,11/5/22 10:00,11/5/22 12:00,Community Center Room A,100,10/29/22 10:00
+1072,Robotics Lab Saturday,12/3/22 10:00,12/3/22 12:00,Virtual Zoom,100,11/26/22 10:00
+1073,Robotics Lab Saturday,12/10/22 10:00,12/10/22 12:00,Art Studio 2,100,12/3/22 10:00
+1074,Robotics Lab Saturday,12/24/22 10:00,12/24/22 12:00,Art Studio 2,100,12/17/22 10:00
+1075,Robotics Lab Saturday,12/31/22 10:00,12/31/22 12:00,Local Library,100,12/24/22 10:00
+1076,Robotics Lab Saturday,1/7/23 10:00,1/7/23 12:00,Ella Rises HQ,100,12/31/22 10:00
+1077,Robotics Lab Saturday,3/25/23 10:00,3/25/23 12:00,Community Center Room A,100,3/18/23 10:00
+1078,Robotics Lab Saturday,5/6/23 10:00,5/6/23 12:00,Ella Rises HQ,100,4/29/23 10:00
+1079,Robotics Lab Saturday,5/13/23 10:00,5/13/23 12:00,Virtual Zoom,100,5/6/23 10:00
+1080,Robotics Lab Saturday,5/27/23 10:00,5/27/23 12:00,Local Library,100,5/20/23 10:00
+1081,Robotics Lab Saturday,6/10/23 10:00,6/10/23 12:00,Community Center Room A,100,6/3/23 10:00
+1082,Robotics Lab Saturday,8/26/23 10:00,8/26/23 12:00,Local Library,100,8/19/23 10:00
+1083,Robotics Lab Saturday,9/2/23 10:00,9/2/23 12:00,Local Library,100,8/26/23 10:00
+1084,Robotics Lab Saturday,12/9/23 10:00,12/9/23 12:00,Art Studio 2,100,12/2/23 10:00
+1085,Robotics Lab Saturday,1/6/24 10:00,1/6/24 12:00,Ella Rises HQ,100,12/30/23 10:00
+1086,Robotics Lab Saturday,1/13/24 10:00,1/13/24 12:00,Community Center Room A,100,1/6/24 10:00
+1087,Robotics Lab Saturday,1/27/24 10:00,1/27/24 12:00,Community Center Room A,100,1/20/24 10:00
+1088,Robotics Lab Saturday,2/10/24 10:00,2/10/24 12:00,Virtual Zoom,100,2/3/24 10:00
+1089,Robotics Lab Saturday,2/24/24 10:00,2/24/24 12:00,Local Library,100,2/17/24 10:00
+1090,Robotics Lab Saturday,3/16/24 10:00,3/16/24 12:00,Ella Rises HQ,100,3/9/24 10:00
+1091,Robotics Lab Saturday,4/13/24 10:00,4/13/24 12:00,Art Studio 2,100,4/6/24 10:00
+1092,Robotics Lab Saturday,6/8/24 10:00,6/8/24 12:00,Art Studio 2,100,6/1/24 10:00
+1093,Robotics Lab Saturday,7/27/24 10:00,7/27/24 12:00,Ella Rises HQ,100,7/20/24 10:00
+1094,Robotics Lab Saturday,9/14/24 10:00,9/14/24 12:00,Ella Rises HQ,100,9/7/24 10:00
+1095,Robotics Lab Saturday,9/21/24 10:00,9/21/24 12:00,Local Library,100,9/14/24 10:00
+1096,Robotics Lab Saturday,9/28/24 10:00,9/28/24 12:00,Local Library,100,9/21/24 10:00
+1097,Robotics Lab Saturday,10/5/24 10:00,10/5/24 12:00,Local Library,100,9/28/24 10:00
+1098,Robotics Lab Saturday,11/9/24 10:00,11/9/24 12:00,Local Library,100,11/2/24 10:00
+1099,Robotics Lab Saturday,11/23/24 10:00,11/23/24 12:00,Virtual Zoom,100,11/16/24 10:00
+1100,Robotics Lab Saturday,11/30/24 10:00,11/30/24 12:00,Ella Rises HQ,100,11/23/24 10:00
+1101,Robotics Lab Saturday,12/7/24 10:00,12/7/24 12:00,Community Center Room A,100,11/30/24 10:00
+1102,Robotics Lab Saturday,12/14/24 10:00,12/14/24 12:00,Local Library,100,12/7/24 10:00
+1103,Robotics Lab Saturday,12/28/24 10:00,12/28/24 12:00,Virtual Zoom,100,12/21/24 10:00
+1104,Robotics Lab Saturday,2/8/25 10:00,2/8/25 12:00,Local Library,100,2/1/25 10:00
+1105,Robotics Lab Saturday,2/22/25 10:00,2/22/25 12:00,Virtual Zoom,100,2/15/25 10:00
+1106,Robotics Lab Saturday,3/22/25 10:00,3/22/25 12:00,Ella Rises HQ,100,3/15/25 10:00
+1107,Robotics Lab Saturday,3/29/25 10:00,3/29/25 12:00,Ella Rises HQ,100,3/22/25 10:00
+1108,Robotics Lab Saturday,6/7/25 10:00,6/7/25 12:00,Ella Rises HQ,100,5/31/25 10:00
+1109,Robotics Lab Saturday,6/14/25 10:00,6/14/25 12:00,Local Library,100,6/7/25 10:00
+1110,Robotics Lab Saturday,7/5/25 10:00,7/5/25 12:00,Ella Rises HQ,100,6/28/25 10:00
+1111,Robotics Lab Saturday,7/26/25 10:00,7/26/25 12:00,Community Center Room A,100,7/19/25 10:00
+1112,Robotics Lab Saturday,9/6/25 10:00,9/6/25 12:00,Community Center Room A,100,8/30/25 10:00
+1113,Robotics Lab Saturday,9/13/25 10:00,9/13/25 12:00,Local Library,100,9/6/25 10:00
+1114,Data Science Study Group,12/8/21 10:00,12/8/21 12:00,Virtual Zoom,100,12/1/21 10:00
+1115,Data Science Study Group,12/29/21 10:00,12/29/21 12:00,Community Center Room A,100,12/22/21 10:00
+1116,Data Science Study Group,1/5/22 10:00,1/5/22 12:00,Ella Rises HQ,100,12/29/21 10:00
+1117,Data Science Study Group,1/19/22 10:00,1/19/22 12:00,Ella Rises HQ,100,1/12/22 10:00
+1118,Data Science Study Group,2/23/22 10:00,2/23/22 12:00,Art Studio 2,100,2/16/22 10:00
+1119,Data Science Study Group,3/23/22 10:00,3/23/22 12:00,Community Center Room A,100,3/16/22 10:00
+1120,Data Science Study Group,4/20/22 10:00,4/20/22 12:00,Art Studio 2,100,4/13/22 10:00
+1121,Data Science Study Group,4/27/22 10:00,4/27/22 12:00,Local Library,100,4/20/22 10:00
+1122,Data Science Study Group,5/11/22 10:00,5/11/22 12:00,Art Studio 2,100,5/4/22 10:00
+1123,Data Science Study Group,6/1/22 10:00,6/1/22 12:00,Art Studio 2,100,5/25/22 10:00
+1124,Data Science Study Group,7/13/22 10:00,7/13/22 12:00,Virtual Zoom,100,7/6/22 10:00
+1125,Data Science Study Group,7/20/22 10:00,7/20/22 12:00,Art Studio 2,100,7/13/22 10:00
+1126,Data Science Study Group,7/27/22 10:00,7/27/22 12:00,Community Center Room A,100,7/20/22 10:00
+1127,Data Science Study Group,8/10/22 10:00,8/10/22 12:00,Community Center Room A,100,8/3/22 10:00
+1128,Data Science Study Group,8/31/22 10:00,8/31/22 12:00,Art Studio 2,100,8/24/22 10:00
+1129,Data Science Study Group,9/7/22 10:00,9/7/22 12:00,Ella Rises HQ,100,8/31/22 10:00
+1130,Data Science Study Group,9/28/22 10:00,9/28/22 12:00,Virtual Zoom,100,9/21/22 10:00
+1131,Data Science Study Group,10/26/22 10:00,10/26/22 12:00,Community Center Room A,100,10/19/22 10:00
+1132,Data Science Study Group,11/16/22 10:00,11/16/22 12:00,Ella Rises HQ,100,11/9/22 10:00
+1133,Data Science Study Group,11/30/22 10:00,11/30/22 12:00,Ella Rises HQ,100,11/23/22 10:00
+1134,Data Science Study Group,12/7/22 10:00,12/7/22 12:00,Art Studio 2,100,11/30/22 10:00
+1135,Data Science Study Group,12/28/22 10:00,12/28/22 12:00,Art Studio 2,100,12/21/22 10:00
+1136,Data Science Study Group,1/4/23 10:00,1/4/23 12:00,Art Studio 2,100,12/28/22 10:00
+1137,Data Science Study Group,1/11/23 10:00,1/11/23 12:00,Ella Rises HQ,100,1/4/23 10:00
+1138,Data Science Study Group,1/18/23 10:00,1/18/23 12:00,Art Studio 2,100,1/11/23 10:00
+1139,Data Science Study Group,2/8/23 10:00,2/8/23 12:00,Community Center Room A,100,2/1/23 10:00
+1140,Data Science Study Group,2/22/23 10:00,2/22/23 12:00,Virtual Zoom,100,2/15/23 10:00
+1141,Data Science Study Group,3/8/23 10:00,3/8/23 12:00,Community Center Room A,100,3/1/23 10:00
+1142,Data Science Study Group,3/15/23 10:00,3/15/23 12:00,Community Center Room A,100,3/8/23 10:00
+1143,Data Science Study Group,4/12/23 10:00,4/12/23 12:00,Community Center Room A,100,4/5/23 10:00
+1144,Data Science Study Group,5/10/23 10:00,5/10/23 12:00,Virtual Zoom,100,5/3/23 10:00
+1145,Data Science Study Group,5/17/23 10:00,5/17/23 12:00,Ella Rises HQ,100,5/10/23 10:00
+1146,Data Science Study Group,5/24/23 10:00,5/24/23 12:00,Community Center Room A,100,5/17/23 10:00
+1147,Data Science Study Group,6/7/23 10:00,6/7/23 12:00,Art Studio 2,100,5/31/23 10:00
+1148,Data Science Study Group,7/5/23 10:00,7/5/23 12:00,Art Studio 2,100,6/28/23 10:00
+1149,Data Science Study Group,7/19/23 10:00,7/19/23 12:00,Ella Rises HQ,100,7/12/23 10:00
+1150,Data Science Study Group,7/26/23 10:00,7/26/23 12:00,Community Center Room A,100,7/19/23 10:00
+1151,Data Science Study Group,8/2/23 10:00,8/2/23 12:00,Virtual Zoom,100,7/26/23 10:00
+1152,Data Science Study Group,9/6/23 10:00,9/6/23 12:00,Local Library,100,8/30/23 10:00
+1153,Data Science Study Group,11/1/23 10:00,11/1/23 12:00,Ella Rises HQ,100,10/25/23 10:00
+1154,Data Science Study Group,11/8/23 10:00,11/8/23 12:00,Local Library,100,11/1/23 10:00
+1155,Data Science Study Group,11/15/23 10:00,11/15/23 12:00,Ella Rises HQ,100,11/8/23 10:00
+1156,Data Science Study Group,11/29/23 10:00,11/29/23 12:00,Local Library,100,11/22/23 10:00
+1157,Data Science Study Group,12/13/23 10:00,12/13/23 12:00,Virtual Zoom,100,12/6/23 10:00
+1158,Data Science Study Group,1/24/24 10:00,1/24/24 12:00,Community Center Room A,100,1/17/24 10:00
+1159,Data Science Study Group,2/7/24 10:00,2/7/24 12:00,Art Studio 2,100,1/31/24 10:00
+1160,Data Science Study Group,2/21/24 10:00,2/21/24 12:00,Ella Rises HQ,100,2/14/24 10:00
+1161,Data Science Study Group,3/13/24 10:00,3/13/24 12:00,Local Library,100,3/6/24 10:00
+1162,Data Science Study Group,4/3/24 10:00,4/3/24 12:00,Art Studio 2,100,3/27/24 10:00
+1163,Data Science Study Group,5/15/24 10:00,5/15/24 12:00,Community Center Room A,100,5/8/24 10:00
+1164,Data Science Study Group,6/12/24 10:00,6/12/24 12:00,Ella Rises HQ,100,6/5/24 10:00
+1165,Data Science Study Group,7/17/24 10:00,7/17/24 12:00,Virtual Zoom,100,7/10/24 10:00
+1166,Data Science Study Group,7/31/24 10:00,7/31/24 12:00,Community Center Room A,100,7/24/24 10:00
+1167,Data Science Study Group,8/28/24 10:00,8/28/24 12:00,Community Center Room A,100,8/21/24 10:00
+1168,Data Science Study Group,10/9/24 10:00,10/9/24 12:00,Community Center Room A,100,10/2/24 10:00
+1169,Data Science Study Group,10/23/24 10:00,10/23/24 12:00,Virtual Zoom,100,10/16/24 10:00
+1170,Data Science Study Group,12/25/24 10:00,12/25/24 12:00,Virtual Zoom,100,12/18/24 10:00
+1171,Data Science Study Group,1/1/25 10:00,1/1/25 12:00,Community Center Room A,100,12/25/24 10:00
+1172,Data Science Study Group,1/8/25 10:00,1/8/25 12:00,Community Center Room A,100,1/1/25 10:00
+1173,Data Science Study Group,2/19/25 10:00,2/19/25 12:00,Virtual Zoom,100,2/12/25 10:00
+1174,Data Science Study Group,3/12/25 10:00,3/12/25 12:00,Local Library,100,3/5/25 10:00
+1175,Data Science Study Group,3/19/25 10:00,3/19/25 12:00,Local Library,100,3/12/25 10:00
+1176,Data Science Study Group,4/9/25 10:00,4/9/25 12:00,Art Studio 2,100,4/2/25 10:00
+1177,Data Science Study Group,4/30/25 10:00,4/30/25 12:00,Art Studio 2,100,4/23/25 10:00
+1178,Data Science Study Group,5/28/25 10:00,5/28/25 12:00,Local Library,100,5/21/25 10:00
+1179,Data Science Study Group,7/2/25 10:00,7/2/25 12:00,Ella Rises HQ,100,6/25/25 10:00
+1180,Data Science Study Group,7/30/25 10:00,7/30/25 12:00,Art Studio 2,100,7/23/25 10:00
+1181,Data Science Study Group,8/6/25 10:00,8/6/25 12:00,Virtual Zoom,100,7/30/25 10:00
+1182,Data Science Study Group,9/10/25 10:00,9/10/25 12:00,Art Studio 2,100,9/3/25 10:00
+1183,Data Science Study Group,10/8/25 10:00,10/8/25 12:00,Ella Rises HQ,100,10/1/25 10:00
+1184,Data Science Study Group,10/22/25 10:00,10/22/25 12:00,Virtual Zoom,100,10/15/25 10:00
+1185,Data Science Study Group,11/5/25 10:00,11/5/25 12:00,Community Center Room A,100,10/29/25 10:00
+1186,Intro to Painting Class,11/25/21 10:00,11/25/21 12:00,Ella Rises HQ,100,11/18/21 10:00
+1187,Intro to Painting Class,12/9/21 10:00,12/9/21 12:00,Virtual Zoom,100,12/2/21 10:00
+1188,Intro to Painting Class,12/23/21 10:00,12/23/21 12:00,Community Center Room A,100,12/16/21 10:00
+1189,Intro to Painting Class,1/6/22 10:00,1/6/22 12:00,Ella Rises HQ,100,12/30/21 10:00
+1190,Intro to Painting Class,1/13/22 10:00,1/13/22 12:00,Ella Rises HQ,100,1/6/22 10:00
+1191,Intro to Painting Class,1/20/22 10:00,1/20/22 12:00,Virtual Zoom,100,1/13/22 10:00
+1192,Intro to Painting Class,2/10/22 10:00,2/10/22 12:00,Community Center Room A,100,2/3/22 10:00
+1193,Intro to Painting Class,4/7/22 10:00,4/7/22 12:00,Virtual Zoom,100,3/31/22 10:00
+1194,Intro to Painting Class,4/28/22 10:00,4/28/22 12:00,Art Studio 2,100,4/21/22 10:00
+1195,Intro to Painting Class,5/19/22 10:00,5/19/22 12:00,Art Studio 2,100,5/12/22 10:00
+1196,Intro to Painting Class,5/26/22 10:00,5/26/22 12:00,Virtual Zoom,100,5/19/22 10:00
+1197,Intro to Painting Class,6/2/22 10:00,6/2/22 12:00,Art Studio 2,100,5/26/22 10:00
+1198,Intro to Painting Class,7/14/22 10:00,7/14/22 12:00,Virtual Zoom,100,7/7/22 10:00
+1199,Intro to Painting Class,7/21/22 10:00,7/21/22 12:00,Community Center Room A,100,7/14/22 10:00
+1200,Intro to Painting Class,7/28/22 10:00,7/28/22 12:00,Community Center Room A,100,7/21/22 10:00
+1201,Intro to Painting Class,8/11/22 10:00,8/11/22 12:00,Local Library,100,8/4/22 10:00
+1202,Intro to Painting Class,9/8/22 10:00,9/8/22 12:00,Local Library,100,9/1/22 10:00
+1203,Intro to Painting Class,9/15/22 10:00,9/15/22 12:00,Ella Rises HQ,100,9/8/22 10:00
+1204,Intro to Painting Class,9/22/22 10:00,9/22/22 12:00,Ella Rises HQ,100,9/15/22 10:00
+1205,Intro to Painting Class,10/6/22 10:00,10/6/22 12:00,Community Center Room A,100,9/29/22 10:00
+1206,Intro to Painting Class,11/3/22 10:00,11/3/22 12:00,Local Library,100,10/27/22 10:00
+1207,Intro to Painting Class,11/17/22 10:00,11/17/22 12:00,Art Studio 2,100,11/10/22 10:00
+1208,Intro to Painting Class,12/1/22 10:00,12/1/22 12:00,Virtual Zoom,100,11/24/22 10:00
+1209,Intro to Painting Class,12/15/22 10:00,12/15/22 12:00,Art Studio 2,100,12/8/22 10:00
+1210,Intro to Painting Class,12/22/22 10:00,12/22/22 12:00,Ella Rises HQ,100,12/15/22 10:00
+1211,Intro to Painting Class,1/5/23 10:00,1/5/23 12:00,Virtual Zoom,100,12/29/22 10:00
+1212,Intro to Painting Class,2/2/23 10:00,2/2/23 12:00,Art Studio 2,100,1/26/23 10:00
+1213,Intro to Painting Class,2/9/23 10:00,2/9/23 12:00,Art Studio 2,100,2/2/23 10:00
+1214,Intro to Painting Class,2/16/23 10:00,2/16/23 12:00,Ella Rises HQ,100,2/9/23 10:00
+1215,Intro to Painting Class,4/6/23 10:00,4/6/23 12:00,Virtual Zoom,100,3/30/23 10:00
+1216,Intro to Painting Class,4/20/23 10:00,4/20/23 12:00,Virtual Zoom,100,4/13/23 10:00
+1217,Intro to Painting Class,4/27/23 10:00,4/27/23 12:00,Virtual Zoom,100,4/20/23 10:00
+1218,Intro to Painting Class,5/4/23 10:00,5/4/23 12:00,Local Library,100,4/27/23 10:00
+1219,Intro to Painting Class,6/8/23 10:00,6/8/23 12:00,Art Studio 2,100,6/1/23 10:00
+1220,Intro to Painting Class,7/13/23 10:00,7/13/23 12:00,Local Library,100,7/6/23 10:00
+1221,Intro to Painting Class,8/17/23 10:00,8/17/23 12:00,Ella Rises HQ,100,8/10/23 10:00
+1222,Intro to Painting Class,8/31/23 10:00,8/31/23 12:00,Ella Rises HQ,100,8/24/23 10:00
+1223,Intro to Painting Class,9/21/23 10:00,9/21/23 12:00,Ella Rises HQ,100,9/14/23 10:00
+1224,Intro to Painting Class,10/5/23 10:00,10/5/23 12:00,Local Library,100,9/28/23 10:00
+1225,Intro to Painting Class,11/23/23 10:00,11/23/23 12:00,Ella Rises HQ,100,11/16/23 10:00
+1226,Intro to Painting Class,12/21/23 10:00,12/21/23 12:00,Ella Rises HQ,100,12/14/23 10:00
+1227,Intro to Painting Class,1/4/24 10:00,1/4/24 12:00,Virtual Zoom,100,12/28/23 10:00
+1228,Intro to Painting Class,1/18/24 10:00,1/18/24 12:00,Virtual Zoom,100,1/11/24 10:00
+1229,Intro to Painting Class,2/15/24 10:00,2/15/24 12:00,Virtual Zoom,100,2/8/24 10:00
+1230,Intro to Painting Class,2/22/24 10:00,2/22/24 12:00,Community Center Room A,100,2/15/24 10:00
+1231,Intro to Painting Class,2/29/24 10:00,2/29/24 12:00,Community Center Room A,100,2/22/24 10:00
+1232,Intro to Painting Class,3/7/24 10:00,3/7/24 12:00,Art Studio 2,100,2/29/24 10:00
+1233,Intro to Painting Class,4/4/24 10:00,4/4/24 12:00,Virtual Zoom,100,3/28/24 10:00
+1234,Intro to Painting Class,5/16/24 10:00,5/16/24 12:00,Art Studio 2,100,5/9/24 10:00
+1235,Intro to Painting Class,5/30/24 10:00,5/30/24 12:00,Community Center Room A,100,5/23/24 10:00
+1236,Intro to Painting Class,6/13/24 10:00,6/13/24 12:00,Local Library,100,6/6/24 10:00
+1237,Intro to Painting Class,6/20/24 10:00,6/20/24 12:00,Local Library,100,6/13/24 10:00
+1238,Intro to Painting Class,7/18/24 10:00,7/18/24 12:00,Community Center Room A,100,7/11/24 10:00
+1239,Intro to Painting Class,7/25/24 10:00,7/25/24 12:00,Ella Rises HQ,100,7/18/24 10:00
+1240,Intro to Painting Class,8/15/24 10:00,8/15/24 12:00,Ella Rises HQ,100,8/8/24 10:00
+1241,Intro to Painting Class,9/26/24 10:00,9/26/24 12:00,Ella Rises HQ,100,9/19/24 10:00
+1242,Intro to Painting Class,10/3/24 10:00,10/3/24 12:00,Local Library,100,9/26/24 10:00
+1243,Intro to Painting Class,10/24/24 10:00,10/24/24 12:00,Ella Rises HQ,100,10/17/24 10:00
+1244,Intro to Painting Class,11/7/24 10:00,11/7/24 12:00,Local Library,100,10/31/24 10:00
+1245,Intro to Painting Class,11/21/24 10:00,11/21/24 12:00,Community Center Room A,100,11/14/24 10:00
+1246,Intro to Painting Class,12/12/24 10:00,12/12/24 12:00,Virtual Zoom,100,12/5/24 10:00
+1247,Intro to Painting Class,12/26/24 10:00,12/26/24 12:00,Art Studio 2,100,12/19/24 10:00
+1248,Intro to Painting Class,1/23/25 10:00,1/23/25 12:00,Virtual Zoom,100,1/16/25 10:00
+1249,Intro to Painting Class,3/27/25 10:00,3/27/25 12:00,Local Library,100,3/20/25 10:00
+1250,Intro to Painting Class,5/22/25 10:00,5/22/25 12:00,Local Library,100,5/15/25 10:00
+1251,Intro to Painting Class,6/19/25 10:00,6/19/25 12:00,Ella Rises HQ,100,6/12/25 10:00
+1252,Intro to Painting Class,7/3/25 10:00,7/3/25 12:00,Local Library,100,6/26/25 10:00
+1253,Intro to Painting Class,7/10/25 10:00,7/10/25 12:00,Ella Rises HQ,100,7/3/25 10:00
+1254,Intro to Painting Class,7/31/25 10:00,7/31/25 12:00,Ella Rises HQ,100,7/24/25 10:00
+1255,Intro to Painting Class,8/7/25 10:00,8/7/25 12:00,Local Library,100,7/31/25 10:00
+1256,Intro to Painting Class,10/9/25 10:00,10/9/25 12:00,Ella Rises HQ,100,10/2/25 10:00
+1257,Intro to Painting Class,10/23/25 10:00,10/23/25 12:00,Ella Rises HQ,100,10/16/25 10:00
+1258,Web Dev Bootcamp Night,11/12/21 10:00,11/12/21 12:00,Community Center Room A,100,11/5/21 10:00
+1259,Web Dev Bootcamp Night,11/26/21 10:00,11/26/21 12:00,Local Library,100,11/19/21 10:00
+1260,Web Dev Bootcamp Night,12/10/21 10:00,12/10/21 12:00,Local Library,100,12/3/21 10:00
+1261,Web Dev Bootcamp Night,12/31/21 10:00,12/31/21 12:00,Ella Rises HQ,100,12/24/21 10:00
+1262,Web Dev Bootcamp Night,1/21/22 10:00,1/21/22 12:00,Virtual Zoom,100,1/14/22 10:00
+1263,Web Dev Bootcamp Night,2/11/22 10:00,2/11/22 12:00,Local Library,100,2/4/22 10:00
+1264,Web Dev Bootcamp Night,2/25/22 10:00,2/25/22 12:00,Community Center Room A,100,2/18/22 10:00
+1265,Web Dev Bootcamp Night,3/18/22 10:00,3/18/22 12:00,Local Library,100,3/11/22 10:00
+1266,Web Dev Bootcamp Night,4/1/22 10:00,4/1/22 12:00,Art Studio 2,100,3/25/22 10:00
+1267,Web Dev Bootcamp Night,4/8/22 10:00,4/8/22 12:00,Virtual Zoom,100,4/1/22 10:00
+1268,Web Dev Bootcamp Night,4/15/22 10:00,4/15/22 12:00,Art Studio 2,100,4/8/22 10:00
+1269,Web Dev Bootcamp Night,4/22/22 10:00,4/22/22 12:00,Art Studio 2,100,4/15/22 10:00
+1270,Web Dev Bootcamp Night,4/29/22 10:00,4/29/22 12:00,Local Library,100,4/22/22 10:00
+1271,Web Dev Bootcamp Night,5/6/22 10:00,5/6/22 12:00,Art Studio 2,100,4/29/22 10:00
+1272,Web Dev Bootcamp Night,7/8/22 10:00,7/8/22 12:00,Ella Rises HQ,100,7/1/22 10:00
+1273,Web Dev Bootcamp Night,7/15/22 10:00,7/15/22 12:00,Art Studio 2,100,7/8/22 10:00
+1274,Web Dev Bootcamp Night,7/29/22 10:00,7/29/22 12:00,Community Center Room A,100,7/22/22 10:00
+1275,Web Dev Bootcamp Night,8/26/22 10:00,8/26/22 12:00,Virtual Zoom,100,8/19/22 10:00
+1276,Web Dev Bootcamp Night,9/2/22 10:00,9/2/22 12:00,Community Center Room A,100,8/26/22 10:00
+1277,Web Dev Bootcamp Night,9/16/22 10:00,9/16/22 12:00,Local Library,100,9/9/22 10:00
+1278,Web Dev Bootcamp Night,9/23/22 10:00,9/23/22 12:00,Local Library,100,9/16/22 10:00
+1279,Web Dev Bootcamp Night,9/30/22 10:00,9/30/22 12:00,Local Library,100,9/23/22 10:00
+1280,Web Dev Bootcamp Night,10/28/22 10:00,10/28/22 12:00,Local Library,100,10/21/22 10:00
+1281,Web Dev Bootcamp Night,11/11/22 10:00,11/11/22 12:00,Community Center Room A,100,11/4/22 10:00
+1282,Web Dev Bootcamp Night,11/18/22 10:00,11/18/22 12:00,Community Center Room A,100,11/11/22 10:00
+1283,Web Dev Bootcamp Night,12/9/22 10:00,12/9/22 12:00,Art Studio 2,100,12/2/22 10:00
+1284,Web Dev Bootcamp Night,12/16/22 10:00,12/16/22 12:00,Virtual Zoom,100,12/9/22 10:00
+1285,Web Dev Bootcamp Night,12/23/22 10:00,12/23/22 12:00,Ella Rises HQ,100,12/16/22 10:00
+1286,Web Dev Bootcamp Night,1/27/23 10:00,1/27/23 12:00,Local Library,100,1/20/23 10:00
+1287,Web Dev Bootcamp Night,2/3/23 10:00,2/3/23 12:00,Virtual Zoom,100,1/27/23 10:00
+1288,Web Dev Bootcamp Night,2/10/23 10:00,2/10/23 12:00,Community Center Room A,100,2/3/23 10:00
+1289,Web Dev Bootcamp Night,3/17/23 10:00,3/17/23 12:00,Community Center Room A,100,3/10/23 10:00
+1290,Web Dev Bootcamp Night,6/2/23 10:00,6/2/23 12:00,Ella Rises HQ,100,5/26/23 10:00
+1291,Web Dev Bootcamp Night,6/9/23 10:00,6/9/23 12:00,Community Center Room A,100,6/2/23 10:00
+1292,Web Dev Bootcamp Night,6/23/23 10:00,6/23/23 12:00,Art Studio 2,100,6/16/23 10:00
+1293,Web Dev Bootcamp Night,8/11/23 10:00,8/11/23 12:00,Local Library,100,8/4/23 10:00
+1294,Web Dev Bootcamp Night,9/1/23 10:00,9/1/23 12:00,Ella Rises HQ,100,8/25/23 10:00
+1295,Web Dev Bootcamp Night,9/29/23 10:00,9/29/23 12:00,Art Studio 2,100,9/22/23 10:00
+1296,Web Dev Bootcamp Night,10/20/23 10:00,10/20/23 12:00,Community Center Room A,100,10/13/23 10:00
+1297,Web Dev Bootcamp Night,10/27/23 10:00,10/27/23 12:00,Ella Rises HQ,100,10/20/23 10:00
+1298,Web Dev Bootcamp Night,11/17/23 10:00,11/17/23 12:00,Virtual Zoom,100,11/10/23 10:00
+1299,Web Dev Bootcamp Night,11/24/23 10:00,11/24/23 12:00,Local Library,100,11/17/23 10:00
+1300,Web Dev Bootcamp Night,12/22/23 10:00,12/22/23 12:00,Virtual Zoom,100,12/15/23 10:00
+1301,Web Dev Bootcamp Night,1/12/24 10:00,1/12/24 12:00,Virtual Zoom,100,1/5/24 10:00
+1302,Web Dev Bootcamp Night,1/19/24 10:00,1/19/24 12:00,Local Library,100,1/12/24 10:00
+1303,Web Dev Bootcamp Night,1/26/24 10:00,1/26/24 12:00,Ella Rises HQ,100,1/19/24 10:00
+1304,Web Dev Bootcamp Night,2/2/24 10:00,2/2/24 12:00,Virtual Zoom,100,1/26/24 10:00
+1305,Web Dev Bootcamp Night,2/9/24 10:00,2/9/24 12:00,Virtual Zoom,100,2/2/24 10:00
+1306,Web Dev Bootcamp Night,2/16/24 10:00,2/16/24 12:00,Virtual Zoom,100,2/9/24 10:00
+1307,Web Dev Bootcamp Night,2/23/24 10:00,2/23/24 12:00,Art Studio 2,100,2/16/24 10:00
+1308,Web Dev Bootcamp Night,3/1/24 10:00,3/1/24 12:00,Art Studio 2,100,2/23/24 10:00
+1309,Web Dev Bootcamp Night,3/8/24 10:00,3/8/24 12:00,Local Library,100,3/1/24 10:00
+1310,Web Dev Bootcamp Night,3/22/24 10:00,3/22/24 12:00,Virtual Zoom,100,3/15/24 10:00
+1311,Web Dev Bootcamp Night,3/29/24 10:00,3/29/24 12:00,Art Studio 2,100,3/22/24 10:00
+1312,Web Dev Bootcamp Night,4/5/24 10:00,4/5/24 12:00,Ella Rises HQ,100,3/29/24 10:00
+1313,Web Dev Bootcamp Night,4/19/24 10:00,4/19/24 12:00,Local Library,100,4/12/24 10:00
+1314,Web Dev Bootcamp Night,5/3/24 10:00,5/3/24 12:00,Community Center Room A,100,4/26/24 10:00
+1315,Web Dev Bootcamp Night,5/31/24 10:00,5/31/24 12:00,Community Center Room A,100,5/24/24 10:00
+1316,Web Dev Bootcamp Night,6/28/24 10:00,6/28/24 12:00,Community Center Room A,100,6/21/24 10:00
+1317,Web Dev Bootcamp Night,7/12/24 10:00,7/12/24 12:00,Community Center Room A,100,7/5/24 10:00
+1318,Web Dev Bootcamp Night,7/19/24 10:00,7/19/24 12:00,Local Library,100,7/12/24 10:00
+1319,Web Dev Bootcamp Night,7/26/24 10:00,7/26/24 12:00,Ella Rises HQ,100,7/19/24 10:00
+1320,Web Dev Bootcamp Night,8/2/24 10:00,8/2/24 12:00,Virtual Zoom,100,7/26/24 10:00
+1321,Web Dev Bootcamp Night,8/9/24 10:00,8/9/24 12:00,Art Studio 2,100,8/2/24 10:00
+1322,Web Dev Bootcamp Night,9/27/24 10:00,9/27/24 12:00,Local Library,100,9/20/24 10:00
+1323,Web Dev Bootcamp Night,10/4/24 10:00,10/4/24 12:00,Art Studio 2,100,9/27/24 10:00
+1324,Web Dev Bootcamp Night,10/11/24 10:00,10/11/24 12:00,Local Library,100,10/4/24 10:00
+1325,Web Dev Bootcamp Night,11/8/24 10:00,11/8/24 12:00,Ella Rises HQ,100,11/1/24 10:00
+1326,Web Dev Bootcamp Night,11/15/24 10:00,11/15/24 12:00,Art Studio 2,100,11/8/24 10:00
+1327,Web Dev Bootcamp Night,11/29/24 10:00,11/29/24 12:00,Virtual Zoom,100,11/22/24 10:00
+1328,Web Dev Bootcamp Night,1/17/25 10:00,1/17/25 12:00,Virtual Zoom,100,1/10/25 10:00
+1329,Web Dev Bootcamp Night,2/7/25 10:00,2/7/25 12:00,Local Library,100,1/31/25 10:00
+1330,Web Dev Bootcamp Night,3/14/25 10:00,3/14/25 12:00,Virtual Zoom,100,3/7/25 10:00
+1331,Web Dev Bootcamp Night,4/4/25 10:00,4/4/25 12:00,Community Center Room A,100,3/28/25 10:00
+1332,Web Dev Bootcamp Night,4/11/25 10:00,4/11/25 12:00,Virtual Zoom,100,4/4/25 10:00
+1333,Web Dev Bootcamp Night,4/18/25 10:00,4/18/25 12:00,Local Library,100,4/11/25 10:00
+1334,Web Dev Bootcamp Night,4/25/25 10:00,4/25/25 12:00,Virtual Zoom,100,4/18/25 10:00
+1335,Web Dev Bootcamp Night,7/11/25 10:00,7/11/25 12:00,Local Library,100,7/4/25 10:00
+1336,Web Dev Bootcamp Night,7/25/25 10:00,7/25/25 12:00,Ella Rises HQ,100,7/18/25 10:00
+1337,Web Dev Bootcamp Night,9/5/25 10:00,9/5/25 12:00,Community Center Room A,100,8/29/25 10:00
+1338,Web Dev Bootcamp Night,9/12/25 10:00,9/12/25 12:00,Virtual Zoom,100,9/5/25 10:00
+1339,Web Dev Bootcamp Night,9/26/25 10:00,9/26/25 12:00,Art Studio 2,100,9/19/25 10:00
+1340,Web Dev Bootcamp Night,10/3/25 10:00,10/3/25 12:00,Art Studio 2,100,9/26/25 10:00
+1341,Web Dev Bootcamp Night,10/17/25 10:00,10/17/25 12:00,Ella Rises HQ,100,10/10/25 10:00
+1342,Web Dev Bootcamp Night,10/24/25 10:00,10/24/25 12:00,Virtual Zoom,100,10/17/25 10:00
+1343,Web Dev Bootcamp Night,10/31/25 10:00,10/31/25 12:00,Community Center Room A,100,10/24/25 10:00
+1344,Mentor Office Hours,11/21/21 10:00,11/21/21 12:00,Ella Rises HQ,100,11/14/21 10:00
+1345,Mentor Office Hours,12/12/21 10:00,12/12/21 12:00,Ella Rises HQ,100,12/5/21 10:00
+1346,Mentor Office Hours,12/19/21 10:00,12/19/21 12:00,Local Library,100,12/12/21 10:00
+1347,Mentor Office Hours,2/13/22 10:00,2/13/22 12:00,Virtual Zoom,100,2/6/22 10:00
+1348,Mentor Office Hours,3/27/22 10:00,3/27/22 12:00,Virtual Zoom,100,3/20/22 10:00
+1349,Mentor Office Hours,4/24/22 10:00,4/24/22 12:00,Virtual Zoom,100,4/17/22 10:00
+1350,Mentor Office Hours,7/3/22 10:00,7/3/22 12:00,Local Library,100,6/26/22 10:00
+1351,Mentor Office Hours,7/10/22 10:00,7/10/22 12:00,Art Studio 2,100,7/3/22 10:00
+1352,Mentor Office Hours,7/17/22 10:00,7/17/22 12:00,Community Center Room A,100,7/10/22 10:00
+1353,Mentor Office Hours,8/7/22 10:00,8/7/22 12:00,Ella Rises HQ,100,7/31/22 10:00
+1354,Mentor Office Hours,8/14/22 10:00,8/14/22 12:00,Community Center Room A,100,8/7/22 10:00
+1355,Mentor Office Hours,8/28/22 10:00,8/28/22 12:00,Local Library,100,8/21/22 10:00
+1356,Mentor Office Hours,3/5/23 10:00,3/5/23 12:00,Virtual Zoom,100,2/26/23 10:00
+1357,Mentor Office Hours,5/21/23 10:00,5/21/23 12:00,Ella Rises HQ,100,5/14/23 10:00
+1358,Mentor Office Hours,6/11/23 10:00,6/11/23 12:00,Virtual Zoom,100,6/4/23 10:00
+1359,Mentor Office Hours,10/29/23 10:00,10/29/23 12:00,Virtual Zoom,100,10/22/23 10:00
+1360,Mentor Office Hours,11/12/23 10:00,11/12/23 12:00,Ella Rises HQ,100,11/5/23 10:00
+1361,Mentor Office Hours,12/31/23 10:00,12/31/23 12:00,Community Center Room A,100,12/24/23 10:00
+1362,Mentor Office Hours,1/28/24 10:00,1/28/24 12:00,Ella Rises HQ,100,1/21/24 10:00
+1363,Mentor Office Hours,5/5/24 10:00,5/5/24 12:00,Community Center Room A,100,4/28/24 10:00
+1364,Mentor Office Hours,5/26/24 10:00,5/26/24 12:00,Virtual Zoom,100,5/19/24 10:00
+1365,Mentor Office Hours,10/13/24 10:00,10/13/24 12:00,Art Studio 2,100,10/6/24 10:00
+1366,Mentor Office Hours,11/10/24 10:00,11/10/24 12:00,Local Library,100,11/3/24 10:00
+1367,Mentor Office Hours,12/1/24 10:00,12/1/24 12:00,Local Library,100,11/24/24 10:00
+1368,Mentor Office Hours,12/8/24 10:00,12/8/24 12:00,Local Library,100,12/1/24 10:00
+1369,Mentor Office Hours,12/22/24 10:00,12/22/24 12:00,Community Center Room A,100,12/15/24 10:00
+1370,Mentor Office Hours,1/5/25 10:00,1/5/25 12:00,Virtual Zoom,100,12/29/24 10:00
+1371,Mentor Office Hours,4/6/25 10:00,4/6/25 12:00,Community Center Room A,100,3/30/25 10:00
+1372,Mentor Office Hours,6/22/25 10:00,6/22/25 12:00,Art Studio 2,100,6/15/25 10:00
+1373,Mentor Office Hours,6/29/25 10:00,6/29/25 12:00,Local Library,100,6/22/25 10:00
+1374,Mentor Office Hours,8/10/25 10:00,8/10/25 12:00,Art Studio 2,100,8/3/25 10:00
+1375,Girls in STEAM Mentoring,11/23/21 10:00,11/23/21 12:00,Art Studio 2,100,11/16/21 10:00
+1376,Girls in STEAM Mentoring,12/21/21 10:00,12/21/21 12:00,Art Studio 2,100,12/14/21 10:00
+1377,Girls in STEAM Mentoring,1/4/22 10:00,1/4/22 12:00,Virtual Zoom,100,12/28/21 10:00
+1378,Girls in STEAM Mentoring,3/1/22 10:00,3/1/22 12:00,Community Center Room A,100,2/22/22 10:00
+1379,Girls in STEAM Mentoring,3/8/22 10:00,3/8/22 12:00,Ella Rises HQ,100,3/1/22 10:00
+1380,Girls in STEAM Mentoring,8/16/22 10:00,8/16/22 12:00,Virtual Zoom,100,8/9/22 10:00
+1381,Girls in STEAM Mentoring,9/20/22 10:00,9/20/22 12:00,Art Studio 2,100,9/13/22 10:00
+1382,Girls in STEAM Mentoring,11/8/22 10:00,11/8/22 12:00,Virtual Zoom,100,11/1/22 10:00
+1383,Girls in STEAM Mentoring,11/22/22 10:00,11/22/22 12:00,Community Center Room A,100,11/15/22 10:00
+1384,Girls in STEAM Mentoring,12/27/22 10:00,12/27/22 12:00,Ella Rises HQ,100,12/20/22 10:00
+1385,Girls in STEAM Mentoring,2/7/23 10:00,2/7/23 12:00,Community Center Room A,100,1/31/23 10:00
+1386,Girls in STEAM Mentoring,3/7/23 10:00,3/7/23 12:00,Art Studio 2,100,2/28/23 10:00
+1387,Girls in STEAM Mentoring,3/14/23 10:00,3/14/23 12:00,Art Studio 2,100,3/7/23 10:00
+1388,Girls in STEAM Mentoring,10/24/23 10:00,10/24/23 12:00,Art Studio 2,100,10/17/23 10:00
+1389,Girls in STEAM Mentoring,12/19/23 10:00,12/19/23 12:00,Ella Rises HQ,100,12/12/23 10:00
+1390,Girls in STEAM Mentoring,12/26/23 10:00,12/26/23 12:00,Community Center Room A,100,12/19/23 10:00
+1391,Girls in STEAM Mentoring,2/13/24 10:00,2/13/24 12:00,Art Studio 2,100,2/6/24 10:00
+1392,Girls in STEAM Mentoring,3/26/24 10:00,3/26/24 12:00,Art Studio 2,100,3/19/24 10:00
+1393,Girls in STEAM Mentoring,7/9/24 10:00,7/9/24 12:00,Art Studio 2,100,7/2/24 10:00
+1394,Girls in STEAM Mentoring,8/20/24 10:00,8/20/24 12:00,Art Studio 2,100,8/13/24 10:00
+1395,Girls in STEAM Mentoring,9/3/24 10:00,9/3/24 12:00,Ella Rises HQ,100,8/27/24 10:00
+1396,Girls in STEAM Mentoring,1/7/25 10:00,1/7/25 12:00,Local Library,100,12/31/24 10:00
+1397,Girls in STEAM Mentoring,1/21/25 10:00,1/21/25 12:00,Virtual Zoom,100,1/14/25 10:00
+1398,Girls in STEAM Mentoring,2/11/25 10:00,2/11/25 12:00,Ella Rises HQ,100,2/4/25 10:00
+1399,Girls in STEAM Mentoring,4/1/25 10:00,4/1/25 12:00,Art Studio 2,100,3/25/25 10:00
+1400,Girls in STEAM Mentoring,5/6/25 10:00,5/6/25 12:00,Community Center Room A,100,4/29/25 10:00
+1401,Girls in STEAM Mentoring,5/20/25 10:00,5/20/25 12:00,Local Library,100,5/13/25 10:00
+1402,Girls in STEAM Mentoring,7/8/25 10:00,7/8/25 12:00,Virtual Zoom,100,7/1/25 10:00
+1403,Girls in STEAM Mentoring,9/9/25 10:00,9/9/25 12:00,Art Studio 2,100,9/2/25 10:00
+1404,Girls in STEAM Mentoring,9/23/25 10:00,9/23/25 12:00,Community Center Room A,100,9/16/25 10:00
+1405,Girls in STEAM Mentoring,9/30/25 10:00,9/30/25 12:00,Local Library,100,9/23/25 10:00

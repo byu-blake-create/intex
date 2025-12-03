@@ -4,8 +4,11 @@
 // A full-stack Node.js/Express application for Ella Rises organization
 // Built with: Express, EJS, Knex, PostgreSQL, express-session, bcrypt
 
-// Load environment variables
-require('dotenv').config();
+// Load environment variables from .env file (development only)
+// In production (Elastic Beanstalk), variables come from EB Configuration
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 // ============================================
 // DEPENDENCIES
@@ -17,6 +20,8 @@ const nodemailer = require('nodemailer');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { Parser } = require('json2csv');
+const PDFDocument = require('pdfkit');
 
 // ============================================
 // KNEX DATABASE SETUP
@@ -33,9 +38,39 @@ const knex = require('knex')({
     database: process.env.RDS_DB_NAME || process.env.DB_NAME || 'ella_rises',
     port: process.env.RDS_PORT || process.env.DB_PORT || 5432,
     // SSL configuration for AWS RDS
-    ssl: process.env.DB_SSL ? { rejectUnauthorized: false } : false,
+    ssl: (process.env.DB_SSL === 'true' || process.env.NODE_ENV === 'production')
+      ? { rejectUnauthorized: false }
+      : false,
   },
+  pool: {
+    min: 2,
+    max: 10,
+    // Test connection on checkout
+    afterCreate: function(conn, done) {
+      conn.query('SELECT 1;', function(err) {
+        if (err) {
+          console.error('Database connection test failed:', err.message);
+        }
+        done(err, conn);
+      });
+    }
+  }
 });
+
+// Test database connection on startup
+knex.raw('SELECT 1')
+  .then(() => {
+    console.log('✅ Database connected successfully');
+    console.log(`   Host: ${process.env.RDS_HOSTNAME || process.env.DB_HOST || 'localhost'}`);
+    console.log(`   Database: ${process.env.RDS_DB_NAME || process.env.DB_NAME || 'ella_rises'}`);
+  })
+  .catch((err) => {
+    console.error('❌ Database connection failed:');
+    console.error(`   Error: ${err.message}`);
+    console.error(`   Host: ${process.env.RDS_HOSTNAME || process.env.DB_HOST || 'localhost'}`);
+    console.error(`   Database: ${process.env.RDS_DB_NAME || process.env.DB_NAME || 'ella_rises'}`);
+    console.error('   Please check your database configuration and environment variables.');
+  });
 
 // ============================================
 // HELPER FUNCTIONS
@@ -2210,6 +2245,520 @@ app.get('/admin/analytics', requireAdmin, (req, res) => {
 });
 
 // ============================================
+// ============================================
+// CSV/PDF EXPORT ROUTES
+// ============================================
+
+// Export Participants as CSV
+app.get('/admin/participants/export/csv', requireAdmin, async (req, res) => {
+  try {
+    const { search = '' } = req.query;
+
+    let query = knex('users').select('id', 'name', 'email', 'role', 'total_donations', 'login_count', 'created_at');
+
+    if (search) {
+      query = query.where(function() {
+        this.where('name', 'ilike', `%${search}%`)
+          .orWhere('email', 'ilike', `%${search}%`);
+      });
+    }
+
+    const users = await query.orderBy('created_at', 'desc');
+
+    // Format data for CSV
+    const csvData = users.map(user => ({
+      ID: user.id,
+      Name: user.name,
+      Email: user.email,
+      Role: user.role,
+      'Total Donations': user.total_donations ? `$${parseFloat(user.total_donations).toFixed(2)}` : '$0.00',
+      'Login Count': user.login_count || 0,
+      'Created At': new Date(user.created_at).toLocaleDateString()
+    }));
+
+    const parser = new Parser();
+    const csv = parser.parse(csvData);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=participants.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('Error exporting participants CSV:', error);
+    res.status(500).send('Error generating CSV');
+  }
+});
+
+// Export Participants as PDF
+app.get('/admin/participants/export/pdf', requireAdmin, async (req, res) => {
+  try {
+    const { search = '' } = req.query;
+
+    let query = knex('users').select('id', 'name', 'email', 'role', 'total_donations', 'login_count');
+
+    if (search) {
+      query = query.where(function() {
+        this.where('name', 'ilike', `%${search}%`)
+          .orWhere('email', 'ilike', `%${search}%`);
+      });
+    }
+
+    const users = await query.orderBy('created_at', 'desc');
+
+    const doc = new PDFDocument({ margin: 50 });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=participants.pdf');
+    doc.pipe(res);
+
+    // Title
+    doc.fontSize(20).text('Ella Rises - Participants Report', { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(10).text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'center' });
+    doc.moveDown(2);
+
+    // Table headers
+    doc.fontSize(10);
+    const tableTop = 150;
+    const col1 = 50;
+    const col2 = 150;
+    const col3 = 280;
+    const col4 = 400;
+    const col5 = 480;
+
+    doc.font('Helvetica-Bold');
+    doc.text('Name', col1, tableTop);
+    doc.text('Email', col2, tableTop);
+    doc.text('Role', col3, tableTop);
+    doc.text('Donations', col4, tableTop);
+    doc.text('Logins', col5, tableTop);
+
+    doc.font('Helvetica');
+    let y = tableTop + 20;
+
+    users.forEach((user, i) => {
+      if (y > 700) {
+        doc.addPage();
+        y = 50;
+      }
+
+      doc.text(user.name.substring(0, 15), col1, y);
+      doc.text(user.email.substring(0, 20), col2, y);
+      doc.text(user.role, col3, y);
+      doc.text(user.total_donations ? `$${parseFloat(user.total_donations).toFixed(2)}` : '$0.00', col4, y);
+      doc.text((user.login_count || 0).toString(), col5, y);
+
+      y += 20;
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error('Error exporting participants PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+});
+
+// Export Events as CSV
+app.get('/admin/events/export/csv', requireAdmin, async (req, res) => {
+  try {
+    const { search = '' } = req.query;
+
+    let query = knex('events').select('*');
+
+    if (search) {
+      query = query.where(function() {
+        this.where('title', 'ilike', `%${search}%`)
+          .orWhere('description', 'ilike', `%${search}%`)
+          .orWhere('location', 'ilike', `%${search}%`);
+      });
+    }
+
+    const events = await query.orderBy('start_time', 'desc');
+
+    const csvData = events.map(event => ({
+      ID: event.id,
+      Title: event.title,
+      Description: event.description,
+      Location: event.location,
+      'Start Time': new Date(event.start_time).toLocaleString(),
+      'End Time': new Date(event.end_time).toLocaleString(),
+      Capacity: event.capacity,
+      'Current Attendees': event.current_attendees || 0,
+      'Created At': new Date(event.created_at).toLocaleDateString()
+    }));
+
+    const parser = new Parser();
+    const csv = parser.parse(csvData);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=events.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('Error exporting events CSV:', error);
+    res.status(500).send('Error generating CSV');
+  }
+});
+
+// Export Events as PDF
+app.get('/admin/events/export/pdf', requireAdmin, async (req, res) => {
+  try {
+    const { search = '' } = req.query;
+
+    let query = knex('events').select('*');
+
+    if (search) {
+      query = query.where(function() {
+        this.where('title', 'ilike', `%${search}%`)
+          .orWhere('description', 'ilike', `%${search}%`)
+          .orWhere('location', 'ilike', `%${search}%`);
+      });
+    }
+
+    const events = await query.orderBy('start_time', 'desc');
+
+    const doc = new PDFDocument({ margin: 50 });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=events.pdf');
+    doc.pipe(res);
+
+    doc.fontSize(20).text('Ella Rises - Events Report', { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(10).text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'center' });
+    doc.moveDown(2);
+
+    doc.fontSize(10);
+    let y = 150;
+
+    events.forEach((event, i) => {
+      if (y > 650) {
+        doc.addPage();
+        y = 50;
+      }
+
+      doc.font('Helvetica-Bold').text(event.title, 50, y);
+      y += 15;
+      doc.font('Helvetica').fontSize(9);
+      doc.text(`Location: ${event.location}`, 50, y);
+      y += 12;
+      doc.text(`Start: ${new Date(event.start_time).toLocaleString()}`, 50, y);
+      y += 12;
+      doc.text(`Capacity: ${event.current_attendees || 0}/${event.capacity}`, 50, y);
+      y += 20;
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error('Error exporting events PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+});
+
+// Export Donations as CSV
+app.get('/admin/donations/export/csv', requireAdmin, async (req, res) => {
+  try {
+    const donations = await knex('donations')
+      .join('users', 'donations.user_id', 'users.id')
+      .select('donations.*', 'users.name as user_name', 'users.email as user_email')
+      .orderBy('donations.created_at', 'desc');
+
+    const csvData = donations.map(donation => ({
+      ID: donation.id,
+      'Donor Name': donation.user_name,
+      'Donor Email': donation.user_email,
+      Amount: `$${parseFloat(donation.amount).toFixed(2)}`,
+      'Donation Date': donation.donation_date ? new Date(donation.donation_date).toLocaleDateString() : 'N/A',
+      'Created At': new Date(donation.created_at).toLocaleDateString()
+    }));
+
+    const parser = new Parser();
+    const csv = parser.parse(csvData);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=donations.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('Error exporting donations CSV:', error);
+    res.status(500).send('Error generating CSV');
+  }
+});
+
+// Export Donations as PDF
+app.get('/admin/donations/export/pdf', requireAdmin, async (req, res) => {
+  try {
+    const donations = await knex('donations')
+      .join('users', 'donations.user_id', 'users.id')
+      .select('donations.*', 'users.name as user_name', 'users.email as user_email')
+      .orderBy('donations.created_at', 'desc');
+
+    const doc = new PDFDocument({ margin: 50 });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=donations.pdf');
+    doc.pipe(res);
+
+    doc.fontSize(20).text('Ella Rises - Donations Report', { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(10).text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'center' });
+    doc.moveDown(2);
+
+    const tableTop = 150;
+    doc.fontSize(10);
+    doc.font('Helvetica-Bold');
+    doc.text('Donor', 50, tableTop);
+    doc.text('Email', 180, tableTop);
+    doc.text('Amount', 330, tableTop);
+    doc.text('Date', 420, tableTop);
+
+    doc.font('Helvetica');
+    let y = tableTop + 20;
+
+    donations.forEach((donation, i) => {
+      if (y > 700) {
+        doc.addPage();
+        y = 50;
+      }
+
+      doc.text(donation.user_name.substring(0, 20), 50, y);
+      doc.text(donation.user_email.substring(0, 20), 180, y);
+      doc.text(`$${parseFloat(donation.amount).toFixed(2)}`, 330, y);
+      doc.text(donation.donation_date ? new Date(donation.donation_date).toLocaleDateString() : 'N/A', 420, y);
+
+      y += 20;
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error('Error exporting donations PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+});
+
+// Export Surveys as CSV
+app.get('/admin/surveys/export/csv', requireAdmin, async (req, res) => {
+  try {
+    const surveys = await knex('surveys')
+      .join('users', 'surveys.user_id', 'users.id')
+      .join('events', 'surveys.event_id', 'events.id')
+      .select('surveys.*', 'users.name as user_name', 'events.title as event_title')
+      .orderBy('surveys.created_at', 'desc');
+
+    const csvData = surveys.map(survey => ({
+      ID: survey.id,
+      'Participant': survey.user_name,
+      'Event': survey.event_title,
+      'Q1 Rating': survey.q1_rating,
+      'Q2 Rating': survey.q2_rating,
+      'Q3 Rating': survey.q3_rating,
+      'Q4 Rating': survey.q4_rating,
+      'Q5 Rating': survey.q5_rating,
+      'Comments': survey.comments || '',
+      'Created At': new Date(survey.created_at).toLocaleDateString()
+    }));
+
+    const parser = new Parser();
+    const csv = parser.parse(csvData);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=surveys.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('Error exporting surveys CSV:', error);
+    res.status(500).send('Error generating CSV');
+  }
+});
+
+// Export Surveys as PDF
+app.get('/admin/surveys/export/pdf', requireAdmin, async (req, res) => {
+  try {
+    const surveys = await knex('surveys')
+      .join('users', 'surveys.user_id', 'users.id')
+      .join('events', 'surveys.event_id', 'events.id')
+      .select('surveys.*', 'users.name as user_name', 'events.title as event_title')
+      .orderBy('surveys.created_at', 'desc');
+
+    const doc = new PDFDocument({ margin: 50 });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=surveys.pdf');
+    doc.pipe(res);
+
+    doc.fontSize(20).text('Ella Rises - Surveys Report', { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(10).text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'center' });
+    doc.moveDown(2);
+
+    let y = 150;
+
+    surveys.forEach((survey, i) => {
+      if (y > 650) {
+        doc.addPage();
+        y = 50;
+      }
+
+      doc.fontSize(10).font('Helvetica-Bold').text(`${survey.user_name} - ${survey.event_title}`, 50, y);
+      y += 15;
+      doc.font('Helvetica').fontSize(9);
+      doc.text(`Ratings: Q1=${survey.q1_rating}, Q2=${survey.q2_rating}, Q3=${survey.q3_rating}, Q4=${survey.q4_rating}, Q5=${survey.q5_rating}`, 50, y);
+      y += 12;
+      if (survey.comments) {
+        doc.text(`Comments: ${survey.comments.substring(0, 100)}`, 50, y);
+        y += 12;
+      }
+      y += 15;
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error('Error exporting surveys PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+});
+
+// Export Programs as CSV
+app.get('/admin/programs/export/csv', requireAdmin, async (req, res) => {
+  try {
+    const programs = await knex('programs')
+      .select('*')
+      .orderBy('created_at', 'desc');
+
+    const csvData = programs.map(program => ({
+      ID: program.id,
+      Name: program.name,
+      Description: program.description,
+      'Start Date': program.start_date ? new Date(program.start_date).toLocaleDateString() : 'N/A',
+      'End Date': program.end_date ? new Date(program.end_date).toLocaleDateString() : 'N/A',
+      'Created At': new Date(program.created_at).toLocaleDateString()
+    }));
+
+    const parser = new Parser();
+    const csv = parser.parse(csvData);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=programs.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('Error exporting programs CSV:', error);
+    res.status(500).send('Error generating CSV');
+  }
+});
+
+// Export Programs as PDF
+app.get('/admin/programs/export/pdf', requireAdmin, async (req, res) => {
+  try {
+    const programs = await knex('programs')
+      .select('*')
+      .orderBy('created_at', 'desc');
+
+    const doc = new PDFDocument({ margin: 50 });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=programs.pdf');
+    doc.pipe(res);
+
+    doc.fontSize(20).text('Ella Rises - Programs Report', { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(10).text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'center' });
+    doc.moveDown(2);
+
+    let y = 150;
+
+    programs.forEach((program, i) => {
+      if (y > 650) {
+        doc.addPage();
+        y = 50;
+      }
+
+      doc.fontSize(11).font('Helvetica-Bold').text(program.name, 50, y);
+      y += 15;
+      doc.font('Helvetica').fontSize(9);
+      doc.text(program.description.substring(0, 150), 50, y, { width: 500 });
+      y += 25;
+      doc.text(`Duration: ${program.start_date ? new Date(program.start_date).toLocaleDateString() : 'N/A'} - ${program.end_date ? new Date(program.end_date).toLocaleDateString() : 'N/A'}`, 50, y);
+      y += 25;
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error('Error exporting programs PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+});
+
+// Export Milestones as CSV
+app.get('/admin/milestones/export/csv', requireAdmin, async (req, res) => {
+  try {
+    const milestones = await knex('milestones')
+      .select('*')
+      .orderBy('title', 'asc');
+
+    const csvData = milestones.map(milestone => ({
+      ID: milestone.id,
+      Title: milestone.title,
+      Description: milestone.description,
+      Category: milestone.category,
+      'Created At': new Date(milestone.created_at).toLocaleDateString()
+    }));
+
+    const parser = new Parser();
+    const csv = parser.parse(csvData);
+
+    res.setHeader('Content-Type', 'text/csv');
+    res.setHeader('Content-Disposition', 'attachment; filename=milestones.csv');
+    res.send(csv);
+  } catch (error) {
+    console.error('Error exporting milestones CSV:', error);
+    res.status(500).send('Error generating CSV');
+  }
+});
+
+// Export Milestones as PDF
+app.get('/admin/milestones/export/pdf', requireAdmin, async (req, res) => {
+  try {
+    const milestones = await knex('milestones')
+      .select('*')
+      .orderBy('title', 'asc');
+
+    const doc = new PDFDocument({ margin: 50 });
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=milestones.pdf');
+    doc.pipe(res);
+
+    doc.fontSize(20).text('Ella Rises - Milestones Report', { align: 'center' });
+    doc.moveDown();
+    doc.fontSize(10).text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'center' });
+    doc.moveDown(2);
+
+    const tableTop = 150;
+    doc.fontSize(10);
+    doc.font('Helvetica-Bold');
+    doc.text('Title', 50, tableTop);
+    doc.text('Category', 250, tableTop);
+    doc.text('Description', 350, tableTop);
+
+    doc.font('Helvetica').fontSize(9);
+    let y = tableTop + 20;
+
+    milestones.forEach((milestone, i) => {
+      if (y > 700) {
+        doc.addPage();
+        y = 50;
+      }
+
+      doc.text(milestone.title.substring(0, 30), 50, y);
+      doc.text(milestone.category, 250, y);
+      doc.text(milestone.description.substring(0, 30), 350, y);
+
+      y += 20;
+    });
+
+    doc.end();
+  } catch (error) {
+    console.error('Error exporting milestones PDF:', error);
+    res.status(500).send('Error generating PDF');
+  }
+});
+
 // ERROR HANDLING
 // ============================================
 
@@ -2220,9 +2769,24 @@ app.get('/teapot', (req, res) => {
   });
 });
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).send('Page not found');
+// 404 handler - must be after all other routes
+app.use((req, res, next) => {
+  res.status(404).render('404', {
+    title: '404 - Page Not Found - Ella Rises',
+    isLoggedIn: req.session && req.session.user,
+    user: req.session ? req.session.user : null,
+  });
+});
+
+// 500 error handler - must be last
+app.use((err, req, res, next) => {
+  console.error('Server Error:', err);
+  res.status(500).render('500', {
+    title: '500 - Server Error - Ella Rises',
+    isLoggedIn: req.session && req.session.user,
+    user: req.session ? req.session.user : null,
+    error: err,
+  });
 });
 
 // ============================================

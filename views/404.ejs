@@ -1,0 +1,49 @@
+<%- include('partials/header') %>
+
+<div class="container" style="margin-top: 4rem; margin-bottom: 4rem; text-align: center;">
+  <div style="max-width: 600px; margin: 0 auto;">
+    <!-- Error Icon -->
+    <div style="font-size: 8rem; margin-bottom: 2rem;">🦋</div>
+
+    <!-- Error Code -->
+    <h1 style="font-size: 6rem; font-weight: 700; color: var(--primary-color); margin-bottom: 1rem; line-height: 1;">
+      404
+    </h1>
+
+    <!-- Error Message -->
+    <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--text-color);">
+      Page Not Found
+    </h2>
+
+    <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 3rem; line-height: 1.8;">
+      Oops! The page you're looking for seems to have flown away like a butterfly.
+      Let's help you find your way back.
+    </p>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="/" class="btn btn-primary" style="min-width: 150px;">
+        Go Home
+      </a>
+      <a href="/events" class="btn btn-outline" style="min-width: 150px;">
+        View Events
+      </a>
+      <a href="/contact" class="btn btn-outline" style="min-width: 150px;">
+        Contact Us
+      </a>
+    </div>
+
+    <!-- Additional Help -->
+    <div style="margin-top: 4rem; padding: 2rem; background-color: var(--bg-accent); border-radius: var(--border-radius);">
+      <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-color);">
+        Need Help?
+      </h3>
+      <p style="color: var(--text-secondary); line-height: 1.6;">
+        If you believe this is an error, please <a href="/contact" style="color: var(--primary-color); text-decoration: underline;">contact us</a>
+        and let us know what you were looking for.
+      </p>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

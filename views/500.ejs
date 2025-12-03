@@ -1,0 +1,61 @@
+<%- include('partials/header') %>
+
+<div class="container" style="margin-top: 4rem; margin-bottom: 4rem; text-align: center;">
+  <div style="max-width: 600px; margin: 0 auto;">
+    <!-- Error Icon -->
+    <div style="font-size: 8rem; margin-bottom: 2rem;">⚠️</div>
+
+    <!-- Error Code -->
+    <h1 style="font-size: 6rem; font-weight: 700; color: var(--error-color); margin-bottom: 1rem; line-height: 1;">
+      500
+    </h1>
+
+    <!-- Error Message -->
+    <h2 style="font-size: 2rem; margin-bottom: 1.5rem; color: var(--text-color);">
+      Internal Server Error
+    </h2>
+
+    <p style="font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 3rem; line-height: 1.8;">
+      We're sorry! Something went wrong on our end.
+      Our team has been notified and we're working to fix it.
+    </p>
+
+    <!-- What to Do -->
+    <div style="margin-bottom: 3rem; padding: 2rem; background-color: var(--bg-accent); border-radius: var(--border-radius); text-align: left;">
+      <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--text-color);">
+        What you can do:
+      </h3>
+      <ul style="color: var(--text-secondary); line-height: 2; margin-left: 1.5rem;">
+        <li>Wait a few moments and try again</li>
+        <li>Return to the home page and navigate from there</li>
+        <li>Clear your browser cache and cookies</li>
+        <li>Contact us if the problem persists</li>
+      </ul>
+    </div>
+
+    <!-- Action Buttons -->
+    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <a href="/" class="btn btn-primary" style="min-width: 150px;">
+        Go Home
+      </a>
+      <button onclick="window.location.reload()" class="btn btn-outline" style="min-width: 150px;">
+        Try Again
+      </button>
+      <a href="/contact" class="btn btn-outline" style="min-width: 150px;">
+        Report Issue
+      </a>
+    </div>
+
+    <!-- Error Details (only shown in development) -->
+    <% if (typeof error !== 'undefined' && process.env.NODE_ENV !== 'production') { %>
+      <div style="margin-top: 3rem; padding: 2rem; background-color: #fee; border: 1px solid #fcc; border-radius: var(--border-radius); text-align: left;">
+        <h3 style="font-size: 1rem; margin-bottom: 1rem; color: #c00;">
+          Development Error Details:
+        </h3>
+        <pre style="overflow-x: auto; font-size: 0.875rem; color: #600;"><%= error.stack %></pre>
+      </div>
+    <% } %>
+  </div>
+</div>
+
+<%- include('partials/footer') %>

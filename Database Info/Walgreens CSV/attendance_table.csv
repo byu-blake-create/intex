@@ -1,0 +1,4 @@
+﻿AttendanceID,RegistrationStatus,RegistrationAttendedFlag
+1,attended,1
+2,no-show,0
+3,cancelled,0

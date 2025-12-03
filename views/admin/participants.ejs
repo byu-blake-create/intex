@@ -1,14 +1,22 @@
 <%- include('../partials/header') %>
 
 <div class="container container-lg watercolor-left" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
     <div>
       <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('admin.participants.manage') %></h1>
       <p style="color: var(--text-secondary); margin: 0;">
         <%= t('admin.participants.manage.copy') %>
       </p>
     </div>
-    <a href="/admin/participants/new/user" class="btn btn-primary">+ Create New User</a>
+    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <a href="/admin/participants/export/csv<%= search ? '?search=' + encodeURIComponent(search) : '' %>" class="btn btn-outline" title="Export to CSV">
+        📊 Export CSV
+      </a>
+      <a href="/admin/participants/export/pdf<%= search ? '?search=' + encodeURIComponent(search) : '' %>" class="btn btn-outline" title="Export to PDF">
+        📄 Export PDF
+      </a>
+      <a href="/admin/participants/new/user" class="btn btn-primary">+ Create New User</a>
+    </div>
   </div>
 
   <% if (req.query.success) { %>
