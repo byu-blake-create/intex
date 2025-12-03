@@ -686,6 +686,60 @@ app.post('/events/:eventId/signup', requireLogin, async (req, res) => {
       created_at: new Date(),
     });
 
+    // Send confirmation email to user
+    try {
+      const eventDate = new Date(event.start_time);
+      const formattedDate = eventDate.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      const formattedTime = eventDate.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+
+      await mailTransporter.sendMail({
+        from: process.env.MAIL_FROM,
+        to: req.session.user.email,
+        subject: `Registration Confirmed: ${event.title}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <h2 style="color: #2c3e50;">Event Registration Confirmation</h2>
+            <p>Hi ${req.session.user.name},</p>
+            <p>You're all set! You've successfully registered for:</p>
+
+            <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h3 style="color: #e91e63; margin-top: 0;">${event.title}</h3>
+              <p style="margin: 10px 0;"><strong>Date:</strong> ${formattedDate}</p>
+              <p style="margin: 10px 0;"><strong>Time:</strong> ${formattedTime}</p>
+              ${event.location ? `<p style="margin: 10px 0;"><strong>Location:</strong> ${event.location}</p>` : ''}
+            </div>
+
+            ${event.description ? `<p>${event.description}</p>` : ''}
+
+            <p>We look forward to seeing you there!</p>
+
+            <p style="margin-top: 30px; color: #7f8c8d; font-size: 14px;">
+              If you have any questions, please contact us through our website.
+            </p>
+
+            <hr style="border: none; border-top: 1px solid #ecf0f1; margin: 20px 0;">
+            <p style="color: #95a5a6; font-size: 12px;">
+              This is an automated confirmation from Ella Rises. Please do not reply to this email.
+            </p>
+          </div>
+        `,
+      });
+      console.log(`Confirmation email sent to ${req.session.user.email} for event ${event.title}`);
+    } catch (emailError) {
+      // Log email error but don't fail the registration
+      console.error('Error sending confirmation email:', emailError);
+      // Registration still succeeded, just email failed
+    }
+
     res.redirect(`/events/${eventId}?message=signup_success`);
   } catch (error) {
     console.error('Error signing up for event:', error);
