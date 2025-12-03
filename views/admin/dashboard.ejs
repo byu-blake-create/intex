@@ -61,25 +61,25 @@
     </a>
   </div>
 
-  <!-- Quick Stats (Placeholder) -->
+  <!-- Quick Stats -->
   <div style="margin-top: 3rem;">
     <h2 style="font-size: 2rem; margin-bottom: 1.5rem;"><%= t('admin.dashboard.quick') %></h2>
     <div class="grid grid-4">
       <div class="card text-center">
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem;">--</div>
+        <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem;"><%= totalUsers %></div>
         <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalUsers') %></div>
       </div>
       <div class="card text-center">
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 0.5rem;">--</div>
+        <div style="font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 0.5rem;"><%= totalEvents %></div>
         <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalEvents') %></div>
       </div>
       <div class="card text-center">
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--success-color); margin-bottom: 0.5rem;">--</div>
+        <div style="font-size: 2.5rem; font-weight: 700; color: var(--success-color); margin-bottom: 0.5rem;"><%= totalSurveys %></div>
         <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalSurveys') %></div>
       </div>
       <div class="card text-center">
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--accent-color); margin-bottom: 0.5rem;">--</div>
-        <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalDonations') || 'Total Donations' %></div>
+        <div style="font-size: 2.5rem; font-weight: 700; color: var(--accent-color); margin-bottom: 0.5rem;">$<%= totalDonations.toFixed(2) %></div>
+        <div style="color: var(--text-secondary);">Total Donations</div>
       </div>
     </div>
   </div>

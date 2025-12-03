@@ -1,0 +1,15 @@
+node_modules/
+.env
+.git/
+*.log
+.DS_Store
+Database Information/
+.aws/
+.claude/
+.cache/
+.npm/
+.config/
+*.md
+.gitignore
+.ebextensions/
+.elasticbeanstalk/

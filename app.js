@@ -23,16 +23,33 @@ const fs = require('fs');
 // ============================================
 // Configure Knex to connect to PostgreSQL
 // Connection details come from environment variables
+// Supports both local development and AWS RDS deployment
 const knex = require('knex')({
   client: 'pg',
   connection: {
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    host: process.env.RDS_HOSTNAME || process.env.DB_HOST || 'localhost',
+    user: process.env.RDS_USERNAME || process.env.DB_USER || 'postgres',
+    password: process.env.RDS_PASSWORD || process.env.DB_PASSWORD || 'postgres',
+    database: process.env.RDS_DB_NAME || process.env.DB_NAME || 'ella_rises',
+    port: process.env.RDS_PORT || process.env.DB_PORT || 5432,
+    // SSL configuration for AWS RDS
+    ssl: process.env.DB_SSL ? { rejectUnauthorized: false } : false,
   },
 });
+
+// ============================================
+// HELPER FUNCTIONS
+// ============================================
+
+// Validate and clamp page number to valid range
+function validatePageNumber(requestedPage, totalPages) {
+  const page = parseInt(requestedPage) || 1;
+
+  // Clamp to valid range (1 to totalPages)
+  if (page < 1) return 1;
+  if (totalPages > 0 && page > totalPages) return totalPages;
+  return page;
+}
 
 // Expected database schema (for reference):
 //
@@ -107,13 +124,15 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ============================================
+// ============================================
 // EMAIL (NODEMAILER) SETUP
 // ============================================
 // Configure a reusable transporter for contact form submissions.
+// Supports both local SMTP and Amazon SES
 const mailTransporter =
   process.env.MAIL_HOST && (process.env.MAIL_FROM || process.env.MAIL_USER)
     ? nodemailer.createTransport({
-        host: process.env.MAIL_HOST,
+        host: process.env.MAIL_HOST, // For AWS SES: email-smtp.{region}.amazonaws.com
         port: parseInt(process.env.MAIL_PORT, 10) || 587,
         secure:
           process.env.MAIL_SECURE === 'true' ||
@@ -121,10 +140,15 @@ const mailTransporter =
         auth:
           process.env.MAIL_USER && process.env.MAIL_PASS
             ? {
-                user: process.env.MAIL_USER,
-                pass: process.env.MAIL_PASS,
+                user: process.env.MAIL_USER, // AWS SES SMTP username
+                pass: process.env.MAIL_PASS, // AWS SES SMTP password
               }
             : undefined,
+        // Additional settings for AWS SES
+        tls: {
+          // Do not fail on invalid certificates (for self-signed certs in dev)
+          rejectUnauthorized: process.env.NODE_ENV === 'production',
+        },
       })
     : null;
 
@@ -553,9 +577,10 @@ app.get('/logout', (req, res) => {
 // This page is publicly accessible (no login required to view)
 app.get('/events', async (req, res) => {
   try {
-    // Get all events from database, ordered by start time
+    // Get only future events from database, ordered by start time
     const events = await knex('events')
       .select('*')
+      .where('start_time', '>=', new Date())
       .orderBy('start_time', 'asc');
 
     res.render('events/index', {
@@ -596,10 +621,15 @@ app.get('/events/:eventId', async (req, res) => {
       isRegistered = !!registration;
     }
 
+    // Check if event is in the past
+    const isPast = new Date(event.start_time) < new Date();
+
     res.render('events/detail', {
       title: `${event.title} - Ella Rises`,
       event,
       isRegistered,
+      isPast,
+      req,
     });
   } catch (error) {
     console.error('Error fetching event:', error);
@@ -614,6 +644,18 @@ app.post('/events/:eventId/signup', requireLogin, async (req, res) => {
   const userId = req.session.user.id;
 
   try {
+    // Get the event to check if it's in the past
+    const event = await knex('events').where({ id: eventId }).first();
+
+    if (!event) {
+      return res.status(404).send('Event not found');
+    }
+
+    // Prevent signup for past events
+    if (new Date(event.start_time) < new Date()) {
+      return res.redirect(`/events/${eventId}?message=event_past`);
+    }
+
     // Check if already registered
     const existing = await knex('event_registrations')
       .where({
@@ -624,6 +666,17 @@ app.post('/events/:eventId/signup', requireLogin, async (req, res) => {
 
     if (existing) {
       return res.redirect(`/events/${eventId}?message=already_registered`);
+    }
+
+    // Check event capacity if specified
+    if (event.capacity) {
+      const [{ count: currentRegistrations }] = await knex('event_registrations')
+        .where({ event_id: eventId })
+        .count('* as count');
+
+      if (parseInt(currentRegistrations) >= event.capacity) {
+        return res.redirect(`/events/${eventId}?message=event_full`);
+      }
     }
 
     // Insert registration
@@ -965,10 +1018,25 @@ app.post('/user/survey', requireLogin, async (req, res) => {
 // ============================================
 
 // Admin dashboard
-app.get('/admin/dashboard', requireAdmin, (req, res) => {
-  res.render('admin/dashboard', {
-    title: 'Admin Dashboard - Ella Rises',
-  });
+app.get('/admin/dashboard', requireAdmin, async (req, res) => {
+  try {
+    // Fetch quick stats
+    const [{ count: totalUsers }] = await knex('users').count('* as count');
+    const [{ count: totalEvents }] = await knex('events').count('* as count');
+    const [{ count: totalSurveys }] = await knex('surveys').count('* as count');
+    const [{ total: totalDonations }] = await knex('donations').sum('amount as total');
+
+    res.render('admin/dashboard', {
+      title: 'Admin Dashboard - Ella Rises',
+      totalUsers: parseInt(totalUsers),
+      totalEvents: parseInt(totalEvents),
+      totalSurveys: parseInt(totalSurveys),
+      totalDonations: parseFloat(totalDonations || 0),
+    });
+  } catch (error) {
+    console.error('Error loading dashboard:', error);
+    res.status(500).send('Error loading dashboard');
+  }
 });
 
 // ============================================
@@ -1224,13 +1292,14 @@ app.post('/admin/participants/:userId/delete', requireAdmin, async (req, res) =>
 // Admin events page - view/manage all events
 app.get('/admin/events', requireAdmin, async (req, res) => {
   try {
-    const { search = '', page = 1 } = req.query;
+    const { search = '', page = 1, start_date = '', end_date = '' } = req.query;
     const limit = 25;
     const offset = (parseInt(page) - 1) * limit;
 
     let query = knex('events').select('*');
     let countQuery = knex('events').count('* as count');
 
+    // Apply search filter
     if (search) {
       const searchFilter = function() {
         this.where('title', 'ilike', `%${search}%`)
@@ -1241,15 +1310,29 @@ app.get('/admin/events', requireAdmin, async (req, res) => {
       countQuery = countQuery.where(searchFilter);
     }
 
+    // Apply date filters
+    if (start_date) {
+      query = query.where('start_time', '>=', start_date);
+      countQuery = countQuery.where('start_time', '>=', start_date);
+    }
+    if (end_date) {
+      const endDateTime = new Date(end_date);
+      endDateTime.setHours(23, 59, 59, 999);
+      query = query.where('start_time', '<=', endDateTime);
+      countQuery = countQuery.where('start_time', '<=', endDateTime);
+    }
+
     const [{ count }] = await countQuery;
     const totalRecords = parseInt(count);
     const totalPages = Math.ceil(totalRecords / limit);
-    const events = await query.orderBy('date', 'asc').limit(limit).offset(offset);
+    const events = await query.orderBy('start_time', 'asc').limit(limit).offset(offset);
 
     res.render('admin/events', {
       title: 'Events - Admin - Ella Rises',
       events,
       search,
+      start_date,
+      end_date,
       currentPage: parseInt(page),
       totalPages,
       totalRecords,

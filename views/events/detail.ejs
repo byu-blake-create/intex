@@ -7,6 +7,29 @@
       <%= t('events.detail.back') %>
     </a>
 
+    <!-- Messages -->
+    <% if (req.query.message === 'event_full') { %>
+      <div class="alert alert-error" style="margin-bottom: 2rem;">
+        <strong>Event is Full</strong>
+        <p style="margin-top: 0.5rem;">This event has reached its maximum capacity. Registration is no longer available.</p>
+      </div>
+    <% } else if (req.query.message === 'event_past') { %>
+      <div class="alert alert-error" style="margin-bottom: 2rem;">
+        <strong>Event Has Passed</strong>
+        <p style="margin-top: 0.5rem;">This event has already occurred. Registration is no longer available.</p>
+      </div>
+    <% } else if (req.query.message === 'already_registered') { %>
+      <div class="alert alert-info" style="margin-bottom: 2rem;">
+        <strong>Already Registered</strong>
+        <p style="margin-top: 0.5rem;">You are already registered for this event.</p>
+      </div>
+    <% } else if (req.query.message === 'signup_success') { %>
+      <div class="alert alert-success" style="margin-bottom: 2rem;">
+        <strong>Registration Successful!</strong>
+        <p style="margin-top: 0.5rem;">You have been successfully registered for this event.</p>
+      </div>
+    <% } %>
+
     <!-- Event Card -->
     <div class="card">
       <% if (event.image_url) { %>
@@ -46,7 +69,12 @@
 
       <!-- Sign Up Section -->
       <div style="border-top: 1px solid var(--border-color); padding-top: 2rem; margin-top: 2rem;">
-        <% if (!isLoggedIn) { %>
+        <% if (isPast) { %>
+          <div class="alert alert-secondary">
+            <strong>This event has passed</strong>
+            <p style="margin-top: 0.5rem;">Registration is no longer available for this event.</p>
+          </div>
+        <% } else if (!isLoggedIn) { %>
           <div class="alert alert-info">
             <strong><%= t('events.detail.loginRequired') %></strong>
             <p style="margin-top: 0.5rem;"><%= t('events.detail.loginMsg') %></p>

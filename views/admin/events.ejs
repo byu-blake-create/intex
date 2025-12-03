@@ -11,19 +11,49 @@
     <a href="/admin/events/new" class="btn btn-primary">+ Create New Event</a>
   </div>
 
-  <!-- Search Bar -->
+  <!-- Search and Filter Bar -->
   <form action="/admin/events" method="GET" class="search-bar" style="margin-bottom: 2rem;">
-    <input
-      type="text"
-      name="search"
-      class="search-input"
-      placeholder="<%= t('admin.events.search.placeholder') || 'Search events...' %>"
-      value="<%= search %>"
-    />
-    <button type="submit" class="btn btn-primary"><%= t('admin.participants.search') || 'Search' %></button>
-    <% if (search) { %>
-      <a href="/admin/events" class="btn btn-outline"><%= t('admin.participants.clear') || 'Clear' %></a>
-    <% } %>
+    <div style="display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: end;">
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1rem;">
+        <div>
+          <label for="search" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-secondary);">Search</label>
+          <input
+            type="text"
+            id="search"
+            name="search"
+            class="search-input"
+            placeholder="Search by title, description, or location..."
+            value="<%= search %>"
+          />
+        </div>
+        <div>
+          <label for="start_date" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-secondary);">Start Date</label>
+          <input
+            type="date"
+            id="start_date"
+            name="start_date"
+            class="form-input"
+            value="<%= start_date %>"
+          />
+        </div>
+        <div>
+          <label for="end_date" style="display: block; font-weight: 600; margin-bottom: 0.5rem; color: var(--text-secondary);">End Date</label>
+          <input
+            type="date"
+            id="end_date"
+            name="end_date"
+            class="form-input"
+            value="<%= end_date %>"
+          />
+        </div>
+      </div>
+      <div style="display: flex; gap: 0.5rem;">
+        <button type="submit" class="btn btn-primary"><%= t('admin.participants.search') || 'Search' %></button>
+        <% if (search || start_date || end_date) { %>
+          <a href="/admin/events" class="btn btn-outline"><%= t('admin.participants.clear') || 'Clear' %></a>
+        <% } %>
+      </div>
+    </div>
   </form>
 
   <% if (req.query.success) { %>
@@ -81,9 +111,20 @@
 
     <!-- Pagination Controls -->
     <% if (totalPages > 1) { %>
+      <%
+        // Build query string helper to preserve filters
+        const buildQueryString = (page) => {
+          const params = new URLSearchParams();
+          params.set('page', page);
+          if (search) params.set('search', search);
+          if (start_date) params.set('start_date', start_date);
+          if (end_date) params.set('end_date', end_date);
+          return '?' + params.toString();
+        };
+      %>
       <div style="margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
         <% if (currentPage > 1) { %>
-          <a href="/admin/events?page=<%= currentPage - 1 %><%= search ? '&search=' + encodeURIComponent(search) : '' %>" class="btn btn-sm btn-outline">← Previous</a>
+          <a href="/admin/events<%= buildQueryString(currentPage - 1) %>" class="btn btn-sm btn-outline">← Previous</a>
         <% } %>
 
         <%
@@ -96,7 +137,7 @@
         %>
 
         <% if (startPage > 1) { %>
-          <a href="/admin/events?page=1<%= search ? '&search=' + encodeURIComponent(search) : '' %>" class="btn btn-sm btn-outline">1</a>
+          <a href="/admin/events<%= buildQueryString(1) %>" class="btn btn-sm btn-outline">1</a>
           <% if (startPage > 2) { %>
             <span style="padding: 0 0.5rem;">...</span>
           <% } %>
@@ -106,7 +147,7 @@
           <% if (i === currentPage) { %>
             <span class="btn btn-sm btn-primary" style="pointer-events: none;"><%= i %></span>
           <% } else { %>
-            <a href="/admin/events?page=<%= i %><%= search ? '&search=' + encodeURIComponent(search) : '' %>" class="btn btn-sm btn-outline"><%= i %></a>
+            <a href="/admin/events<%= buildQueryString(i) %>" class="btn btn-sm btn-outline"><%= i %></a>
           <% } %>
         <% } %>
 
@@ -114,11 +155,11 @@
           <% if (endPage < totalPages - 1) { %>
             <span style="padding: 0 0.5rem;">...</span>
           <% } %>
-          <a href="/admin/events?page=<%= totalPages %><%= search ? '&search=' + encodeURIComponent(search) : '' %>" class="btn btn-sm btn-outline"><%= totalPages %></a>
+          <a href="/admin/events<%= buildQueryString(totalPages) %>" class="btn btn-sm btn-outline"><%= totalPages %></a>
         <% } %>
 
         <% if (currentPage < totalPages) { %>
-          <a href="/admin/events?page=<%= currentPage + 1 %><%= search ? '&search=' + encodeURIComponent(search) : '' %>" class="btn btn-sm btn-outline">Next →</a>
+          <a href="/admin/events<%= buildQueryString(currentPage + 1) %>" class="btn btn-sm btn-outline">Next →</a>
         <% } %>
       </div>
     <% } %>
