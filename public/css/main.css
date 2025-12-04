@@ -832,6 +832,7 @@ img {
 .watercolor-duo,
 .watercolor-blush,
 .watercolor-green,
+.watercolor-green-fixed,
 .watercolor-rose,
 .watercolor-sand,
 .watercolor-butterfly {
@@ -845,6 +846,7 @@ img {
 .watercolor-duo::after,
 .watercolor-blush::after,
 .watercolor-green::after,
+.watercolor-green-fixed::after,
 .watercolor-rose::after,
 .watercolor-sand::after,
 .watercolor-butterfly::after {
@@ -901,6 +903,17 @@ img {
   left: -90px;
 }
 
+.watercolor-green-fixed::after {
+  background-image: var(--watercolor-green);
+  opacity: 0.22;
+  pointer-events: none;
+  filter: saturate(0.9);
+  width: clamp(320px, 52vw, 560px);
+  height: clamp(320px, 52vw, 560px);
+  top: 10%;
+  left: -120px;
+}
+
 .watercolor-rose::after {
   background-image: var(--watercolor-rose);
   opacity: 0.24;
@@ -939,6 +952,7 @@ img {
 .watercolor-duo > *,
 .watercolor-blush > *,
 .watercolor-green > *,
+.watercolor-green-fixed > *,
 .watercolor-rose > *,
 .watercolor-sand > *,
 .watercolor-butterfly > * {
