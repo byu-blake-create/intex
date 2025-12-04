@@ -14,21 +14,21 @@
 
   <!-- User Info Card -->
   <div class="card" style="margin-bottom: 2rem;">
-    <h1 class="card-title" style="font-size: 2rem; margin-bottom: 2rem;"><%= participant.name %></h1>
+    <h1 class="card-title" style="font-size: 2rem; margin-bottom: 2rem;"><%= participant.participant_first_name %> <%= participant.participant_last_name || '' %></h1>
 
     <!-- Basic Info Grid -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
       <div>
         <div style="font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem;">Email</div>
-        <div><%= participant.email %></div>
+        <div><%= participant.participant_email %></div>
       </div>
       <div>
         <div style="font-weight: 600; color: var(--text-secondary); margin-bottom: 0.5rem;">Role</div>
         <div>
-          <% if (participant.role === 'admin') { %>
+          <% if (participant.participant_role === 'admin') { %>
             <span class="badge badge-danger">Admin</span>
           <% } else { %>
-            <span class="badge badge-primary">Participant</span>
+            <span class="badge badge-primary">User</span>
           <% } %>
         </div>
       </div>
@@ -168,7 +168,7 @@
               <tr>
                 <td>
                   <span style="font-weight: 600; color: var(--success-color); font-size: 1.1rem;">
-                    $<%= parseFloat(donation.amount).toFixed(2) %>
+                    $<%= parseFloat(donation.donation_amount).toFixed(2) %>
                   </span>
                 </td>
                 <td>
@@ -233,8 +233,8 @@
             <% userEvents.forEach(event => { %>
               <tr>
                 <td><strong><%= event.title %></strong></td>
-                <td><%= new Date(event.start_time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
-                <td><%= event.location || 'TBD' %></td>
+                <td><%= new Date(event.event_date_time_start).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %></td>
+                <td><%= event.event_location || 'TBD' %></td>
                 <td>
                   <% if (event.attendance_status === 'attended') { %>
                     <span class="badge badge-success">Attended</span>
@@ -277,34 +277,34 @@
               <tr>
                 <td><strong><%= survey.event_title %></strong></td>
                 <td>
-                  <% if (survey.overall_score) { %>
-                    <span style="font-weight: 600;"><%= parseFloat(survey.overall_score).toFixed(2) %></span>
+                  <% if (survey.survey_overall_score) { %>
+                    <span style="font-weight: 600;"><%= parseFloat(survey.survey_overall_score).toFixed(2) %></span>
                     <span style="color: var(--text-secondary);">⭐</span>
                   <% } else { %>
                     <em style="color: var(--text-secondary);">-</em>
                   <% } %>
                 </td>
                 <td>
-                  <% if (survey.net_promoter_score === 'Promoter') { %>
+                  <% if (survey.survey_nps_bucket === 'Promoter') { %>
                     <span class="badge badge-success">Promoter</span>
-                  <% } else if (survey.net_promoter_score === 'Passive') { %>
+                  <% } else if (survey.survey_nps_bucket === 'Passive') { %>
                     <span class="badge" style="background-color: #fbbf24; color: #1a1a1a;">Passive</span>
-                  <% } else if (survey.net_promoter_score === 'Detractor') { %>
+                  <% } else if (survey.survey_nps_bucket === 'Detractor') { %>
                     <span class="badge badge-danger">Detractor</span>
                   <% } else { %>
                     <em style="color: var(--text-secondary);">-</em>
                   <% } %>
                 </td>
                 <td style="max-width: 300px;">
-                  <% if (survey.additional_feedback) { %>
-                    <%= survey.additional_feedback.substring(0, 100) %><%= survey.additional_feedback.length > 100 ? '...' : '' %>
+                  <% if (survey.survey_comments) { %>
+                    <%= survey.survey_comments.substring(0, 100) %><%= survey.survey_comments.length > 100 ? '...' : '' %>
                   <% } else { %>
                     <em style="color: var(--text-secondary);">No feedback</em>
                   <% } %>
                 </td>
                 <td>
-                  <% if (survey.created_at) { %>
-                    <%= new Date(survey.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+                  <% if (survey.survey_submission_date) { %>
+                    <%= new Date(survey.survey_submission_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
                   <% } else { %>
                     <em style="color: var(--text-secondary);">-</em>
                   <% } %>

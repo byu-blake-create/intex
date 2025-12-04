@@ -108,37 +108,41 @@
         </thead>
         <tbody>
           <% surveys.forEach(survey => { %>
-            <tr style="cursor: pointer;" onclick="window.location='/admin/surveys/<%= survey.id %>';">
+            <tr style="cursor: pointer;" onclick="window.location='/admin/surveys/<%= survey.registration_id %>';">
               <td><strong><%= survey.user_name %></strong></td>
               <td><%= survey.event_title %></td>
               <td>
-                <strong><%= survey.overall_score ? parseFloat(survey.overall_score).toFixed(2) : 'N/A' %></strong>
+                <strong><%= survey.survey_overall_score ? parseFloat(survey.survey_overall_score).toFixed(2) : 'N/A' %></strong>
                 <span style="color: var(--text-secondary); margin-left: 0.5rem;">
-                  <%= survey.overall_score ? '⭐'.repeat(Math.round(parseFloat(survey.overall_score))) : '' %>
+                  <%= survey.survey_overall_score ? '⭐'.repeat(Math.round(parseFloat(survey.survey_overall_score))) : '' %>
                 </span>
               </td>
               <td>
-                <% if (survey.net_promoter_score === 'Promoter') { %>
+                <% if (survey.survey_nps_bucket === 'Promoter') { %>
                   <span class="badge badge-success"><%= t('admin.surveys.nps.promoter') %></span>
-                <% } else if (survey.net_promoter_score === 'Passive') { %>
+                <% } else if (survey.survey_nps_bucket === 'Passive') { %>
                   <span class="badge" style="background-color: #fbbf24; color: #1a1a1a;"><%= t('admin.surveys.nps.passive') %></span>
                 <% } else { %>
                   <span class="badge badge-danger"><%= t('admin.surveys.nps.detractor') %></span>
                 <% } %>
               </td>
               <td style="max-width: 300px;">
-                <% if (survey.additional_feedback) { %>
-                  <%= survey.additional_feedback.substring(0, 100) %><%= survey.additional_feedback.length > 100 ? '...' : '' %>
+                <% if (survey.survey_comments) { %>
+                  <%= survey.survey_comments.substring(0, 100) %><%= survey.survey_comments.length > 100 ? '...' : '' %>
                 <% } else { %>
                   <em style="color: var(--text-light);"><%= t('admin.surveys.feedback.none') %></em>
                 <% } %>
               </td>
               <td style="white-space: nowrap;">
-                <%= new Date(survey.created_at).toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric'
-                }) %>
+                <% if (survey.survey_submission_date) { %>
+                  <%= new Date(survey.survey_submission_date).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric'
+                  }) %>
+                <% } else { %>
+                  <em style="color: var(--text-light);">-</em>
+                <% } %>
               </td>
             </tr>
           <% }) %>

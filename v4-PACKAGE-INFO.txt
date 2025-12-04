@@ -1,0 +1,343 @@
+===============================================
+ELLA RISES - DEPLOYMENT PACKAGE v4
+===============================================
+
+Package Name: v4.zip
+Created: December 3, 2025
+Size: 4.3 MB
+Files: 109 files
+Status: ✅ PRODUCTION READY
+
+===============================================
+WHAT'S NEW IN v4
+===============================================
+
+✅ CSV Import Script with Password Hashing
+   - import-csv-data.js (automatic bcrypt hashing)
+   - Handles UTF-8 BOM in CSV files
+   - Prevents duplicate imports
+   - Detects plaintext vs hashed passwords
+
+✅ Deployment Diagnostics
+   - diagnose-eb-auth.md (troubleshooting guide)
+   - CSV-IMPORT-GUIDE.md (import documentation)
+   - fix-database-name.sh (database setup helper)
+
+✅ Environment Variable Validation
+   - Updated documentation for all required variables
+   - Clear instructions for SESSION_SECRET
+   - Amazon SES configuration guide
+
+✅ Database Name Flexibility
+   - Works with 'ebdb' (EB default) or 'ella_rises'
+   - RDS_DB_NAME environment variable support
+
+===============================================
+WHAT'S INCLUDED
+===============================================
+
+✅ Application Files:
+   - app.js (88,849 bytes - main application)
+   - package.json & package-lock.json
+   - database-setup.sql (14,621 bytes)
+   - import-csv-data.js (9,263 bytes - NEW!)
+   - create-user.js
+
+✅ Views (43 EJS templates):
+   - admin/ (14 views with export buttons)
+   - user/ (4 views)
+   - events/ (2 views)
+   - programs/ (2 views)
+   - partials/ (header, footer)
+   - 404.ejs, 500.ejs (custom error pages)
+   - login.ejs, contact.ejs, donate.ejs
+
+✅ Static Assets (50 files):
+   - public/css/main.css
+   - public/js/main.js
+   - public/images/ (logos, photos, watercolors)
+
+❌ EXCLUDED (by design):
+   - node_modules/ (EB installs this)
+   - .env, .env.example
+   - .git/ (version control)
+   - Database Info/ (sensitive CSV data)
+   - *.md (documentation files)
+   - *.zip (other archives)
+   - *.sh (shell scripts)
+   - Zone.Identifier files
+
+===============================================
+REQUIRED ENVIRONMENT VARIABLES
+===============================================
+
+Set these in EB Console → Configuration → Software → Environment Properties:
+
+Database (RDS):
+✅ RDS_HOSTNAME = awseb-e-fuhqjmjprn-stack-awsebrdsdatabase-icvgu2yajdao.c3eiowkmcg4g.us-east-2.rds.amazonaws.com
+✅ RDS_PORT = 5432
+✅ RDS_USERNAME = postgres
+✅ RDS_PASSWORD = EllaRises23AWSElasticBeanstalk
+✅ RDS_DB_NAME = ebdb
+✅ DB_SSL = true
+
+Application:
+⚠️  SESSION_SECRET = (generate with: openssl rand -base64 32)
+✅ NODE_ENV = production
+✅ PORT = 8080 (optional, EB sets automatically)
+
+Email (Amazon SES):
+⚠️  MAIL_HOST = email-smtp.us-east-2.amazonaws.com
+⚠️  MAIL_PORT = 587
+⚠️  MAIL_SECURE = false
+⚠️  MAIL_USER = (your SES SMTP username)
+⚠️  MAIL_PASS = (your SES SMTP password)
+⚠️  MAIL_FROM = "Ella Rises <noreply@ellarises.org>"
+⚠️  MAIL_TO = jr.dishman3@gmail.com
+
+===============================================
+DEPLOYMENT CHECKLIST
+===============================================
+
+BEFORE UPLOADING v4.zip:
+
+1. ✅ RDS Database Setup:
+   - Database 'ebdb' exists in RDS
+   - Security group allows EB access (port 5432)
+   - Load schema:
+     PGPASSWORD="EllaRises23AWSElasticBeanstalk" \
+     psql -h awseb-e-fuhqjmjprn-stack-awsebrdsdatabase-icvgu2yajdao.c3eiowkmcg4g.us-east-2.rds.amazonaws.com \
+     -U postgres -d ebdb -f database-setup.sql
+
+2. ⚠️  Generate SESSION_SECRET:
+   openssl rand -base64 32
+
+   Add to EB environment properties:
+   eb setenv SESSION_SECRET="(your generated secret)"
+
+3. ⚠️  Amazon SES Setup (us-east-2):
+   - Verify sender: noreply@ellarises.org
+   - Verify recipient: jr.dishman3@gmail.com (sandbox mode)
+   - Create SMTP credentials
+   - Add MAIL_* environment variables
+
+4. ✅ Upload v4.zip:
+   - EB Console → Upload and Deploy
+   - OR: eb deploy (if using EB CLI)
+
+5. ✅ Verify Deployment:
+   - Check logs: eb logs | grep -i database
+   - Should see: "✅ Database connected successfully"
+   - Should see: "Database: ebdb"
+
+6. ✅ Test Application:
+   - Home page loads
+   - Events page loads
+   - Login works: admin@ellarises.org / admin123
+   - Admin dashboard accessible
+   - Export CSV/PDF works (admin only)
+
+===============================================
+DATABASE SETUP (CRITICAL!)
+===============================================
+
+Your RDS database must have the schema loaded:
+
+1. Connect to RDS:
+   PGPASSWORD="EllaRises23AWSElasticBeanstalk" \
+   psql -h awseb-e-fuhqjmjprn-stack-awsebrdsdatabase-icvgu2yajdao.c3eiowkmcg4g.us-east-2.rds.amazonaws.com \
+   -U postgres -d ebdb
+
+2. Load schema:
+   \i database-setup.sql
+
+3. Verify:
+   SELECT COUNT(*) FROM users;
+   -- Should show users (including admin@ellarises.org)
+
+   SELECT email, LEFT(password_hash, 20) FROM users LIMIT 3;
+   -- Should show bcrypt hashes ($2a$10$...)
+
+4. Exit:
+   \q
+
+===============================================
+PASSWORD SECURITY
+===============================================
+
+✅ All passwords in database are bcrypt hashed
+✅ CSV import script automatically hashes plaintext passwords
+✅ Authentication uses bcrypt.compare() for secure verification
+
+Default test credentials:
+- Email: admin@ellarises.org
+- Password: admin123
+
+(Change password after first login!)
+
+===============================================
+TROUBLESHOOTING
+===============================================
+
+Issue: Login fails on EB but works locally
+Solution: Check these in order:
+
+1. Database Connection:
+   eb logs | grep -i database
+   Should show: "✅ Database connected successfully"
+
+2. Database Name Match:
+   eb printenv | grep RDS_DB_NAME
+   Should show: RDS_DB_NAME = ebdb
+
+3. Database Has Schema:
+   psql -h $RDS_HOSTNAME -U postgres -d ebdb -c "\dt"
+   Should show: users, events, milestones, etc.
+
+4. Users Have Hashed Passwords:
+   psql -h $RDS_HOSTNAME -U postgres -d ebdb -c "SELECT LEFT(password_hash, 20) FROM users LIMIT 1;"
+   Should show: $2a$10$...
+
+5. SESSION_SECRET Set:
+   eb printenv | grep SESSION_SECRET
+   Should show: SESSION_SECRET = (secret value)
+
+6. Security Group Allows RDS:
+   - RDS Console → Security Groups
+   - Inbound: PostgreSQL (5432) from EB security group
+
+===============================================
+CSV DATA IMPORT (OPTIONAL)
+===============================================
+
+To import additional CSV data to RDS:
+
+1. Extract import-csv-data.js from v4.zip
+2. Point to RDS:
+   export DB_HOST=awseb-e-fuhqjmjprn-stack-awsebrdsdatabase-icvgu2yajdao.c3eiowkmcg4g.us-east-2.rds.amazonaws.com
+   export DB_PASSWORD=EllaRises23AWSElasticBeanstalk
+   export DB_NAME=ebdb
+3. Run import:
+   node import-csv-data.js --dry-run  # Preview
+   node import-csv-data.js            # Actual import
+
+The script automatically:
+- Detects plaintext vs hashed passwords
+- Hashes plaintext passwords with bcrypt
+- Skips duplicate entries
+- Handles UTF-8 BOM in CSV files
+
+===============================================
+FEATURES INCLUDED
+===============================================
+
+✅ Authentication & Authorization:
+   - Admin/participant roles
+   - Session management
+   - bcrypt password hashing
+   - Protected admin routes
+
+✅ Export Functionality:
+   - 6 CSV exports (participants, events, donations, etc.)
+   - 6 PDF exports
+   - Admin-only access
+   - Search filter support
+
+✅ Error Handling:
+   - Custom 404 page (butterfly theme)
+   - Custom 500 page
+   - Graceful error messages
+   - Development vs production error detail
+
+✅ Accessibility (WCAG 2.1 AA):
+   - Skip navigation
+   - ARIA labels
+   - Keyboard navigation
+   - Screen reader compatible
+   - High contrast ratios
+   - Reduced motion support
+
+✅ Security:
+   - SQL injection protection (Knex)
+   - XSS protection (EJS)
+   - Session encryption
+   - Password hashing
+   - Admin route protection
+
+===============================================
+PACKAGE VERIFICATION
+===============================================
+
+Verify package contents:
+  unzip -l v4.zip
+
+Should include:
+  ✅ app.js (88,849 bytes)
+  ✅ package.json (753 bytes)
+  ✅ package-lock.json
+  ✅ database-setup.sql (14,621 bytes)
+  ✅ import-csv-data.js (9,263 bytes)
+  ✅ create-user.js (1,380 bytes)
+  ✅ views/ (43 EJS files)
+  ✅ public/ (50 asset files)
+
+Should NOT include:
+  ❌ node_modules/
+  ❌ .env or .env.example
+  ❌ .git/
+  ❌ Database Info/
+  ❌ *.md files
+  ❌ Other *.zip files
+
+===============================================
+VERSION HISTORY
+===============================================
+
+v4.0 (Current) - December 3, 2025
+- Added CSV import script with password hashing
+- Database name flexibility (ebdb support)
+- Enhanced troubleshooting documentation
+- SESSION_SECRET generation guide
+- Amazon SES configuration for us-east-2
+
+v3.0 - December 3, 2025
+- Database connection fixes
+- CSV/PDF export functionality
+- Custom 404/500 pages
+- WCAG 2.1 AA accessibility
+- Comprehensive QA testing
+
+===============================================
+SUPPORT RESOURCES
+===============================================
+
+Documentation (in GitHub, not in zip):
+- DEPLOYMENT-README.md
+- DEPLOYMENT-CHECKLIST.md
+- diagnose-eb-auth.md
+- CSV-IMPORT-GUIDE.md
+- AWS-DEPLOYMENT-GUIDE.md
+
+GitHub Repository:
+  github.com:byu-blake-create/intex.git
+  Branch: main
+
+AWS Region: us-east-2 (Ohio)
+RDS Endpoint: awseb-e-fuhqjmjprn-stack-awsebrdsdatabase-icvgu2yajdao.c3eiowkmcg4g.us-east-2.rds.amazonaws.com
+
+===============================================
+READY FOR DEPLOYMENT ✅
+===============================================
+
+This package is production-ready for AWS Elastic Beanstalk.
+
+Next steps:
+1. Generate SESSION_SECRET
+2. Set up Amazon SES (us-east-2)
+3. Load database schema to RDS 'ebdb'
+4. Upload v4.zip to Elastic Beanstalk
+5. Test login with admin@ellarises.org / admin123
+
+Package: v4.zip (4.3 MB, 109 files)
+Status: ✅ PRODUCTION READY
+Date: December 3, 2025

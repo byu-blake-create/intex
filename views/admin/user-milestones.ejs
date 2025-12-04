@@ -7,7 +7,7 @@
   </div>
 
   <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('admin.userMilestones.title') %></h1>
-  <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 3rem;"><%= user.email %></p>
+  <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 3rem;"><%= user.participant_email %></p>
 
   <% if (milestones && milestones.length > 0) { %>
     <!-- Summary Card -->
@@ -41,7 +41,7 @@
 
               <!-- Date -->
               <p style="color: var(--text-secondary); font-size: 0.95rem;">
-                <strong><%= t('user.milestones.achievedOn') %>:</strong> <%= new Date(milestone.achieved_at).toLocaleDateString('en-US', {
+                <strong><%= t('user.milestones.achievedOn') %>:</strong> <%= new Date(milestone.milestone_date).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
@@ -79,10 +79,10 @@
         // Group milestones by category
         const byCategory = {};
         milestones.forEach(m => {
-          if (!byCategory[m.milestone_title]) {
-            byCategory[m.milestone_title] = [];
+          if (!byCategory[m.milestone_category]) {
+            byCategory[m.milestone_category] = [];
           }
-          byCategory[m.milestone_title].push(m);
+          byCategory[m.milestone_category].push(m);
         });
       %>
       <div class="grid grid-2">
@@ -102,7 +102,7 @@
       <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
       <h3 style="color: var(--text-secondary); margin-bottom: 1rem;"><%= t('user.milestones.empty.title') %></h3>
       <p style="color: var(--text-light);">
-        <%= user.name %> <%= t('user.milestones.empty.copy') %>
+        <%= user.participant_first_name %> <%= user.participant_last_name %> <%= t('user.milestones.empty.copy') %>
       </p>
     </div>
   <% } %>

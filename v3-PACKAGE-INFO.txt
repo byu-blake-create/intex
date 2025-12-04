@@ -1,0 +1,226 @@
+===============================================
+ELLA RISES - DEPLOYMENT PACKAGE v3
+===============================================
+
+Package Name: ella-rises-v3.zip
+Created: December 3, 2025
+Size: 17 MB
+Files: 106 files
+Status: ✅ PRODUCTION READY
+
+===============================================
+WHAT'S INCLUDED
+===============================================
+
+✅ Application Files:
+   - app.js (main application with DB connection testing)
+   - package.json & package-lock.json
+   - database-setup-new.sql
+   - import-csv-data.js
+
+✅ Views (EJS Templates):
+   - All views/ directory
+   - 404.ejs (custom error page)
+   - 500.ejs (custom error page)
+   - admin/ views with export buttons
+   - user/ views
+   - events/ views
+   - partials/ (header, footer, navbar)
+
+✅ Static Assets (public/):
+   - CSS files (main.css)
+   - JavaScript files (main.js)
+   - Images (logos, photos, watercolors)
+
+✅ Middleware & Routes:
+   - middleware/auth.js
+   - All routes files
+
+❌ EXCLUDED (as designed):
+   - node_modules/ (EB installs this)
+   - .env, .env.example
+   - .git/ (version control)
+   - Database Info/ (sensitive data)
+   - *.md documentation files
+   - QA test files
+   - Other zip archives
+
+===============================================
+KEY FEATURES IN v3
+===============================================
+
+✅ Database Connection:
+   - Startup connection test
+   - Detailed error logging
+   - Connection pool (min: 2, max: 10)
+   - Auto-SSL for production/RDS
+   - Health checks on connection checkout
+
+✅ Environment Variables:
+   - Reads RDS_* variables (Elastic Beanstalk)
+   - Falls back to DB_* variables (local dev)
+   - dotenv only loads in development
+   - NODE_ENV=production disables .env loading
+
+✅ Export Functionality:
+   - 6 CSV export routes (participants, events, donations, surveys, programs, milestones)
+   - 6 PDF export routes (same tables)
+   - Admin authentication required
+   - Export buttons in all admin views
+   - Search filter support for participants/events
+
+✅ Error Handling:
+   - Custom 404 page (butterfly theme)
+   - Custom 500 page (troubleshooting tips)
+   - Development error details (when NODE_ENV !== production)
+   - Graceful error handling throughout
+
+✅ Accessibility (WCAG 2.1 AA):
+   - Skip navigation link
+   - ARIA labels on all interactive elements
+   - Focus indicators (:focus-visible)
+   - Color contrast: 5.2:1 and 4.6:1 ratios
+   - Reduced motion support
+   - Screen reader compatible
+   - External links properly labeled
+
+✅ Security:
+   - Admin routes protected
+   - Export routes require admin auth
+   - bcrypt password hashing
+   - Session encryption
+   - SQL injection protection (Knex)
+   - XSS protection (EJS)
+
+===============================================
+DEPLOYMENT INSTRUCTIONS
+===============================================
+
+See DEPLOYMENT-README.md for complete instructions.
+
+Quick Start:
+1. Upload ella-rises-v3.zip to Elastic Beanstalk
+2. Set environment variables in EB Console
+3. Deploy and wait 5-10 minutes
+4. Check logs for "✅ Database connected successfully"
+5. Test application at EB URL
+
+Required Environment Variables:
+- RDS_HOSTNAME, RDS_PORT, RDS_USERNAME, RDS_PASSWORD, RDS_DB_NAME
+- DB_SSL=true (for RDS)
+- MAIL_HOST, MAIL_PORT, MAIL_USER, MAIL_PASS, MAIL_FROM, MAIL_TO
+- SESSION_SECRET (generate with: openssl rand -base64 32)
+- NODE_ENV=production
+- PORT=8080
+
+===============================================
+POST-DEPLOYMENT CHECKLIST
+===============================================
+
+✅ Application Status:
+   [ ] EB health status: Green
+   [ ] Logs show: "✅ Database connected successfully"
+   [ ] Logs show: "Server running on http://localhost:8080"
+
+✅ Functionality Tests:
+   [ ] Home page loads (/)
+   [ ] Events page loads (/events)
+   [ ] Login page accessible (/login)
+   [ ] Admin login works
+   [ ] Admin dashboard accessible
+   [ ] Export CSV works (admin only)
+   [ ] Export PDF works (admin only)
+   [ ] Custom 404 page shows for invalid routes
+   [ ] Custom 500 page shows for server errors
+
+✅ Database Tests:
+   [ ] Events load (or show empty state)
+   [ ] User login authenticates against database
+   [ ] Admin functions access database
+   [ ] No connection timeout errors
+
+===============================================
+TROUBLESHOOTING
+===============================================
+
+If database doesn't load:
+1. Check EB logs: eb logs | grep "Database"
+2. Expected: "✅ Database connected successfully"
+3. If error: Check RDS security group allows EB access
+4. Verify all RDS_* environment variables set
+5. Ensure DB_SSL=true for RDS connections
+
+If application won't start:
+1. Check EB logs: eb logs --all
+2. Look for Node.js errors
+3. Verify package.json has: "start": "node app.js"
+4. Check all required environment variables set
+
+If pages show errors:
+1. Database connection issue (see above)
+2. Missing environment variables
+3. Check EB logs for specific error
+4. Verify NODE_ENV=production
+
+===============================================
+VERIFICATION
+===============================================
+
+You can verify the package contents:
+  unzip -l ella-rises-v3.zip
+
+You should see:
+  ✅ app.js
+  ✅ package.json
+  ✅ package-lock.json
+  ✅ database-setup-new.sql
+  ✅ views/ directory
+  ✅ public/ directory
+  ✅ middleware/
+  ✅ routes/
+
+You should NOT see:
+  ❌ node_modules/
+  ❌ .env or .env.example
+  ❌ .git/
+  ❌ Database Info/
+  ❌ *.md files
+
+===============================================
+SUPPORT & DOCUMENTATION
+===============================================
+
+Included in GitHub (not in zip):
+- AWS-DEPLOYMENT-GUIDE.md (complete AWS setup)
+- DEPLOYMENT-CHECKLIST.md (deployment steps)
+- DEPLOYMENT-README.md (v3 documentation)
+- QA-TEST-PLAN.md (15 test cases)
+- QA-TEST-RESULTS.md (test results)
+
+GitHub Repository:
+  github.com:byu-blake-create/intex.git
+  Branch: main
+  Commit: 6412fe4 (v3 deployment ready)
+
+===============================================
+VERSION HISTORY
+===============================================
+
+v3.0 (Current) - December 3, 2025
+- Database connection fixes with testing
+- CSV/PDF export functionality (12 routes)
+- Custom 404/500 error pages
+- WCAG 2.1 AA accessibility
+- Comprehensive QA testing (15 tests, 100% pass)
+- Production-ready deployment package
+
+===============================================
+PACKAGE READY FOR DEPLOYMENT ✅
+===============================================
+
+This package is ready to deploy to AWS Elastic Beanstalk.
+No additional files needed.
+All sensitive data excluded.
+Environment variables configured via EB Console.
+
+Upload ella-rises-v3.zip to Elastic Beanstalk and deploy!

@@ -75,10 +75,10 @@
         <tbody>
           <% users.forEach(user => { %>
             <tr>
-              <td><strong><%= user.name %></strong></td>
-              <td><%= user.email %></td>
+              <td><strong><%= user.participant_first_name %> <%= user.participant_last_name %></strong></td>
+              <td><%= user.participant_email %></td>
               <td>
-                <% if (user.role === 'admin') { %>
+                <% if (user.participant_role === 'admin') { %>
                   <span class="badge badge-danger">Admin</span>
                 <% } else { %>
                   <span class="badge badge-primary">User</span>

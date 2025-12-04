@@ -1,5 +1,51 @@
 <%- include('../partials/header') %>
 
+<style>
+  .tabs {
+    display: flex;
+    border-bottom: 2px solid var(--border-color);
+    margin-bottom: 2rem;
+  }
+  .tab-link {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    position: relative;
+    top: 2px;
+  }
+  .tab-link.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+  }
+  .tab-content {
+    display: none;
+  }
+  .tab-content.active {
+    display: block;
+  }
+  .timeline {
+    list-style: none;
+    padding: 0;
+  }
+  .timeline-item {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .timeline-date {
+    flex-basis: 120px;
+    text-align: right;
+    color: var(--text-secondary);
+  }
+  .timeline-body {
+    flex-grow: 1;
+  }
+</style>
+
 <div class="container container-lg watercolor-rose" style="margin-top: 3rem; margin-bottom: 4rem;">
   <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
     <div>
@@ -8,218 +54,117 @@
         <%= t('admin.milestones.manage.copy') %>
       </p>
     </div>
-    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-      <a href="/admin/milestones/export/csv" class="btn btn-outline" title="Export to CSV">
-        📊 Export CSV
-      </a>
-      <a href="/admin/milestones/export/pdf" class="btn btn-outline" title="Export to PDF">
-        📄 Export PDF
-      </a>
-    </div>
   </div>
 
-  <!-- Success/Error Messages -->
-  <% if (req.query.success) { %>
-    <div class="alert alert-success" style="margin-bottom: 2rem;">
-      <% if (req.query.success === 'created') { %>
-        Milestone category created successfully!
-      <% } else if (req.query.success === 'updated') { %>
-        Milestone category updated successfully!
-      <% } else if (req.query.success === 'deleted') { %>
-        Milestone category deleted successfully!
-      <% } %>
-    </div>
-  <% } %>
+  <div class="tabs">
+    <button class="tab-link active" onclick="openTab(event, 'byCategory')"><%= t('admin.userMilestones.byCategory') || 'By Category' %></button>
+    <button class="tab-link" onclick="openTab(event, 'timeline')"><%= t('admin.userMilestones.timeline') || 'Timeline' %></button>
+  </div>
 
-  <% if (req.query.error) { %>
-    <div class="alert alert-error" style="margin-bottom: 2rem;">
-      <%= req.query.error %>
-    </div>
-  <% } %>
-
+  <div id="byCategory" class="tab-content active">
     <!-- Search and Filter Form -->
-  <div class="card" style="margin-bottom: 2rem;">
-    <form method="GET" action="/admin/milestones">
-      <div class="grid grid-2">
-        <div class="form-group">
-          <label for="search" class="form-label"><%= t('admin.participants.search.placeholder') %></label>
-          <input
-            type="text"
-            id="search"
-            name="search"
-            class="form-input"
-            placeholder="<%= t('admin.participants.search.placeholder') %>"
-            value="<%= search %>"
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="filter_milestone" class="form-label"><%= t('admin.milestones.filter') || 'Filter by Milestone' %></label>
-          <select id="filter_milestone" name="filter_milestone" class="form-select">
-            <option value=""><%= t('admin.participants.filter.all') || 'All Participants' %></option>
-            <% milestoneCategories.forEach(cat => { %>
-              <option value="<%= cat.id %>" <%= filter_milestone == cat.id ? 'selected' : '' %>>
-                <%= t('admin.milestones.has') || 'Has' %> <%= cat.title %>
-              </option>
-            <% }) %>
-          </select>
-        </div>
-      </div>
-
-      <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-        <button type="submit" class="btn btn-primary"><%= t('admin.surveys.apply') %></button>
-        <a href="/admin/milestones" class="btn btn-outline"><%= t('admin.surveys.clear') %></a>
-      </div>
-    </form>
-  </div>
-
-  <% if (users && users.length > 0) { %>
-    <!-- Milestone Progress Table -->
-    <div style="overflow-x: auto;">
-      <table class="table" style="min-width: 1200px;">
-        <thead>
-          <tr>
-            <th style="position: sticky; left: 0; background-color: var(--bg-primary); z-index: 10;"><%= t('admin.milestones.table.participant') %></th>
-            <% milestoneCategories.forEach(category => { %>
-              <th style="text-align: center; min-width: 100px; font-size: 0.85rem;">
-                <%= category.title %>
-              </th>
-            <% }) %>
-            <th style="min-width: 200px;">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% users.forEach(user => { %>
-            <tr style="cursor: pointer;" onclick="window.location='/admin/milestones/user/<%= user.id %>';">
-              <td style="position: sticky; left: 0; background-color: var(--bg-primary); z-index: 5;">
-                <strong><%= user.name %></strong>
-                <div style="font-size: 0.9rem; color: var(--text-secondary);"><%= user.email %></div>
-              </td>
-              <% milestoneCategories.forEach(category => { %>
-                <td style="text-align: center;">
-                  <% if (userAchievements[user.id] && userAchievements[user.id][category.id]) { %>
-                    <span style="color: #10b981; font-size: 1.5rem;" title="Completed">✓</span>
-                    <% if (userAchievements[user.id][category.id].length > 1) { %>
-                      <div style="font-size: 0.75rem; color: var(--text-secondary);">
-                        (<%= userAchievements[user.id][category.id].length %>)
-                      </div>
-                    <% } %>
-                  <% } else { %>
-                    <span style="color: var(--text-light); font-size: 1.5rem;">○</span>
-                  <% } %>
-                </td>
+    <div class="card" style="margin-bottom: 2rem;">
+      <form method="GET" action="/admin/milestones">
+        <div class="grid grid-2">
+          <div class="form-group">
+            <label for="search" class="form-label"><%= t('admin.participants.search.placeholder') %></label>
+            <input type="text" id="search" name="search" class="form-input" placeholder="<%= t('admin.participants.search.placeholder') %>" value="<%= search %>" />
+          </div>
+          <div class="form-group">
+            <label for="filter_milestone" class="form-label"><%= t('admin.milestones.filter') || 'Filter by Milestone' %></label>
+            <select id="filter_milestone" name="filter_milestone" class="form-select">
+              <option value=""><%= t('admin.participants.filter.all') || 'All Participants' %></option>
+              <% milestoneCategories.forEach(cat => { %>
+                <option value="<%= cat.milestone_category %>" <%= filter_milestone == cat.milestone_category ? 'selected' : '' %>>
+                  <%= t('admin.milestones.has') || 'Has' %> <%= cat.milestone_category %>
+                </option>
               <% }) %>
-              <td>
-                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                  <a href="/admin/milestones/user/<%= user.id %>" class="btn btn-sm btn-secondary">Manage</a>
-                  <a href="/admin/participants/<%= user.id %>/edit" class="btn btn-sm btn-primary">Edit</a>
-                  <form action="/admin/participants/<%= user.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Delete this user? This will remove their milestones.');">
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                  </form>
-                </div>
-              </td>
+            </select>
+          </div>
+        </div>
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+          <button type="submit" class="btn btn-primary"><%= t('admin.surveys.apply') %></button>
+          <a href="/admin/milestones" class="btn btn-outline"><%= t('admin.surveys.clear') %></a>
+        </div>
+      </form>
+    </div>
+
+    <% if (paginatedUsers && paginatedUsers.length > 0) { %>
+      <div style="overflow-x: auto;">
+        <table class="table" style="min-width: 1200px;">
+          <thead>
+            <tr>
+              <th style="position: sticky; left: 0; background-color: var(--bg-primary); z-index: 10;"><%= t('admin.milestones.table.participant') %></th>
+              <% milestoneCategories.forEach(category => { %>
+                <th style="text-align: center; min-width: 100px; font-size: 0.85rem;"><%= category.milestone_category %></th>
+              <% }) %>
             </tr>
-          <% }) %>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Pagination Controls -->
-    <% if (totalPages > 1) { %>
-      <%
-        const buildQueryString = (page) => {
-          const params = new URLSearchParams();
-          params.set('page', page);
-          if (search) params.set('search', search);
-          if (filter_milestone) params.set('filter_milestone', filter_milestone);
-          return '?' + params.toString();
-        };
-      %>
-      <div style="margin-top: 2rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-        <% if (currentPage > 1) { %>
-          <a href="/admin/milestones<%= buildQueryString(currentPage - 1) %>" class="btn btn-sm btn-outline">← Previous</a>
-        <% } %>
-
-        <%
-          const maxVisible = 7;
-          let startPage = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-          let endPage = Math.min(totalPages, startPage + maxVisible - 1);
-          if (endPage - startPage < maxVisible - 1) {
-            startPage = Math.max(1, endPage - maxVisible + 1);
-          }
-        %>
-
-        <% if (startPage > 1) { %>
-          <a href="/admin/milestones<%= buildQueryString(1) %>" class="btn btn-sm btn-outline">1</a>
-          <% if (startPage > 2) { %>
-            <span style="padding: 0 0.5rem;">...</span>
-          <% } %>
-        <% } %>
-
-        <% for (let i = startPage; i <= endPage; i++) { %>
-          <% if (i === currentPage) { %>
-            <span class="btn btn-sm btn-primary" style="pointer-events: none;"><%= i %></span>
-          <% } else { %>
-            <a href="/admin/milestones<%= buildQueryString(i) %>" class="btn btn-sm btn-outline"><%= i %></a>
-          <% } %>
-        <% } %>
-
-        <% if (endPage < totalPages) { %>
-          <% if (endPage < totalPages - 1) { %>
-            <span style="padding: 0 0.5rem;">...</span>
-          <% } %>
-          <a href="/admin/milestones<%= buildQueryString(totalPages) %>" class="btn btn-sm btn-outline"><%= totalPages %></a>
-        <% } %>
-
-        <% if (currentPage < totalPages) { %>
-          <a href="/admin/milestones<%= buildQueryString(currentPage + 1) %>" class="btn btn-sm btn-outline">Next →</a>
-        <% } %>
+          </thead>
+          <tbody>
+            <% paginatedUsers.forEach(user => { %>
+              <tr>
+                <td style="position: sticky; left: 0; background-color: var(--bg-primary); z-index: 5;">
+                  <a href="/admin/participants/<%= user.id %>" style="text-decoration: none; color: inherit;">
+                    <strong><%= user.participant_first_name %> <%= user.participant_last_name %></strong>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary);"><%= user.participant_email %></div>
+                  </a>
+                </td>
+                <% milestoneCategories.forEach(category => { %>
+                  <td style="text-align: center;">
+                    <% const achievements = userAchievements[user.id] ? Object.values(userAchievements[user.id]).flat().filter(m => m.milestone_category === category.milestone_category) : [] %>
+                    <% if (achievements.length > 0) { %>
+                      <span style="color: #10b981; font-size: 1.5rem;" title="Completed">✓</span>
+                      <% if (achievements.length > 1) { %><span style="font-size: 0.75rem; color: var(--text-secondary);">(<%= achievements.length %>)</span><% } %>
+                    <% } else { %>
+                      <span style="color: var(--text-light); font-size: 1.5rem;">○</span>
+                    <% } %>
+                  </td>
+                <% }) %>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
       </div>
+      <!-- Pagination etc. -->
+    <% } else { %>
+        <p>No participants found.</p>
     <% } %>
-
-    <div style="margin-top: 1rem; text-align: center; color: var(--text-secondary);">
-      <% if (typeof totalRecords !== 'undefined' && totalPages > 1) { %>
-        Showing page <%= currentPage %> of <%= totalPages %> (<%= totalRecords %> total participants)
-      <% } else { %>
-        <%= t('admin.participants.total') || 'Showing' %> <%= users.length %> participant<%= users.length !== 1 ? 's' : '' %>
-      <% } %>
-      <% if (search || filter_milestone) { %>
-        (<%= t('admin.milestones.filtered') || 'filtered' %>)
-      <% } %>
-    </div>
-  <% } else { %>
-    <div class="card text-center" style="padding: 4rem 2rem;">
-      <h3 style="color: var(--text-secondary);"><%= t('admin.participants.empty') %></h3>
-      <% if (search || filter_milestone) { %>
-        <p style="color: var(--text-light); margin-top: 1rem;"><%= t('admin.milestones.tryFilters') || 'Try adjusting your filters.' %></p>
-        <a href="/admin/milestones" class="btn btn-outline" style="margin-top: 1rem;"><%= t('admin.surveys.clear') %></a>
-      <% } else { %>
-        <p style="color: var(--text-light); margin-top: 1rem;"><%= t('admin.milestones.waiting') || 'Participants will appear here once they register.' %></p>
-      <% } %>
-    </div>
-  <% } %>
-
-  <!-- Legend -->
-  <div class="card" style="margin-top: 2rem; background-color: var(--sage-soft); color: var(--text-color);">
-    <h3 style="margin-bottom: 1rem;"><%= t('admin.milestones.legend.title') || 'Legend' %></h3>
-    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span style="color: #10b981; font-size: 1.5rem;">✓</span>
-        <span><%= t('admin.milestones.legend.achieved') || 'Milestone achieved' %></span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span style="color: var(--text-light); font-size: 1.5rem;">○</span>
-        <span><%= t('admin.milestones.legend.notyet') || 'Not yet achieved' %></span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span style="font-size: 0.75rem; color: var(--text-secondary);">(2)</span>
-        <span><%= t('admin.milestones.legend.multiple') || 'Number indicates multiple achievements in this category' %></span>
-      </div>
-    </div>
-    <p style="margin-top: 1rem; color: var(--text-secondary); font-style: italic;">
-      <%= t('admin.milestones.legend.tip') || 'Click on any participant row to view detailed milestone information.' %>
-    </p>
   </div>
+
+  <div id="timeline" class="tab-content">
+    <ul class="timeline">
+      <% participantMilestones.sort((a,b) => new Date(b.milestone_date) - new Date(a.milestone_date)).forEach(milestone => { %>
+        <li class="timeline-item">
+          <div class="timeline-icon">🏆</div>
+          <div class="timeline-body">
+            <p style="margin: 0; font-weight: 600;">
+              <a href="/admin/participants/<%= milestone.participant_id %>" style="color: var(--primary-color);"><%= milestone.user_name %></a>
+              achieved a milestone.
+            </p>
+            <p style="margin: 0.25rem 0; font-size: 1.1rem;"><%= milestone.milestone_title %></p>
+            <p style="margin: 0; color: var(--text-secondary);"><%= milestone.milestone_category %> | <%= new Date(milestone.milestone_date).toLocaleDateString() %></p>
+          </div>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+
 </div>
+
+<script>
+  function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab-link");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+</script>
 
 <%- include('../partials/footer') %>

@@ -41,14 +41,14 @@
             <div style="margin-bottom: 1rem;">
               <span class="badge badge-success"><%= t('user.dashboard.registeredBadge') %></span>
               <span class="badge badge-primary" style="margin-left: 0.5rem;">
-                <%= new Date(event.start_time).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
+                <%= new Date(event.event_date_time_start).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
               </span>
             </div>
             <p class="card-text" style="color: var(--text-secondary);">
-              <%= event.location || t('user.dashboard.location') %>
+              <%= event.event_location || t('user.dashboard.location') %>
             </p>
             <div class="card-footer">
-              <a href="/events/<%= event.id %>" class="btn btn-secondary btn-sm"><%= t('user.dashboard.details') %></a>
+              <a href="/events/<%= event.event_occurance_id %>" class="btn btn-secondary btn-sm"><%= t('user.dashboard.details') %></a>
             </div>
           </div>
         <% }) %>
@@ -76,7 +76,7 @@
         <% userMilestones.slice(0, 3).forEach(milestone => { %>
           <div class="card">
             <div style="font-size: 2.5rem; text-align: center; margin-bottom: 1rem;">🏆</div>
-            <h3 class="card-title text-center"><%= milestone.title || milestone.custom_title %></h3>
+            <h3 class="card-title text-center"><%= milestone.milestone_title %></h3>
             <p class="text-center" style="color: var(--text-secondary); font-size: 0.9rem;">
               <%= t('user.dashboard.achievedOn') %> <%= new Date(milestone.achieved_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
             </p>
