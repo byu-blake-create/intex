@@ -1044,9 +1044,17 @@ app.get('/user/donations', requireLogin, async (req, res) => {
       .where('participant_id', req.session.user.id)
       .orderBy('donation_date', 'desc');
 
+    // Convert donation_amount to a number for correct display
+    const donations = userDonations.map(donation => {
+      return {
+        ...donation,
+        donation_amount: Number(donation.donation_amount)
+      };
+    });
+
     res.render('user/donations', {
       title: 'My Donations - Ella Rises',
-      donations: userDonations,
+      donations: donations,
     });
   } catch (error) {
     console.error('Error loading user donations:', error);
@@ -1211,6 +1219,11 @@ app.post('/user/survey', requireLogin, async (req, res) => {
   const { event_id, satisfaction_rating, usefulness_rating, instructor_rating, recommendation_rating, additional_feedback } = req.body;
 
   try {
+    const eventId = parseInt(event_id);
+    if (isNaN(eventId)) {
+      throw new Error('Invalid event selected.');
+    }
+    
     // Calculate overall score as average of all 4 ratings
     const sat = parseInt(satisfaction_rating);
     const use = parseInt(usefulness_rating);
@@ -1230,7 +1243,7 @@ app.post('/user/survey', requireLogin, async (req, res) => {
 
     await knex('registration').insert({
       participant_id: req.session.user.id,
-      event_occurance_id: parseInt(event_id),
+      event_occurance_id: eventId,
       survey_satisfaction_score: sat,
       survey_usefulness_score: use,
       survey_instructor_score: inst,
