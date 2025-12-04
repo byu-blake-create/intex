@@ -15,32 +15,31 @@
         </div>
       <% } %>
 
-      <form action="<%= survey ? `/admin/surveys/${survey.id}/edit` : '/admin/surveys/new/survey' %>" method="POST">
-        <div class="grid grid-2">
-          <div class="form-group">
-            <label for="user_id" class="form-label">Participant *</label>
-            <select id="user_id" name="user_id" class="form-select" required>
-              <option value="">Select Participant</option>
-              <% users.forEach(user => { %>
-                <option value="<%= user.id %>" <%= survey && survey.user_id === user.id ? 'selected' : '' %>>
-                  <%= user.name %>
-                </option>
-              <% }) %>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="event_id" class="form-label">Event *</label>
-            <select id="event_id" name="event_id" class="form-select" required>
-              <option value="">Select Event</option>
-              <% events.forEach(event => { %>
-                <option value="<%= event.id %>" <%= survey && survey.event_id === event.id ? 'selected' : '' %>>
-                  <%= event.title %>
-                </option>
-              <% }) %>
-            </select>
-          </div>
+      <% if (!survey) { %>
+        <div class="alert alert-info" style="margin-bottom: 2rem;">
+          <strong>Note:</strong> Surveys cannot be created manually. They are automatically created when participants register for events.
+          To add a survey response, have the participant register for an event first, then edit their survey response here.
         </div>
+      <% } %>
+
+      <form action="<%= survey ? `/admin/surveys/${survey.registration_id}/edit` : '/admin/surveys/new/survey' %>" method="POST">
+        <% if (survey) { %>
+          <div class="card" style="background-color: var(--sage-soft); margin-bottom: 2rem; padding: 1.5rem;">
+            <div class="grid grid-2">
+              <div>
+                <strong style="color: var(--text-secondary);">Participant:</strong>
+                <p style="margin: 0.25rem 0 0 0;"><%= survey.participant_name || 'Unknown' %></p>
+              </div>
+              <div>
+                <strong style="color: var(--text-secondary);">Event:</strong>
+                <p style="margin: 0.25rem 0 0 0;"><%= survey.event_name || 'Unknown' %></p>
+              </div>
+            </div>
+            <p style="margin-top: 1rem; margin-bottom: 0; color: var(--text-secondary); font-size: 0.9rem;">
+              Participant and event cannot be changed for existing survey responses.
+            </p>
+          </div>
+        <% } %>
 
         <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--primary-color);">Ratings (1-5 scale)</h3>
 

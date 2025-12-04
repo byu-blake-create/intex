@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <h1>My Donations</h1>
+  <p>Here is a history of your donations to Ella Rises. Thank you for your support!</p>
+
+  <% if (donations && donations.length > 0) { %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% donations.forEach(donation => { %>
+          <tr>
+            <td><%= new Date(donation.donation_date).toLocaleDateString() %></td>
+            <td>$<%= donation.donation_amount.toFixed(2) %></td>
+            <td><%= donation.message || '' %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } else { %>
+    <p>You have not made any donations yet.</p>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>
