@@ -1,162 +1,314 @@
 <%- include('../partials/header') %>
 
-<div class="container watercolor-green-fixed" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('admin.dashboard.title') %></h1>
-  <p style="color: var(--text-secondary); margin-bottom: 3rem;"><%= t('admin.dashboard.welcome') %></p>
+<div
+  class="container watercolor-green-fixed"
+  style="margin-top: 3rem; margin-bottom: 4rem"
+>
+  <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem">
+    <%= t('admin.dashboard.title') %>
+  </h1>
+  <p style="color: var(--text-secondary); margin-bottom: 3rem">
+    <%= t('admin.dashboard.welcome') %>
+  </p>
 
   <!-- Admin Navigation Cards -->
   <div class="grid grid-3">
     <!-- Participants -->
-    <a href="/admin/participants" style="text-decoration: none;">
-      <div class="card" style="height: 100%;">
-        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">👥</div>
-        <h2 class="card-title text-center"><%= t('admin.dashboard.participants') %></h2>
-        <p class="card-text text-center"><%= t('admin.dashboard.participants.copy') %></p>
+    <a href="/admin/participants" style="text-decoration: none">
+      <div class="card" style="height: 100%">
+        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem">
+          👥
+        </div>
+        <h2 class="card-title text-center">
+          <%= t('admin.dashboard.participants') %>
+        </h2>
+        <p class="card-text text-center">
+          <%= t('admin.dashboard.participants.copy') %>
+        </p>
       </div>
     </a>
 
     <!-- Events -->
-    <a href="/admin/events" style="text-decoration: none;">
-      <div class="card" style="height: 100%;">
-        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">📅</div>
-        <h2 class="card-title text-center"><%= t('admin.dashboard.events') %></h2>
-        <p class="card-text text-center"><%= t('admin.dashboard.events.copy') %></p>
+    <a href="/admin/events" style="text-decoration: none">
+      <div class="card" style="height: 100%">
+        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem">
+          📅
+        </div>
+        <h2 class="card-title text-center">
+          <%= t('admin.dashboard.events') %>
+        </h2>
+        <p class="card-text text-center">
+          <%= t('admin.dashboard.events.copy') %>
+        </p>
       </div>
     </a>
 
     <!-- Surveys -->
-    <a href="/admin/surveys" style="text-decoration: none;">
-      <div class="card" style="height: 100%;">
-        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">📝</div>
-        <h2 class="card-title text-center"><%= t('admin.dashboard.surveys') %></h2>
-        <p class="card-text text-center"><%= t('admin.dashboard.surveys.copy') %></p>
+    <a href="/admin/surveys" style="text-decoration: none">
+      <div class="card" style="height: 100%">
+        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem">
+          📝
+        </div>
+        <h2 class="card-title text-center">
+          <%= t('admin.dashboard.surveys') %>
+        </h2>
+        <p class="card-text text-center">
+          <%= t('admin.dashboard.surveys.copy') %>
+        </p>
       </div>
     </a>
 
     <!-- Milestones -->
-    <a href="/admin/milestones" style="text-decoration: none;">
-      <div class="card" style="height: 100%;">
-        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">🏆</div>
-        <h2 class="card-title text-center"><%= t('admin.dashboard.milestones') %></h2>
-        <p class="card-text text-center"><%= t('admin.dashboard.milestones.copy') %></p>
+    <a href="/admin/milestones" style="text-decoration: none">
+      <div class="card" style="height: 100%">
+        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem">
+          🏆
+        </div>
+        <h2 class="card-title text-center">
+          <%= t('admin.dashboard.milestones') %>
+        </h2>
+        <p class="card-text text-center">
+          <%= t('admin.dashboard.milestones.copy') %>
+        </p>
       </div>
     </a>
 
     <!-- Donations -->
-    <a href="/admin/donations" style="text-decoration: none;">
-      <div class="card" style="height: 100%;">
-        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">💰</div>
-        <h2 class="card-title text-center"><%= t('admin.dashboard.donations') %></h2>
-        <p class="card-text text-center"><%= t('admin.dashboard.donations.copy') %></p>
+    <a href="/admin/donations" style="text-decoration: none">
+      <div class="card" style="height: 100%">
+        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem">
+          💰
+        </div>
+        <h2 class="card-title text-center">
+          <%= t('admin.dashboard.donations') %>
+        </h2>
+        <p class="card-text text-center">
+          <%= t('admin.dashboard.donations.copy') %>
+        </p>
       </div>
     </a>
 
     <!-- Analytics -->
-    <a href="/admin/analytics" style="text-decoration: none;">
-      <div class="card" style="height: 100%;">
-        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem;">📊</div>
-        <h2 class="card-title text-center"><%= t('admin.dashboard.analytics') %></h2>
-        <p class="card-text text-center"><%= t('admin.dashboard.analytics.copy') %></p>
+    <a href="/admin/analytics" style="text-decoration: none">
+      <div class="card" style="height: 100%">
+        <div style="font-size: 3rem; text-align: center; margin-bottom: 1rem">
+          📊
+        </div>
+        <h2 class="card-title text-center">
+          <%= t('admin.dashboard.analytics') %>
+        </h2>
+        <p class="card-text text-center">
+          <%= t('admin.dashboard.analytics.copy') %>
+        </p>
       </div>
     </a>
   </div>
 
   <!-- Quick Stats -->
-  <div style="margin-top: 3rem;">
-    <div style="display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-      <h2 style="font-size: 2rem; margin: 0;"><%= t('admin.dashboard.quick') %></h2>
-      <button type="button" id="open-admin-dashboard" class="btn btn-outline" title="View Admin Dashboard">
-        📈 View Dashboard
+  <div style="margin-top: 3rem">
+    <div
+      style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+      "
+    >
+      <h2 style="font-size: 2rem; margin: 0">
+        <%= t('admin.dashboard.quick') %>
+      </h2>
+      <button
+        type="button"
+        id="open-admin-dashboard"
+        class="btn btn-outline"
+        title="View Admin Dashboard"
+      >
+        📈 Advanced Stats
       </button>
     </div>
     <div class="grid grid-4">
       <div class="card text-center">
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 0.5rem;"><%= totalUsers %></div>
-        <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalUsers') %></div>
+        <div
+          style="
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+          "
+        >
+          <%= totalUsers %>
+        </div>
+        <div style="color: var(--text-secondary)">
+          <%= t('admin.dashboard.totalUsers') %>
+        </div>
       </div>
       <div class="card text-center">
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--secondary-color); margin-bottom: 0.5rem;"><%= totalEvents %></div>
-        <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalEvents') %></div>
+        <div
+          style="
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+          "
+        >
+          <%= totalEvents %>
+        </div>
+        <div style="color: var(--text-secondary)">
+          <%= t('admin.dashboard.totalEvents') %>
+        </div>
       </div>
       <div class="card text-center">
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--success-color); margin-bottom: 0.5rem;"><%= totalSurveys %></div>
-        <div style="color: var(--text-secondary);"><%= t('admin.dashboard.totalSurveys') %></div>
+        <div
+          style="
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--success-color);
+            margin-bottom: 0.5rem;
+          "
+        >
+          <%= totalSurveys %>
+        </div>
+        <div style="color: var(--text-secondary)">
+          <%= t('admin.dashboard.totalSurveys') %>
+        </div>
       </div>
       <div class="card text-center">
-        <div style="font-size: 2.5rem; font-weight: 700; color: var(--accent-color); margin-bottom: 0.5rem;">$<%= totalDonations.toFixed(2) %></div>
-        <div style="color: var(--text-secondary);">Total Donations</div>
+        <div
+          style="
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+          "
+        >
+          $<%= totalDonations.toFixed(2) %>
+        </div>
+        <div style="color: var(--text-secondary)">Total Donations</div>
       </div>
     </div>
   </div>
 </div>
 
-<div id="admin-dashboard-modal" class="modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 9999; align-items: center; justify-content: center; padding: 1rem;">
-  <div class="card" style="position: relative; width: min(1100px, 100%); max-height: 90vh; overflow: auto; padding: 1.5rem;">
-    <button type="button" id="close-admin-dashboard" aria-label="Close dashboard" style="position: absolute; top: 0.75rem; right: 0.75rem; background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: var(--text-secondary);">×</button>
-    <h2 style="margin-bottom: 1rem;">Admin Dashboard</h2>
-    <div class='tableauPlaceholder' id='viz1764886723678' style='position: relative'>
+<div
+  id="admin-dashboard-modal"
+  class="modal-overlay"
+  style="
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  "
+>
+  <div
+    class="card"
+    style="
+      position: relative;
+      width: min(1100px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      padding: 1.5rem;
+    "
+  >
+    <button
+      type="button"
+      id="close-admin-dashboard"
+      aria-label="Close dashboard"
+      style="
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--text-secondary);
+      "
+    >
+      ×
+    </button>
+    <h2 style="margin-bottom: 1rem">Admin Dashboard</h2>
+    <div
+      class="tableauPlaceholder"
+      id="viz1764886723678"
+      style="position: relative"
+    >
       <noscript>
-        <a href='#'>
-          <img alt='Main Dashboard ' src='https://public.tableau.com/static/images/Ba/BasicDashboard_17648810653300/Dashboard1/1_rss.png' style='border: none' />
+        <a href="#">
+          <img
+            alt="Main Dashboard "
+            src="https://public.tableau.com/static/images/Ba/BasicDashboard_17648810653300/Dashboard1/1_rss.png"
+            style="border: none"
+          />
         </a>
       </noscript>
-      <object class='tableauViz' style='display:none;'>
-        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
-        <param name='embed_code_version' value='3' />
-        <param name='site_root' value='' />
-        <param name='name' value='BasicDashboard_17648810653300/Dashboard1' />
-        <param name='tabs' value='no' />
-        <param name='toolbar' value='yes' />
-        <param name='static_image' value='https://public.tableau.com/static/images/Ba/BasicDashboard_17648810653300/Dashboard1/1.png' />
-        <param name='animate_transition' value='yes' />
-        <param name='display_static_image' value='yes' />
-        <param name='display_spinner' value='yes' />
-        <param name='display_overlay' value='yes' />
-        <param name='display_count' value='yes' />
-        <param name='language' value='en-US' />
+      <object class="tableauViz" style="display: none">
+        <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F" />
+        <param name="embed_code_version" value="3" />
+        <param name="site_root" value="" />
+        <param name="name" value="BasicDashboard_17648810653300/Dashboard1" />
+        <param name="tabs" value="no" />
+        <param name="toolbar" value="yes" />
+        <param
+          name="static_image"
+          value="https://public.tableau.com/static/images/Ba/BasicDashboard_17648810653300/Dashboard1/1.png"
+        />
+        <param name="animate_transition" value="yes" />
+        <param name="display_static_image" value="yes" />
+        <param name="display_spinner" value="yes" />
+        <param name="display_overlay" value="yes" />
+        <param name="display_count" value="yes" />
+        <param name="language" value="en-US" />
       </object>
     </div>
   </div>
 </div>
 
-<script type='text/javascript'>
+<script type="text/javascript">
   (function () {
-    var modal = document.getElementById('admin-dashboard-modal');
-    var openBtn = document.getElementById('open-admin-dashboard');
-    var closeBtn = document.getElementById('close-admin-dashboard');
+    var modal = document.getElementById("admin-dashboard-modal");
+    var openBtn = document.getElementById("open-admin-dashboard");
+    var closeBtn = document.getElementById("close-admin-dashboard");
     var tableauInitialized = false;
 
     function openModal() {
-      modal.style.display = 'flex';
+      modal.style.display = "flex";
       if (!tableauInitialized) {
         tableauInitialized = true;
-        var divElement = document.getElementById('viz1764886723678');
-        var vizElement = divElement.getElementsByTagName('object')[0];
+        var divElement = document.getElementById("viz1764886723678");
+        var vizElement = divElement.getElementsByTagName("object")[0];
         if (divElement.offsetWidth > 800) {
-          vizElement.style.width = '1000px';
-          vizElement.style.height = '827px';
+          vizElement.style.width = "1000px";
+          vizElement.style.height = "827px";
         } else if (divElement.offsetWidth > 500) {
-          vizElement.style.width = '1000px';
-          vizElement.style.height = '827px';
+          vizElement.style.width = "1000px";
+          vizElement.style.height = "827px";
         } else {
-          vizElement.style.width = '100%';
-          vizElement.style.height = '1077px';
+          vizElement.style.width = "100%";
+          vizElement.style.height = "1077px";
         }
-        var scriptElement = document.createElement('script');
-        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+        var scriptElement = document.createElement("script");
+        scriptElement.src =
+          "https://public.tableau.com/javascripts/api/viz_v1.js";
         vizElement.parentNode.insertBefore(scriptElement, vizElement);
       }
     }
 
     function closeModal() {
-      modal.style.display = 'none';
+      modal.style.display = "none";
     }
 
-    openBtn && openBtn.addEventListener('click', openModal);
-    closeBtn && closeBtn.addEventListener('click', closeModal);
-    modal && modal.addEventListener('click', function (event) {
-      if (event.target === modal) closeModal();
-    });
+    openBtn && openBtn.addEventListener("click", openModal);
+    closeBtn && closeBtn.addEventListener("click", closeModal);
+    modal &&
+      modal.addEventListener("click", function (event) {
+        if (event.target === modal) closeModal();
+      });
   })();
 </script>
 
