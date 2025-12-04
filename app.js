@@ -514,6 +514,7 @@ app.get('/signup', (req, res) => {
   res.render('signup', {
     title: 'Sign Up - Ella Rises',
     error: null,
+    req,
   });
 });
 
@@ -543,30 +544,6 @@ app.post('/signup', async (req, res) => {
       });
     }
 
-    // Validate all required fields
-    if (!firstName || !lastName || !email || !phone || !dob || !city || !state || !zip || !schoolOrEmployer || !fieldOfInterest) {
-      return res.render('signup', {
-        title: 'Sign Up - Ella Rises',
-        error: 'All fields are required',
-      });
-    }
-
-    // Validate ZIP code format
-    if (!/^\d{5}$/.test(zip)) {
-      return res.render('signup', {
-        title: 'Sign Up - Ella Rises',
-        error: 'Invalid ZIP code. Must be 5 digits.',
-      });
-    }
-
-    // Validate field of interest
-    if (!['Arts', 'STEM', 'Both'].includes(fieldOfInterest)) {
-      return res.render('signup', {
-        title: 'Sign Up - Ella Rises',
-        error: 'Invalid field of interest',
-      });
-    }
-
     // Check if user already exists
     const existingUser = await knex('participants').where({ participant_email: email }).first();
 
@@ -581,7 +558,7 @@ app.post('/signup', async (req, res) => {
     const saltRounds = 10;
     const participant_password = await bcrypt.hash(password, saltRounds);
 
-    // Insert new participant with all required fields
+    // Insert new participant
     const [newUser] = await knex('participants')
       .insert({
         participant_first_name: firstName,
@@ -1059,6 +1036,49 @@ app.get('/user/milestones', requireLogin, async (req, res) => {
   }
 });
 
+// User's donation history page
+// This route fetches and displays a list of all donations made by the currently logged-in user.
+app.get('/user/donations', requireLogin, async (req, res) => {
+  try {
+    const userDonations = await knex('donations')
+      .where('participant_id', req.session.user.id)
+      .orderBy('donation_date', 'desc');
+
+    res.render('user/donations', {
+      title: 'My Donations - Ella Rises',
+      donations: userDonations,
+    });
+  } catch (error) {
+    console.error('Error loading user donations:', error);
+    res.status(500).send('Error loading donation history');
+  }
+});
+
+// User's survey history page
+// This route fetches and displays all survey responses submitted by the logged-in user.
+app.get('/user/surveys', requireLogin, async (req, res) => {
+  try {
+    const userSurveys = await knex('registration')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .where('registration.participant_id', req.session.user.id)
+      .whereNotNull('registration.survey_submission_date')
+      .select(
+        'registration.*',
+        'events.event_name as event_title'
+      )
+      .orderBy('registration.survey_submission_date', 'desc');
+
+    res.render('user/surveys', {
+      title: 'My Survey History - Ella Rises',
+      surveys: userSurveys,
+    });
+  } catch (error) {
+    console.error('Error loading user surveys:', error);
+    res.status(500).send('Error loading survey history');
+  }
+});
+
 // Add milestone - POST route
 app.post('/user/milestones', requireLogin, async (req, res) => {
   const { milestone_title, milestone_category, milestone_date } = req.body;
@@ -1075,6 +1095,92 @@ app.post('/user/milestones', requireLogin, async (req, res) => {
   } catch (error) {
     console.error('Error adding milestone:', error);
     res.redirect('/user/milestones?error=true');
+  }
+});
+
+// Show form to edit a milestone
+// This route displays a form for a user to edit one of their own milestones.
+app.get('/user/milestones/:id/edit', requireLogin, async (req, res) => {
+  try {
+    const milestone = await knex('milestone')
+      .where({
+        milestone_id: req.params.id,
+        participant_id: req.session.user.id // Ensures users can only edit their own milestones.
+      })
+      .first();
+
+    if (!milestone) {
+      return res.status(404).send('Milestone not found or you do not have permission to edit it.');
+    }
+
+    res.render('user/milestone-edit-form', {
+      title: 'Edit Milestone - Ella Rises',
+      milestone,
+      error: null
+    });
+  } catch (error) {
+    console.error('Error loading milestone for edit:', error);
+    res.status(500).send('Error loading milestone');
+  }
+});
+
+// Handle milestone update
+// This route processes the submission of the milestone edit form.
+app.post('/user/milestones/:id/edit', requireLogin, async (req, res) => {
+  const { milestone_title, milestone_category, milestone_date } = req.body;
+  try {
+    // First, ensure the milestone belongs to the logged-in user before updating.
+    const milestone = await knex('milestone')
+      .where({
+        milestone_id: req.params.id,
+        participant_id: req.session.user.id
+      })
+      .first();
+
+    if (!milestone) {
+      return res.status(404).send('Milestone not found or you do not have permission to edit it.');
+    }
+
+    // Update the milestone with the new data.
+    await knex('milestone')
+      .where({ milestone_id: req.params.id })
+      .update({
+        milestone_title,
+        milestone_category,
+        milestone_date: milestone_date ? new Date(milestone_date) : new Date()
+      });
+
+    res.redirect('/user/milestones?success=updated');
+  } catch (error) {
+    console.error('Error updating milestone:', error);
+    res.redirect('/user/milestones?error=update_failed');
+  }
+});
+
+// Handle milestone delete
+// This route deletes a milestone for the logged-in user.
+app.post('/user/milestones/:id/delete', requireLogin, async (req, res) => {
+  try {
+    // Ensure the milestone belongs to the logged-in user before deleting.
+    const milestone = await knex('milestone')
+      .where({
+        milestone_id: req.params.id,
+        participant_id: req.session.user.id
+      })
+      .first();
+
+    if (!milestone) {
+      return res.status(404).send('Milestone not found or you do not have permission to delete it.');
+    }
+
+    await knex('milestone')
+      .where({ milestone_id: req.params.id })
+      .del();
+
+    res.redirect('/user/milestones?success=deleted');
+  } catch (error) {
+    console.error('Error deleting milestone:', error);
+    res.redirect('/user/milestones?error=delete_failed');
   }
 });
 
@@ -1244,6 +1350,7 @@ app.get('/admin/participants/new/user', requireAdmin, (req, res) => {
     title: 'Create New User - Admin - Ella Rises',
     user: null,
     error: null,
+    req,
   });
 });
 
@@ -1426,6 +1533,38 @@ app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
   }
 });
 
+// Admin - Change user password
+app.post('/admin/participants/:userId/change-password', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+  const { newPassword, confirmPassword } = req.body;
+
+  try {
+    // Validate passwords match
+    if (newPassword !== confirmPassword) {
+      return res.redirect(`/admin/participants/${userId}?error=password_mismatch`);
+    }
+
+    // Validate password length
+    if (!newPassword || newPassword.length < 6) {
+      return res.redirect(`/admin/participants/${userId}?error=password_too_short`);
+    }
+
+    // Hash the new password
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+    // Update the password
+    await knex('participants')
+      .where({ id: userId })
+      .update({ participant_password: hashedPassword });
+
+    res.redirect(`/admin/participants/${userId}?success=password_changed`);
+  } catch (error) {
+    console.error('Error changing password:', error);
+    res.redirect(`/admin/participants/${userId}?error=password_change_failed`);
+  }
+});
+
 // Admin - Delete user
 app.post('/admin/participants/:userId/delete', requireAdmin, async (req, res) => {
   const { userId } = req.params;
@@ -1514,6 +1653,7 @@ app.get('/admin/events/new', requireAdmin, (req, res) => {
     title: 'Create New Event - Admin - Ella Rises',
     event: null,
     error: null,
+    req,
   });
 });
 
@@ -1553,7 +1693,7 @@ app.post('/admin/events/new', requireAdmin, upload.single('event_image'), async 
 app.get('/admin/events/:id/edit', requireAdmin, async (req, res) => {
   try {
     const event = await knex('event_occurance')
-      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .leftJoin('events', 'event_occurance.event_name', 'events.event_name')
       .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
       .where('event_occurance.event_occurance_id', req.params.id)
       .first();
@@ -1565,6 +1705,7 @@ app.get('/admin/events/:id/edit', requireAdmin, async (req, res) => {
       title: 'Edit Event - Admin - Ella Rises',
       event,
       error: null,
+      req,
     });
   } catch (error) {
     console.error('Error loading event:', error);
@@ -1724,6 +1865,7 @@ app.get('/admin/programs/:id/edit', requireAdmin, async (req, res) => {
       title: 'Edit Program - Admin - Ella Rises',
       program,
       error: null,
+      req,
     });
   } catch (error) {
     console.error('Error loading program:', error);
@@ -2010,38 +2152,57 @@ app.get('/admin/surveys/:surveyId', requireAdmin, async (req, res) => {
 });
 
 // Admin - Edit survey form
+// Fetches a single survey response and renders the edit form.
 app.get('/admin/surveys/:id/edit', requireAdmin, async (req, res) => {
   try {
-    const survey = await knex('registration').where('registration_id', req.params.id).first();
+    // We join with participants and events tables to get the names for display purposes.
+    const survey = await knex('registration')
+      .leftJoin('participants', 'registration.participant_id', 'participants.id')
+      .leftJoin('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .leftJoin('events', 'event_occurance.event_name', 'events.event_name')
+      .select(
+        'registration.*',
+        knex.raw("COALESCE(CONCAT(participants.participant_first_name, ' ', COALESCE(participants.participant_last_name, '')), 'Unknown Participant') as participant_name"),
+        knex.raw("COALESCE(events.event_name, 'Unknown Event') as event_name")
+      )
+      .where('registration.registration_id', req.params.id)
+      .first();
+
     if (!survey) {
       return res.status(404).send('Survey not found');
     }
 
-    const users = await knex('participants').select('id', knex.raw("CONCAT(participant_first_name, ' ', participant_last_name) as name")).orderBy('name');
-    const events = await knex('events').select('event_name as id', 'event_name as title').orderBy('title');
-
+    // The form does not allow changing the participant or event, so we don't need to pass the full lists.
     res.render('admin/survey-form', {
       title: 'Edit Survey - Admin - Ella Rises',
       survey,
-      users,
-      events,
       error: null,
+      req,
     });
   } catch (error) {
-    console.error('Error loading survey:', error);
+    console.error('Error loading survey for edit:', error);
     res.status(500).send('Error loading survey');
   }
 });
 
 // Admin - Update survey
+// Handles the submission of the survey edit form.
 app.post('/admin/surveys/:id/edit', requireAdmin, async (req, res) => {
-  const { user_id, event_id, satisfaction_rating, usefulness_rating, instructor_rating, recommendation_rating, additional_feedback } = req.body;
+  // We only want to update the survey-related fields. Participant and event are not editable.
+  const { satisfaction_rating, usefulness_rating, instructor_rating, recommendation_rating, additional_feedback } = req.body;
 
   try {
     const sat = parseInt(satisfaction_rating);
     const use = parseInt(usefulness_rating);
     const inst = parseInt(instructor_rating);
     const rec = parseInt(recommendation_rating);
+
+    // Basic validation to ensure all ratings are provided and are numbers.
+    if (isNaN(sat) || isNaN(use) || isNaN(inst) || isNaN(rec)) {
+      throw new Error('All rating fields are required and must be numbers.');
+    }
+
+    // Recalculate scores based on the new ratings.
     const survey_overall_score = ((sat + use + inst + rec) / 4).toFixed(2);
 
     let survey_nps_bucket;
@@ -2053,16 +2214,10 @@ app.post('/admin/surveys/:id/edit', requireAdmin, async (req, res) => {
       survey_nps_bucket = 'Promoter';
     }
 
-    const eventOccurance = await knex('event_occurance').where({ event_name: event_id }).first();
-    if (!eventOccurance) {
-        throw new Error('Event not found for survey submission.');
-    }
-
+    // Update the registration record with the new survey data.
     await knex('registration')
       .where('registration_id', req.params.id)
       .update({
-        participant_id: user_id,
-        event_occurance_id: eventOccurance.event_occurance_id,
         survey_satisfaction_score: sat,
         survey_usefulness_score: use,
         survey_instructor_score: inst,
@@ -2070,21 +2225,31 @@ app.post('/admin/surveys/:id/edit', requireAdmin, async (req, res) => {
         survey_overall_score: survey_overall_score,
         survey_nps_bucket: survey_nps_bucket,
         survey_comments: additional_feedback,
-        survey_submission_date: new Date(),
+        survey_submission_date: new Date(), // Update submission date to now.
       });
 
     res.redirect(`/admin/surveys/${req.params.id}?success=updated`);
   } catch (error) {
     console.error('Error updating survey:', error);
-    const survey = await knex('registration').where('registration_id', req.params.id).first();
-    const users = await knex('participants').select('id', knex.raw("CONCAT(participant_first_name, ' ', participant_last_name) as name")).orderBy('name');
-    const events = await knex('events').select('event_name as id', 'event_name as title').orderBy('title');
+    // If an error occurs, re-render the form with an error message.
+    // We need to re-fetch the survey data to populate the form correctly.
+    const survey = await knex('registration')
+      .leftJoin('participants', 'registration.participant_id', 'participants.id')
+      .leftJoin('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .leftJoin('events', 'event_occurance.event_name', 'events.event_name')
+      .select(
+        'registration.*',
+        knex.raw("COALESCE(CONCAT(participants.participant_first_name, ' ', COALESCE(participants.participant_last_name, '')), 'Unknown Participant') as participant_name"),
+        knex.raw("COALESCE(events.event_name, 'Unknown Event') as event_name")
+      )
+      .where('registration.registration_id', req.params.id)
+      .first();
+
     res.render('admin/survey-form', {
       title: 'Edit Survey - Admin - Ella Rises',
       survey,
-      users,
-      events,
       error: 'Error updating survey. Please try again.',
+      req,
     });
   }
 });
@@ -2400,7 +2565,7 @@ app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
 // Admin - Delete donation
 app.post('/admin/donations/:id/delete', requireAdmin, async (req, res) => {
   try {
-    await knex('donations').where('id', req.params.id).del();
+    await knex('donations').where('donation_id', req.params.id).del();
     res.redirect('/admin/donations?success=deleted');
   } catch (error) {
     console.error('Error deleting donation:', error);
@@ -2868,6 +3033,7 @@ app.get('/admin/programs/export/csv', requireAdmin, async (req, res) => {
 });
 
 // Export Programs as PDF
+// This route generates a PDF report of all programs in the database.
 app.get('/admin/programs/export/pdf', requireAdmin, async (req, res) => {
   try {
     const programs = await knex('programs')
@@ -2893,12 +3059,14 @@ app.get('/admin/programs/export/pdf', requireAdmin, async (req, res) => {
         y = 50;
       }
 
-      doc.fontSize(11).font('Helvetica-Bold').text(program.name, 50, y);
+      doc.fontSize(11).font('Helvetica-Bold').text(program.title, 50, y);
       y += 15;
       doc.font('Helvetica').fontSize(9);
-      doc.text(program.description.substring(0, 150), 50, y, { width: 500 });
-      y += 25;
-      doc.text(`Duration: ${program.start_date ? new Date(program.start_date).toLocaleDateString() : 'N/A'} - ${program.end_date ? new Date(program.end_date).toLocaleDateString() : 'N/A'}`, 50, y);
+      if (program.description) {
+        doc.text(program.description.substring(0, 150), 50, y, { width: 500 });
+        y += 25;
+      }
+      doc.text(`Schedule: ${program.schedule || 'N/A'}`, 50, y);
       y += 25;
     });
 
