@@ -24,7 +24,7 @@
             id="name"
             name="name"
             class="form-input"
-            value="<%= user ? user.name : '' %>"
+            value="<%= user ? (user.participant_first_name + ' ' + (user.participant_last_name || '')) : '' %>"
             required
           />
         </div>
@@ -36,7 +36,7 @@
             id="email"
             name="email"
             class="form-input"
-            value="<%= user ? user.email : '' %>"
+            value="<%= user ? user.participant_email : '' %>"
             required
           />
         </div>
@@ -59,8 +59,8 @@
         <div class="form-group">
           <label for="role" class="form-label">Role *</label>
           <select id="role" name="role" class="form-select" required>
-            <option value="user" <%= user && user.role === 'user' ? 'selected' : '' %>>User</option>
-            <option value="admin" <%= user && user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+            <option value="participant" <%= user && user.participant_role === 'participant' ? 'selected' : '' %>>User</option>
+            <option value="admin" <%= user && user.participant_role === 'admin' ? 'selected' : '' %>>Admin</option>
           </select>
           <p class="form-helper">
             <strong>User:</strong> Can view events, enroll in programs, submit surveys<br>

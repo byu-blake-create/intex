@@ -4,8 +4,8 @@
   <!-- Back button and actions -->
   <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; align-items: center;">
     <a href="/admin/surveys" class="btn btn-outline"><%= t('admin.surveyDetail.back') %></a>
-    <a href="/admin/surveys/<%= survey.id %>/edit" class="btn btn-primary">Edit Survey</a>
-    <form action="/admin/surveys/<%= survey.id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this survey?');">
+    <a href="/admin/surveys/<%= survey.registration_id %>/edit" class="btn btn-primary">Edit Survey</a>
+    <form action="/admin/surveys/<%= survey.registration_id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this survey?');">
       <button type="submit" class="btn btn-danger">Delete Survey</button>
     </form>
   </div>
@@ -37,18 +37,18 @@
         <div>
           <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;"><%= t('admin.surveyDetail.overall') %></h3>
           <p style="font-size: 2rem; font-weight: 700; color: var(--accent-color);">
-            <%= survey.overall_score ? parseFloat(survey.overall_score).toFixed(2) : 'N/A' %>
+            <%= survey.survey_overall_score ? parseFloat(survey.survey_overall_score).toFixed(2) : 'N/A' %>
           </p>
           <p style="color: var(--text-secondary);">
-            <%= survey.overall_score ? '⭐'.repeat(Math.round(parseFloat(survey.overall_score))) : '' %>
+            <%= survey.survey_overall_score ? '⭐'.repeat(Math.round(parseFloat(survey.survey_overall_score))) : '' %>
           </p>
         </div>
         <div>
           <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;"><%= t('admin.surveyDetail.nps') %></h3>
           <div style="margin-top: 1rem;">
-            <% if (survey.net_promoter_score === 'Promoter') { %>
+            <% if (survey.survey_nps_bucket === 'Promoter') { %>
               <span class="badge badge-success" style="font-size: 1.1rem; padding: 0.75rem 1.5rem;">Promoter</span>
-            <% } else if (survey.net_promoter_score === 'Passive') { %>
+            <% } else if (survey.survey_nps_bucket === 'Passive') { %>
               <span class="badge" style="background-color: #fbbf24; color: #1a1a1a; font-size: 1.1rem; padding: 0.75rem 1.5rem;">Passive</span>
             <% } else { %>
               <span class="badge badge-danger" style="font-size: 1.1rem; padding: 0.75rem 1.5rem;">Detractor</span>
@@ -58,11 +58,15 @@
         <div>
           <h3 style="margin-bottom: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;"><%= t('admin.surveyDetail.submitted') %></h3>
           <p style="font-size: 1.1rem; font-weight: 600; margin-top: 1rem;">
-            <%= new Date(survey.created_at).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            }) %>
+            <% if (survey.survey_submission_date) { %>
+              <%= new Date(survey.survey_submission_date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              }) %>
+            <% } else { %>
+              <em style="color: var(--text-light);">Not submitted</em>
+            <% } %>
           </p>
         </div>
       </div>
@@ -78,10 +82,10 @@
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
           <h3 style="color: var(--text-secondary); font-size: 1rem;"><%= t('admin.surveyDetail.responses.q1') %></h3>
-          <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.satisfaction_rating %>/5</span>
+          <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.survey_satisfaction_score %>/5</span>
         </div>
         <div style="font-size: 1.5rem;">
-          <%= '⭐'.repeat(survey.satisfaction_rating || 0) %>
+          <%= '⭐'.repeat(survey.survey_satisfaction_score || 0) %>
         </div>
       </div>
 
@@ -89,10 +93,10 @@
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
           <h3 style="color: var(--text-secondary); font-size: 1rem;"><%= t('admin.surveyDetail.responses.q2') %></h3>
-          <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.usefulness_rating %>/5</span>
+          <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.survey_usefulness_score %>/5</span>
         </div>
         <div style="font-size: 1.5rem;">
-          <%= '⭐'.repeat(survey.usefulness_rating || 0) %>
+          <%= '⭐'.repeat(survey.survey_usefulness_score || 0) %>
         </div>
       </div>
 
@@ -100,10 +104,10 @@
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
           <h3 style="color: var(--text-secondary); font-size: 1rem;"><%= t('admin.surveyDetail.responses.q3') %></h3>
-          <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.instructor_rating %>/5</span>
+          <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.survey_instructor_score %>/5</span>
         </div>
         <div style="font-size: 1.5rem;">
-          <%= '⭐'.repeat(survey.instructor_rating || 0) %>
+          <%= '⭐'.repeat(survey.survey_instructor_score || 0) %>
         </div>
       </div>
 
@@ -111,10 +115,10 @@
       <div>
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
           <h3 style="color: var(--text-secondary); font-size: 1rem;"><%= t('admin.surveyDetail.responses.q4') %></h3>
-          <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.recommendation_rating %>/5</span>
+          <span style="font-size: 1.5rem; font-weight: 700;"><%= survey.survey_recommendation_score %>/5</span>
         </div>
         <div style="font-size: 1.5rem;">
-          <%= '⭐'.repeat(survey.recommendation_rating || 0) %>
+          <%= '⭐'.repeat(survey.survey_recommendation_score || 0) %>
         </div>
       </div>
     </div>
@@ -123,9 +127,9 @@
   <!-- Additional Feedback -->
   <div class="card">
     <h2 style="font-size: 1.5rem; margin-bottom: 1.5rem;"><%= t('admin.surveyDetail.feedback') %></h2>
-    <% if (survey.additional_feedback && survey.additional_feedback.trim()) { %>
+    <% if (survey.survey_comments && survey.survey_comments.trim()) { %>
       <div style="background-color: var(--sage-soft); padding: 1.5rem; border-radius: var(--border-radius); line-height: 1.6; color: var(--text-color);">
-        <p style="white-space: pre-wrap; margin: 0;"><%= survey.additional_feedback %></p>
+        <p style="white-space: pre-wrap; margin: 0;"><%= survey.survey_comments %></p>
       </div>
     <% } else { %>
       <p style="color: var(--text-secondary); font-style: italic;"><%= t('admin.surveys.feedback.none') %></p>

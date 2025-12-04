@@ -519,7 +519,20 @@ app.get('/signup', (req, res) => {
 
 // Handle signup form submission
 app.post('/signup', async (req, res) => {
-  const { name, email, password, confirmPassword } = req.body;
+  const {
+    firstName,
+    lastName,
+    email,
+    phone,
+    dob,
+    city,
+    state,
+    zip,
+    schoolOrEmployer,
+    fieldOfInterest,
+    password,
+    confirmPassword
+  } = req.body;
 
   try {
     // Validate passwords match
@@ -527,6 +540,30 @@ app.post('/signup', async (req, res) => {
       return res.render('signup', {
         title: 'Sign Up - Ella Rises',
         error: 'Passwords do not match',
+      });
+    }
+
+    // Validate all required fields
+    if (!firstName || !lastName || !email || !phone || !dob || !city || !state || !zip || !schoolOrEmployer || !fieldOfInterest) {
+      return res.render('signup', {
+        title: 'Sign Up - Ella Rises',
+        error: 'All fields are required',
+      });
+    }
+
+    // Validate ZIP code format
+    if (!/^\d{5}$/.test(zip)) {
+      return res.render('signup', {
+        title: 'Sign Up - Ella Rises',
+        error: 'Invalid ZIP code. Must be 5 digits.',
+      });
+    }
+
+    // Validate field of interest
+    if (!['Arts', 'STEM', 'Both'].includes(fieldOfInterest)) {
+      return res.render('signup', {
+        title: 'Sign Up - Ella Rises',
+        error: 'Invalid field of interest',
       });
     }
 
@@ -544,11 +581,19 @@ app.post('/signup', async (req, res) => {
     const saltRounds = 10;
     const participant_password = await bcrypt.hash(password, saltRounds);
 
-    // Insert new participant (default role is 'participant')
+    // Insert new participant with all required fields
     const [newUser] = await knex('participants')
       .insert({
-        participant_first_name: name,
+        participant_first_name: firstName,
+        participant_last_name: lastName,
         participant_email: email,
+        participant_phone: phone,
+        participant_dob: dob,
+        participant_city: city,
+        participant_state: state,
+        participant_zip: zip,
+        participant_school_or_employer: schoolOrEmployer,
+        participant_field_of_interest: fieldOfInterest,
         participant_password: participant_password,
         participant_role: 'participant',
       })
@@ -557,7 +602,7 @@ app.post('/signup', async (req, res) => {
     // Log the participant in immediately
     req.session.user = {
       id: newUser.id,
-      name: newUser.participant_first_name, // Assuming name is first name for now
+      name: `${newUser.participant_first_name} ${newUser.participant_last_name}`,
       email: newUser.participant_email,
       role: newUser.participant_role,
     };
@@ -567,7 +612,7 @@ app.post('/signup', async (req, res) => {
     console.error('Signup error:', error);
     res.render('signup', {
       title: 'Sign Up - Ella Rises',
-      error: 'An error occurred. Please try again.',
+      error: 'An error occurred. Please try again. Details: ' + error.message,
     });
   }
 });
