@@ -1,11 +1,53 @@
 <%- include('../partials/header') %>
 
+<style>
+  .timeline {
+    position: relative;
+    padding: 2rem 0;
+    list-style: none;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 40px;
+    height: 100%;
+    width: 4px;
+    background: var(--border-color);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 2rem;
+    padding-left: 80px;
+  }
+  .timeline-icon {
+    position: absolute;
+    left: 22px;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--sage-soft);
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .timeline-content {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+  }
+</style>
+
 <div class="container watercolor-right" style="margin-top: 3rem; margin-bottom: 4rem;">
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap;">
     <div>
       <h1 style="font-size: 2.5rem; margin-bottom: 0.5rem;"><%= t('user.milestones.title') %></h1>
       <p style="font-size: 1.1rem; color: var(--text-secondary);">
-        <%= t('user.milestones.copy') %>
+        Hello, <%= user.name %>! <%= t('user.milestones.copy') %>
       </p>
     </div>
     <button onclick="document.getElementById('add-milestone-form').style.display='block'" class="btn btn-primary">
@@ -18,26 +60,18 @@
     <h3 style="margin-bottom: 1.5rem;"><%= t('user.milestones.addTitle') %></h3>
     <form action="/user/milestones" method="POST">
       <div class="form-group">
-        <label for="milestone_id" class="form-label"><%= t('user.milestones.category') %></label>
-        <select id="milestone_id" name="milestone_id" class="form-select" required onchange="toggleCustomTitle()">
-          <option value=""><%= t('user.milestones.categoryPlaceholder') %></option>
-          <% categories.forEach(category => { %>
-            <option value="<%= category.id %>"><%= category.title %></option>
-          <% }) %>
-        </select>
+        <label for="milestone_category" class="form-label"><%= t('user.milestones.category') %></label>
+        <input type="text" id="milestone_category" name="milestone_category" class="form-input" placeholder="e.g., Education, Career, Personal" required>
       </div>
 
       <div class="form-group">
-        <label for="custom_title" class="form-label">
+        <label for="milestone_title" class="form-label">
           <span id="title-label"><%= t('user.milestones.titleLabel') %></span>
-          <span style="color: var(--text-secondary); font-size: 0.9rem; font-weight: normal;">
-            <%= t('user.milestones.titleHint') %>
-          </span>
         </label>
         <input
           type="text"
-          id="custom_title"
-          name="custom_title"
+          id="milestone_title"
+          name="milestone_title"
           class="form-input"
           placeholder="<%= t('user.milestones.placeholder') %>"
           required
@@ -46,7 +80,7 @@
       </div>
 
       <div class="form-group">
-        <label for="achieved_date" class="form-label">
+        <label for="milestone_date" class="form-label">
           <%= t('user.milestones.date') %>
           <span style="color: var(--text-secondary); font-size: 0.9rem; font-weight: normal;">
             <%= t('user.milestones.dateHint') %>
@@ -54,8 +88,8 @@
         </label>
         <input
           type="date"
-          id="achieved_date"
-          name="achieved_date"
+          id="milestone_date"
+          name="milestone_date"
           class="form-input"
           value="<%= new Date().toISOString().split('T')[0] %>"
         />
@@ -69,68 +103,49 @@
   </div>
 
   <!-- Success/Error Messages -->
-  <% if (typeof query !== 'undefined' && query.success) { %>
-    <div style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 2rem; border: 1px solid #c3e6cb;">
+  <% if (req.query && req.query.success) { %>
+    <div class="alert alert-success" style="margin-bottom: 2rem;">
       <%= t('user.milestones.success') %>
     </div>
   <% } %>
-  <% if (typeof query !== 'undefined' && query.error) { %>
-    <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: var(--border-radius); margin-bottom: 2rem; border: 1px solid #f5c6cb;">
+  <% if (req.query && req.query.error) { %>
+    <div class="alert alert-error" style="margin-bottom: 2rem;">
       <%= t('user.milestones.error') %>
     </div>
   <% } %>
 
   <!-- Milestones Display -->
   <% if (milestones && milestones.length > 0) { %>
-    <div class="grid grid-3">
+    <h2 style="font-size: 1.8rem; margin-bottom: 2rem; color: var(--text-color); border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Timeline</h2>
+    <ul class="timeline">
       <% milestones.forEach(milestone => { %>
-        <div class="card" style="text-align: center;">
-          <!-- Badge Icon -->
-          <div style="font-size: 4rem; margin-bottom: 1rem;">
-            <% const displayTitle = milestone.title || milestone.custom_title || ''; %>
-            <% if (displayTitle.includes('College') || displayTitle.includes('Grad School')) { %>
+        <li class="timeline-item">
+          <div class="timeline-icon">
+            <% const category = milestone.milestone_category || ''; %>
+            <% if (category.toLowerCase().includes('education')) { %>
               🎓
-            <% } else if (displayTitle.includes('High School')) { %>
-              📚
-            <% } else if (displayTitle.includes('Job') || displayTitle.includes('Internship')) { %>
+            <% } else if (category.toLowerCase().includes('career')) { %>
               💼
-            <% } else if (displayTitle.includes('Degree')) { %>
-              🏅
-            <% } else if (displayTitle.includes('Certificate')) { %>
-              📜
-            <% } else if (displayTitle.includes('Award')) { %>
-              🏆
-            <% } else { %>
+            <% } else if (category.toLowerCase().includes('personal')) { %>
               ⭐
+            <% } else { %>
+              🏆
             <% } %>
           </div>
-
-          <!-- Milestone Category or Title -->
-          <% if (milestone.title) { %>
-            <span class="badge badge-primary" style="margin-bottom: 1rem;">
-              <%= milestone.title %>
-            </span>
-            <!-- Custom Title -->
-            <h3 class="card-title" style="margin-bottom: 1rem; min-height: 3rem;">
-              <%= milestone.custom_title || milestone.description %>
-            </h3>
-          <% } else { %>
-            <!-- Show custom_title as main title when no category -->
-            <h3 class="card-title" style="margin-bottom: 1rem; min-height: 3rem;">
-              <%= milestone.custom_title %>
-            </h3>
-          <% } %>
-
-          <!-- Date Achieved -->
-          <div style="padding-top: 1rem; border-top: 1px solid var(--border-color);">
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">
-              <%= t('user.milestones.achievedOn') %><br>
-              <strong><%= new Date(milestone.achieved_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></strong>
-            </p>
+          <div class="timeline-content">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <div>
+                <span class="badge badge-primary" style="margin-bottom: 0.75rem;"><%= milestone.milestone_category %></span>
+                <h3 style="margin: 0; font-size: 1.2rem; color: var(--primary-color);"><%= milestone.milestone_title %></h3>
+              </div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem; text-align: right;">
+                <strong><%= new Date(milestone.milestone_date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></strong>
+              </div>
+            </div>
           </div>
-        </div>
+        </li>
       <% }) %>
-    </div>
+    </ul>
   <% } else { %>
     <div class="card text-center" style="padding: 4rem 2rem;">
       <div style="font-size: 4rem; margin-bottom: 1rem;">🎯</div>
@@ -141,19 +156,5 @@
     </div>
   <% } %>
 </div>
-
-<script>
-function toggleCustomTitle() {
-  const select = document.getElementById('milestone_id');
-  const label = document.getElementById('title-label');
-  const selectedOption = select.options[select.selectedIndex];
-
-  if (selectedOption.text === 'Other') {
-    label.textContent = '<%= t('user.milestones.titleCustom') %>';
-  } else {
-    label.textContent = '<%= t('user.milestones.titleLabel') %>';
-  }
-}
-</script>
 
 <%- include('../partials/footer') %>

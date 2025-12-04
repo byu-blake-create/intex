@@ -1,0 +1,48 @@
+<%- include('../partials/header') %>
+
+<div class="container container-lg watercolor-sand" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <h1 style="font-size: 2.2rem; margin-bottom: 0.25rem;">Program Enrollments</h1>
+      <p style="color: var(--text-secondary); margin: 0;">View all participants enrolled in programs.</p>
+    </div>
+    <a href="/admin/programs" class="btn btn-outline">← Back to Programs</a>
+  </div>
+
+  <% if (enrollments && enrollments.length > 0) { %>
+    <div style="overflow-x: auto;">
+      <table class="table" style="min-width: 900px;">
+        <thead>
+          <tr>
+            <th>Participant</th>
+            <th>Email</th>
+            <th>Program</th>
+            <th>Status</th>
+            <th>Enrolled At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% enrollments.forEach(enrollment => { %>
+            <tr>
+              <td><strong><%= enrollment.first_name %> <%= enrollment.last_name %></strong></td>
+              <td><%= enrollment.email %></td>
+              <td><%= enrollment.program_title %></td>
+              <td><%= enrollment.status || 'active' %></td>
+              <td>
+                <%= enrollment.enrolled_at
+                  ? new Date(enrollment.enrolled_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+                  : '' %>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  <% } else { %>
+    <div class="card text-center" style="padding: 3rem 2rem;">
+      <p style="color: var(--text-secondary);">No enrollments found.</p>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

@@ -20,6 +20,13 @@
       <p class="card-text"><%= t('user.dashboard.milestonesCount') %> <%= userMilestones.length %> milestone<%= userMilestones.length !== 1 ? 's' : '' %>!</p>
       <a href="/user/milestones" class="btn btn-primary"><%= t('user.dashboard.viewMilestones') %></a>
     </div>
+
+    <!-- Programs Card -->
+    <div class="card">
+      <h2 class="card-title">My Programs</h2>
+      <p class="card-text">Enrolled in <%= enrolledPrograms.length %> program<%= enrolledPrograms.length !== 1 ? 's' : '' %>.</p>
+      <a href="/programs" class="btn btn-primary">Browse Programs</a>
+    </div>
   </div>
 
   <!-- Upcoming Events Section -->
@@ -79,6 +86,32 @@
     <% } else { %>
       <div class="card text-center" style="padding: 3rem 2rem;">
         <p style="color: var(--text-secondary);"><%= t('user.dashboard.emptyMilestones') %></p>
+      </div>
+    <% } %>
+  </div>
+
+  <!-- My Programs Section -->
+  <div style="margin-top: 3rem;">
+    <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">My Programs</h2>
+    <% if (enrolledPrograms && enrolledPrograms.length > 0) { %>
+      <div class="grid grid-2">
+        <% enrolledPrograms.slice(0, 4).forEach(program => { %>
+          <div class="card">
+            <div class="card-title"><%= program.title %></div>
+            <p class="card-text" style="color: var(--text-secondary);"><%= program.description ? program.description.slice(0,120) + (program.description.length>120 ? '...' : '') : 'Enrolled program' %></p>
+            <div style="margin: 0.5rem 0; color: var(--text-secondary); font-size: 0.9rem;">
+              Status: <strong><%= program.status || 'active' %></strong>
+            </div>
+            <div class="card-footer">
+              <a href="/programs/<%= program.id %>" class="btn btn-secondary btn-sm">View Program</a>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <div class="card text-center" style="padding: 3rem 2rem;">
+        <p style="color: var(--text-secondary);">You are not enrolled in any programs yet.</p>
+        <a href="/programs" class="btn btn-primary">Browse Programs</a>
       </div>
     <% } %>
   </div>

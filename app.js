@@ -42,19 +42,6 @@ const knex = require('knex')({
       ? { rejectUnauthorized: false }
       : false,
   },
-  pool: {
-    min: 2,
-    max: 10,
-    // Test connection on checkout
-    afterCreate: function(conn, done) {
-      conn.query('SELECT 1;', function(err) {
-        if (err) {
-          console.error('Database connection test failed:', err.message);
-        }
-        done(err, conn);
-      });
-    }
-  }
 });
 
 // Test database connection on startup
@@ -88,69 +75,61 @@ function validatePageNumber(requestedPage, totalPages) {
 
 // Expected database schema (for reference):
 //
-// users table:
+// participants table:
 //   - id (primary key)
-//   - name (string)
-//   - email (string, unique)
-//   - password_hash (string)
-//   - role (string: 'user' or 'admin')
+//   - participant_first_name (string)
+//   - participant_last_name (string)
+//   - participant_email (string, unique)
+//   - participant_password (string)
+//   - participant_role (string: 'participant' or 'admin')
 //   - login_count (integer, default 0)
-//
-// events table:
-//   - id (primary key)
-//   - title (string)
-//   - description (text)
-//   - date (timestamp)
-//   - location (string)
-//   - capacity (integer)
-//
-// event_registrations table:
-//   - id (primary key)
-//   - user_id (foreign key to users)
-//   - event_id (foreign key to events)
 //   - created_at (timestamp)
 //
-// surveys table:
-//   - id (primary key)
-//   - user_id (foreign key)
-//   - event_id (foreign key)
-//   - rating (integer)
-//   - feedback (text)
+// event_occurance table (app refers to this as 'events'):
+//   - event_occurance_id (primary key)
+//   - event_name (foreign key to events.event_name)
+//   - event_date_time_start (timestamp)
+//   - event_date_time_end (timestamp)
+//   - event_location (string)
+//   - event_capacity (integer)
+//   - event_registration_deadline (timestamp)
+//   - image_url (string)
 //   - created_at (timestamp)
 //
-// milestones table:
-//   - id (primary key)
-//   - title (string)
-//   - description (text)
+// event_registrations table: (REMOVED - merged into 'registration' table)
 //
-// participant_milestones table:
-//   - id (primary key)
-//   - user_id (foreign key)
-//   - milestone_id (foreign key)
-//   - achieved_at (timestamp)
+// surveys table (now 'registration' table):
+//   - registration_id (primary key)
+//   - participant_id (foreign key to participants.id)
+//   - event_occurance_id (foreign key to event_occurance.event_occurance_id)
+//   - attendance_id (foreign key to attendance.attendance_id)
+//   - registration_check_in_time (timestamp)
+//   - registration_created_at (timestamp)
+//   - survey_satisfaction_score (integer)
+//   - survey_usefulness_score (integer)
+//   - survey_instructor_score (integer)
+//   - survey_recommendation_score (integer)
+//   - survey_overall_score (numeric)
+//   - survey_nps_bucket (string)
+//   - survey_comments (text)
+//   - survey_submission_date (timestamp)
+//
+// milestone table (combined from old milestones and participant_milestones):
+//   - milestone_id (primary key)
+//   - participant_id (foreign key to participants.id)
+//   - milestone_title (string)
+//   - milestone_category (string)
+//   - milestone_date (timestamp)
 //
 // donations table:
-//   - id (primary key)
-//   - user_id (foreign key, nullable for anonymous donations)
-//   - amount (decimal)
+//   - donation_id (primary key)
+//   - participant_id (foreign key to participants.id, nullable for anonymous donations)
+//   - donation_date (timestamp)
+//   - donation_amount (decimal)
+//   - donation_number (integer)
 //   - created_at (timestamp)
 
-// Ensure donations table has donation_date column to support imported dates
-async function ensureDonationDateColumn() {
-  try {
-    const hasDonationDate = await knex.schema.hasColumn('donations', 'donation_date');
-    if (!hasDonationDate) {
-      await knex.schema.alterTable('donations', (table) => {
-        table.timestamp('donation_date').defaultTo(knex.fn.now());
-      });
-      await knex('donations').update({ donation_date: knex.raw('created_at') });
-      console.log('Added donation_date column and backfilled from created_at');
-    }
-  } catch (err) {
-    console.error('Error ensuring donation_date column:', err);
-  }
-}
-ensureDonationDateColumn();
+
 
 // ============================================
 // EXPRESS APP SETUP
@@ -483,7 +462,7 @@ app.post('/login', async (req, res) => {
 
   try {
     // Find user by email
-    const user = await knex('users').where({ email }).first();
+    const user = await knex('participants').where({ participant_email: email }).first();
 
     if (!user) {
       return res.render('login', {
@@ -493,7 +472,7 @@ app.post('/login', async (req, res) => {
     }
 
     // Compare password with hashed password
-    const passwordMatch = await bcrypt.compare(password, user.password_hash);
+    const passwordMatch = await bcrypt.compare(password, user.participant_password);
 
     if (!passwordMatch) {
       return res.render('login', {
@@ -503,20 +482,20 @@ app.post('/login', async (req, res) => {
     }
 
     // Increment login count
-    await knex('users')
+    await knex('participants')
       .where({ id: user.id })
       .increment('login_count', 1);
 
     // Store user in session (don't store password_hash)
     req.session.user = {
       id: user.id,
-      name: user.name,
-      email: user.email,
-      role: user.role,
+      name: `${user.participant_first_name} ${user.participant_last_name}`,
+      email: user.participant_email,
+      role: user.participant_role,
     };
 
     // Redirect based on role
-    if (user.role === 'admin') {
+    if (user.participant_role === 'admin') {
       res.redirect('/admin/dashboard');
     } else {
       res.redirect('/user/dashboard');
@@ -552,7 +531,7 @@ app.post('/signup', async (req, res) => {
     }
 
     // Check if user already exists
-    const existingUser = await knex('users').where({ email }).first();
+    const existingUser = await knex('participants').where({ participant_email: email }).first();
 
     if (existingUser) {
       return res.render('signup', {
@@ -563,25 +542,24 @@ app.post('/signup', async (req, res) => {
 
     // Hash password
     const saltRounds = 10;
-    const password_hash = await bcrypt.hash(password, saltRounds);
+    const participant_password = await bcrypt.hash(password, saltRounds);
 
-    // Insert new user (default role is 'user')
-    const [newUser] = await knex('users')
+    // Insert new participant (default role is 'participant')
+    const [newUser] = await knex('participants')
       .insert({
-        name,
-        email,
-        password_hash,
-        role: 'user',
-        login_count: 0,
+        participant_first_name: name,
+        participant_email: email,
+        participant_password: participant_password,
+        participant_role: 'participant',
       })
       .returning('*');
 
-    // Log the user in immediately
+    // Log the participant in immediately
     req.session.user = {
       id: newUser.id,
-      name: newUser.name,
-      email: newUser.email,
-      role: newUser.role,
+      name: newUser.participant_first_name, // Assuming name is first name for now
+      email: newUser.participant_email,
+      role: newUser.participant_role,
     };
 
     res.redirect('/user/dashboard');
@@ -612,11 +590,12 @@ app.get('/logout', (req, res) => {
 // This page is publicly accessible (no login required to view)
 app.get('/events', async (req, res) => {
   try {
-    // Get only future events from database, ordered by start time
-    const events = await knex('events')
-      .select('*')
-      .where('start_time', '>=', new Date())
-      .orderBy('start_time', 'asc');
+    // Get only future events from database, ordered by event_date_time_start
+    const events = await knex('event_occurance')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .where('event_occurance.event_date_time_start', '>=', new Date())
+      .orderBy('event_occurance.event_date_time_start', 'asc');
 
     res.render('events/index', {
       title: 'Events - Ella Rises',
@@ -635,8 +614,10 @@ app.get('/events/:eventId', async (req, res) => {
 
   try {
     // Get the specific event
-    const event = await knex('events')
-      .where({ id: eventId })
+    const event = await knex('event_occurance')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .where('event_occurance.event_occurance_id', eventId)
       .first();
 
     if (!event) {
@@ -646,10 +627,10 @@ app.get('/events/:eventId', async (req, res) => {
     // Check if current user is already registered (if logged in)
     let isRegistered = false;
     if (req.session.user) {
-      const registration = await knex('event_registrations')
+      const registration = await knex('registration')
         .where({
-          user_id: req.session.user.id,
-          event_id: eventId,
+          participant_id: req.session.user.id,
+          event_occurance_id: eventId,
         })
         .first();
 
@@ -657,7 +638,7 @@ app.get('/events/:eventId', async (req, res) => {
     }
 
     // Check if event is in the past
-    const isPast = new Date(event.start_time) < new Date();
+    const isPast = new Date(event.event_date_time_start) < new Date();
 
     res.render('events/detail', {
       title: `${event.title} - Ella Rises`,
@@ -680,22 +661,26 @@ app.post('/events/:eventId/signup', requireLogin, async (req, res) => {
 
   try {
     // Get the event to check if it's in the past
-    const event = await knex('events').where({ id: eventId }).first();
+    const event = await knex('event_occurance')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .where('event_occurance.event_occurance_id', eventId)
+      .first();
 
     if (!event) {
       return res.status(404).send('Event not found');
     }
 
     // Prevent signup for past events
-    if (new Date(event.start_time) < new Date()) {
+    if (new Date(event.event_date_time_start) < new Date()) {
       return res.redirect(`/events/${eventId}?message=event_past`);
     }
 
     // Check if already registered
-    const existing = await knex('event_registrations')
+    const existing = await knex('registration')
       .where({
-        user_id: userId,
-        event_id: eventId,
+        participant_id: userId,
+        event_occurance_id: eventId,
       })
       .first();
 
@@ -704,26 +689,26 @@ app.post('/events/:eventId/signup', requireLogin, async (req, res) => {
     }
 
     // Check event capacity if specified
-    if (event.capacity) {
-      const [{ count: currentRegistrations }] = await knex('event_registrations')
-        .where({ event_id: eventId })
+    if (event.event_capacity) {
+      const [{ count: currentRegistrations }] = await knex('registration')
+        .where({ event_occurance_id: eventId })
         .count('* as count');
 
-      if (parseInt(currentRegistrations) >= event.capacity) {
+      if (parseInt(currentRegistrations) >= event.event_capacity) {
         return res.redirect(`/events/${eventId}?message=event_full`);
       }
     }
 
     // Insert registration
-    await knex('event_registrations').insert({
-      user_id: userId,
-      event_id: eventId,
-      created_at: new Date(),
+    await knex('registration').insert({
+      participant_id: userId,
+      event_occurance_id: eventId,
+      registration_created_at: new Date(),
     });
 
     // Send confirmation email to user
     try {
-      const eventDate = new Date(event.start_time);
+      const eventDate = new Date(event.event_date_time_start);
       const formattedDate = eventDate.toLocaleDateString('en-US', {
         weekday: 'long',
         year: 'numeric',
@@ -750,7 +735,7 @@ app.post('/events/:eventId/signup', requireLogin, async (req, res) => {
               <h3 style="color: #e91e63; margin-top: 0;">${event.title}</h3>
               <p style="margin: 10px 0;"><strong>Date:</strong> ${formattedDate}</p>
               <p style="margin: 10px 0;"><strong>Time:</strong> ${formattedTime}</p>
-              ${event.location ? `<p style="margin: 10px 0;"><strong>Location:</strong> ${event.location}</p>` : ''}
+              ${event.event_location ? `<p style="margin: 10px 0;"><strong>Location:</strong> ${event.event_location}</p>` : ''}
             </div>
 
             ${event.description ? `<p>${event.description}</p>` : ''}
@@ -899,7 +884,7 @@ app.get('/donate', (req, res) => {
 
 // Handle donation submission (public - no login required)
 app.post('/donate', async (req, res) => {
-  const { donor_name, donor_email, amount, message } = req.body;
+  const { amount, message } = req.body; // donor_name and donor_email removed
 
   try {
     // Validate amount
@@ -912,14 +897,14 @@ app.post('/donate', async (req, res) => {
       });
     }
 
-    // Insert donation (user_id is null for visitor donations)
+    // Insert donation (participant_id is null for visitor donations)
     await knex('donations').insert({
-      user_id: null,
-      amount: donationAmount,
-      donor_name: donor_name || 'Anonymous',
-      donor_email: donor_email || null,
+      participant_id: null, // user_id changed to participant_id
+      donation_amount: donationAmount, // amount changed to donation_amount
+      donation_date: new Date(), // Add donation_date
+      donation_number: null, // donation_number not from form
       message: message || null,
-      created_at: new Date(),
+      created_at: new Date(), // Explicitly setting created_at
     });
 
     res.redirect('/donate?success=true');
@@ -941,23 +926,36 @@ app.post('/donate', async (req, res) => {
 app.get('/user/dashboard', requireLogin, async (req, res) => {
   try {
     // Get user's registered events
-    const registeredEvents = await knex('event_registrations')
-      .join('events', 'event_registrations.event_id', 'events.id')
-      .where('event_registrations.user_id', req.session.user.id)
-      .select('events.*', 'event_registrations.created_at as registered_at')
-      .orderBy('events.start_time', 'asc');
+    const registeredEvents = await knex('registration')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .where('registration.participant_id', req.session.user.id)
+      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title', 'registration.registration_created_at as registered_at')
+      .orderBy('event_occurance.event_date_time_start', 'asc');
 
     // Get user's milestones
-    const userMilestones = await knex('participant_milestones')
-      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
-      .where('participant_milestones.user_id', req.session.user.id)
-      .select('milestones.*', 'participant_milestones.custom_title', 'participant_milestones.achieved_at')
-      .orderBy('participant_milestones.achieved_at', 'desc');
+    const userMilestones = await knex('milestone')
+      .where('milestone.participant_id', req.session.user.id)
+      .select(
+        'milestone.milestone_id',
+        'milestone.milestone_title',
+        'milestone.milestone_category',
+        'milestone.milestone_date as achieved_at' // Alias for consistency with template
+      )
+      .orderBy('milestone.milestone_date', 'desc');
+
+    // Get user's enrolled programs
+    const enrolledPrograms = await knex('program_enrollments')
+      .join('programs', 'program_enrollments.program_id', 'programs.id')
+      .where('program_enrollments.user_id', req.session.user.id)
+      .select('programs.*', 'program_enrollments.enrolled_at', 'program_enrollments.status')
+      .orderBy('program_enrollments.enrolled_at', 'desc');
 
     res.render('user/dashboard', {
       title: 'My Rise - Ella Rises',
       registeredEvents,
       userMilestones,
+      enrolledPrograms,
     });
   } catch (error) {
     console.error('Error loading user dashboard:', error);
@@ -968,11 +966,12 @@ app.get('/user/dashboard', requireLogin, async (req, res) => {
 // User's events page
 app.get('/user/events', requireLogin, async (req, res) => {
   try {
-    const registeredEvents = await knex('event_registrations')
-      .join('events', 'event_registrations.event_id', 'events.id')
-      .where('event_registrations.user_id', req.session.user.id)
-      .select('events.*', 'event_registrations.created_at as registered_at')
-      .orderBy('events.start_time', 'asc');
+    const registeredEvents = await knex('registration')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .where('registration.participant_id', req.session.user.id)
+      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title', 'registration.registration_created_at as registered_at')
+      .orderBy('event_occurance.event_date_time_start', 'asc');
 
     res.render('user/events', {
       title: 'My Events - Ella Rises',
@@ -987,21 +986,27 @@ app.get('/user/events', requireLogin, async (req, res) => {
 // User's milestones page
 app.get('/user/milestones', requireLogin, async (req, res) => {
   try {
-    const userMilestones = await knex('participant_milestones')
-      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
-      .where('participant_milestones.user_id', req.session.user.id)
-      .select('milestones.*', 'participant_milestones.custom_title', 'participant_milestones.achieved_at', 'participant_milestones.id as user_milestone_id')
-      .orderBy('participant_milestones.achieved_at', 'desc');
+    // Get user data
+    const user = await knex('participants')
+      .where('id', req.session.user.id)
+      .first();
 
-    // Get all milestone categories for the add form
-    const milestoneCategories = await knex('milestones')
-      .select('*')
-      .orderBy('id', 'asc');
+    const userMilestones = await knex('milestone')
+      .where('milestone.participant_id', req.session.user.id)
+      .select(
+        'milestone.milestone_id',
+        'milestone.milestone_title',
+        'milestone.milestone_category',
+        'milestone.milestone_date',
+      )
+      .orderBy('milestone.milestone_date', 'desc');
 
     res.render('user/milestones', {
       title: 'My Milestones - Ella Rises',
+      user,
       milestones: userMilestones,
-      categories: milestoneCategories,
+      categories: [], // No separate categories table now, categories are part of milestone
+      req,
     });
   } catch (error) {
     console.error('Error loading milestones:', error);
@@ -1011,14 +1016,14 @@ app.get('/user/milestones', requireLogin, async (req, res) => {
 
 // Add milestone - POST route
 app.post('/user/milestones', requireLogin, async (req, res) => {
-  const { milestone_id, custom_title, achieved_date } = req.body;
+  const { milestone_title, milestone_category, milestone_date } = req.body;
 
   try {
-    await knex('participant_milestones').insert({
-      user_id: req.session.user.id,
-      milestone_id: parseInt(milestone_id),
-      custom_title: custom_title,
-      achieved_at: achieved_date ? new Date(achieved_date) : new Date(),
+    await knex('milestone').insert({
+      participant_id: req.session.user.id,
+      milestone_title: milestone_title,
+      milestone_category: milestone_category,
+      milestone_date: milestone_date ? new Date(milestone_date) : new Date(),
     });
 
     res.redirect('/user/milestones?success=true');
@@ -1032,10 +1037,11 @@ app.post('/user/milestones', requireLogin, async (req, res) => {
 app.get('/user/survey', requireLogin, async (req, res) => {
   try {
     // Get events the user has attended
-    const attendedEvents = await knex('event_registrations')
-      .join('events', 'event_registrations.event_id', 'events.id')
-      .where('event_registrations.user_id', req.session.user.id)
-      .select('events.*');
+    const attendedEvents = await knex('registration')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .where('registration.participant_id', req.session.user.id)
+      .select('event_occurance.*', 'events.event_name as title');
 
     res.render('user/survey', {
       title: 'Submit Survey - Ella Rises',
@@ -1059,25 +1065,38 @@ app.post('/user/survey', requireLogin, async (req, res) => {
     const use = parseInt(usefulness_rating);
     const inst = parseInt(instructor_rating);
     const rec = parseInt(recommendation_rating);
-    const overall_score = (sat + use + inst + rec) / 4;
+    const survey_overall_score = ((sat + use + inst + rec) / 4).toFixed(2);
 
-    await knex('surveys').insert({
-      user_id: req.session.user.id,
-      event_id: parseInt(event_id),
-      satisfaction_rating: sat,
-      usefulness_rating: use,
-      instructor_rating: inst,
-      recommendation_rating: rec,
-      overall_score: overall_score,
-      additional_feedback,
-      created_at: new Date(),
+    // Calculate Net Promoter Score bucket
+    let survey_nps_bucket;
+    if (rec <= 3) {
+      survey_nps_bucket = 'Detractor';
+    } else if (rec === 4) {
+      survey_nps_bucket = 'Passive';
+    } else {
+      survey_nps_bucket = 'Promoter';
+    }
+
+    await knex('registration').insert({
+      participant_id: req.session.user.id,
+      event_occurance_id: parseInt(event_id),
+      survey_satisfaction_score: sat,
+      survey_usefulness_score: use,
+      survey_instructor_score: inst,
+      survey_recommendation_score: rec,
+      survey_overall_score: survey_overall_score,
+      survey_nps_bucket: survey_nps_bucket,
+      survey_comments: additional_feedback,
+      registration_created_at: new Date(), // Use for registration date
+      survey_submission_date: new Date(), // Use for survey submission date
     });
 
     // Get events again to re-render the form
-    const attendedEvents = await knex('event_registrations')
-      .join('events', 'event_registrations.event_id', 'events.id')
-      .where('event_registrations.user_id', req.session.user.id)
-      .select('events.*');
+    const attendedEvents = await knex('registration')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .where('registration.participant_id', req.session.user.id)
+      .select('event_occurance.*', 'events.event_name as title');
 
     res.render('user/survey', {
       title: 'Submit Survey - Ella Rises',
@@ -1088,10 +1107,11 @@ app.post('/user/survey', requireLogin, async (req, res) => {
   } catch (error) {
     console.error('Error submitting survey:', error);
 
-    const attendedEvents = await knex('event_registrations')
-      .join('events', 'event_registrations.event_id', 'events.id')
-      .where('event_registrations.user_id', req.session.user.id)
-      .select('events.*');
+    const attendedEvents = await knex('registration')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .where('registration.participant_id', req.session.user.id)
+      .select('event_occurance.*', 'events.event_name as title');
 
     res.render('user/survey', {
       title: 'Submit Survey - Ella Rises',
@@ -1110,10 +1130,10 @@ app.post('/user/survey', requireLogin, async (req, res) => {
 app.get('/admin/dashboard', requireAdmin, async (req, res) => {
   try {
     // Fetch quick stats
-    const [{ count: totalUsers }] = await knex('users').count('* as count');
-    const [{ count: totalEvents }] = await knex('events').count('* as count');
-    const [{ count: totalSurveys }] = await knex('surveys').count('* as count');
-    const [{ total: totalDonations }] = await knex('donations').sum('amount as total');
+    const [{ count: totalUsers }] = await knex('participants').count('* as count'); // Refactored table name
+    const [{ count: totalEvents }] = await knex('event_occurance').count('* as count'); // Refactored table name
+    const [{ count: totalSurveys }] = await knex('registration').count('* as count'); // Refactored table name
+    const [{ total: totalDonations }] = await knex('donations').sum('donation_amount as total'); // Refactored column name
 
     res.render('admin/dashboard', {
       title: 'Admin Dashboard - Ella Rises',
@@ -1139,13 +1159,15 @@ app.get('/admin/participants', requireAdmin, async (req, res) => {
     const limit = 25;
     const offset = (parseInt(page) - 1) * limit;
 
-    let query = knex('users').select('*');
-    let countQuery = knex('users').count('* as count');
+    let query = knex('participants').select('*');
+    let countQuery = knex('participants').count('* as count');
 
     // Apply search filter if provided
     if (search) {
       const searchFilter = function () {
-        this.where('name', 'ilike', `%${search}%`).orWhere('email', 'ilike', `%${search}%`);
+        this.where('participant_first_name', 'ilike', `%${search}%`)
+            .orWhere('participant_last_name', 'ilike', `%${search}%`)
+            .orWhere('participant_email', 'ilike', `%${search}%`);
       };
       query = query.where(searchFilter);
       countQuery = countQuery.where(searchFilter);
@@ -1154,11 +1176,11 @@ app.get('/admin/participants', requireAdmin, async (req, res) => {
     const [{ count }] = await countQuery;
     const totalRecords = parseInt(count);
     const totalPages = Math.ceil(totalRecords / limit);
-    const users = await query.orderBy('name', 'asc').limit(limit).offset(offset);
+    const users = await query.orderBy('participant_first_name', 'asc').limit(limit).offset(offset);
 
     res.render('admin/participants', {
       title: 'Participants - Admin - Ella Rises',
-      users,
+      users, // EJS will need to be updated to use participant_first_name etc.
       search: search || '',
       currentPage: parseInt(page),
       totalPages,
@@ -1186,7 +1208,7 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
 
   try {
     // Check if user already exists
-    const existingUser = await knex('users').where({ email }).first();
+    const existingUser = await knex('participants').where({ participant_email: email }).first();
 
     if (existingUser) {
       return res.render('admin/user-form', {
@@ -1201,11 +1223,11 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Insert new user
-    await knex('users').insert({
-      name,
-      email,
-      password_hash: hashedPassword,
-      role: role || 'user',
+    await knex('participants').insert({
+      participant_first_name: name, // Assuming name is first name for now
+      participant_email: email,
+      participant_password: hashedPassword,
+      participant_role: role || 'participant',
       created_at: new Date(),
     });
 
@@ -1226,23 +1248,25 @@ app.get('/admin/participants/:userId', requireAdmin, async (req, res) => {
 
   try {
     // Get user details
-    const user = await knex('users').where({ id: userId }).first();
+    const participant = await knex('participants').where({ id: userId }).first();
 
-    if (!user) {
+    if (!participant) {
       return res.status(404).send('User not found');
     }
 
     // Get events this user has registered for (with attendance status)
-    const userEvents = await knex('event_registrations')
-      .join('events', 'event_registrations.event_id', 'events.id')
-      .where('event_registrations.user_id', userId)
+    const userEvents = await knex('registration')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .where('registration.participant_id', userId)
       .select(
-        'events.*',
-        'event_registrations.created_at as registered_at',
-        'event_registrations.attendance_status',
-        'event_registrations.check_in_time'
+        'event_occurance.*',
+        'events.event_name as title',
+        'registration.registration_created_at as registered_at'
+        // 'registration.attendance_status', // Not implemented yet
+        // 'registration.registration_check_in_time' // Not implemented yet
       )
-      .orderBy('events.start_time', 'desc');
+      .orderBy('event_occurance.event_date_time_start', 'desc');
 
     // Get enrolled programs
     const enrolledPrograms = await knex('program_enrollments')
@@ -1253,30 +1277,32 @@ app.get('/admin/participants/:userId', requireAdmin, async (req, res) => {
 
     // Get all donations by this user
     const userDonations = await knex('donations')
-      .where('user_id', userId)
+      .where('participant_id', userId)
       .orderBy('created_at', 'desc');
 
     // Get all milestones achieved
-    const userMilestones = await knex('participant_milestones')
-      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
-      .where('participant_milestones.user_id', userId)
+    const userMilestones = await knex('milestone')
+      .where('milestone.participant_id', userId)
       .select(
-        'participant_milestones.*',
-        'milestones.title as milestone_title',
-        'milestones.description as milestone_description'
+        'milestone.milestone_id',
+        'milestone.milestone_title',
+        'milestone.milestone_category',
+        'milestone.milestone_date',
       )
-      .orderBy('participant_milestones.achieved_at', 'desc');
+      .orderBy('milestone.milestone_date', 'desc');
 
-    // Get all surveys filled out
-    const userSurveys = await knex('surveys')
-      .join('events', 'surveys.event_id', 'events.id')
-      .where('surveys.user_id', userId)
-      .select('surveys.*', 'events.title as event_title')
-      .orderBy('surveys.created_at', 'desc');
+    // Get all surveys filled out by this user
+    const userSurveys = await knex('registration')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .where('registration.participant_id', userId)
+      .whereNotNull('registration.survey_submission_date')
+      .select('registration.*', 'events.event_name as event_title')
+      .orderBy('registration.survey_submission_date', 'desc');
 
     res.render('admin/participantDetail', {
-      title: `${user.name} - Participants - Admin - Ella Rises`,
-      participant: user,
+      title: `${participant.participant_first_name} - Participants - Admin - Ella Rises`,
+      participant, // EJS template will need to be updated for this
       userEvents,
       enrolledPrograms,
       userDonations,
@@ -1296,7 +1322,7 @@ app.get('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const user = await knex('users').where({ id: userId }).first();
+    const user = await knex('participants').where({ id: userId }).first();
 
     if (!user) {
       return res.status(404).send('User not found');
@@ -1320,13 +1346,13 @@ app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
 
   try {
     // Check if email is taken by another user
-    const existingUser = await knex('users')
-      .where({ email })
+    const existingUser = await knex('participants')
+      .where({ participant_email: email })
       .whereNot({ id: userId })
       .first();
 
     if (existingUser) {
-      const user = await knex('users').where({ id: userId }).first();
+      const user = await knex('participants').where({ id: userId }).first();
       return res.render('admin/user-form', {
         title: 'Edit User - Admin - Ella Rises',
         user,
@@ -1335,21 +1361,21 @@ app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
     }
 
     // Update user
-    await knex('users')
+    await knex('participants')
       .where({ id: userId })
       .update({
-        name,
-        email,
-        role,
+        participant_first_name: name, // Assuming name is first name for now
+        participant_email: email,
+        participant_role: role,
       });
 
     res.redirect(`/admin/participants/${userId}?success=updated`);
   } catch (error) {
     console.error('Error updating user:', error);
-    const user = await knex('users').where({ id: userId }).first();
+    const participant = await knex('participants').where({ id: userId }).first();
     res.render('admin/user-form', {
       title: 'Edit User - Admin - Ella Rises',
-      user,
+      user: participant, // EJS expects 'user'
       error: 'Error updating user. Please try again.',
     });
   }
@@ -1365,7 +1391,7 @@ app.post('/admin/participants/:userId/delete', requireAdmin, async (req, res) =>
       return res.redirect('/admin/participants?error=cannot_delete_self');
     }
 
-    await knex('users').where({ id: userId }).del();
+    await knex('participants').where({ id: userId }).del();
 
     res.redirect('/admin/participants?success=deleted');
   } catch (error) {
@@ -1385,15 +1411,19 @@ app.get('/admin/events', requireAdmin, async (req, res) => {
     const limit = 25;
     const offset = (parseInt(page) - 1) * limit;
 
-    let query = knex('events').select('*');
-    let countQuery = knex('events').count('* as count');
+    let query = knex('event_occurance')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title');
+    let countQuery = knex('event_occurance')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .count('event_occurance.event_occurance_id as count');
 
     // Apply search filter
     if (search) {
       const searchFilter = function() {
-        this.where('title', 'ilike', `%${search}%`)
-            .orWhere('description', 'ilike', `%${search}%`)
-            .orWhere('location', 'ilike', `%${search}%`);
+        this.where('events.event_name', 'ilike', `%${search}%`)
+            .orWhere('events.event_description', 'ilike', `%${search}%`)
+            .orWhere('event_occurance.event_location', 'ilike', `%${search}%`);
       };
       query = query.where(searchFilter);
       countQuery = countQuery.where(searchFilter);
@@ -1401,20 +1431,20 @@ app.get('/admin/events', requireAdmin, async (req, res) => {
 
     // Apply date filters
     if (start_date) {
-      query = query.where('start_time', '>=', start_date);
-      countQuery = countQuery.where('start_time', '>=', start_date);
+      query = query.where('event_occurance.event_date_time_start', '>=', start_date);
+      countQuery = countQuery.where('event_occurance.event_date_time_start', '>=', start_date);
     }
     if (end_date) {
       const endDateTime = new Date(end_date);
       endDateTime.setHours(23, 59, 59, 999);
-      query = query.where('start_time', '<=', endDateTime);
-      countQuery = countQuery.where('start_time', '<=', endDateTime);
+      query = query.where('event_occurance.event_date_time_start', '<=', endDateTime);
+      countQuery = countQuery.where('event_occurance.event_date_time_start', '<=', endDateTime);
     }
 
     const [{ count }] = await countQuery;
     const totalRecords = parseInt(count);
     const totalPages = Math.ceil(totalRecords / limit);
-    const events = await query.orderBy('start_time', 'asc').limit(limit).offset(offset);
+    const events = await query.orderBy('event_occurance.event_date_time_start', 'asc').limit(limit).offset(offset);
 
     res.render('admin/events', {
       title: 'Events - Admin - Ella Rises',
@@ -1444,25 +1474,30 @@ app.get('/admin/events/new', requireAdmin, (req, res) => {
 
 // Admin - Create new event
 app.post('/admin/events/new', requireAdmin, upload.single('event_image'), async (req, res) => {
-  const { title, description, date, start_time, end_time, location, capacity } = req.body;
+  const { title, description, date, start_time, end_time, location, capacity } = req.body; // title and description are from old form
 
   try {
+    // Assuming 'title' from the form maps to 'event_name' in the events (template) table
+    // For now, we will simply use 'title' as 'event_name' for the event_occurance.
+    // A proper implementation would involve selecting an existing event_name from event_templates
+    // or creating a new event_template first.
+
     const eventData = {
-      title,
-      description,
-      start_time: new Date(start_time || date), // Support both old 'date' and new 'start_time'
-      end_time: end_time ? new Date(end_time) : null,
-      location,
-      capacity: capacity ? parseInt(capacity) : null,
+      event_name: title, // Map form's title to event_name
+      event_date_time_start: new Date(start_time || date),
+      event_date_time_end: end_time ? new Date(end_time) : null,
+      event_location: location,
+      event_capacity: capacity ? parseInt(capacity) : null,
       image_url: req.file ? `/images/events/${req.file.filename}` : null,
+      created_at: new Date(),
     };
 
-    await knex('events').insert(eventData);
+    await knex('event_occurance').insert(eventData);
     res.redirect('/admin/events?success=created');
   } catch (error) {
     console.error('Error creating event:', error);
     res.render('admin/event-form', {
-      title: 'Create New Event - Admin - Ella Rises',
+      title: 'Create New Event - Admin - Ella Rises', // Still using title for rendering error
       event: null,
       error: 'Failed to create event. Please try again.',
     });
@@ -1472,7 +1507,11 @@ app.post('/admin/events/new', requireAdmin, upload.single('event_image'), async 
 // Admin - Edit event form
 app.get('/admin/events/:id/edit', requireAdmin, async (req, res) => {
   try {
-    const event = await knex('events').where('id', req.params.id).first();
+    const event = await knex('event_occurance')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .where('event_occurance.event_occurance_id', req.params.id)
+      .first();
     if (!event) {
       return res.status(404).send('Event not found');
     }
@@ -1494,12 +1533,11 @@ app.post('/admin/events/:id/edit', requireAdmin, upload.single('event_image'), a
 
   try {
     const eventData = {
-      title,
-      description,
-      start_time: new Date(start_time || date), // Support both old 'date' and new 'start_time'
-      end_time: end_time ? new Date(end_time) : null,
-      location,
-      capacity: capacity ? parseInt(capacity) : null,
+      event_name: title, // Map form's title to event_name
+      event_date_time_start: new Date(start_time || date),
+      event_date_time_end: end_time ? new Date(end_time) : null,
+      event_location: location,
+      event_capacity: capacity ? parseInt(capacity) : null,
     };
 
     // Only update image if new one uploaded
@@ -1507,11 +1545,15 @@ app.post('/admin/events/:id/edit', requireAdmin, upload.single('event_image'), a
       eventData.image_url = `/images/events/${req.file.filename}`;
     }
 
-    await knex('events').where('id', req.params.id).update(eventData);
+    await knex('event_occurance').where('event_occurance_id', req.params.id).update(eventData);
     res.redirect('/admin/events?success=updated');
   } catch (error) {
     console.error('Error updating event:', error);
-    const event = await knex('events').where('id', req.params.id).first();
+    const event = await knex('event_occurance') // Use event_occurance table for rendering error
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .where('event_occurance.event_occurance_id', req.params.id)
+      .first();
     res.render('admin/event-form', {
       title: 'Edit Event - Admin - Ella Rises',
       event,
@@ -1523,7 +1565,7 @@ app.post('/admin/events/:id/edit', requireAdmin, upload.single('event_image'), a
 // Admin - Delete event
 app.post('/admin/events/:id/delete', requireAdmin, async (req, res) => {
   try {
-    await knex('events').where('id', req.params.id).delete();
+    await knex('event_occurance').where('event_occurance_id', req.params.id).delete();
     res.redirect('/admin/events?success=deleted');
   } catch (error) {
     console.error('Error deleting event:', error);
@@ -1558,6 +1600,34 @@ app.get('/admin/programs', requireAdmin, async (req, res) => {
   } catch (error) {
     console.error('Error loading programs:', error);
     res.status(500).send('Error loading programs');
+  }
+});
+
+// Admin - Program enrollments list
+app.get('/admin/program-enrollments', requireAdmin, async (req, res) => {
+  try {
+    const enrollments = await knex('program_enrollments')
+      .join('programs', 'program_enrollments.program_id', 'programs.id')
+      .join('participants', 'program_enrollments.user_id', 'participants.id')
+      .select(
+        'program_enrollments.id',
+        'participants.first_name',
+        'participants.last_name',
+        'participants.email',
+        'programs.title as program_title',
+        'program_enrollments.enrolled_at',
+        'program_enrollments.status'
+      )
+      .orderBy('program_enrollments.enrolled_at', 'desc');
+
+    res.render('admin/program-enrollments', {
+      title: 'Program Enrollments - Admin - Ella Rises',
+      enrollments,
+      req,
+    });
+  } catch (error) {
+    console.error('Error loading program enrollments:', error);
+    res.status(500).send('Error loading program enrollments');
   }
 });
 
@@ -1670,26 +1740,35 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
     const limit = 25;
     const offset = (parseInt(page) - 1) * limit;
 
-    let query = knex('surveys')
-      .join('users', 'surveys.user_id', 'users.id')
-      .join('events', 'surveys.event_id', 'events.id')
-      .select('surveys.*', 'users.name as user_name', 'events.title as event_title');
+    let query = knex('registration')
+      .join('participants', 'registration.participant_id', 'participants.id')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name') // Join with event templates to get proper event name/title
+      .select(
+        'registration.*',
+        knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name) as user_name"),
+        'participants.participant_email as user_email',
+        'events.event_name as event_title' // Use event_name from template as title
+      )
+      .whereNotNull('registration.survey_submission_date');
 
-    let countQuery = knex('surveys')
-      .join('users', 'surveys.user_id', 'users.id')
-      .join('events', 'surveys.event_id', 'events.id')
-      .count('surveys.id as count');
+    let countQuery = knex('registration')
+      .join('participants', 'registration.participant_id', 'participants.id')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name') // Join with event templates
+      .count('registration.registration_id as count')
+      .whereNotNull('registration.survey_submission_date');
 
     // Apply event search filter
     if (search_event) {
-      const filter = builder => builder.where('events.title', 'ilike', `%${search_event}%`);
+      const filter = builder => builder.where('events.event_name', 'ilike', `%${search_event}%`);
       query = query.where(filter);
       countQuery = countQuery.where(filter);
     }
 
     // Apply participant search filter
     if (search_participant) {
-      const filter = builder => builder.where('users.name', 'ilike', `%${search_participant}%`);
+      const filter = builder => builder.where(knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name)"), 'ilike', `%${search_participant}%`);
       query = query.where(filter);
       countQuery = countQuery.where(filter);
     }
@@ -1697,27 +1776,27 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
     // Apply NPS filter
     if (filter_nps) {
       if (filter_nps === 'Promoter') {
-        query = query.where('surveys.recommendation_rating', '=', 5);
-        countQuery = countQuery.where('surveys.recommendation_rating', '=', 5);
+        query = query.where('registration.survey_recommendation_score', '=', 5);
+        countQuery = countQuery.where('registration.survey_recommendation_score', '=', 5);
       } else if (filter_nps === 'Passive') {
-        query = query.where('surveys.recommendation_rating', '=', 4);
-        countQuery = countQuery.where('surveys.recommendation_rating', '=', 4);
+        query = query.where('registration.survey_recommendation_score', '=', 4);
+        countQuery = countQuery.where('registration.survey_recommendation_score', '=', 4);
       } else if (filter_nps === 'Detractor') {
-        query = query.where('surveys.recommendation_rating', '<=', 3);
-        countQuery = countQuery.where('surveys.recommendation_rating', '<=', 3);
+        query = query.where('registration.survey_recommendation_score', '<=', 3);
+        countQuery = countQuery.where('registration.survey_recommendation_score', '<=', 3);
       }
     }
 
     // Apply sorting
-    const sortField = sort_by || 'created_at';
+    const sortField = sort_by || 'registration_created_at'; // Default to new created_at
     const order = sort_order || 'desc';
 
-    if (sortField === 'overall_score') {
-      query = query.orderBy('surveys.overall_score', order);
+    if (sortField === 'survey_overall_score') { // New column name
+      query = query.orderBy('registration.survey_overall_score', order);
     } else if (sortField === 'date') {
-      query = query.orderBy('surveys.created_at', order);
+      query = query.orderBy('registration.registration_created_at', order); // New column name
     } else {
-      query = query.orderBy('surveys.created_at', order);
+      query = query.orderBy('registration.registration_created_at', order); // New column name
     }
 
     const [{ count }] = await countQuery;
@@ -1726,31 +1805,31 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
     const surveys = await query.limit(limit).offset(offset);
 
     // Get all events and users for dropdowns
-    const events = await knex('events')
-      .distinct('title')
-      .orderBy('title', 'asc');
+    const eventsDropdown = await knex('events') // event templates
+      .distinct('event_name')
+      .orderBy('event_name', 'asc');
 
-    const users = await knex('users')
-      .where('role', 'user')
-      .select('id', 'name')
+    const usersDropdown = await knex('participants')
+      .where('participant_role', 'participant') // Filter by new role name
+      .select('id', knex.raw("CONCAT(participant_first_name, ' ', participant_last_name) as name"))
       .orderBy('name', 'asc');
 
     // Add net_promoter_score to each survey
     surveys.forEach(survey => {
-      if (survey.recommendation_rating <= 3) {
-        survey.net_promoter_score = 'Detractor';
-      } else if (survey.recommendation_rating === 4) {
-        survey.net_promoter_score = 'Passive';
+      if (survey.survey_recommendation_score <= 3) { // New column name
+        survey.survey_nps_bucket = 'Detractor';
+      } else if (survey.survey_recommendation_score === 4) { // New column name
+        survey.survey_nps_bucket = 'Passive';
       } else {
-        survey.net_promoter_score = 'Promoter';
+        survey.survey_nps_bucket = 'Promoter';
       }
     });
 
     res.render('admin/surveys', {
       title: 'Surveys - Admin - Ella Rises',
       surveys,
-      events,
-      users,
+      events: eventsDropdown,
+      users: usersDropdown,
       search_event: search_event || '',
       search_participant: search_participant || '',
       sort_by: sortField,
@@ -1770,8 +1849,8 @@ app.get('/admin/surveys', requireAdmin, async (req, res) => {
 // Admin - Create new survey form (MUST come before /:surveyId routes)
 app.get('/admin/surveys/new/survey', requireAdmin, async (req, res) => {
   try {
-    const users = await knex('users').select('id', 'name').orderBy('name');
-    const events = await knex('events').select('id', 'title').orderBy('title');
+    const users = await knex('participants').select('id', knex.raw("CONCAT(participant_first_name, ' ', participant_last_name) as name")).orderBy('name');
+    const events = await knex('events').select('event_name as id', 'event_name as title').orderBy('title'); // Use event_name as id and title for consistency
 
     res.render('admin/survey-form', {
       title: 'Create New Survey - Admin - Ella Rises',
@@ -1791,25 +1870,48 @@ app.post('/admin/surveys/new/survey', requireAdmin, async (req, res) => {
   const { user_id, event_id, satisfaction_rating, usefulness_rating, instructor_rating, recommendation_rating, additional_feedback } = req.body;
 
   try {
-    const overall_score = ((parseInt(satisfaction_rating) + parseInt(usefulness_rating) + parseInt(instructor_rating) + parseInt(recommendation_rating)) / 4).toFixed(2);
+    // Calculate overall score as average of all 4 ratings
+    const sat = parseInt(satisfaction_rating);
+    const use = parseInt(usefulness_rating);
+    const inst = parseInt(instructor_rating);
+    const rec = parseInt(recommendation_rating);
+    const survey_overall_score = ((sat + use + inst + rec) / 4).toFixed(2);
 
-    await knex('surveys').insert({
-      user_id,
-      event_id,
-      satisfaction_rating,
-      usefulness_rating,
-      instructor_rating,
-      recommendation_rating,
-      overall_score,
-      additional_feedback,
-      created_at: new Date(),
+    // Calculate Net Promoter Score bucket
+    let survey_nps_bucket;
+    if (rec <= 3) {
+      survey_nps_bucket = 'Detractor';
+    } else if (rec === 4) {
+      survey_nps_bucket = 'Passive';
+    } else {
+      survey_nps_bucket = 'Promoter';
+    }
+
+    // event_id here is actually event_name from the dropdown
+    const eventOccurance = await knex('event_occurance').where({ event_name: event_id }).first();
+    if (!eventOccurance) {
+        throw new Error('Event not found for survey submission.');
+    }
+
+    await knex('registration').insert({
+      participant_id: user_id,
+      event_occurance_id: eventOccurance.event_occurance_id, // Use the ID from event_occurance
+      survey_satisfaction_score: sat,
+      survey_usefulness_score: use,
+      survey_instructor_score: inst,
+      survey_recommendation_score: rec,
+      survey_overall_score: survey_overall_score,
+      survey_nps_bucket: survey_nps_bucket,
+      survey_comments: additional_feedback,
+      registration_created_at: new Date(),
+      survey_submission_date: new Date(),
     });
 
     res.redirect('/admin/surveys?success=created');
   } catch (error) {
     console.error('Error creating survey:', error);
-    const users = await knex('users').select('id', 'name').orderBy('name');
-    const events = await knex('events').select('id', 'title').orderBy('title');
+    const users = await knex('participants').select('id', knex.raw("CONCAT(participant_first_name, ' ', participant_last_name) as name")).orderBy('name');
+    const events = await knex('events').select('event_name as id', 'event_name as title').orderBy('title');
     res.render('admin/survey-form', {
       title: 'Create New Survey - Admin - Ella Rises',
       survey: null,
@@ -1825,11 +1927,17 @@ app.get('/admin/surveys/:surveyId', requireAdmin, async (req, res) => {
   const { surveyId } = req.params;
 
   try {
-    const survey = await knex('surveys')
-      .join('users', 'surveys.user_id', 'users.id')
-      .join('events', 'surveys.event_id', 'events.id')
-      .select('surveys.*', 'users.name as user_name', 'users.email as user_email', 'events.title as event_title')
-      .where('surveys.id', surveyId)
+    const survey = await knex('registration')
+      .join('participants', 'registration.participant_id', 'participants.id')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name') // Join with event templates for title
+      .select(
+        'registration.*',
+        knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name) as user_name"),
+        'participants.participant_email as user_email',
+        'events.event_name as event_title' // Use event_name from template as title
+      )
+      .where('registration.registration_id', surveyId)
       .first();
 
     if (!survey) {
@@ -1837,12 +1945,12 @@ app.get('/admin/surveys/:surveyId', requireAdmin, async (req, res) => {
     }
 
     // Calculate net_promoter_score
-    if (survey.recommendation_rating <= 3) {
-      survey.net_promoter_score = 'Detractor';
-    } else if (survey.recommendation_rating === 4) {
-      survey.net_promoter_score = 'Passive';
+    if (survey.survey_recommendation_score <= 3) { // New column name
+      survey.survey_nps_bucket = 'Detractor';
+    } else if (survey.survey_recommendation_score === 4) { // New column name
+      survey.survey_nps_bucket = 'Passive';
     } else {
-      survey.net_promoter_score = 'Promoter';
+      survey.survey_nps_bucket = 'Promoter';
     }
 
     res.render('admin/survey-detail', {
@@ -1859,13 +1967,13 @@ app.get('/admin/surveys/:surveyId', requireAdmin, async (req, res) => {
 // Admin - Edit survey form
 app.get('/admin/surveys/:id/edit', requireAdmin, async (req, res) => {
   try {
-    const survey = await knex('surveys').where('id', req.params.id).first();
+    const survey = await knex('registration').where('registration_id', req.params.id).first();
     if (!survey) {
       return res.status(404).send('Survey not found');
     }
 
-    const users = await knex('users').select('id', 'name').orderBy('name');
-    const events = await knex('events').select('id', 'title').orderBy('title');
+    const users = await knex('participants').select('id', knex.raw("CONCAT(participant_first_name, ' ', participant_last_name) as name")).orderBy('name');
+    const events = await knex('events').select('event_name as id', 'event_name as title').orderBy('title');
 
     res.render('admin/survey-form', {
       title: 'Edit Survey - Admin - Ella Rises',
@@ -1885,27 +1993,47 @@ app.post('/admin/surveys/:id/edit', requireAdmin, async (req, res) => {
   const { user_id, event_id, satisfaction_rating, usefulness_rating, instructor_rating, recommendation_rating, additional_feedback } = req.body;
 
   try {
-    const overall_score = ((parseInt(satisfaction_rating) + parseInt(usefulness_rating) + parseInt(instructor_rating) + parseInt(recommendation_rating)) / 4).toFixed(2);
+    const sat = parseInt(satisfaction_rating);
+    const use = parseInt(usefulness_rating);
+    const inst = parseInt(instructor_rating);
+    const rec = parseInt(recommendation_rating);
+    const survey_overall_score = ((sat + use + inst + rec) / 4).toFixed(2);
 
-    await knex('surveys')
-      .where('id', req.params.id)
+    let survey_nps_bucket;
+    if (rec <= 3) {
+      survey_nps_bucket = 'Detractor';
+    } else if (rec === 4) {
+      survey_nps_bucket = 'Passive';
+    } else {
+      survey_nps_bucket = 'Promoter';
+    }
+
+    const eventOccurance = await knex('event_occurance').where({ event_name: event_id }).first();
+    if (!eventOccurance) {
+        throw new Error('Event not found for survey submission.');
+    }
+
+    await knex('registration')
+      .where('registration_id', req.params.id)
       .update({
-        user_id,
-        event_id,
-        satisfaction_rating,
-        usefulness_rating,
-        instructor_rating,
-        recommendation_rating,
-        overall_score,
-        additional_feedback,
+        participant_id: user_id,
+        event_occurance_id: eventOccurance.event_occurance_id,
+        survey_satisfaction_score: sat,
+        survey_usefulness_score: use,
+        survey_instructor_score: inst,
+        survey_recommendation_score: rec,
+        survey_overall_score: survey_overall_score,
+        survey_nps_bucket: survey_nps_bucket,
+        survey_comments: additional_feedback,
+        survey_submission_date: new Date(),
       });
 
     res.redirect(`/admin/surveys/${req.params.id}?success=updated`);
   } catch (error) {
     console.error('Error updating survey:', error);
-    const survey = await knex('surveys').where('id', req.params.id).first();
-    const users = await knex('users').select('id', 'name').orderBy('name');
-    const events = await knex('events').select('id', 'title').orderBy('title');
+    const survey = await knex('registration').where('registration_id', req.params.id).first();
+    const users = await knex('participants').select('id', knex.raw("CONCAT(participant_first_name, ' ', participant_last_name) as name")).orderBy('name');
+    const events = await knex('events').select('event_name as id', 'event_name as title').orderBy('title');
     res.render('admin/survey-form', {
       title: 'Edit Survey - Admin - Ella Rises',
       survey,
@@ -1919,7 +2047,7 @@ app.post('/admin/surveys/:id/edit', requireAdmin, async (req, res) => {
 // Admin - Delete survey
 app.post('/admin/surveys/:id/delete', requireAdmin, async (req, res) => {
   try {
-    await knex('surveys').where('id', req.params.id).del();
+    await knex('registration').where('registration_id', req.params.id).del();
     res.redirect('/admin/surveys?success=deleted');
   } catch (error) {
     console.error('Error deleting survey:', error);
@@ -1935,76 +2063,73 @@ app.post('/admin/surveys/:id/delete', requireAdmin, async (req, res) => {
 app.get('/admin/milestones', requireAdmin, async (req, res) => {
   try {
     const { search, filter_milestone, page = 1 } = req.query;
-    const filterMilestoneId = filter_milestone ? parseInt(filter_milestone, 10) : null;
     const limit = 25;
     const offset = (parseInt(page) - 1) * limit;
 
-    // Get all milestone categories
-    const milestoneCategories = await knex('milestones')
-      .select('*')
-      .orderBy('id', 'asc');
+    // Get all distinct milestone categories for the filter dropdown
+    const milestoneCategories = await knex('milestone')
+      .distinct('milestone_category')
+      .orderBy('milestone_category', 'asc');
 
-    // Build query for users (non-admin participants)
-    let usersQuery = knex('users')
-      .whereIn('role', ['user', 'participant'])
-      .orderBy('name', 'asc');
+    // Build query for participants
+    let participantsQuery = knex('participants')
+      .whereIn('participant_role', ['participant', 'admin'])
+      .orderBy('participant_first_name', 'asc');
 
-    let countQuery = knex('users')
-      .whereIn('role', ['user', 'participant'])
+    let countQuery = knex('participants')
+      .whereIn('participant_role', ['participant', 'admin'])
       .count('* as count');
 
-    // Apply search filter
     if (search) {
-      const filter = builder => builder.where('name', 'ilike', `%${search}%`);
-      usersQuery = usersQuery.where(filter);
-      countQuery = countQuery.where(filter);
+      const searchFilter = function () {
+        this.where(knex.raw("CONCAT(participant_first_name, ' ', participant_last_name)"), 'ilike', `%${search}%`)
+            .orWhere('participant_email', 'ilike', `%${search}%`);
+      };
+      participantsQuery = participantsQuery.where(searchFilter);
+      countQuery = countQuery.where(searchFilter);
     }
 
-    const users = await usersQuery;
-
-    // Get all user milestones
-    const userMilestones = await knex('participant_milestones')
-      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
+    // Get all participant milestones for the timeline and for filtering
+    const participantMilestones = await knex('milestone')
+      .join('participants', 'milestone.participant_id', 'participants.id')
       .select(
-        'participant_milestones.user_id',
-        'participant_milestones.milestone_id',
-        'participant_milestones.custom_title',
-        'participant_milestones.achieved_at',
-        'milestones.title as milestone_title'
+        'milestone.*',
+        knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name) as user_name")
       );
 
-    // Build a map of user achievements: user_id -> milestone_id -> [milestones]
-    const userAchievements = {};
-    userMilestones.forEach(um => {
-      if (!userAchievements[um.user_id]) {
-        userAchievements[um.user_id] = {};
-      }
-      if (!userAchievements[um.user_id][um.milestone_id]) {
-        userAchievements[um.user_id][um.milestone_id] = [];
-      }
-      userAchievements[um.user_id][um.milestone_id].push(um);
-    });
-
-    // Filter by milestone if specified
-    let filteredUsers = users;
-    if (filterMilestoneId) {
-      filteredUsers = users.filter(user => {
-        return userAchievements[user.id] && userAchievements[user.id][filterMilestoneId];
-      });
+    let users = await participantsQuery;
+    
+    // Filter users by milestone category if specified
+    if (filter_milestone) {
+        users = users.filter(user => {
+            return participantMilestones.some(pm => pm.participant_id === user.id && pm.milestone_category === filter_milestone);
+        });
     }
 
-    // Paginate filtered users
-    const totalRecords = filteredUsers.length;
+    // Build a map of user achievements for the "By Category" view
+    const userAchievements = {};
+    participantMilestones.forEach(pm => {
+      if (!userAchievements[pm.participant_id]) {
+        userAchievements[pm.participant_id] = {};
+      }
+      if (!userAchievements[pm.participant_id][pm.milestone_category]) {
+        userAchievements[pm.participant_id][pm.milestone_category] = [];
+      }
+      userAchievements[pm.participant_id][pm.milestone_category].push(pm);
+    });
+
+    const totalRecords = users.length;
     const totalPages = Math.ceil(totalRecords / limit);
-    const paginatedUsers = filteredUsers.slice(offset, offset + limit);
+    const paginatedUsers = users.slice(offset, offset + limit);
 
     res.render('admin/milestones', {
-      title: 'Milestones - Admin - Ella Rises',
-      users: paginatedUsers,
+      title: 'Milestones - Admin',
+      paginatedUsers, // For "By Category" view
       milestoneCategories,
       userAchievements,
-      search: search || '',
-      filter_milestone: filter_milestone || '',
+      participantMilestones, // For "Timeline" view
+      search,
+      filter_milestone,
       currentPage: parseInt(page),
       totalPages,
       totalRecords,
@@ -2021,7 +2146,7 @@ app.get('/admin/milestones/user/:userId', requireAdmin, async (req, res) => {
   const { userId } = req.params;
 
   try {
-    const user = await knex('users')
+    const user = await knex('participants')
       .where('id', userId)
       .first();
 
@@ -2029,18 +2154,14 @@ app.get('/admin/milestones/user/:userId', requireAdmin, async (req, res) => {
       return res.status(404).send('User not found');
     }
 
-    const userMilestones = await knex('participant_milestones')
-      .leftJoin('milestones', 'participant_milestones.milestone_id', 'milestones.id')
-      .where('participant_milestones.user_id', userId)
-      .select(
-        'participant_milestones.*',
-        'milestones.title as milestone_title',
-        'milestones.description as milestone_description'
-      )
-      .orderBy('participant_milestones.achieved_at', 'desc');
+    // NEW SCHEMA: milestone table is merged - no JOIN needed
+    const userMilestones = await knex('milestone')
+      .where('participant_id', userId)
+      .select('*')
+      .orderBy('milestone_date', 'desc');
 
     res.render('admin/user-milestones', {
-      title: `${user.name}'s Milestones - Admin - Ella Rises`,
+      title: `${user.participant_first_name} ${user.participant_last_name}'s Milestones - Admin - Ella Rises`,
       user,
       milestones: userMilestones,
     });
@@ -2050,15 +2171,16 @@ app.get('/admin/milestones/user/:userId', requireAdmin, async (req, res) => {
   }
 });
 
-// Admin - Create milestone category
+// Admin - Create milestone (NEW SCHEMA: requires participant_id)
 app.post('/admin/milestones/create', requireAdmin, async (req, res) => {
-  const { title, description } = req.body;
+  const { participant_id, milestone_title, milestone_category } = req.body;
 
   try {
-    await knex('milestones').insert({
-      title,
-      description,
-      created_at: new Date(),
+    await knex('milestone').insert({
+      participant_id,
+      milestone_title,
+      milestone_category,
+      milestone_date: new Date(),
     });
 
     res.redirect('/admin/milestones?success=created');
@@ -2068,14 +2190,17 @@ app.post('/admin/milestones/create', requireAdmin, async (req, res) => {
   }
 });
 
-// Admin - Update milestone category
+// Admin - Update milestone
 app.post('/admin/milestones/:id/edit', requireAdmin, async (req, res) => {
-  const { title, description } = req.body;
+  const { milestone_title, milestone_category } = req.body;
 
   try {
-    await knex('milestones')
-      .where('id', req.params.id)
-      .update({ title, description });
+    await knex('milestone')
+      .where('milestone_id', req.params.id)
+      .update({
+        milestone_title,
+        milestone_category
+      });
 
     res.redirect('/admin/milestones?success=updated');
   } catch (error) {
@@ -2084,10 +2209,10 @@ app.post('/admin/milestones/:id/edit', requireAdmin, async (req, res) => {
   }
 });
 
-// Admin - Delete milestone category
+// Admin - Delete milestone
 app.post('/admin/milestones/:id/delete', requireAdmin, async (req, res) => {
   try {
-    await knex('milestones').where('id', req.params.id).del();
+    await knex('milestone').where('milestone_id', req.params.id).del();
     res.redirect('/admin/milestones?success=deleted');
   } catch (error) {
     console.error('Error deleting milestone:', error);
@@ -2107,31 +2232,36 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
     const offset = (parseInt(page) - 1) * limit;
 
     let query = knex('donations')
-      .leftJoin('users', 'donations.user_id', 'users.id')
-      .select('donations.*', 'users.name as user_name');
+      .leftJoin('participants', 'donations.participant_id', 'participants.id')
+      .select(
+        'donations.*',
+        knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name) as user_name")
+      );
 
     let countQuery = knex('donations')
-      .leftJoin('users', 'donations.user_id', 'users.id')
-      .count('donations.id as count');
+      .leftJoin('participants', 'donations.participant_id', 'participants.id')
+      .count('donations.donation_id as count');
 
     let totalQuery = knex('donations')
-      .leftJoin('users', 'donations.user_id', 'users.id')
-      .sum('donations.amount as total');
+      .leftJoin('participants', 'donations.participant_id', 'participants.id')
+      .sum('donations.donation_amount as total');
 
     // Apply search filter
     if (search) {
-      query = query.where(function () {
-        this.whereRaw("COALESCE(users.name, donations.donor_name, '') ILIKE ?", [`%${search}%`])
-          .orWhereRaw('donations.amount::text ILIKE ?', [`%${search}%`]);
-      });
-      countQuery = countQuery.where(function () {
-        this.whereRaw("COALESCE(users.name, donations.donor_name, '') ILIKE ?", [`%${search}%`])
-          .orWhereRaw('donations.amount::text ILIKE ?', [`%${search}%`]);
-      });
-      totalQuery = totalQuery.where(function () {
-        this.whereRaw("COALESCE(users.name, donations.donor_name, '') ILIKE ?", [`%${search}%`])
-          .orWhereRaw('donations.amount::text ILIKE ?', [`%${search}%`]);
-      });
+      if (!isNaN(parseFloat(search)) && isFinite(search)) {
+        // Search by amount if the search term is numeric
+        query = query.where('donations.donation_amount', '=', parseFloat(search));
+        countQuery = countQuery.where('donations.donation_amount', '=', parseFloat(search));
+        totalQuery = totalQuery.where('donations.donation_amount', '=', parseFloat(search));
+      } else {
+        // Otherwise, search by name
+        const searchFilter = function () {
+          this.where(knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name)"), 'ILIKE', `%${search}%`);
+        };
+        query = query.where(searchFilter);
+        countQuery = countQuery.where(searchFilter);
+        totalQuery = totalQuery.where(searchFilter);
+      }
     }
 
     // Apply date filters (use donation_date if present, fallback to created_at)
@@ -2152,7 +2282,7 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
     const totalRecords = parseInt(count);
     const totalPages = Math.ceil(totalRecords / limit);
     const donations = await query
-      .orderByRaw('COALESCE(donations.donation_date, donations.created_at) DESC, donations.id DESC')
+      .orderByRaw('COALESCE(donations.donation_date, donations.created_at) DESC, donations.donation_id DESC')
       .limit(limit)
       .offset(offset);
 
@@ -2254,12 +2384,21 @@ app.get('/admin/participants/export/csv', requireAdmin, async (req, res) => {
   try {
     const { search = '' } = req.query;
 
-    let query = knex('users').select('id', 'name', 'email', 'role', 'total_donations', 'login_count', 'created_at');
+    let query = knex('participants').select(
+      'id',
+      knex.raw("CONCAT(participant_first_name, ' ', participant_last_name) as name"),
+      'participant_email as email',
+      'participant_role as role',
+      'total_donations',
+      'login_count',
+      'created_at'
+    );
 
     if (search) {
       query = query.where(function() {
-        this.where('name', 'ilike', `%${search}%`)
-          .orWhere('email', 'ilike', `%${search}%`);
+        this.where('participant_first_name', 'ilike', `%${search}%`)
+          .orWhere('participant_last_name', 'ilike', `%${search}%`)
+          .orWhere('participant_email', 'ilike', `%${search}%`);
       });
     }
 
@@ -2293,12 +2432,20 @@ app.get('/admin/participants/export/pdf', requireAdmin, async (req, res) => {
   try {
     const { search = '' } = req.query;
 
-    let query = knex('users').select('id', 'name', 'email', 'role', 'total_donations', 'login_count');
+    let query = knex('participants').select(
+      'id',
+      knex.raw("CONCAT(participant_first_name, ' ', participant_last_name) as name"),
+      'participant_email as email',
+      'participant_role as role',
+      'total_donations',
+      'login_count'
+    );
 
     if (search) {
       query = query.where(function() {
-        this.where('name', 'ilike', `%${search}%`)
-          .orWhere('email', 'ilike', `%${search}%`);
+        this.where('participant_first_name', 'ilike', `%${search}%`)
+          .orWhere('participant_last_name', 'ilike', `%${search}%`)
+          .orWhere('participant_email', 'ilike', `%${search}%`);
       });
     }
 
@@ -2357,32 +2504,44 @@ app.get('/admin/participants/export/pdf', requireAdmin, async (req, res) => {
   }
 });
 
-// Export Events as CSV
+// Export Events as CSV (NEW SCHEMA: exports event occurrences)
 app.get('/admin/events/export/csv', requireAdmin, async (req, res) => {
   try {
     const { search = '' } = req.query;
 
-    let query = knex('events').select('*');
+    let query = knex('event_occurance')
+      .leftJoin('events', 'event_occurance.event_name', 'events.event_name')
+      .select(
+        'event_occurance.event_occurance_id',
+        'events.event_name',
+        'events.event_type',
+        'events.event_description',
+        'event_occurance.event_date_time_start',
+        'event_occurance.event_date_time_end',
+        'event_occurance.event_location',
+        'event_occurance.event_capacity',
+        'event_occurance.created_at'
+      );
 
     if (search) {
       query = query.where(function() {
-        this.where('title', 'ilike', `%${search}%`)
-          .orWhere('description', 'ilike', `%${search}%`)
-          .orWhere('location', 'ilike', `%${search}%`);
+        this.where('events.event_name', 'ilike', `%${search}%`)
+          .orWhere('events.event_description', 'ilike', `%${search}%`)
+          .orWhere('event_occurance.event_location', 'ilike', `%${search}%`);
       });
     }
 
-    const events = await query.orderBy('start_time', 'desc');
+    const events = await query.orderBy('event_occurance.event_date_time_start', 'desc');
 
     const csvData = events.map(event => ({
-      ID: event.id,
-      Title: event.title,
-      Description: event.description,
-      Location: event.location,
-      'Start Time': new Date(event.start_time).toLocaleString(),
-      'End Time': new Date(event.end_time).toLocaleString(),
-      Capacity: event.capacity,
-      'Current Attendees': event.current_attendees || 0,
+      ID: event.event_occurance_id,
+      'Event Name': event.event_name,
+      Type: event.event_type,
+      Description: event.event_description || '',
+      Location: event.event_location || '',
+      'Start Time': event.event_date_time_start ? new Date(event.event_date_time_start).toLocaleString() : '',
+      'End Time': event.event_date_time_end ? new Date(event.event_date_time_end).toLocaleString() : '',
+      Capacity: event.event_capacity || 0,
       'Created At': new Date(event.created_at).toLocaleDateString()
     }));
 
@@ -2398,22 +2557,33 @@ app.get('/admin/events/export/csv', requireAdmin, async (req, res) => {
   }
 });
 
-// Export Events as PDF
+// Export Events as PDF (NEW SCHEMA: exports event occurrences)
 app.get('/admin/events/export/pdf', requireAdmin, async (req, res) => {
   try {
     const { search = '' } = req.query;
 
-    let query = knex('events').select('*');
+    let query = knex('event_occurance')
+      .leftJoin('events', 'event_occurance.event_name', 'events.event_name')
+      .select(
+        'event_occurance.event_occurance_id',
+        'events.event_name',
+        'events.event_type',
+        'events.event_description',
+        'event_occurance.event_date_time_start',
+        'event_occurance.event_date_time_end',
+        'event_occurance.event_location',
+        'event_occurance.event_capacity'
+      );
 
     if (search) {
       query = query.where(function() {
-        this.where('title', 'ilike', `%${search}%`)
-          .orWhere('description', 'ilike', `%${search}%`)
-          .orWhere('location', 'ilike', `%${search}%`);
+        this.where('events.event_name', 'ilike', `%${search}%`)
+          .orWhere('events.event_description', 'ilike', `%${search}%`)
+          .orWhere('event_occurance.event_location', 'ilike', `%${search}%`);
       });
     }
 
-    const events = await query.orderBy('start_time', 'desc');
+    const events = await query.orderBy('event_occurance.event_date_time_start', 'desc');
 
     const doc = new PDFDocument({ margin: 50 });
 
@@ -2435,14 +2605,16 @@ app.get('/admin/events/export/pdf', requireAdmin, async (req, res) => {
         y = 50;
       }
 
-      doc.font('Helvetica-Bold').text(event.title, 50, y);
+      doc.font('Helvetica-Bold').text(event.event_name || 'Untitled Event', 50, y);
       y += 15;
       doc.font('Helvetica').fontSize(9);
-      doc.text(`Location: ${event.location}`, 50, y);
+      doc.text(`Type: ${event.event_type || 'N/A'}`, 50, y);
       y += 12;
-      doc.text(`Start: ${new Date(event.start_time).toLocaleString()}`, 50, y);
+      doc.text(`Location: ${event.event_location || 'TBD'}`, 50, y);
       y += 12;
-      doc.text(`Capacity: ${event.current_attendees || 0}/${event.capacity}`, 50, y);
+      doc.text(`Start: ${event.event_date_time_start ? new Date(event.event_date_time_start).toLocaleString() : 'TBD'}`, 50, y);
+      y += 12;
+      doc.text(`Capacity: ${event.event_capacity || 'Unlimited'}`, 50, y);
       y += 20;
     });
 
@@ -2453,19 +2625,23 @@ app.get('/admin/events/export/pdf', requireAdmin, async (req, res) => {
   }
 });
 
-// Export Donations as CSV
+// Export Donations as CSV (NEW SCHEMA)
 app.get('/admin/donations/export/csv', requireAdmin, async (req, res) => {
   try {
     const donations = await knex('donations')
-      .join('users', 'donations.user_id', 'users.id')
-      .select('donations.*', 'users.name as user_name', 'users.email as user_email')
+      .leftJoin('participants', 'donations.participant_id', 'participants.id')
+      .select(
+        'donations.*',
+        knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name) as user_name"),
+        'participants.participant_email as user_email'
+      )
       .orderBy('donations.created_at', 'desc');
 
     const csvData = donations.map(donation => ({
-      ID: donation.id,
-      'Donor Name': donation.user_name,
-      'Donor Email': donation.user_email,
-      Amount: `$${parseFloat(donation.amount).toFixed(2)}`,
+      ID: donation.donation_id,
+      'Donor Name': donation.user_name || 'Anonymous',
+      'Donor Email': donation.user_email || 'N/A',
+      Amount: `$${parseFloat(donation.donation_amount).toFixed(2)}`,
       'Donation Date': donation.donation_date ? new Date(donation.donation_date).toLocaleDateString() : 'N/A',
       'Created At': new Date(donation.created_at).toLocaleDateString()
     }));
@@ -2482,12 +2658,16 @@ app.get('/admin/donations/export/csv', requireAdmin, async (req, res) => {
   }
 });
 
-// Export Donations as PDF
+// Export Donations as PDF (NEW SCHEMA)
 app.get('/admin/donations/export/pdf', requireAdmin, async (req, res) => {
   try {
     const donations = await knex('donations')
-      .join('users', 'donations.user_id', 'users.id')
-      .select('donations.*', 'users.name as user_name', 'users.email as user_email')
+      .leftJoin('participants', 'donations.participant_id', 'participants.id')
+      .select(
+        'donations.*',
+        knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name) as user_name"),
+        'participants.participant_email as user_email'
+      )
       .orderBy('donations.created_at', 'desc');
 
     const doc = new PDFDocument({ margin: 50 });
@@ -2518,9 +2698,9 @@ app.get('/admin/donations/export/pdf', requireAdmin, async (req, res) => {
         y = 50;
       }
 
-      doc.text(donation.user_name.substring(0, 20), 50, y);
-      doc.text(donation.user_email.substring(0, 20), 180, y);
-      doc.text(`$${parseFloat(donation.amount).toFixed(2)}`, 330, y);
+      doc.text((donation.user_name || 'Anonymous').substring(0, 20), 50, y);
+      doc.text((donation.user_email || 'N/A').substring(0, 20), 180, y);
+      doc.text(`$${parseFloat(donation.donation_amount).toFixed(2)}`, 330, y);
       doc.text(donation.donation_date ? new Date(donation.donation_date).toLocaleDateString() : 'N/A', 420, y);
 
       y += 20;
