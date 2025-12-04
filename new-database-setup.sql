@@ -54,7 +54,7 @@ CREATE TABLE events (
 
 -- event_occurance table (replaces old events table)
 CREATE TABLE event_occurance (
-  event_occurance_id INTEGER PRIMARY KEY, -- Renamed from 'id'
+  event_occurance_id SERIAL PRIMARY KEY, -- Renamed from 'id'
   event_name VARCHAR(255) REFERENCES events(event_name) ON DELETE SET NULL, -- FK to new events table
   event_date_time_start TIMESTAMP NOT NULL, -- Renamed from 'start_time'
   event_date_time_end TIMESTAMP, -- Renamed from 'end_time'
@@ -68,14 +68,14 @@ CREATE INDEX idx_event_occurance_start_time ON event_occurance(event_date_time_s
 
 -- attendance table (new)
 CREATE TABLE attendance (
-  attendance_id INTEGER PRIMARY KEY,
+  attendance_id SERIAL PRIMARY KEY,
   registration_status VARCHAR(50),
   registration_attended_flag BOOLEAN
 );
 
 -- registration table (replaces old event_registrations and surveys tables)
 CREATE TABLE registration (
-  registration_id INTEGER PRIMARY KEY,
+  registration_id SERIAL PRIMARY KEY,
   participant_id INTEGER REFERENCES participants(id) ON DELETE CASCADE,
   event_occurance_id INTEGER REFERENCES event_occurance(event_occurance_id) ON DELETE CASCADE,
   attendance_id INTEGER REFERENCES attendance(attendance_id) ON DELETE SET NULL,
@@ -96,7 +96,7 @@ CREATE INDEX idx_registration_event_occurance ON registration(event_occurance_id
 
 -- milestone table (replaces old milestones and participant_milestones)
 CREATE TABLE milestone (
-  milestone_id INTEGER PRIMARY KEY,
+  milestone_id SERIAL PRIMARY KEY,
   participant_id INTEGER REFERENCES participants(id) ON DELETE CASCADE,
   milestone_title VARCHAR(255) NOT NULL,
   milestone_category VARCHAR(100),
@@ -105,7 +105,7 @@ CREATE TABLE milestone (
 
 -- donations table
 CREATE TABLE donations (
-  donation_id INTEGER PRIMARY KEY,
+  donation_id SERIAL PRIMARY KEY,
   participant_id INTEGER REFERENCES participants(id) ON DELETE SET NULL, -- Renamed from user_id
   donation_date TIMESTAMP,
   donation_amount DECIMAL(10, 2) NOT NULL, -- Renamed from 'amount'

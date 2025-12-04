@@ -1662,12 +1662,14 @@ app.post('/admin/events/new', requireAdmin, upload.single('event_image'), async 
   const { title, description, date, start_time, end_time, location, capacity } = req.body; // title and description are from old form
 
   try {
-    // Assuming 'title' from the form maps to 'event_name' in the events (template) table
-    // For now, we will simply use 'title' as 'event_name' for the event_occurance.
-    // A proper implementation would involve selecting an existing event_name from event_templates
-    // or creating a new event_template first.
+    // Ensure the event name exists in the 'events' (template) table.
+    const existingEventTemplate = await knex('events').where({ event_name: title }).first();
+    if (!existingEventTemplate) {
+      await knex('events').insert({ event_name: title, event_description: description });
+    }
 
     const eventData = {
+      event_occurance_id: Math.floor(Math.random() * 1000000), // Not a good long term solution
       event_name: title, // Map form's title to event_name
       event_date_time_start: new Date(start_time || date),
       event_date_time_end: end_time ? new Date(end_time) : null,
@@ -1718,6 +1720,12 @@ app.post('/admin/events/:id/edit', requireAdmin, upload.single('event_image'), a
   const { title, description, date, start_time, end_time, location, capacity } = req.body;
 
   try {
+    // Ensure the event name exists in the 'events' (template) table.
+    const existingEventTemplate = await knex('events').where({ event_name: title }).first();
+    if (!existingEventTemplate) {
+      await knex('events').insert({ event_name: title, event_description: description });
+    }
+    
     const eventData = {
       event_name: title, // Map form's title to event_name
       event_date_time_start: new Date(start_time || date),
@@ -2520,16 +2528,28 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
 
 // Admin - Create donation manually
 app.post('/admin/donations/create', requireAdmin, async (req, res) => {
-  const { user_id, amount, donor_name, donor_email, message, donation_date } = req.body;
+  const { amount, donor_email, message, donation_date } = req.body;
 
   try {
+    let participantId = null;
+
+    // If a donor email is provided, try to find a matching participant.
+    if (donor_email) {
+      const participant = await knex('participants').where({ participant_email: donor_email }).first();
+      if (participant) {
+        participantId = participant.id;
+      }
+    }
+
+    // The 'donations' table in the current schema does not have donor_name or donor_email columns.
+    // The donation is linked to a participant via participant_id.
+    // If participantId is null, the donation is anonymous.
     await knex('donations').insert({
-      user_id: user_id || null,
-      amount: parseFloat(amount),
-      donor_name: donor_name || 'Anonymous',
-      donor_email: donor_email || null,
+      participant_id: participantId,
+      donation_amount: parseFloat(amount),
       message: message || null,
       donation_date: donation_date ? new Date(donation_date) : new Date(),
+      created_at: new Date(),
     });
 
     res.redirect('/admin/donations?success=created');
