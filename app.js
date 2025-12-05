@@ -615,7 +615,16 @@ app.get('/events', async (req, res) => {
     // Get only future events from database, ordered by event_date_time_start
     const events = await knex('event_occurance')
       .join('events', 'event_occurance.event_name', 'events.event_name')
-      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .select(
+        'event_occurance.event_occurance_id',
+        'event_occurance.event_date_time_start',
+        'event_occurance.event_date_time_end',
+        'event_occurance.event_location',
+        'event_occurance.event_capacity',
+        'event_occurance.image_url',
+        'events.event_description as description',
+        'events.event_name as title'
+      )
       .where('event_occurance.event_date_time_start', '>=', new Date())
       .orderBy('event_occurance.event_date_time_start', 'asc');
 
@@ -638,7 +647,18 @@ app.get('/events/:eventId', async (req, res) => {
     // Get the specific event
     const event = await knex('event_occurance')
       .join('events', 'event_occurance.event_name', 'events.event_name')
-      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .select(
+        'event_occurance.event_occurance_id',
+        'event_occurance.event_name',
+        'event_occurance.event_date_time_start',
+        'event_occurance.event_date_time_end',
+        'event_occurance.event_location',
+        'event_occurance.event_capacity',
+        'event_occurance.event_registration_deadline',
+        'event_occurance.image_url',
+        'events.event_description as description',
+        'events.event_name as title'
+      )
       .where('event_occurance.event_occurance_id', eventId)
       .first();
 
@@ -1884,7 +1904,18 @@ app.get('/admin/events/:id/edit', requireAdmin, async (req, res) => {
   try {
     const event = await knex('event_occurance')
       .leftJoin('events', 'event_occurance.event_name', 'events.event_name')
-      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .select(
+        'event_occurance.event_occurance_id',
+        'event_occurance.event_name',
+        'event_occurance.event_date_time_start',
+        'event_occurance.event_date_time_end',
+        'event_occurance.event_location',
+        'event_occurance.event_capacity',
+        'event_occurance.event_registration_deadline',
+        'event_occurance.image_url',
+        'events.event_description as description',
+        'events.event_name as title'
+      )
       .where('event_occurance.event_occurance_id', req.params.id)
       .first();
     if (!event) {
