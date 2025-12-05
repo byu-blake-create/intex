@@ -985,6 +985,101 @@ app.get('/user/dashboard', requireLogin, async (req, res) => {
   }
 });
 
+// User's account page - view and edit profile
+app.get('/user/account', requireLogin, async (req, res) => {
+  try {
+    const user = await knex('participants')
+      .where('id', req.session.user.id)
+      .first();
+
+    res.render('user/account', {
+      title: 'Account Details - Ella Rises',
+      user,
+      success: null,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading account page:', error);
+    res.status(500).send('Error loading account page');
+  }
+});
+
+// User's account page - update profile
+app.post('/user/account', requireLogin, async (req, res) => {
+  const { first_name, last_name, email, phone, city, state, zip, school_or_employer, field_of_interest } = req.body;
+
+  try {
+    const user = await knex('participants')
+      .where('id', req.session.user.id)
+      .first();
+
+    // Check if email is being changed and if it's already in use by another user
+    if (email !== user.participant_email) {
+      const existingUser = await knex('participants')
+        .where('participant_email', email)
+        .whereNot('id', req.session.user.id)
+        .first();
+
+      if (existingUser) {
+        const userData = await knex('participants')
+          .where('id', req.session.user.id)
+          .first();
+
+        return res.render('user/account', {
+          title: 'Account Details - Ella Rises',
+          user: userData,
+          success: null,
+          error: 'This email is already in use by another account.',
+        });
+      }
+    }
+
+    // Update user information
+    await knex('participants')
+      .where('id', req.session.user.id)
+      .update({
+        participant_first_name: first_name,
+        participant_last_name: last_name,
+        participant_email: email,
+        participant_phone: phone,
+        participant_city: city,
+        participant_state: state,
+        participant_zip: zip,
+        participant_school_or_employer: school_or_employer,
+        participant_field_of_interest: field_of_interest,
+      });
+
+    // Update session with new name and email
+    req.session.user.name = `${first_name} ${last_name || ''}`.trim();
+    req.session.user.email = email;
+
+    // Get updated user data
+    const updatedUser = await knex('participants')
+      .where('id', req.session.user.id)
+      .first();
+
+    res.render('user/account', {
+      title: 'Account Details - Ella Rises',
+      user: updatedUser,
+      success: 'Your account has been updated successfully!',
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error updating account:', error);
+
+    const userData = await knex('participants')
+      .where('id', req.session.user.id)
+      .first();
+
+    res.render('user/account', {
+      title: 'Account Details - Ella Rises',
+      user: userData,
+      success: null,
+      error: 'An error occurred while updating your account. Please try again.',
+    });
+  }
+});
+
 // User's events page
 app.get('/user/events', requireLogin, async (req, res) => {
   try {
@@ -1012,6 +1107,11 @@ app.get('/user/milestones', requireLogin, async (req, res) => {
     const user = await knex('participants')
       .where('id', req.session.user.id)
       .first();
+
+    // Add name field for view
+    if (user) {
+      user.name = `${user.participant_first_name} ${user.participant_last_name || ''}`.trim();
+    }
 
     const userMilestones = await knex('milestone')
       .where('milestone.participant_id', req.session.user.id)
@@ -1254,19 +1354,47 @@ app.post('/user/survey', requireLogin, async (req, res) => {
       survey_nps_bucket = 'Promoter';
     }
 
-    await knex('registration').insert({
-      participant_id: req.session.user.id,
-      event_occurance_id: eventId,
-      survey_satisfaction_score: sat,
-      survey_usefulness_score: use,
-      survey_instructor_score: inst,
-      survey_recommendation_score: rec,
-      survey_overall_score: survey_overall_score,
-      survey_nps_bucket: survey_nps_bucket,
-      survey_comments: additional_feedback,
-      registration_created_at: new Date(), // Use for registration date
-      survey_submission_date: new Date(), // Use for survey submission date
-    });
+    // Check if registration exists
+    const existingRegistration = await knex('registration')
+      .where({
+        participant_id: req.session.user.id,
+        event_occurance_id: eventId
+      })
+      .first();
+
+    if (existingRegistration) {
+      // Update existing registration with survey data
+      await knex('registration')
+        .where({
+          participant_id: req.session.user.id,
+          event_occurance_id: eventId
+        })
+        .update({
+          survey_satisfaction_score: sat,
+          survey_usefulness_score: use,
+          survey_instructor_score: inst,
+          survey_recommendation_score: rec,
+          survey_overall_score: survey_overall_score,
+          survey_nps_bucket: survey_nps_bucket,
+          survey_comments: additional_feedback,
+          survey_submission_date: new Date(),
+        });
+    } else {
+      // Insert new registration with survey data (for users who weren't registered but attended)
+      await knex('registration').insert({
+        participant_id: req.session.user.id,
+        event_occurance_id: eventId,
+        survey_satisfaction_score: sat,
+        survey_usefulness_score: use,
+        survey_instructor_score: inst,
+        survey_recommendation_score: rec,
+        survey_overall_score: survey_overall_score,
+        survey_nps_bucket: survey_nps_bucket,
+        survey_comments: additional_feedback,
+        registration_created_at: new Date(),
+        survey_submission_date: new Date(),
+      });
+    }
 
     // Get events again to re-render the form
     const attendedEvents = await knex('registration')
