@@ -2965,7 +2965,7 @@ app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
 
   try {
     await knex('donations')
-      .where('id', req.params.id)
+      .where('donation_id', req.params.id)
       .update({
         user_id: user_id || null,
         amount: parseFloat(amount),
