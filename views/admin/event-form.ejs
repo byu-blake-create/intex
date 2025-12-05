@@ -16,7 +16,7 @@
         </div>
       <% } %>
 
-      <form action="<%= event ? `/admin/events/${event.id}/edit` : '/admin/events/new' %>" method="POST" enctype="multipart/form-data">
+      <form action="<%= event ? `/admin/events/${event.event_occurance_id}/edit` : '/admin/events/new' %>" method="POST" enctype="multipart/form-data">
         <div class="form-group">
           <label for="title" class="form-label">Event Title *</label>
           <input
@@ -48,7 +48,7 @@
               id="date"
               name="date"
               class="form-input"
-              value="<%= event ? new Date(event.start_time).toISOString().slice(0, 16) : '' %>"
+              value="<%= event ? new Date(event.event_date_time_start).toISOString().slice(0, 16) : '' %>"
               required
             />
           </div>
@@ -60,7 +60,7 @@
               id="location"
               name="location"
               class="form-input"
-              value="<%= event ? (event.location || '') : '' %>"
+              value="<%= event ? (event.event_location || '') : '' %>"
               placeholder="Location (optional)"
             />
           </div>
@@ -73,7 +73,7 @@
             id="capacity"
             name="capacity"
             class="form-input"
-            value="<%= event ? (event.capacity || '') : '' %>"
+            value="<%= event ? (event.event_capacity || '') : '' %>"
             placeholder="Leave blank for unlimited"
             min="1"
           />

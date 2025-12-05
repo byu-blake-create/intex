@@ -14,7 +14,21 @@
     </div>
     <div class="form-group">
       <label for="milestone_category">Category</label>
-      <input type="text" name="milestone_category" id="milestone_category" class="form-input" value="<%= milestone.milestone_category %>" required>
+      <select id="milestone_category" name="milestone_category" class="form-select" required>
+        <option value="">Select a category...</option>
+        <% if (categories && categories.length > 0) { %>
+          <% categories.forEach(cat => { %>
+            <option value="<%= cat.milestone_category %>" <%= milestone.milestone_category === cat.milestone_category ? 'selected' : '' %>><%= cat.milestone_category %></option>
+          <% }) %>
+        <% } else { %>
+          <option value="Education" <%= milestone.milestone_category === 'Education' ? 'selected' : '' %>>Education</option>
+          <option value="Career" <%= milestone.milestone_category === 'Career' ? 'selected' : '' %>>Career</option>
+          <option value="Personal" <%= milestone.milestone_category === 'Personal' ? 'selected' : '' %>>Personal</option>
+          <option value="Community" <%= milestone.milestone_category === 'Community' ? 'selected' : '' %>>Community</option>
+          <option value="Health" <%= milestone.milestone_category === 'Health' ? 'selected' : '' %>>Health</option>
+          <option value="Financial" <%= milestone.milestone_category === 'Financial' ? 'selected' : '' %>>Financial</option>
+        <% } %>
+      </select>
     </div>
     <div class="form-group">
       <label for="milestone_date">Date</label>

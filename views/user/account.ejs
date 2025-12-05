@@ -1,0 +1,155 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <div style="max-width: 700px; margin: 0 auto;">
+    <!-- Back Button -->
+    <a href="/user/dashboard" style="color: #CE325B; margin-bottom: 2rem; display: inline-block;">
+      ← Back to Dashboard
+    </a>
+
+    <div class="card">
+      <h1 class="card-title">Account Details</h1>
+
+      <% if (success) { %>
+        <div class="alert alert-success" style="margin-bottom: 1.5rem;">
+          <%= success %>
+        </div>
+      <% } %>
+
+      <% if (error) { %>
+        <div class="alert alert-error" style="margin-bottom: 1.5rem;">
+          <%= error %>
+        </div>
+      <% } %>
+
+      <form action="/user/account" method="POST">
+        <div class="form-group">
+          <label for="first_name" class="form-label">First Name *</label>
+          <input
+            type="text"
+            id="first_name"
+            name="first_name"
+            class="form-input"
+            value="<%= user.participant_first_name %>"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="last_name" class="form-label">Last Name</label>
+          <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            class="form-input"
+            value="<%= user.participant_last_name || '' %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address *</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-input"
+            value="<%= user.participant_email %>"
+            required
+          />
+          <p class="form-helper">This is your login email</p>
+        </div>
+
+        <div class="form-group">
+          <label for="phone" class="form-label">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="form-input"
+            value="<%= user.participant_phone || '' %>"
+            placeholder="(555) 555-5555"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="city" class="form-label">City</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            class="form-input"
+            value="<%= user.participant_city || '' %>"
+          />
+        </div>
+
+        <div class="grid grid-2">
+          <div class="form-group">
+            <label for="state" class="form-label">State</label>
+            <input
+              type="text"
+              id="state"
+              name="state"
+              class="form-input"
+              maxlength="2"
+              placeholder="UT"
+              value="<%= user.participant_state || '' %>"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="zip" class="form-label">ZIP Code</label>
+            <input
+              type="text"
+              id="zip"
+              name="zip"
+              class="form-input"
+              maxlength="10"
+              placeholder="12345"
+              value="<%= user.participant_zip || '' %>"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="school_or_employer" class="form-label">School or Employer</label>
+          <input
+            type="text"
+            id="school_or_employer"
+            name="school_or_employer"
+            class="form-input"
+            value="<%= user.participant_school_or_employer || '' %>"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="field_of_interest" class="form-label">Field of Interest</label>
+          <input
+            type="text"
+            id="field_of_interest"
+            name="field_of_interest"
+            class="form-input"
+            value="<%= user.participant_field_of_interest || '' %>"
+          />
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+          <button type="submit" class="btn btn-primary btn-lg">
+            Save Changes
+          </button>
+          <a href="/user/dashboard" class="btn btn-outline btn-lg">Cancel</a>
+        </div>
+      </form>
+
+      <hr style="margin: 3rem 0; border: none; border-top: 1px solid var(--border-color);" />
+
+      <div>
+        <h3 style="margin-bottom: 1rem;">Change Password</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+          To change your password, please contact support or use the password reset feature.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

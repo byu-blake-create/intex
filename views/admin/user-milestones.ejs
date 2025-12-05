@@ -31,12 +31,12 @@
             <div style="flex: 1; min-width: 250px;">
               <!-- Category Badge -->
               <span class="badge badge-primary" style="margin-bottom: 1rem;">
-                <%= milestone.milestone_title %>
+                <%= milestone.milestone_category %>
               </span>
 
-              <!-- Custom Title -->
+              <!-- Milestone Title -->
               <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem;">
-                <%= milestone.custom_title || milestone.milestone_description %>
+                <%= milestone.milestone_title %>
               </h3>
 
               <!-- Date -->
@@ -47,24 +47,35 @@
                   day: 'numeric'
                 }) %>
               </p>
+
+              <!-- Admin Actions -->
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <form action="/admin/milestones/<%= milestone.milestone_id %>/edit" method="GET" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-secondary">Edit</button>
+                </form>
+                <form action="/admin/milestones/<%= milestone.milestone_id %>/delete" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this milestone?');">
+                  <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                </form>
+              </div>
             </div>
 
             <!-- Icon -->
             <div style="font-size: 3rem; opacity: 0.3;">
-              <% if (milestone.milestone_title.includes('College') || milestone.milestone_title.includes('Grad School')) { %>
+              <% const cat = milestone.milestone_category || ''; %>
+              <% if (cat.toLowerCase().includes('education')) { %>
                 🎓
-              <% } else if (milestone.milestone_title.includes('High School')) { %>
-                📚
-              <% } else if (milestone.milestone_title.includes('Job') || milestone.milestone_title.includes('Internship')) { %>
+              <% } else if (cat.toLowerCase().includes('career')) { %>
                 💼
-              <% } else if (milestone.milestone_title.includes('Degree')) { %>
-                🏅
-              <% } else if (milestone.milestone_title.includes('Certificate')) { %>
-                📜
-              <% } else if (milestone.milestone_title.includes('Award')) { %>
-                🏆
-              <% } else { %>
+              <% } else if (cat.toLowerCase().includes('personal')) { %>
                 ⭐
+              <% } else if (cat.toLowerCase().includes('community')) { %>
+                🤝
+              <% } else if (cat.toLowerCase().includes('health')) { %>
+                💪
+              <% } else if (cat.toLowerCase().includes('financial')) { %>
+                💰
+              <% } else { %>
+                🏆
               <% } %>
             </div>
           </div>

@@ -1,0 +1,72 @@
+<%- include('../partials/header') %>
+
+<div class="container" style="margin-top: 3rem; margin-bottom: 4rem;">
+  <!-- Back Button -->
+  <a href="/admin/milestones/user/<%= milestone.participant_id %>" style="color: #CE325B; margin-bottom: 2rem; display: inline-block;">
+    ← Back to User Milestones
+  </a>
+
+  <div class="card">
+    <h1 class="card-title">Edit Milestone</h1>
+
+    <% if (error) { %>
+      <div class="alert alert-error" style="margin-bottom: 1.5rem;">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <form action="/admin/milestones/<%= milestone.milestone_id %>/edit" method="POST">
+      <div class="form-group">
+        <label for="milestone_title" class="form-label">Title *</label>
+        <input
+          type="text"
+          id="milestone_title"
+          name="milestone_title"
+          class="form-input"
+          value="<%= milestone.milestone_title %>"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="milestone_category" class="form-label">Category *</label>
+        <select id="milestone_category" name="milestone_category" class="form-select" required>
+          <option value="">Select a category...</option>
+          <% if (categories && categories.length > 0) { %>
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat.milestone_category %>" <%= milestone.milestone_category === cat.milestone_category ? 'selected' : '' %>><%= cat.milestone_category %></option>
+            <% }) %>
+          <% } else { %>
+            <option value="Education" <%= milestone.milestone_category === 'Education' ? 'selected' : '' %>>Education</option>
+            <option value="Career" <%= milestone.milestone_category === 'Career' ? 'selected' : '' %>>Career</option>
+            <option value="Personal" <%= milestone.milestone_category === 'Personal' ? 'selected' : '' %>>Personal</option>
+            <option value="Community" <%= milestone.milestone_category === 'Community' ? 'selected' : '' %>>Community</option>
+            <option value="Health" <%= milestone.milestone_category === 'Health' ? 'selected' : '' %>>Health</option>
+            <option value="Financial" <%= milestone.milestone_category === 'Financial' ? 'selected' : '' %>>Financial</option>
+          <% } %>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="milestone_date" class="form-label">Date *</label>
+        <input
+          type="date"
+          id="milestone_date"
+          name="milestone_date"
+          class="form-input"
+          value="<%= milestone.milestone_date ? new Date(milestone.milestone_date).toISOString().split('T')[0] : '' %>"
+          required
+        />
+      </div>
+
+      <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+        <button type="submit" class="btn btn-primary btn-lg">
+          Update Milestone
+        </button>
+        <a href="/admin/milestones/user/<%= milestone.participant_id %>" class="btn btn-outline btn-lg">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

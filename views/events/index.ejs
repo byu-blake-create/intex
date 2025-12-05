@@ -16,20 +16,20 @@
           <div class="card-title"><%= event.title %></div>
           <div style="margin-bottom: 1rem;">
             <span class="badge badge-primary">
-              <%= new Date(event.start_time).toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
+              <%= new Date(event.event_date_time_start).toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %>
             </span>
           </div>
           <p class="card-text">
             <%= event.description ? event.description.substring(0, 150) + '...' : 'Join us for this exciting event!' %>
           </p>
           <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
-            <span>📍 <%= event.location || t('events.list.location') %></span>
-            <% if (event.capacity) { %>
-              <span>👥 <%= t('events.list.capacity') %>: <%= event.capacity %></span>
+            <span>📍 <%= event.event_location || t('events.list.location') %></span>
+            <% if (event.event_capacity) { %>
+              <span>👥 <%= t('events.list.capacity') %>: <%= event.event_capacity %></span>
             <% } %>
           </div>
           <div class="card-footer">
-            <a href="/events/<%= event.id %>" class="btn btn-primary btn-block">
+            <a href="/events/<%= event.event_occurance_id %>" class="btn btn-primary btn-block">
               <%= t('events.list.cta') %>
             </a>
           </div>
