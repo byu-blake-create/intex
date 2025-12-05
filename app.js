@@ -3186,23 +3186,40 @@ app.get('/admin/donations/export/pdf', requireAdmin, async (req, res) => {
 // Export Surveys as CSV
 app.get('/admin/surveys/export/csv', requireAdmin, async (req, res) => {
   try {
-    const surveys = await knex('surveys')
-      .join('users', 'surveys.user_id', 'users.id')
-      .join('events', 'surveys.event_id', 'events.id')
-      .select('surveys.*', 'users.name as user_name', 'events.title as event_title')
-      .orderBy('surveys.created_at', 'desc');
+    const surveys = await knex('registration')
+      .join('participants', 'registration.participant_id', 'participants.id')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .whereNotNull('registration.survey_submission_date')
+      .select(
+        'registration.registration_id',
+        'registration.survey_satisfaction_score',
+        'registration.survey_usefulness_score',
+        'registration.survey_instructor_score',
+        'registration.survey_recommendation_score',
+        'registration.survey_overall_score',
+        'registration.survey_nps_bucket',
+        'registration.survey_comments',
+        'registration.survey_submission_date',
+        knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name) as user_name"),
+        'events.event_name as event_title',
+        'event_occurance.event_date_time_start'
+      )
+      .orderBy('registration.survey_submission_date', 'desc');
 
     const csvData = surveys.map(survey => ({
-      ID: survey.id,
+      ID: survey.registration_id,
       'Participant': survey.user_name,
       'Event': survey.event_title,
-      'Q1 Rating': survey.q1_rating,
-      'Q2 Rating': survey.q2_rating,
-      'Q3 Rating': survey.q3_rating,
-      'Q4 Rating': survey.q4_rating,
-      'Q5 Rating': survey.q5_rating,
-      'Comments': survey.comments || '',
-      'Created At': new Date(survey.created_at).toLocaleDateString()
+      'Event Date': new Date(survey.event_date_time_start).toLocaleDateString(),
+      'Satisfaction Score': survey.survey_satisfaction_score,
+      'Usefulness Score': survey.survey_usefulness_score,
+      'Instructor Score': survey.survey_instructor_score,
+      'Recommendation Score': survey.survey_recommendation_score,
+      'Overall Score': survey.survey_overall_score,
+      'NPS Bucket': survey.survey_nps_bucket || '',
+      'Comments': survey.survey_comments || '',
+      'Submitted At': new Date(survey.survey_submission_date).toLocaleDateString()
     }));
 
     const parser = new Parser();
@@ -3220,11 +3237,26 @@ app.get('/admin/surveys/export/csv', requireAdmin, async (req, res) => {
 // Export Surveys as PDF
 app.get('/admin/surveys/export/pdf', requireAdmin, async (req, res) => {
   try {
-    const surveys = await knex('surveys')
-      .join('users', 'surveys.user_id', 'users.id')
-      .join('events', 'surveys.event_id', 'events.id')
-      .select('surveys.*', 'users.name as user_name', 'events.title as event_title')
-      .orderBy('surveys.created_at', 'desc');
+    const surveys = await knex('registration')
+      .join('participants', 'registration.participant_id', 'participants.id')
+      .join('event_occurance', 'registration.event_occurance_id', 'event_occurance.event_occurance_id')
+      .join('events', 'event_occurance.event_name', 'events.event_name')
+      .whereNotNull('registration.survey_submission_date')
+      .select(
+        'registration.registration_id',
+        'registration.survey_satisfaction_score',
+        'registration.survey_usefulness_score',
+        'registration.survey_instructor_score',
+        'registration.survey_recommendation_score',
+        'registration.survey_overall_score',
+        'registration.survey_nps_bucket',
+        'registration.survey_comments',
+        'registration.survey_submission_date',
+        knex.raw("CONCAT(participants.participant_first_name, ' ', participants.participant_last_name) as user_name"),
+        'events.event_name as event_title',
+        'event_occurance.event_date_time_start'
+      )
+      .orderBy('registration.survey_submission_date', 'desc');
 
     const doc = new PDFDocument({ margin: 50 });
 
@@ -3235,9 +3267,11 @@ app.get('/admin/surveys/export/pdf', requireAdmin, async (req, res) => {
     doc.fontSize(20).text('Ella Rises - Surveys Report', { align: 'center' });
     doc.moveDown();
     doc.fontSize(10).text(`Generated: ${new Date().toLocaleDateString()}`, { align: 'center' });
+    doc.moveDown();
+    doc.text(`Total Surveys: ${surveys.length}`, { align: 'center' });
     doc.moveDown(2);
 
-    let y = 150;
+    let y = 180;
 
     surveys.forEach((survey, i) => {
       if (y > 650) {
@@ -3248,11 +3282,15 @@ app.get('/admin/surveys/export/pdf', requireAdmin, async (req, res) => {
       doc.fontSize(10).font('Helvetica-Bold').text(`${survey.user_name} - ${survey.event_title}`, 50, y);
       y += 15;
       doc.font('Helvetica').fontSize(9);
-      doc.text(`Ratings: Q1=${survey.q1_rating}, Q2=${survey.q2_rating}, Q3=${survey.q3_rating}, Q4=${survey.q4_rating}, Q5=${survey.q5_rating}`, 50, y);
+      doc.text(`Event Date: ${new Date(survey.event_date_time_start).toLocaleDateString()}`, 50, y);
       y += 12;
-      if (survey.comments) {
-        doc.text(`Comments: ${survey.comments.substring(0, 100)}`, 50, y);
-        y += 12;
+      doc.text(`Satisfaction: ${survey.survey_satisfaction_score}/5 | Usefulness: ${survey.survey_usefulness_score}/5 | Instructor: ${survey.survey_instructor_score}/5 | Recommendation: ${survey.survey_recommendation_score}/5`, 50, y);
+      y += 12;
+      doc.text(`Overall Score: ${survey.survey_overall_score} | NPS: ${survey.survey_nps_bucket || 'N/A'}`, 50, y);
+      y += 12;
+      if (survey.survey_comments) {
+        doc.text(`Comments: ${survey.survey_comments.substring(0, 200)}${survey.survey_comments.length > 200 ? '...' : ''}`, 50, y, { width: 500 });
+        y += Math.ceil(survey.survey_comments.substring(0, 200).length / 80) * 12;
       }
       y += 15;
     });
