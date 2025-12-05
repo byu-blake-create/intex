@@ -1376,7 +1376,6 @@ app.get('/admin/participants/new/user', requireAdmin, (req, res) => {
     title: 'Create New User - Admin - Ella Rises',
     user: null,
     error: null,
-    req,
   });
 });
 
