@@ -70,6 +70,9 @@
             <th><%= t('admin.participants.table.role') %></th>
             <th>Total Donations</th>
             <th><%= t('admin.participants.table.logins') %></th>
+            <% milestoneCategories.forEach(category => { %>
+              <th style="text-align: center; min-width: 100px;"><%= category %></th>
+            <% }) %>
             <th><%= t('admin.participants.table.actions') %></th>
           </tr>
         </thead>
@@ -93,6 +96,15 @@
                 <% } %>
               </td>
               <td><%= user.login_count || 0 %> logins</td>
+              <% milestoneCategories.forEach(category => { %>
+                <td style="text-align: center;">
+                  <% if (userMilestoneCategories[user.id] && userMilestoneCategories[user.id].has(category)) { %>
+                    <span style="font-size: 1.2rem; color: var(--success-color);">✓</span>
+                  <% } else { %>
+                    <span style="font-size: 1.2rem; color: var(--border-color);">○</span>
+                  <% } %>
+                </td>
+              <% }) %>
               <td>
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                   <a href="/admin/participants/<%= user.id %>" class="btn btn-sm btn-secondary">

@@ -615,7 +615,16 @@ app.get('/events', async (req, res) => {
     // Get only future events from database, ordered by event_date_time_start
     const events = await knex('event_occurance')
       .join('events', 'event_occurance.event_name', 'events.event_name')
-      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .select(
+        'event_occurance.event_occurance_id',
+        'event_occurance.event_date_time_start',
+        'event_occurance.event_date_time_end',
+        'event_occurance.event_location',
+        'event_occurance.event_capacity',
+        'event_occurance.image_url',
+        'events.event_description as description',
+        'events.event_name as title'
+      )
       .where('event_occurance.event_date_time_start', '>=', new Date())
       .orderBy('event_occurance.event_date_time_start', 'asc');
 
@@ -638,7 +647,18 @@ app.get('/events/:eventId', async (req, res) => {
     // Get the specific event
     const event = await knex('event_occurance')
       .join('events', 'event_occurance.event_name', 'events.event_name')
-      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .select(
+        'event_occurance.event_occurance_id',
+        'event_occurance.event_name',
+        'event_occurance.event_date_time_start',
+        'event_occurance.event_date_time_end',
+        'event_occurance.event_location',
+        'event_occurance.event_capacity',
+        'event_occurance.event_registration_deadline',
+        'event_occurance.image_url',
+        'events.event_description as description',
+        'events.event_name as title'
+      )
       .where('event_occurance.event_occurance_id', eventId)
       .first();
 
@@ -1506,9 +1526,42 @@ app.get('/admin/participants', requireAdmin, async (req, res) => {
     const totalPages = Math.ceil(totalRecords / limit);
     const users = await query.orderBy('participant_first_name', 'asc').limit(limit).offset(offset);
 
+    // Fetch milestone categories for all users on this page
+    const userIds = users.map(u => u.id);
+    const milestones = await knex('milestone')
+      .whereIn('participant_id', userIds)
+      .select('participant_id', 'milestone_category');
+
+    // Create a map of userId -> Set of categories they've achieved
+    const userMilestoneCategories = {};
+    milestones.forEach(m => {
+      if (!userMilestoneCategories[m.participant_id]) {
+        userMilestoneCategories[m.participant_id] = new Set();
+      }
+      if (m.milestone_category) {
+        userMilestoneCategories[m.participant_id].add(m.milestone_category);
+      }
+    });
+
+    // Define milestone categories in order
+    const milestoneCategories = [
+      'Apprenticeship',
+      'Associate\'s Degree',
+      'Bachelor\'s Degree',
+      'Career',
+      'Certificates & Awards',
+      'High School Diploma',
+      'Internship',
+      'Master\'s Degree',
+      'Middle School Diploma',
+      'Project'
+    ];
+
     res.render('admin/participants', {
       title: 'Participants - Admin - Ella Rises',
-      users, // EJS will need to be updated to use participant_first_name etc.
+      users,
+      userMilestoneCategories,
+      milestoneCategories,
       search: search || '',
       currentPage: parseInt(page),
       totalPages,
@@ -1525,7 +1578,7 @@ app.get('/admin/participants', requireAdmin, async (req, res) => {
 app.get('/admin/participants/new/user', requireAdmin, (req, res) => {
   res.render('admin/user-form', {
     title: 'Create New User - Admin - Ella Rises',
-    user: null,
+    formUser: null,
     error: null,
   });
 });
@@ -1541,7 +1594,7 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
     if (existingUser) {
       return res.render('admin/user-form', {
         title: 'Create New User - Admin - Ella Rises',
-        user: null,
+        formUser: null,
         error: 'A user with this email already exists',
       });
     }
@@ -1570,7 +1623,7 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
     console.error('Error creating user:', error);
     res.render('admin/user-form', {
       title: 'Create New User - Admin - Ella Rises',
-      user: null,
+      formUser: null,
       error: 'Error creating user. Please try again.',
     });
   }
@@ -1664,7 +1717,7 @@ app.get('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
 
     res.render('admin/user-form', {
       title: 'Edit User - Admin - Ella Rises',
-      user,
+      formUser: user,
       error: null,
     });
   } catch (error) {
@@ -1689,7 +1742,7 @@ app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
       const user = await knex('participants').where({ id: userId }).first();
       return res.render('admin/user-form', {
         title: 'Edit User - Admin - Ella Rises',
-        user,
+        formUser: user,
         error: 'This email is already in use by another user',
       });
     }
@@ -1715,7 +1768,7 @@ app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
     const participant = await knex('participants').where({ id: userId }).first();
     res.render('admin/user-form', {
       title: 'Edit User - Admin - Ella Rises',
-      user: participant, // EJS expects 'user'
+      formUser: participant,
       error: 'Error updating user. Please try again.',
     });
   }
@@ -1769,6 +1822,135 @@ app.post('/admin/participants/:userId/delete', requireAdmin, async (req, res) =>
   } catch (error) {
     console.error('Error deleting user:', error);
     res.redirect('/admin/participants?error=delete_failed');
+  }
+});
+
+// ============================================
+// ADMIN - MILESTONE MANAGEMENT
+// ============================================
+
+// Admin - Create new milestone form
+app.get('/admin/participants/:userId/milestones/new', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const participant = await knex('participants').where({ id: userId }).first();
+    if (!participant) {
+      return res.status(404).send('Participant not found');
+    }
+
+    res.render('admin/milestone-form', {
+      title: 'Add New Milestone - Admin - Ella Rises',
+      participant,
+      milestone: null,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading milestone form:', error);
+    res.status(500).send('Error loading form');
+  }
+});
+
+// Admin - Create new milestone
+app.post('/admin/participants/:userId/milestones/new', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+  const { title, category, date } = req.body;
+
+  try {
+    await knex('milestone').insert({
+      participant_id: userId,
+      milestone_title: title,
+      milestone_category: category || null,
+      milestone_date: date ? new Date(date) : new Date(),
+    });
+
+    res.redirect(`/admin/participants/${userId}?success=milestone_created`);
+  } catch (error) {
+    console.error('Error creating milestone:', error);
+    const participant = await knex('participants').where({ id: userId }).first();
+    res.render('admin/milestone-form', {
+      title: 'Add New Milestone - Admin - Ella Rises',
+      participant,
+      milestone: null,
+      error: 'Error creating milestone. Please try again.',
+    });
+  }
+});
+
+// Admin - Edit milestone form
+app.get('/admin/participants/:userId/milestones/:milestoneId/edit', requireAdmin, async (req, res) => {
+  const { userId, milestoneId } = req.params;
+
+  try {
+    const participant = await knex('participants').where({ id: userId }).first();
+    if (!participant) {
+      return res.status(404).send('Participant not found');
+    }
+
+    const milestone = await knex('milestone')
+      .where({ milestone_id: milestoneId, participant_id: userId })
+      .first();
+
+    if (!milestone) {
+      return res.status(404).send('Milestone not found');
+    }
+
+    res.render('admin/milestone-form', {
+      title: 'Edit Milestone - Admin - Ella Rises',
+      participant,
+      milestone,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading milestone:', error);
+    res.status(500).send('Error loading milestone');
+  }
+});
+
+// Admin - Update milestone
+app.post('/admin/participants/:userId/milestones/:milestoneId/edit', requireAdmin, async (req, res) => {
+  const { userId, milestoneId } = req.params;
+  const { title, category, date } = req.body;
+
+  try {
+    await knex('milestone')
+      .where({ milestone_id: milestoneId, participant_id: userId })
+      .update({
+        milestone_title: title,
+        milestone_category: category || null,
+        milestone_date: date ? new Date(date) : new Date(),
+      });
+
+    res.redirect(`/admin/participants/${userId}?success=milestone_updated`);
+  } catch (error) {
+    console.error('Error updating milestone:', error);
+    const participant = await knex('participants').where({ id: userId }).first();
+    const milestone = await knex('milestone')
+      .where({ milestone_id: milestoneId, participant_id: userId })
+      .first();
+
+    res.render('admin/milestone-form', {
+      title: 'Edit Milestone - Admin - Ella Rises',
+      participant,
+      milestone,
+      error: 'Error updating milestone. Please try again.',
+    });
+  }
+});
+
+// Admin - Delete milestone
+app.post('/admin/participants/:userId/milestones/:milestoneId/delete', requireAdmin, async (req, res) => {
+  const { userId, milestoneId } = req.params;
+
+  try {
+    await knex('milestone')
+      .where({ milestone_id: milestoneId, participant_id: userId })
+      .del();
+
+    res.redirect(`/admin/participants/${userId}?success=milestone_deleted`);
+  } catch (error) {
+    console.error('Error deleting milestone:', error);
+    res.redirect(`/admin/participants/${userId}?error=milestone_delete_failed`);
   }
 });
 
@@ -1884,7 +2066,18 @@ app.get('/admin/events/:id/edit', requireAdmin, async (req, res) => {
   try {
     const event = await knex('event_occurance')
       .leftJoin('events', 'event_occurance.event_name', 'events.event_name')
-      .select('event_occurance.*', 'events.event_description as description', 'events.event_name as title')
+      .select(
+        'event_occurance.event_occurance_id',
+        'event_occurance.event_name',
+        'event_occurance.event_date_time_start',
+        'event_occurance.event_date_time_end',
+        'event_occurance.event_location',
+        'event_occurance.event_capacity',
+        'event_occurance.event_registration_deadline',
+        'event_occurance.image_url',
+        'events.event_description as description',
+        'events.event_name as title'
+      )
       .where('event_occurance.event_occurance_id', req.params.id)
       .first();
     if (!event) {
