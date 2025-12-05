@@ -1793,6 +1793,135 @@ app.post('/admin/participants/:userId/delete', requireAdmin, async (req, res) =>
 });
 
 // ============================================
+// ADMIN - MILESTONE MANAGEMENT
+// ============================================
+
+// Admin - Create new milestone form
+app.get('/admin/participants/:userId/milestones/new', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const participant = await knex('participants').where({ id: userId }).first();
+    if (!participant) {
+      return res.status(404).send('Participant not found');
+    }
+
+    res.render('admin/milestone-form', {
+      title: 'Add New Milestone - Admin - Ella Rises',
+      participant,
+      milestone: null,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading milestone form:', error);
+    res.status(500).send('Error loading form');
+  }
+});
+
+// Admin - Create new milestone
+app.post('/admin/participants/:userId/milestones/new', requireAdmin, async (req, res) => {
+  const { userId } = req.params;
+  const { title, category, date } = req.body;
+
+  try {
+    await knex('milestone').insert({
+      participant_id: userId,
+      milestone_title: title,
+      milestone_category: category || null,
+      milestone_date: date ? new Date(date) : new Date(),
+    });
+
+    res.redirect(`/admin/participants/${userId}?success=milestone_created`);
+  } catch (error) {
+    console.error('Error creating milestone:', error);
+    const participant = await knex('participants').where({ id: userId }).first();
+    res.render('admin/milestone-form', {
+      title: 'Add New Milestone - Admin - Ella Rises',
+      participant,
+      milestone: null,
+      error: 'Error creating milestone. Please try again.',
+    });
+  }
+});
+
+// Admin - Edit milestone form
+app.get('/admin/participants/:userId/milestones/:milestoneId/edit', requireAdmin, async (req, res) => {
+  const { userId, milestoneId } = req.params;
+
+  try {
+    const participant = await knex('participants').where({ id: userId }).first();
+    if (!participant) {
+      return res.status(404).send('Participant not found');
+    }
+
+    const milestone = await knex('milestone')
+      .where({ milestone_id: milestoneId, participant_id: userId })
+      .first();
+
+    if (!milestone) {
+      return res.status(404).send('Milestone not found');
+    }
+
+    res.render('admin/milestone-form', {
+      title: 'Edit Milestone - Admin - Ella Rises',
+      participant,
+      milestone,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading milestone:', error);
+    res.status(500).send('Error loading milestone');
+  }
+});
+
+// Admin - Update milestone
+app.post('/admin/participants/:userId/milestones/:milestoneId/edit', requireAdmin, async (req, res) => {
+  const { userId, milestoneId } = req.params;
+  const { title, category, date } = req.body;
+
+  try {
+    await knex('milestone')
+      .where({ milestone_id: milestoneId, participant_id: userId })
+      .update({
+        milestone_title: title,
+        milestone_category: category || null,
+        milestone_date: date ? new Date(date) : new Date(),
+      });
+
+    res.redirect(`/admin/participants/${userId}?success=milestone_updated`);
+  } catch (error) {
+    console.error('Error updating milestone:', error);
+    const participant = await knex('participants').where({ id: userId }).first();
+    const milestone = await knex('milestone')
+      .where({ milestone_id: milestoneId, participant_id: userId })
+      .first();
+
+    res.render('admin/milestone-form', {
+      title: 'Edit Milestone - Admin - Ella Rises',
+      participant,
+      milestone,
+      error: 'Error updating milestone. Please try again.',
+    });
+  }
+});
+
+// Admin - Delete milestone
+app.post('/admin/participants/:userId/milestones/:milestoneId/delete', requireAdmin, async (req, res) => {
+  const { userId, milestoneId } = req.params;
+
+  try {
+    await knex('milestone')
+      .where({ milestone_id: milestoneId, participant_id: userId })
+      .del();
+
+    res.redirect(`/admin/participants/${userId}?success=milestone_deleted`);
+  } catch (error) {
+    console.error('Error deleting milestone:', error);
+    res.redirect(`/admin/participants/${userId}?error=milestone_delete_failed`);
+  }
+});
+
+// ============================================
 // ADMIN - EVENTS MANAGEMENT
 // ============================================
 
