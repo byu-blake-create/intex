@@ -1470,9 +1470,32 @@ app.get('/admin/participants', requireAdmin, async (req, res) => {
     // Apply search filter if provided
     if (search) {
       const searchFilter = function () {
-        this.where('participant_first_name', 'ilike', `%${search}%`)
-            .orWhere('participant_last_name', 'ilike', `%${search}%`)
-            .orWhere('participant_email', 'ilike', `%${search}%`);
+        // Check if search contains a space (searching for first + last name)
+        if (search.includes(' ')) {
+          const parts = search.trim().split(/\s+/); // Split by whitespace
+          const firstName = parts[0];
+          const lastName = parts.slice(1).join(' '); // Handle multiple words in last name
+
+          this.where(function() {
+            // Match "FirstName LastName"
+            this.where(function() {
+              this.where('participant_first_name', 'ilike', `%${firstName}%`)
+                  .where('participant_last_name', 'ilike', `%${lastName}%`);
+            })
+            // OR match "LastName FirstName" (reversed order)
+            .orWhere(function() {
+              this.where('participant_first_name', 'ilike', `%${lastName}%`)
+                  .where('participant_last_name', 'ilike', `%${firstName}%`);
+            });
+          })
+          // OR match in email
+          .orWhere('participant_email', 'ilike', `%${search}%`);
+        } else {
+          // Single word search - search in first name, last name, or email
+          this.where('participant_first_name', 'ilike', `%${search}%`)
+              .orWhere('participant_last_name', 'ilike', `%${search}%`)
+              .orWhere('participant_email', 'ilike', `%${search}%`);
+        }
       };
       query = query.where(searchFilter);
       countQuery = countQuery.where(searchFilter);
