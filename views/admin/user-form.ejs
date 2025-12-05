@@ -17,16 +17,33 @@
       <% } %>
 
       <form action="<%= formUser ? `/admin/participants/${formUser.id}/edit` : '/admin/participants/new/user' %>" method="POST">
-        <div class="form-group">
-          <label for="name" class="form-label">Full Name *</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            class="form-input"
-            value="<%= formUser ? (formUser.participant_first_name + ' ' + (formUser.participant_last_name || '')) : '' %>"
-            required
-          />
+        <!-- Personal Information -->
+        <h3 style="margin-bottom: 1rem; font-size: 1.25rem; color: var(--sage-dark);">Personal Information</h3>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label for="firstName" class="form-label">First Name *</label>
+            <input
+              type="text"
+              id="firstName"
+              name="firstName"
+              class="form-input"
+              value="<%= formUser ? formUser.participant_first_name : '' %>"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="lastName" class="form-label">Last Name *</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              class="form-input"
+              value="<%= formUser ? (formUser.participant_last_name || '') : '' %>"
+              required
+            />
+          </div>
         </div>
 
         <div class="form-group">
@@ -41,6 +58,180 @@
           />
         </div>
 
+        <div class="form-group">
+          <label for="phone" class="form-label">Phone Number *</label>
+          <input
+            type="tel"
+            id="phone"
+            name="phone"
+            class="form-input"
+            value="<%= formUser ? (formUser.participant_phone || '') : '' %>"
+            placeholder="(555) 123-4567"
+            pattern="[\d\s\-\(\)]{10,}"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="dob" class="form-label">Date of Birth *</label>
+          <input
+            type="date"
+            id="dob"
+            name="dob"
+            class="form-input"
+            value="<%= formUser && formUser.participant_dob ? new Date(formUser.participant_dob).toISOString().split('T')[0] : '' %>"
+            required
+          />
+        </div>
+
+        <!-- Location Information -->
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem; color: var(--sage-dark);">Location</h3>
+
+        <div class="form-group">
+          <label for="city" class="form-label">City *</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            class="form-input"
+            value="<%= formUser ? (formUser.participant_city || '') : '' %>"
+            placeholder="City"
+            required
+          />
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+          <div class="form-group">
+            <label for="state" class="form-label">State *</label>
+            <select id="state" name="state" class="form-select" required>
+              <option value="">Select State</option>
+              <option value="AL" <%= formUser && formUser.participant_state === 'AL' ? 'selected' : '' %>>Alabama</option>
+              <option value="AK" <%= formUser && formUser.participant_state === 'AK' ? 'selected' : '' %>>Alaska</option>
+              <option value="AZ" <%= formUser && formUser.participant_state === 'AZ' ? 'selected' : '' %>>Arizona</option>
+              <option value="AR" <%= formUser && formUser.participant_state === 'AR' ? 'selected' : '' %>>Arkansas</option>
+              <option value="CA" <%= formUser && formUser.participant_state === 'CA' ? 'selected' : '' %>>California</option>
+              <option value="CO" <%= formUser && formUser.participant_state === 'CO' ? 'selected' : '' %>>Colorado</option>
+              <option value="CT" <%= formUser && formUser.participant_state === 'CT' ? 'selected' : '' %>>Connecticut</option>
+              <option value="DE" <%= formUser && formUser.participant_state === 'DE' ? 'selected' : '' %>>Delaware</option>
+              <option value="FL" <%= formUser && formUser.participant_state === 'FL' ? 'selected' : '' %>>Florida</option>
+              <option value="GA" <%= formUser && formUser.participant_state === 'GA' ? 'selected' : '' %>>Georgia</option>
+              <option value="HI" <%= formUser && formUser.participant_state === 'HI' ? 'selected' : '' %>>Hawaii</option>
+              <option value="ID" <%= formUser && formUser.participant_state === 'ID' ? 'selected' : '' %>>Idaho</option>
+              <option value="IL" <%= formUser && formUser.participant_state === 'IL' ? 'selected' : '' %>>Illinois</option>
+              <option value="IN" <%= formUser && formUser.participant_state === 'IN' ? 'selected' : '' %>>Indiana</option>
+              <option value="IA" <%= formUser && formUser.participant_state === 'IA' ? 'selected' : '' %>>Iowa</option>
+              <option value="KS" <%= formUser && formUser.participant_state === 'KS' ? 'selected' : '' %>>Kansas</option>
+              <option value="KY" <%= formUser && formUser.participant_state === 'KY' ? 'selected' : '' %>>Kentucky</option>
+              <option value="LA" <%= formUser && formUser.participant_state === 'LA' ? 'selected' : '' %>>Louisiana</option>
+              <option value="ME" <%= formUser && formUser.participant_state === 'ME' ? 'selected' : '' %>>Maine</option>
+              <option value="MD" <%= formUser && formUser.participant_state === 'MD' ? 'selected' : '' %>>Maryland</option>
+              <option value="MA" <%= formUser && formUser.participant_state === 'MA' ? 'selected' : '' %>>Massachusetts</option>
+              <option value="MI" <%= formUser && formUser.participant_state === 'MI' ? 'selected' : '' %>>Michigan</option>
+              <option value="MN" <%= formUser && formUser.participant_state === 'MN' ? 'selected' : '' %>>Minnesota</option>
+              <option value="MS" <%= formUser && formUser.participant_state === 'MS' ? 'selected' : '' %>>Mississippi</option>
+              <option value="MO" <%= formUser && formUser.participant_state === 'MO' ? 'selected' : '' %>>Missouri</option>
+              <option value="MT" <%= formUser && formUser.participant_state === 'MT' ? 'selected' : '' %>>Montana</option>
+              <option value="NE" <%= formUser && formUser.participant_state === 'NE' ? 'selected' : '' %>>Nebraska</option>
+              <option value="NV" <%= formUser && formUser.participant_state === 'NV' ? 'selected' : '' %>>Nevada</option>
+              <option value="NH" <%= formUser && formUser.participant_state === 'NH' ? 'selected' : '' %>>New Hampshire</option>
+              <option value="NJ" <%= formUser && formUser.participant_state === 'NJ' ? 'selected' : '' %>>New Jersey</option>
+              <option value="NM" <%= formUser && formUser.participant_state === 'NM' ? 'selected' : '' %>>New Mexico</option>
+              <option value="NY" <%= formUser && formUser.participant_state === 'NY' ? 'selected' : '' %>>New York</option>
+              <option value="NC" <%= formUser && formUser.participant_state === 'NC' ? 'selected' : '' %>>North Carolina</option>
+              <option value="ND" <%= formUser && formUser.participant_state === 'ND' ? 'selected' : '' %>>North Dakota</option>
+              <option value="OH" <%= formUser && formUser.participant_state === 'OH' ? 'selected' : '' %>>Ohio</option>
+              <option value="OK" <%= formUser && formUser.participant_state === 'OK' ? 'selected' : '' %>>Oklahoma</option>
+              <option value="OR" <%= formUser && formUser.participant_state === 'OR' ? 'selected' : '' %>>Oregon</option>
+              <option value="PA" <%= formUser && formUser.participant_state === 'PA' ? 'selected' : '' %>>Pennsylvania</option>
+              <option value="RI" <%= formUser && formUser.participant_state === 'RI' ? 'selected' : '' %>>Rhode Island</option>
+              <option value="SC" <%= formUser && formUser.participant_state === 'SC' ? 'selected' : '' %>>South Carolina</option>
+              <option value="SD" <%= formUser && formUser.participant_state === 'SD' ? 'selected' : '' %>>South Dakota</option>
+              <option value="TN" <%= formUser && formUser.participant_state === 'TN' ? 'selected' : '' %>>Tennessee</option>
+              <option value="TX" <%= formUser && formUser.participant_state === 'TX' ? 'selected' : '' %>>Texas</option>
+              <option value="UT" <%= formUser && formUser.participant_state === 'UT' ? 'selected' : '' %>>Utah</option>
+              <option value="VT" <%= formUser && formUser.participant_state === 'VT' ? 'selected' : '' %>>Vermont</option>
+              <option value="VA" <%= formUser && formUser.participant_state === 'VA' ? 'selected' : '' %>>Virginia</option>
+              <option value="WA" <%= formUser && formUser.participant_state === 'WA' ? 'selected' : '' %>>Washington</option>
+              <option value="WV" <%= formUser && formUser.participant_state === 'WV' ? 'selected' : '' %>>West Virginia</option>
+              <option value="WI" <%= formUser && formUser.participant_state === 'WI' ? 'selected' : '' %>>Wisconsin</option>
+              <option value="WY" <%= formUser && formUser.participant_state === 'WY' ? 'selected' : '' %>>Wyoming</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="zip" class="form-label">ZIP Code *</label>
+            <input
+              type="text"
+              id="zip"
+              name="zip"
+              class="form-input"
+              value="<%= formUser ? (formUser.participant_zip || '') : '' %>"
+              placeholder="12345"
+              pattern="[0-9]{5}"
+              maxlength="5"
+              required
+            />
+          </div>
+        </div>
+
+        <!-- Background Information -->
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem; color: var(--sage-dark);">Background</h3>
+
+        <div class="form-group">
+          <label for="schoolOrEmployer" class="form-label">School or Employer *</label>
+          <input
+            type="text"
+            id="schoolOrEmployer"
+            name="schoolOrEmployer"
+            class="form-input"
+            value="<%= formUser ? (formUser.participant_school_or_employer || '') : '' %>"
+            placeholder="School or place of work"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Field of Interest *</label>
+          <div style="display: flex; gap: 1.5rem; margin-top: 0.5rem;">
+            <label style="display: flex; align-items: center; cursor: pointer;">
+              <input
+                type="radio"
+                name="fieldOfInterest"
+                value="Arts"
+                <%= formUser && formUser.participant_field_of_interest === 'Arts' ? 'checked' : '' %>
+                required
+                style="margin-right: 0.5rem;"
+              />
+              Arts
+            </label>
+            <label style="display: flex; align-items: center; cursor: pointer;">
+              <input
+                type="radio"
+                name="fieldOfInterest"
+                value="STEM"
+                <%= formUser && formUser.participant_field_of_interest === 'STEM' ? 'checked' : '' %>
+                required
+                style="margin-right: 0.5rem;"
+              />
+              STEM
+            </label>
+            <label style="display: flex; align-items: center; cursor: pointer;">
+              <input
+                type="radio"
+                name="fieldOfInterest"
+                value="Both"
+                <%= formUser && formUser.participant_field_of_interest === 'Both' ? 'checked' : '' %>
+                required
+                style="margin-right: 0.5rem;"
+              />
+              Both
+            </label>
+          </div>
+        </div>
+
+        <!-- Account Settings -->
+        <h3 style="margin-top: 2rem; margin-bottom: 1rem; font-size: 1.25rem; color: var(--sage-dark);">Account Settings</h3>
+
         <% if (!formUser) { %>
           <div class="form-group">
             <label for="password" class="form-label">Password *</label>
@@ -51,6 +242,7 @@
               class="form-input"
               placeholder="Enter initial password"
               required
+              minlength="6"
             />
             <p class="form-helper">Minimum 6 characters</p>
           </div>
