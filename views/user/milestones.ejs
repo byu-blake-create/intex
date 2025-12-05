@@ -63,12 +63,18 @@
         <label for="milestone_category" class="form-label"><%= t('user.milestones.category') %> *</label>
         <select id="milestone_category" name="milestone_category" class="form-select" required>
           <option value="">Select a category...</option>
-          <option value="Education">Education</option>
-          <option value="Career">Career</option>
-          <option value="Personal">Personal</option>
-          <option value="Community">Community</option>
-          <option value="Health">Health</option>
-          <option value="Financial">Financial</option>
+          <% if (categories && categories.length > 0) { %>
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat.milestone_category %>"><%= cat.milestone_category %></option>
+            <% }) %>
+          <% } else { %>
+            <option value="Education">Education</option>
+            <option value="Career">Career</option>
+            <option value="Personal">Personal</option>
+            <option value="Community">Community</option>
+            <option value="Health">Health</option>
+            <option value="Financial">Financial</option>
+          <% } %>
         </select>
       </div>
 

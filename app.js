@@ -242,10 +242,10 @@ function translate(lang, key) {
 // ============================================
 
 // Parse URL-encoded bodies (from forms)
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Parse JSON bodies
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 
 // Serve static files from /public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -1023,11 +1023,17 @@ app.get('/user/milestones', requireLogin, async (req, res) => {
       )
       .orderBy('milestone.milestone_date', 'desc');
 
+    // Get all distinct milestone categories for the dropdown
+    const milestoneCategories = await knex('milestone')
+      .distinct('milestone_category')
+      .whereNotNull('milestone_category')
+      .orderBy('milestone_category', 'asc');
+
     res.render('user/milestones', {
       title: 'My Milestones - Ella Rises',
       user,
       milestones: userMilestones,
-      categories: [], // No separate categories table now, categories are part of milestone
+      categories: milestoneCategories,
       req,
     });
   } catch (error) {
@@ -1121,9 +1127,16 @@ app.get('/user/milestones/:id/edit', requireLogin, async (req, res) => {
       return res.status(404).send('Milestone not found or you do not have permission to edit it.');
     }
 
+    // Get all distinct milestone categories for the dropdown
+    const milestoneCategories = await knex('milestone')
+      .distinct('milestone_category')
+      .whereNotNull('milestone_category')
+      .orderBy('milestone_category', 'asc');
+
     res.render('user/milestone-edit-form', {
       title: 'Edit Milestone - Ella Rises',
       milestone,
+      categories: milestoneCategories,
       error: null
     });
   } catch (error) {
