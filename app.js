@@ -2933,17 +2933,17 @@ app.post('/admin/donations/create', requireAdmin, async (req, res) => {
   try {
     let participantId = null;
 
-    // If a donor email is provided, try to find a matching participant.
-    if (donor_email) {
-      const participant = await knex('participants').where({ participant_email: donor_email }).first();
+    // If a donor email is provided, try to find a matching participant
+    if (donor_email && donor_email.trim() !== '') {
+      const participant = await knex('participants')
+        .where({ participant_email: donor_email.trim() })
+        .first();
       if (participant) {
         participantId = participant.id;
       }
     }
 
-    // The 'donations' table in the current schema does not have donor_name or donor_email columns.
-    // The donation is linked to a participant via participant_id.
-    // If participantId is null, the donation is anonymous.
+    // Insert donation (participant_id will be null for anonymous donations)
     await knex('donations').insert({
       participant_id: participantId,
       donation_amount: parseFloat(amount),
@@ -2961,16 +2961,14 @@ app.post('/admin/donations/create', requireAdmin, async (req, res) => {
 
 // Admin - Update donation
 app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
-  const { user_id, amount, donor_name, donor_email, message, donation_date } = req.body;
+  const { participant_id, amount, message, donation_date } = req.body;
 
   try {
     await knex('donations')
       .where('donation_id', req.params.id)
       .update({
-        user_id: user_id || null,
-        amount: parseFloat(amount),
-        donor_name: donor_name || 'Anonymous',
-        donor_email,
+        participant_id: participant_id || null,
+        donation_amount: parseFloat(amount),
         message,
         donation_date: donation_date ? new Date(donation_date) : knex.raw('donation_date'),
       });
