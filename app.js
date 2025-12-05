@@ -1526,9 +1526,42 @@ app.get('/admin/participants', requireAdmin, async (req, res) => {
     const totalPages = Math.ceil(totalRecords / limit);
     const users = await query.orderBy('participant_first_name', 'asc').limit(limit).offset(offset);
 
+    // Fetch milestone categories for all users on this page
+    const userIds = users.map(u => u.id);
+    const milestones = await knex('milestone')
+      .whereIn('participant_id', userIds)
+      .select('participant_id', 'milestone_category');
+
+    // Create a map of userId -> Set of categories they've achieved
+    const userMilestoneCategories = {};
+    milestones.forEach(m => {
+      if (!userMilestoneCategories[m.participant_id]) {
+        userMilestoneCategories[m.participant_id] = new Set();
+      }
+      if (m.milestone_category) {
+        userMilestoneCategories[m.participant_id].add(m.milestone_category);
+      }
+    });
+
+    // Define milestone categories in order
+    const milestoneCategories = [
+      'Apprenticeship',
+      'Associate\'s Degree',
+      'Bachelor\'s Degree',
+      'Career',
+      'Certificates & Awards',
+      'High School Diploma',
+      'Internship',
+      'Master\'s Degree',
+      'Middle School Diploma',
+      'Project'
+    ];
+
     res.render('admin/participants', {
       title: 'Participants - Admin - Ella Rises',
-      users, // EJS will need to be updated to use participant_first_name etc.
+      users,
+      userMilestoneCategories,
+      milestoneCategories,
       search: search || '',
       currentPage: parseInt(page),
       totalPages,
