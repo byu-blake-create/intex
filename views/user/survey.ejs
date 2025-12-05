@@ -26,8 +26,8 @@
           <select id="event_id" name="event_id" class="form-select" required>
             <option value=""><%= t('user.survey.selectPlaceholder') %></option>
             <% events.forEach(event => { %>
-              <option value="<%= event.id %>">
-                <%= event.title %> - <%= new Date(event.start_time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
+              <option value="<%= event.event_occurance_id %>">
+                <%= event.title %> - <%= new Date(event.event_date_time_start).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) %>
               </option>
             <% }) %>
           </select>

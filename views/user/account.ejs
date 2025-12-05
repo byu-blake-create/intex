@@ -122,14 +122,39 @@
         </div>
 
         <div class="form-group">
-          <label for="field_of_interest" class="form-label">Field of Interest</label>
-          <input
-            type="text"
-            id="field_of_interest"
-            name="field_of_interest"
-            class="form-input"
-            value="<%= user.participant_field_of_interest || '' %>"
-          />
+          <label class="form-label">Field of Interest</label>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input
+                type="radio"
+                name="field_of_interest"
+                value="STEM"
+                <%= user.participant_field_of_interest === 'STEM' ? 'checked' : '' %>
+                style="cursor: pointer;"
+              />
+              <span>STEM</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input
+                type="radio"
+                name="field_of_interest"
+                value="Arts"
+                <%= user.participant_field_of_interest === 'Arts' ? 'checked' : '' %>
+                style="cursor: pointer;"
+              />
+              <span>Arts</span>
+            </label>
+            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+              <input
+                type="radio"
+                name="field_of_interest"
+                value="Both"
+                <%= user.participant_field_of_interest === 'Both' ? 'checked' : '' %>
+                style="cursor: pointer;"
+              />
+              <span>Both</span>
+            </label>
+          </div>
         </div>
 
         <div style="display: flex; gap: 1rem; margin-top: 2rem;">
