@@ -1,5 +1,8 @@
 # Welcome TAs
 
+## Link to the website
+ellarises2-3.is404.net
+
 ## User Side
 - Sign up using the Sign Up button; new accounts get full user privileges.
 - Click the **My Rise** button at the top to open the user dashboard with everything you need.
