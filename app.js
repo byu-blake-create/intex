@@ -1546,13 +1546,19 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
       });
     }
 
+    // Split name into first and last name
+    const nameParts = name.trim().split(/\s+/);
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || null; // Join remaining parts as last name
+
     // Hash password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Insert new user
     await knex('participants').insert({
-      participant_first_name: name, // Assuming name is first name for now
+      participant_first_name: firstName,
+      participant_last_name: lastName,
       participant_email: email,
       participant_password: hashedPassword,
       participant_role: role || 'participant',
@@ -1688,11 +1694,17 @@ app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
       });
     }
 
+    // Split name into first and last name
+    const nameParts = name.trim().split(/\s+/);
+    const firstName = nameParts[0];
+    const lastName = nameParts.slice(1).join(' ') || null;
+
     // Update user
     await knex('participants')
       .where({ id: userId })
       .update({
-        participant_first_name: name, // Assuming name is first name for now
+        participant_first_name: firstName,
+        participant_last_name: lastName,
         participant_email: email,
         participant_role: role,
       });
@@ -2584,30 +2596,82 @@ app.post('/admin/milestones/create', requireAdmin, async (req, res) => {
   }
 });
 
+// Admin - Edit milestone form
+app.get('/admin/milestones/:id/edit', requireAdmin, async (req, res) => {
+  try {
+    const milestone = await knex('milestone')
+      .where('milestone_id', req.params.id)
+      .first();
+
+    if (!milestone) {
+      return res.status(404).send('Milestone not found');
+    }
+
+    // Get all distinct milestone categories for the dropdown
+    const milestoneCategories = await knex('milestone')
+      .distinct('milestone_category')
+      .whereNotNull('milestone_category')
+      .orderBy('milestone_category', 'asc');
+
+    res.render('admin/milestone-edit-form', {
+      title: 'Edit Milestone - Admin - Ella Rises',
+      milestone,
+      categories: milestoneCategories,
+      error: null,
+    });
+  } catch (error) {
+    console.error('Error loading milestone for edit:', error);
+    res.status(500).send('Error loading milestone');
+  }
+});
+
 // Admin - Update milestone
 app.post('/admin/milestones/:id/edit', requireAdmin, async (req, res) => {
-  const { milestone_title, milestone_category } = req.body;
+  const { milestone_title, milestone_category, milestone_date } = req.body;
 
   try {
+    const milestone = await knex('milestone')
+      .where('milestone_id', req.params.id)
+      .first();
+
+    if (!milestone) {
+      return res.status(404).send('Milestone not found');
+    }
+
     await knex('milestone')
       .where('milestone_id', req.params.id)
       .update({
         milestone_title,
-        milestone_category
+        milestone_category,
+        milestone_date: milestone_date ? new Date(milestone_date) : milestone.milestone_date,
       });
 
-    res.redirect('/admin/milestones?success=updated');
+    res.redirect(`/admin/milestones/user/${milestone.participant_id}?success=updated`);
   } catch (error) {
     console.error('Error updating milestone:', error);
-    res.redirect('/admin/milestones?error=update_failed');
+    const milestone = await knex('milestone')
+      .where('milestone_id', req.params.id)
+      .first();
+
+    res.redirect(`/admin/milestones/user/${milestone.participant_id}?error=update_failed`);
   }
 });
 
 // Admin - Delete milestone
 app.post('/admin/milestones/:id/delete', requireAdmin, async (req, res) => {
   try {
+    const milestone = await knex('milestone')
+      .where('milestone_id', req.params.id)
+      .first();
+
+    if (!milestone) {
+      return res.status(404).send('Milestone not found');
+    }
+
+    const participantId = milestone.participant_id;
+
     await knex('milestone').where('milestone_id', req.params.id).del();
-    res.redirect('/admin/milestones?success=deleted');
+    res.redirect(`/admin/milestones/user/${participantId}?success=deleted`);
   } catch (error) {
     console.error('Error deleting milestone:', error);
     res.redirect('/admin/milestones?error=delete_failed');
