@@ -2928,7 +2928,7 @@ app.get('/admin/donations', requireAdmin, async (req, res) => {
 
 // Admin - Create donation manually
 app.post('/admin/donations/create', requireAdmin, async (req, res) => {
-  const { amount, donor_email, message, donation_date } = req.body;
+  const { amount, donor_email, donation_date } = req.body;
 
   try {
     let participantId = null;
@@ -2947,7 +2947,6 @@ app.post('/admin/donations/create', requireAdmin, async (req, res) => {
     await knex('donations').insert({
       participant_id: participantId,
       donation_amount: parseFloat(amount),
-      message: message || null,
       donation_date: donation_date ? new Date(donation_date) : new Date(),
       created_at: new Date(),
     });
@@ -2961,7 +2960,7 @@ app.post('/admin/donations/create', requireAdmin, async (req, res) => {
 
 // Admin - Update donation
 app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
-  const { participant_id, amount, message, donation_date } = req.body;
+  const { participant_id, amount, donation_date } = req.body;
 
   try {
     await knex('donations')
@@ -2969,7 +2968,6 @@ app.post('/admin/donations/:id/edit', requireAdmin, async (req, res) => {
       .update({
         participant_id: participant_id || null,
         donation_amount: parseFloat(amount),
-        message,
         donation_date: donation_date ? new Date(donation_date) : knex.raw('donation_date'),
       });
 
