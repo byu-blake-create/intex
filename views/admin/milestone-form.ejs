@@ -34,16 +34,18 @@
           <label for="category" class="form-label">Category</label>
           <select id="category" name="category" class="form-select">
             <option value="">Select a category (optional)</option>
-            <option value="Events" <%= milestone && milestone.milestone_category === 'Events' ? 'selected' : '' %>>Events</option>
-            <option value="Volunteering" <%= milestone && milestone.milestone_category === 'Volunteering' ? 'selected' : '' %>>Volunteering</option>
-            <option value="Donations" <%= milestone && milestone.milestone_category === 'Donations' ? 'selected' : '' %>>Donations</option>
-            <option value="Programs" <%= milestone && milestone.milestone_category === 'Programs' ? 'selected' : '' %>>Programs</option>
-            <option value="Leadership" <%= milestone && milestone.milestone_category === 'Leadership' ? 'selected' : '' %>>Leadership</option>
-            <option value="Education" <%= milestone && milestone.milestone_category === 'Education' ? 'selected' : '' %>>Education</option>
-            <option value="Community" <%= milestone && milestone.milestone_category === 'Community' ? 'selected' : '' %>>Community</option>
-            <option value="Other" <%= milestone && milestone.milestone_category === 'Other' ? 'selected' : '' %>>Other</option>
+            <option value="Apprenticeship" <%= milestone && milestone.milestone_category === 'Apprenticeship' ? 'selected' : '' %>>Apprenticeship</option>
+            <option value="Associate's Degree" <%= milestone && milestone.milestone_category === "Associate's Degree" ? 'selected' : '' %>>Associate's Degree</option>
+            <option value="Bachelor's Degree" <%= milestone && milestone.milestone_category === "Bachelor's Degree" ? 'selected' : '' %>>Bachelor's Degree</option>
+            <option value="Career" <%= milestone && milestone.milestone_category === 'Career' ? 'selected' : '' %>>Career</option>
+            <option value="Certificates & Awards" <%= milestone && milestone.milestone_category === 'Certificates & Awards' ? 'selected' : '' %>>Certificates & Awards</option>
+            <option value="High School Diploma" <%= milestone && milestone.milestone_category === 'High School Diploma' ? 'selected' : '' %>>High School Diploma</option>
+            <option value="Internship" <%= milestone && milestone.milestone_category === 'Internship' ? 'selected' : '' %>>Internship</option>
+            <option value="Master's Degree" <%= milestone && milestone.milestone_category === "Master's Degree" ? 'selected' : '' %>>Master's Degree</option>
+            <option value="Middle School Diploma" <%= milestone && milestone.milestone_category === 'Middle School Diploma' ? 'selected' : '' %>>Middle School Diploma</option>
+            <option value="Project" <%= milestone && milestone.milestone_category === 'Project' ? 'selected' : '' %>>Project</option>
           </select>
-          <p class="form-helper">Optional - categorize this milestone for better organization</p>
+          <p class="form-helper">Select a category to display in the participants table</p>
         </div>
 
         <div class="form-group">
