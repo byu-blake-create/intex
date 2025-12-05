@@ -8,7 +8,7 @@
     </a>
 
     <div class="card">
-      <h1 class="card-title"><%= user ? 'Edit User' : 'Create New User' %></h1>
+      <h1 class="card-title"><%= formUser ? 'Edit User' : 'Create New User' %></h1>
 
       <% if (error) { %>
         <div class="alert alert-error" style="margin-bottom: 1.5rem;">
@@ -16,7 +16,7 @@
         </div>
       <% } %>
 
-      <form action="<%= user ? `/admin/participants/${user.id}/edit` : '/admin/participants/new/user' %>" method="POST">
+      <form action="<%= formUser ? `/admin/participants/${formUser.id}/edit` : '/admin/participants/new/user' %>" method="POST">
         <div class="form-group">
           <label for="name" class="form-label">Full Name *</label>
           <input
@@ -24,7 +24,7 @@
             id="name"
             name="name"
             class="form-input"
-            value="<%= user ? (user.participant_first_name + ' ' + (user.participant_last_name || '')) : '' %>"
+            value="<%= formUser ? (formUser.participant_first_name + ' ' + (formUser.participant_last_name || '')) : '' %>"
             required
           />
         </div>
@@ -36,12 +36,12 @@
             id="email"
             name="email"
             class="form-input"
-            value="<%= user ? user.participant_email : '' %>"
+            value="<%= formUser ? formUser.participant_email : '' %>"
             required
           />
         </div>
 
-        <% if (!user) { %>
+        <% if (!formUser) { %>
           <div class="form-group">
             <label for="password" class="form-label">Password *</label>
             <input
@@ -59,8 +59,8 @@
         <div class="form-group">
           <label for="role" class="form-label">Role *</label>
           <select id="role" name="role" class="form-select" required>
-            <option value="participant" <%= user && user.participant_role === 'participant' ? 'selected' : '' %>>User</option>
-            <option value="admin" <%= user && user.participant_role === 'admin' ? 'selected' : '' %>>Admin</option>
+            <option value="participant" <%= formUser && formUser.participant_role === 'participant' ? 'selected' : '' %>>User</option>
+            <option value="admin" <%= formUser && formUser.participant_role === 'admin' ? 'selected' : '' %>>Admin</option>
           </select>
           <p class="form-helper">
             <strong>User:</strong> Can view events, enroll in programs, submit surveys<br>
@@ -68,7 +68,7 @@
           </p>
         </div>
 
-        <% if (user) { %>
+        <% if (formUser) { %>
           <div style="background-color: var(--sage-soft); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem;">
             <p style="color: var(--text-color); margin: 0; font-size: 0.9rem;">
               <strong>Note:</strong> To change the password, use the "Change Password" option on the user detail page.
@@ -78,7 +78,7 @@
 
         <div style="display: flex; gap: 1rem; margin-top: 2rem;">
           <button type="submit" class="btn btn-primary btn-lg">
-            <%= user ? 'Update User' : 'Create User' %>
+            <%= formUser ? 'Update User' : 'Create User' %>
           </button>
           <a href="/admin/participants" class="btn btn-outline btn-lg">Cancel</a>
         </div>

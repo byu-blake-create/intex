@@ -1525,7 +1525,7 @@ app.get('/admin/participants', requireAdmin, async (req, res) => {
 app.get('/admin/participants/new/user', requireAdmin, (req, res) => {
   res.render('admin/user-form', {
     title: 'Create New User - Admin - Ella Rises',
-    user: null,
+    formUser: null,
     error: null,
   });
 });
@@ -1541,7 +1541,7 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
     if (existingUser) {
       return res.render('admin/user-form', {
         title: 'Create New User - Admin - Ella Rises',
-        user: null,
+        formUser: null,
         error: 'A user with this email already exists',
       });
     }
@@ -1570,7 +1570,7 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
     console.error('Error creating user:', error);
     res.render('admin/user-form', {
       title: 'Create New User - Admin - Ella Rises',
-      user: null,
+      formUser: null,
       error: 'Error creating user. Please try again.',
     });
   }
@@ -1664,7 +1664,7 @@ app.get('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
 
     res.render('admin/user-form', {
       title: 'Edit User - Admin - Ella Rises',
-      user,
+      formUser: user,
       error: null,
     });
   } catch (error) {
@@ -1689,7 +1689,7 @@ app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
       const user = await knex('participants').where({ id: userId }).first();
       return res.render('admin/user-form', {
         title: 'Edit User - Admin - Ella Rises',
-        user,
+        formUser: user,
         error: 'This email is already in use by another user',
       });
     }
@@ -1715,7 +1715,7 @@ app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
     const participant = await knex('participants').where({ id: userId }).first();
     res.render('admin/user-form', {
       title: 'Edit User - Admin - Ella Rises',
-      user: participant, // EJS expects 'user'
+      formUser: participant,
       error: 'Error updating user. Please try again.',
     });
   }
