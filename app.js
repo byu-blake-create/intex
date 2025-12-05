@@ -1585,7 +1585,7 @@ app.get('/admin/participants/new/user', requireAdmin, (req, res) => {
 
 // Admin - Create new user
 app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
-  const { name, email, password, role } = req.body;
+  const { firstName, lastName, email, phone, dob, city, state, zip, schoolOrEmployer, fieldOfInterest, password, role } = req.body;
 
   try {
     // Check if user already exists
@@ -1599,20 +1599,22 @@ app.post('/admin/participants/new/user', requireAdmin, async (req, res) => {
       });
     }
 
-    // Split name into first and last name
-    const nameParts = name.trim().split(/\s+/);
-    const firstName = nameParts[0];
-    const lastName = nameParts.slice(1).join(' ') || null; // Join remaining parts as last name
-
     // Hash password
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // Insert new user
+    // Insert new user with all fields
     await knex('participants').insert({
       participant_first_name: firstName,
       participant_last_name: lastName,
       participant_email: email,
+      participant_phone: phone,
+      participant_dob: dob,
+      participant_city: city,
+      participant_state: state,
+      participant_zip: zip,
+      participant_school_or_employer: schoolOrEmployer,
+      participant_field_of_interest: fieldOfInterest,
       participant_password: hashedPassword,
       participant_role: role || 'participant',
       created_at: new Date(),
@@ -1729,7 +1731,7 @@ app.get('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
 // Admin - Update user
 app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
   const { userId } = req.params;
-  const { name, email, role } = req.body;
+  const { firstName, lastName, email, phone, dob, city, state, zip, schoolOrEmployer, fieldOfInterest, role } = req.body;
 
   try {
     // Check if email is taken by another user
@@ -1747,18 +1749,20 @@ app.post('/admin/participants/:userId/edit', requireAdmin, async (req, res) => {
       });
     }
 
-    // Split name into first and last name
-    const nameParts = name.trim().split(/\s+/);
-    const firstName = nameParts[0];
-    const lastName = nameParts.slice(1).join(' ') || null;
-
-    // Update user
+    // Update user with all fields
     await knex('participants')
       .where({ id: userId })
       .update({
         participant_first_name: firstName,
         participant_last_name: lastName,
         participant_email: email,
+        participant_phone: phone,
+        participant_dob: dob,
+        participant_city: city,
+        participant_state: state,
+        participant_zip: zip,
+        participant_school_or_employer: schoolOrEmployer,
+        participant_field_of_interest: fieldOfInterest,
         participant_role: role,
       });
 
